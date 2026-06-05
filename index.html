@@ -651,14 +651,46 @@ html{ scroll-behavior:smooth; }
 .pos-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-family:var(--mono); font-size:11px; }
 .pos-meta-k{ color:var(--muted); font-size:9px; letter-spacing:.8px; }
 .pos-meta-v{ color:var(--text); }
-.tp-row{ display:flex; gap:5px; margin-top:10px; }
-.tp-step{
-  flex:1; padding:6px 4px; border-radius:6px; text-align:center;
-  background:var(--card2); border:1px solid var(--border); font-family:var(--mono); font-size:9.5px;
-  letter-spacing:.4px; color:var(--muted2);
+/* ============================================================
+   LIVE TAB NAVIGATION (sub-menu di dalam halaman Live)
+============================================================ */
+.live-tabs{
+  display:flex; gap:4px; overflow-x:auto;
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:5px; margin-top:12px; scrollbar-width:none;
 }
-.tp-step.hit{ background:rgba(0,229,160,.14); border-color:rgba(0,229,160,.4); color:var(--accent); }
-.tp-step.next{ border-color:var(--blue); color:var(--blue); }
+.live-tabs::-webkit-scrollbar{ display:none; }
+.live-tab-btn{
+  flex:1; min-width:max-content; padding:9px 14px; border:0; background:transparent;
+  color:var(--muted2); cursor:pointer; border-radius:8px;
+  font-family:var(--sans); font-weight:600; font-size:12.5px; letter-spacing:.2px;
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  transition:all .18s ease;
+}
+.live-tab-btn:hover{ color:var(--text); background:var(--card2); }
+.live-tab-btn.active{ background:linear-gradient(135deg,var(--accent),#00c489); color:#04130d; box-shadow:0 4px 12px rgba(0,229,160,.18); }
+.live-tab-pane{ display:none; animation:fadeIn .2s ease; }
+.live-tab-pane.active{ display:block; }
+@keyframes fadeIn{ from{ opacity:0; transform:translateY(4px); } to{ opacity:1; transform:translateY(0); } }
+@media (max-width:720px){ .live-tab-btn{ padding:8px 10px; font-size:11.5px; } }
+.tp-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:10px; }
+.tp-box{
+  padding:7px 5px; border-radius:6px; text-align:center;
+  background:var(--card2); border:1px solid var(--border);
+  font-family:var(--mono); display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.tp-box-lbl{ font-size:9px; letter-spacing:.6px; color:var(--muted2); display:flex; align-items:center; gap:3px; }
+.tp-box-price{ font-size:11px; font-weight:700; color:var(--text); }
+.tp-box-pct{ font-size:9.5px; font-weight:600; }
+.tp-box.sl{ border-color:rgba(255,84,112,.25); background:rgba(255,84,112,.05); }
+.tp-box.sl .tp-box-pct{ color:var(--red); }
+.tp-box.tp{ }
+.tp-box.tp .tp-box-pct{ color:var(--accent); }
+.tp-box.hit{ background:rgba(0,229,160,.14); border-color:rgba(0,229,160,.45); }
+.tp-box.hit .tp-box-lbl{ color:var(--accent); }
+.tp-box.pending{ }
+.tp-box.next{ border-color:rgba(74,163,255,.45); }
+.tp-box.next .tp-box-lbl{ color:var(--blue); }
 
 /* ============================================================
    HALAMAN LIVE — komponen visual ala CryptoSpike
@@ -1276,6 +1308,17 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ TAB NAVIGATION ============ -->
+        <div class="live-tabs" id="live-tabs">
+          <button class="live-tab-btn active" onclick="setLiveTab('live')" data-tab="live">🚀 Live</button>
+          <button class="live-tab-btn" onclick="setLiveTab('perf')" data-tab="perf">📊 Performa</button>
+          <button class="live-tab-btn" onclick="setLiveTab('acc')"  data-tab="acc">💰 Akun</button>
+          <button class="live-tab-btn" onclick="setLiveTab('mkt')"  data-tab="mkt">🌐 Pasar</button>
+        </div>
+
+        <!-- ============ TAB: LIVE ============ -->
+        <div class="live-tab-pane active" id="live-pane-live">
+
         <!-- ============ LIVE SIGNAL TERMINAL ============ -->
         <div class="card mt12">
           <div class="card-hd">⚡ Live Signal Terminal</div>
@@ -1304,6 +1347,11 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>
           </div>
         </div>
+
+        </div><!-- /tab Live -->
+
+        <!-- ============ TAB: PERFORMA ============ -->
+        <div class="live-tab-pane" id="live-pane-perf">
 
         <!-- ============ TP HIT DISTRIBUTION ============ -->
         <div class="card mt12">
@@ -1334,27 +1382,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <canvas id="dayChart" style="width:100%;height:220px;display:block"></canvas>
         </div>
 
-        <!-- ============ MARKET INTELLIGENCE ============ -->
-        <div class="card mt12">
-          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <span>🌐 Market Intelligence</span>
-            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
-          </div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
-            <span class="c-green">BULLISH BIAS</span>
-            <span class="c-red">BEARISH BIAS</span>
-          </div>
-          <div class="mi-bar">
-            <div id="mi-fill"></div>
-            <div id="mi-marker"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
-            <span class="c-green" id="mi-bull-pct">0%</span>
-            <span id="mi-label" class="c-muted">NEUTRAL</span>
-            <span class="c-red" id="mi-bear-pct">0%</span>
-          </div>
-        </div>
-
         <!-- ============ STRATEGY SAFETY NET ============ -->
         <div class="card mt12">
           <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
@@ -1373,6 +1400,22 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             ⓘ <b>Safety Ratio</b>: % trade yang menyentuh target ini. <b>Expectancy</b>: ekspektasi profit dalam satuan R (1R = jarak entry→SL). Positif = strategi profitable di level itu.
           </div>
         </div>
+
+        <!-- ============ PER COIN ============ -->
+        <div class="card mt12">
+          <div class="card-hd">🏆 Performa per Coin</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
+              <tbody id="lv-pair-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        </div><!-- /tab Performa -->
+
+        <!-- ============ TAB: AKUN ============ -->
+        <div class="live-tab-pane" id="live-pane-acc">
 
         <!-- ============ ACCOUNT SIMULATION ============ -->
         <div class="card mt12">
@@ -1410,17 +1453,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
-        <!-- ============ PER COIN ============ -->
-        <div class="card mt12">
-          <div class="card-hd">🏆 Performa per Coin</div>
-          <div style="overflow-x:auto">
-            <table style="width:100%">
-              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
-              <tbody id="lv-pair-body"></tbody>
-            </table>
-          </div>
-        </div>
-
         <!-- ============ MONTHLY SUMMARY ============ -->
         <div class="card mt12">
           <div class="card-hd">📅 Ringkasan Per Bulan</div>
@@ -1434,11 +1466,39 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        </div><!-- /tab Akun -->
+
+        <!-- ============ TAB: PASAR ============ -->
+        <div class="live-tab-pane" id="live-pane-mkt">
+
+        <!-- ============ MARKET INTELLIGENCE ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🌐 Market Intelligence</span>
+            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
+            <span class="c-green">BULLISH BIAS</span>
+            <span class="c-red">BEARISH BIAS</span>
+          </div>
+          <div class="mi-bar">
+            <div id="mi-fill"></div>
+            <div id="mi-marker"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
+            <span class="c-green" id="mi-bull-pct">0%</span>
+            <span id="mi-label" class="c-muted">NEUTRAL</span>
+            <span class="c-red" id="mi-bear-pct">0%</span>
+          </div>
+        </div>
+
         <!-- ============ WATCHLIST ============ -->
         <div class="card mt12">
           <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
           <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
         </div>
+
+        </div><!-- /tab Pasar -->
 
         <!-- HIDDEN: stat lama (dipertahankan untuk kompatibilitas, tidak ditampilkan) -->
         <div style="display:none">
@@ -2738,17 +2798,49 @@ function exportScannerCSV() {
    ROBOT LIVE 24/7 — baca data/*.json (forward-test)
 ============================================================ */
 let liveTimer = null;
+let priceTimer = null;
 let liveOpen = [];      // referensi posisi terbuka aktif (untuk popup)
 let liveHistory = [];   // referensi history (untuk popup)
 let liveEvents = [];
+let lastStats = null;   // cache stats terakhir (untuk re-render saat polling harga)
+let lastState = null;
+let lastPriceFetchAt = null;
+const priceCache = {};  // pair -> {price, time} — persist lastPrice antar loadLiveData
 const SEEN_KEY = 'tvbt_events_seen_ts';
 
 function startLiveRefresh() {
   loadLiveData();
   stopLiveRefresh();
-  liveTimer = setInterval(() => loadLiveData(), 60000);
+  liveTimer  = setInterval(() => loadLiveData(), 60000);   // muat ulang JSON tiap 60s
+  priceTimer = setInterval(() => pollLivePrices(), 30000); // poll harga Binance tiap 30s
+  setTimeout(() => pollLivePrices(), 1500);                // poll pertama setelah load awal
+  // restore tab terakhir
+  const saved = localStorage.getItem('tvbt_live_tab') || 'live';
+  setLiveTab(saved, true);
 }
-function stopLiveRefresh() { if (liveTimer) { clearInterval(liveTimer); liveTimer = null; } }
+
+/* ============================================================
+   LIVE TAB SWITCHER (sub-menu di halaman Live)
+============================================================ */
+function setLiveTab(name, silent) {
+  const valid = ['live', 'perf', 'acc', 'mkt'];
+  if (!valid.includes(name)) name = 'live';
+  document.querySelectorAll('#live-tabs .live-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.querySelectorAll('#live-content .live-tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === 'live-pane-' + name);
+  });
+  if (!silent) localStorage.setItem('tvbt_live_tab', name);
+  // re-draw chart bila pindah ke perf (canvas perlu re-render dgn ukuran benar)
+  if (name === 'perf' && lastStats) drawDayChart(lastStats.dailyEquity || []);
+  // scroll ke atas konten saat ganti tab
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function stopLiveRefresh() {
+  if (liveTimer)  { clearInterval(liveTimer);  liveTimer  = null; }
+  if (priceTimer) { clearInterval(priceTimer); priceTimer = null; }
+}
 
 async function loadLiveData(manual) {
   const bust = '?t=' + Date.now();
@@ -2760,7 +2852,18 @@ async function loadLiveData(manual) {
       fetch('data/events.json'  + bust).then(r => r.ok ? r.json() : []).catch(() => [])
     ]);
     liveOpen = (state && state.open) || [];
+    // RESTORE lastPrice dari priceCache supaya floating tidak reset tiap 60s
+    liveOpen.forEach(p => {
+      const cached = priceCache[p.pair];
+      if (cached && cached.price > 0) {
+        p.lastPrice = cached.price;
+        p.lastPriceTime = cached.time;
+      }
+      // Auto-apply virtual TP/SL hits berdasarkan lastPrice (browser-side)
+      applyVirtualHits(p);
+    });
     liveHistory = Array.isArray(history) ? history : [];
+    lastStats = stats; lastState = state;
     handleNewEvents(Array.isArray(events) ? events : []);
     renderLive(stats, state, liveHistory);
     renderBell();
@@ -2769,6 +2872,232 @@ async function loadLiveData(manual) {
     setTxt('live-state', 'Gagal memuat data');
     if (manual) notify('⚠ Gagal memuat data live', 'warn');
   }
+}
+
+/* ============================================================
+   POLLING HARGA REALTIME (Binance public ticker, no API key)
+   - Ambil harga semua pair posisi terbuka tiap 30 detik
+   - Update lastPrice in-memory + lastPriceTime
+   - Re-render hanya section yang dipengaruhi harga
+============================================================ */
+async function pollLivePrices() {
+  if (!liveOpen.length) {
+    setLiveBadge('idle');
+    return;
+  }
+  const symbols = [...new Set(liveOpen.map(p => p.pair))];
+  // Strategi: coba bulk dulu (symbols=[...]), fallback ke per-symbol jika gagal
+  const params = encodeURIComponent(JSON.stringify(symbols));
+  const bulkUrls = [
+    `https://data-api.binance.vision/api/v3/ticker/price?symbols=${params}`,
+    `https://api.binance.com/api/v3/ticker/price?symbols=${params}`
+  ];
+  setLiveBadge('fetching');
+
+  let priceMap = null;
+
+  // 1) coba bulk
+  for (const url of bulkUrls) {
+    try {
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!r.ok) continue;
+      const arr = await r.json();
+      if (Array.isArray(arr) && arr.length) {
+        priceMap = {};
+        arr.forEach(d => { priceMap[d.symbol] = +d.price; });
+        break;
+      }
+    } catch (e) { /* coba url berikutnya */ }
+  }
+
+  // 2) fallback: fetch per-symbol parallel
+  if (!priceMap) {
+    try {
+      const results = await Promise.all(symbols.map(async sym => {
+        for (const base of ['https://data-api.binance.vision/api/v3/ticker/price', 'https://api.binance.com/api/v3/ticker/price']) {
+          try {
+            const r = await fetch(`${base}?symbol=${encodeURIComponent(sym)}`);
+            if (r.ok) {
+              const j = await r.json();
+              if (j && j.price) return [sym, +j.price];
+            }
+          } catch (e) { /* coba base berikutnya */ }
+        }
+        return [sym, null];
+      }));
+      const pairs = results.filter(([, p]) => p != null);
+      if (pairs.length) {
+        priceMap = {};
+        pairs.forEach(([s, p]) => priceMap[s] = p);
+      }
+    } catch (e) { /* skip */ }
+  }
+
+  if (!priceMap || !Object.keys(priceMap).length) {
+    setLiveBadge('error');
+    return;
+  }
+
+  // Update lastPrice + cache + apply virtual TP/SL hits
+  const now = new Date().toISOString();
+  let updated = 0;
+  let newHits = []; // log TP/SL baru terdeteksi browser-side
+  liveOpen.forEach(p => {
+    if (priceMap[p.pair] != null && Number.isFinite(priceMap[p.pair])) {
+      p.lastPrice = priceMap[p.pair];
+      p.lastPriceTime = now;
+      priceCache[p.pair] = { price: p.lastPrice, time: now };
+      updated++;
+      const hits = applyVirtualHits(p);
+      if (hits.length) newHits.push({ pair: p.pair, dir: p.dir, hits });
+    }
+  });
+  lastPriceFetchAt = now;
+  setLiveBadge('ok', updated);
+
+  // Toast untuk TP/SL baru kena (deteksi browser-side, sambil tunggu robot konfirmasi)
+  newHits.forEach(h => {
+    h.hits.forEach(hit => {
+      showToast({
+        type: hit === 'SL' ? 'closed' : 'tp_hit',
+        pair: h.pair, dir: h.dir, hit,
+        result: hit === 'SL' ? 'LOSS' : 'WIN',
+        price: 0, pnl_pct: 0,
+        ts: now
+      });
+    });
+  });
+
+  // re-render seluruh section yang dipengaruhi harga
+  if (lastStats) {
+    renderOpenCards();
+    renderLiveTerminal(lastStats);
+    renderCapitalSim(lastStats, liveHistory);
+    renderTpDistribution(lastStats);
+  }
+}
+
+/* ============================================================
+   APPLY VIRTUAL TP/SL HITS (browser-side, in-memory)
+   - Saat lastPrice menyentuh TP/SL, set tpHits + realizedPct + trail SL
+   - Konsisten dengan logika robot (staged exit 1/3 per TP)
+   - Robot akan re-konfirmasi saat run berikutnya (15 menit)
+============================================================ */
+function applyVirtualHits(p) {
+  if (!p.lastPrice) return [];
+  if (!p.tpHits) p.tpHits = [];
+  if (p.remaining == null) p.remaining = 1;
+  if (p.realizedPct == null) p.realizedPct = 0;
+  if (!p.slInit) p.slInit = p.sl;
+
+  const newlyHit = [];
+  const dirSign = p.dir === 'BUY' ? 1 : -1;
+  const portion = 1 / 3;
+  const pnlAt = (price) => (price - p.entry) / p.entry * 100 * dirSign;
+  const reaches = (target) => p.dir === 'BUY' ? p.lastPrice >= target : p.lastPrice <= target;
+  const reachesSL = () => p.dir === 'BUY' ? p.lastPrice <= p.sl : p.lastPrice >= p.sl;
+
+  // SL kena → tutup penuh
+  if (p.remaining > 0 && reachesSL() && !p.virtualClosed) {
+    p.realizedPct += pnlAt(p.sl) * p.remaining;
+    p.remaining = 0;
+    p.virtualClosed = 'SL';
+    newlyHit.push('SL');
+    return newlyHit;
+  }
+
+  // TP1
+  if (!p.tpHits.includes('TP1') && reaches(p.tp1)) {
+    p.realizedPct += pnlAt(p.tp1) * portion;
+    p.remaining = +Math.max(0, p.remaining - portion).toFixed(6);
+    p.tpHits.push('TP1');
+    p.sl = p.entry; // trail ke breakeven
+    newlyHit.push('TP1');
+  }
+  // TP2
+  if (!p.tpHits.includes('TP2') && reaches(p.tp2)) {
+    p.realizedPct += pnlAt(p.tp2) * portion;
+    p.remaining = +Math.max(0, p.remaining - portion).toFixed(6);
+    p.tpHits.push('TP2');
+    p.sl = p.tp1; // trail ke TP1
+    newlyHit.push('TP2');
+  }
+  // TP3 → tutup penuh
+  if (!p.tpHits.includes('TP3') && reaches(p.tp3)) {
+    p.realizedPct += pnlAt(p.tp3) * portion;
+    p.remaining = 0;
+    p.tpHits.push('TP3');
+    p.virtualClosed = 'TP3';
+    newlyHit.push('TP3');
+  }
+  return newlyHit;
+}
+
+function setLiveBadge(state, count) {
+  const el = document.getElementById('live-state');
+  if (!el) return;
+  if (state === 'fetching') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">harga…</span>';
+  else if (state === 'ok')  el.innerHTML = 'AKTIF · <span style="color:var(--accent)">live ' + (lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '') + '</span>' + (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : '');
+  else if (state === 'idle') el.innerHTML = 'AKTIF · <span class="c-muted">tidak ada posisi</span>';
+  else if (state === 'error') el.innerHTML = 'AKTIF · <span style="color:var(--yellow)">harga: gagal (jaringan/region)</span>';
+}
+
+/* Render TP Hit Distribution dari open + history (live) */
+function renderTpDistribution(stats) {
+  // gabungkan TP hits dari history (closed) + open positions (virtual)
+  const tpc = { TP1: 0, TP2: 0, TP3: 0 };
+  let slCount = stats.slCount || 0;
+  (stats.tpCounts || tpc) && Object.assign(tpc, stats.tpCounts || {});
+  liveOpen.forEach(p => {
+    (p.tpHits || []).forEach(h => { if (tpc[h] != null) tpc[h]++; });
+    if (p.virtualClosed === 'SL') slCount++;
+  });
+  setTxt('tp-c1', tpc.TP1 || 0);
+  setTxt('tp-c2', tpc.TP2 || 0);
+  setTxt('tp-c3', tpc.TP3 || 0);
+  setTxt('tp-csl', slCount);
+}
+
+/* ekstrak render-ulang card posisi terbuka & terminal sebagai fungsi terpisah */
+function renderOpenCards() {
+  const cards = document.getElementById('lv-open-cards');
+  if (!cards) return;
+  setTxt('lv-open-count', liveOpen.length);
+  if (!liveOpen.length) {
+    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
+  } else {
+    cards.innerHTML = liveOpen.map((p, i) => renderPosCard(p, i)).join('');
+  }
+  // total floating
+  let totalFloat = 0;
+  liveOpen.forEach(p => {
+    const last = p.lastPrice != null ? p.lastPrice : p.entry;
+    const dirSign = p.dir === 'BUY' ? 1 : -1;
+    const realized = +(p.realizedPct || 0);
+    const remaining = (p.remaining != null) ? p.remaining : 1;
+    totalFloat += realized + ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+  });
+  setElC('lv-floating', (totalFloat >= 0 ? '+' : '') + totalFloat.toFixed(2) + '%', totalFloat >= 0 ? 'c-green' : 'c-red');
+}
+
+function renderLiveTerminal(stats) {
+  // recompute dari liveOpen pakai lastPrice terbaru
+  let profit = 0, loss = 0;
+  liveOpen.forEach(p => {
+    const last = p.lastPrice != null ? p.lastPrice : p.entry;
+    const dirSign = p.dir === 'BUY' ? 1 : -1;
+    const realized = +(p.realizedPct || 0);
+    const remaining = (p.remaining != null) ? p.remaining : 1;
+    const float = realized + ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+    if (float >= 0) profit++; else loss++;
+  });
+  const acc = (profit + loss) ? Math.round(profit / (profit + loss) * 100) : 0;
+  setTxt('lt-profit', profit);
+  setTxt('lt-loss', loss);
+  setElC('lt-acc', acc + '%', acc >= 60 ? 'c-green' : acc >= 40 ? 'c-blue' : acc > 0 ? 'c-yellow' : 'c-muted');
+  const stripWidth = (profit + loss) ? (profit / (profit + loss) * 100) : 0;
+  const fill = document.getElementById('lt-strip-fill'); if (fill) fill.style.width = stripWidth + '%';
+  setTxt('lt-strip-txt', `${profit + loss} posisi terbuka · ${profit} profit · ${loss} loss · update ${lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '—'}`);
 }
 
 function handleNewEvents(events) {
@@ -2823,15 +3152,8 @@ function renderLive(stats, state, history) {
   const flo = stats.openFloatingPct ?? 0;
   setElC('lv-floating', (flo>=0?'+':'') + flo.toFixed(2) + '%', flo>=0?'c-green':'c-red');
 
-  // POSISI TERBUKA → CARD GRID
-  const open = liveOpen;
-  setTxt('lv-open-count', open.length);
-  const cards = document.getElementById('lv-open-cards');
-  if (!open.length) {
-    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
-  } else {
-    cards.innerHTML = open.map((p, i) => renderPosCard(p, i)).join('');
-  }
+  // POSISI TERBUKA → CARD GRID (pakai helper)
+  renderOpenCards();
 
   // HISTORI dengan kolom strategi + TP hits + tombol detail
   const hist = [...history].sort((a,b)=> new Date(b.exitTime)-new Date(a.exitTime)).slice(0,40);
@@ -2881,14 +3203,8 @@ function renderLive(stats, state, history) {
   document.getElementById('lv-side-sell').style.width = (totSide ? sellN / totSide * 100 : 50) + '%';
   setTxt('lv-hi-score', stats.highScore || 0);
 
-  // Live Signal Terminal
-  const lt = stats.liveTerminal || { profit: 0, loss: 0, accuracy: 0 };
-  setTxt('lt-profit', lt.profit);
-  setTxt('lt-loss', lt.loss);
-  setElC('lt-acc', (lt.accuracy != null ? lt.accuracy : 0) + '%', lt.accuracy >= 60 ? 'c-green' : lt.accuracy >= 40 ? 'c-blue' : lt.accuracy > 0 ? 'c-yellow' : 'c-muted');
-  const stripWidth = (lt.profit + lt.loss) ? (lt.profit / (lt.profit + lt.loss) * 100) : 0;
-  document.getElementById('lt-strip-fill').style.width = stripWidth + '%';
-  setTxt('lt-strip-txt', `${lt.profit + lt.loss} posisi terbuka · ${lt.profit} profit · ${lt.loss} loss`);
+  // Live Signal Terminal (pakai helper - konsisten dgn polling harga)
+  renderLiveTerminal(stats);
 
   // TP Hit Distribution
   const tpc = stats.tpCounts || { TP1: 0, TP2: 0, TP3: 0 };
@@ -3069,6 +3385,11 @@ function onCapitalChange() {
  *   tiap trade selesai → balance += (balance / N) × (pnl_pct/100)
  *   floating (open)    →  balance + Σ((balance/N) × (current_pnl_pct/100)) untuk posisi terbuka
  */
+/* simulasi equal-weight compounding:
+ *   tiap trade selesai → balance += (balance/N) × (pnl_pct/100)
+ *   PARTIAL TP dari posisi terbuka → masuk ke "Modal Sekarang" (realized)
+ *   sisa posisi (remaining > 0) → masuk ke "Floating" (unrealized only)
+ */
 function simulateCapital(initial, N, history, openPositions) {
   // sort history by exitTime (kronologis)
   const sorted = [...history].sort((a, b) => new Date(a.exitTime) - new Date(b.exitTime));
@@ -3090,19 +3411,22 @@ function simulateCapital(initial, N, history, openPositions) {
     m.endBal = bal;
     equity.push({ t: new Date(t.exitTime).getTime(), v: bal });
   }
-  // floating dari posisi terbuka (pakai balance saat ini sebagai basis slot)
+  // Pisah REALIZED partial (TP yang sudah hit di posisi terbuka) → MASUK MODAL
+  // dari UNREALIZED (sisa posisi yg belum close) → masuk Floating
+  let realizedPartial = 0;
   let floating = 0;
   (openPositions || []).forEach(p => {
     const last = (p.lastPrice != null) ? p.lastPrice : p.entry;
     const dirSign = p.dir === 'BUY' ? 1 : -1;
-    const realized = +(p.realizedPct || 0);
+    const realized = +(p.realizedPct || 0);              // dari TP partial yang sudah hit
     const remaining = (p.remaining != null) ? p.remaining : 1;
     const unreal = ((last - p.entry) / p.entry * 100) * dirSign * remaining;
-    const pnlPct = realized + unreal;
     const slot = bal / N;
-    floating += slot * (pnlPct / 100);
+    realizedPartial += slot * (realized / 100);          // sudah pasti masuk modal
+    floating       += slot * (unreal / 100);             // masih bergerak
   });
-  return { closedBalance: bal, floating, totalNow: bal + floating, equity, monthly };
+  const modalNow = bal + realizedPartial; // termasuk TP partial yang sudah aman
+  return { closedBalance: bal, modalNow, realizedPartial, floating, totalNow: modalNow + floating, equity, monthly };
 }
 
 function fmtUsd(v) {
@@ -3123,21 +3447,24 @@ function renderCapitalSim(stats, history) {
   setTxt('lv-cap-alloc', fmtUsd(initial / N) + ' / coin (top-' + N + ')');
 
   const sim = simulateCapital(initial, N, history, liveOpen);
+  const modalNet = sim.modalNow - initial;
+  const modalPct = initial > 0 ? (modalNet / initial * 100) : 0;
+  setElC('lv-cap-now', fmtUsd(sim.modalNow), modalNet >= 0 ? 'c-green' : 'c-red');
+  // sub: detail breakdown closed + partial
   const closedNet = sim.closedBalance - initial;
-  const closedPct = initial > 0 ? (closedNet / initial * 100) : 0;
-  setElC('lv-cap-now', fmtUsd(sim.closedBalance), closedNet >= 0 ? 'c-green' : 'c-red');
-  setElC('lv-cap-pnl', (closedNet >= 0 ? '+' : '') + fmtUsd(closedNet) + ' (' + (closedPct >= 0 ? '+' : '') + closedPct.toFixed(2) + '%)', closedNet >= 0 ? 'c-green' : 'c-red');
+  const partLabel = sim.realizedPartial > 0 ? ' (+TP partial ' + fmtUsd(sim.realizedPartial) + ')' : (sim.realizedPartial < 0 ? ' (' + fmtUsd(sim.realizedPartial) + ' partial)' : '');
+  setElC('lv-cap-pnl', (modalNet >= 0 ? '+' : '') + fmtUsd(modalNet) + ' (' + (modalPct >= 0 ? '+' : '') + modalPct.toFixed(2) + '%)' + partLabel, modalNet >= 0 ? 'c-green' : 'c-red');
   setElC('lv-cap-float', (sim.floating >= 0 ? '+' : '') + fmtUsd(sim.floating), sim.floating >= 0 ? 'c-green' : 'c-red');
 
   // proyeksi 30 hari berdasarkan rata-rata return per hari
   if (history.length >= 3) {
     const sortedH = [...history].sort((a, b) => new Date(a.exitTime) - new Date(b.exitTime));
     const days = Math.max(1, (new Date(sortedH[sortedH.length - 1].exitTime) - new Date(sortedH[0].exitTime)) / 86400000);
-    const dailyRate = (sim.closedBalance / initial) ** (1 / days);
-    const proj = sim.closedBalance * (dailyRate ** 30);
-    const projNet = proj - sim.closedBalance;
-    setElC('lv-cap-proj', fmtUsd(proj), proj >= sim.closedBalance ? 'c-green' : 'c-red');
-    setTxt('lv-cap-proj-sub', (projNet >= 0 ? '+' : '') + fmtUsd(projNet) + ' (≈ ' + (((proj / sim.closedBalance) - 1) * 100).toFixed(1) + '%)');
+    const dailyRate = (sim.modalNow / initial) ** (1 / days);
+    const proj = sim.modalNow * (dailyRate ** 30);
+    const projNet = proj - sim.modalNow;
+    setElC('lv-cap-proj', fmtUsd(proj), proj >= sim.modalNow ? 'c-green' : 'c-red');
+    setTxt('lv-cap-proj-sub', (projNet >= 0 ? '+' : '') + fmtUsd(projNet) + ' (≈ ' + (((proj / sim.modalNow) - 1) * 100).toFixed(1) + '%)');
   } else {
     setTxt('lv-cap-proj', '—');
     setTxt('lv-cap-proj-sub', 'butuh ≥3 trade selesai');
@@ -3196,13 +3523,39 @@ function renderPosCard(p, i) {
   const cls = floating >= 0 ? 'c-green' : 'c-red';
   const dirLow = p.dir === 'BUY' ? 'long' : 'short';
   const tpHits = new Set(p.tpHits || []);
-  const tpStep = (lvl) => {
-    const hit = tpHits.has(lvl);
-    const nextOne = !hit && [...tpHits].length === { TP1: 0, TP2: 1, TP3: 2 }[lvl];
-    return `<div class="tp-step ${hit?'hit':nextOne?'next':''}">${hit?'✓ ':''}${lvl}</div>`;
-  };
   const v = p.intel ? p.intel.validity : null;
   const validityBadge = v ? `<span class="chip ${v==='STRONG'?'ok':v==='WEAK'?'bad':'info'}" style="margin:0">${v}</span>` : '';
+
+  // % return dari entry (long: tp>entry positif; short: tp<entry positif)
+  const pctTo = (price) => ((price - p.entry) / p.entry * 100 * dirSign).toFixed(1);
+
+  // status box
+  const tpHitsArr = [...tpHits];
+  const nextLevel = ['TP1','TP2','TP3'][tpHitsArr.length];
+
+  const slPct = pctTo(p.sl);
+  const tp1Pct = pctTo(p.tp1);
+  const tp2Pct = pctTo(p.tp2);
+  const tp3Pct = pctTo(p.tp3);
+
+  const tpBox = (lvl, price, pct) => {
+    const hit = tpHits.has(lvl);
+    const next = !hit && lvl === nextLevel;
+    const cls2 = (hit ? 'hit ' : (next ? 'next ' : 'pending ')) + 'tp';
+    const icon = hit ? '✅' : (next ? '⏳' : '⌛');
+    const sign = +pct >= 0 ? '+' : '';
+    return `<div class="tp-box ${cls2}">
+      <div class="tp-box-lbl">${icon} ${lvl}</div>
+      <div class="tp-box-price">${fmtN(price)}</div>
+      <div class="tp-box-pct">${sign}${pct}%</div>
+    </div>`;
+  };
+
+  const slBox = `<div class="tp-box sl">
+    <div class="tp-box-lbl">🛡️ SL</div>
+    <div class="tp-box-price">${fmtN(p.sl)}</div>
+    <div class="tp-box-pct">${slPct}%</div>
+  </div>`;
 
   return `<div class="pos-card ${dirLow}" onclick="openStratModalFromOpen(${i})">
     <div class="pos-card-top">
@@ -3212,16 +3565,19 @@ function renderPosCard(p, i) {
       </div>
       <div class="pos-float">
         <div class="pos-float-val ${cls}">${floating>=0?'+':''}${floating.toFixed(2)}%</div>
-        <div class="pos-float-sub">floating · ${timeAgo(p.openTime)}</div>
+        <div class="pos-float-sub">P&amp;L · ${timeAgo(p.openTime)}</div>
       </div>
     </div>
     <div class="pos-meta">
       <div><div class="pos-meta-k">ENTRY</div><div class="pos-meta-v">${fmtN(p.entry)}</div></div>
       <div><div class="pos-meta-k">HARGA NOW</div><div class="pos-meta-v">${fmtN(last)}</div></div>
-      <div><div class="pos-meta-k">SL</div><div class="pos-meta-v c-red">${fmtN(p.sl)}</div></div>
-      <div><div class="pos-meta-k">TP3</div><div class="pos-meta-v c-green">${fmtN(p.tp3)}</div></div>
     </div>
-    <div class="tp-row">${tpStep('TP1')}${tpStep('TP2')}${tpStep('TP3')}</div>
+    <div class="tp-row">
+      ${slBox}
+      ${tpBox('TP1', p.tp1, tp1Pct)}
+      ${tpBox('TP2', p.tp2, tp2Pct)}
+      ${tpBox('TP3', p.tp3, tp3Pct)}
+    </div>
   </div>`;
 }
 
