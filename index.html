@@ -552,6 +552,12 @@ td input, td select{
       <span class="nav-badge" id="nb-signals">0</span>
     </button>
 
+    <div class="nav-group">Scanner</div>
+    <button class="nav-item" onclick="goPage('scanner')" id="nav-scanner">
+      <span class="nav-icon">🛰️</span><span class="nav-label">Spike Scanner</span>
+      <span class="nav-badge" style="background:var(--blue,#3aa0ff)">API</span>
+    </button>
+
     <div class="nav-group">Analisa</div>
     <button class="nav-item" onclick="goPage('result')" id="nav-result">
       <span class="nav-icon">📈</span><span class="nav-label">Hasil Backtest</span>
@@ -971,6 +977,115 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
       </div>
     </div>
 
+    <!-- ======== SPIKE SCANNER ======== -->
+    <div class="page" id="page-scanner">
+      <div class="page-title">🛰️ Spike Scanner — Binance</div>
+      <div class="page-sub">Tarik data candle real dari Binance → deteksi sinyal "spike" otomatis (volume/momentum/konsolidasi) → backtest winrate. Terinspirasi CryptoSpike.</div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-hd">📡 Sumber Data (Binance Public API)</div>
+          <div class="g2">
+            <div class="fg"><label>PAIR / SYMBOL</label><input type="text" id="sc_pair" value="BTCUSDT" placeholder="BTCUSDT"></div>
+            <div class="fg"><label>MARKET</label>
+              <select id="sc_market">
+                <option value="spot" selected>Spot</option>
+                <option value="futures">Futures (USDT-M)</option>
+              </select>
+            </div>
+          </div>
+          <div class="g2">
+            <div class="fg"><label>TIMEFRAME</label>
+              <select id="sc_interval">
+                <option value="1m">1 Menit</option>
+                <option value="5m">5 Menit</option>
+                <option value="15m" selected>15 Menit</option>
+                <option value="30m">30 Menit</option>
+                <option value="1h">1 Jam</option>
+                <option value="4h">4 Jam</option>
+                <option value="1d">1 Hari</option>
+              </select>
+            </div>
+            <div class="fg"><label>JUMLAH CANDLE</label><input type="number" id="sc_candles" value="1000" min="100" max="5000" step="100"></div>
+          </div>
+          <div class="hint" style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.5">
+            ⓘ Endpoint publik, tanpa API key. Jika diblok region, app coba mirror <span class="c-accent">data-api.binance.vision</span> otomatis.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd">⚡ Parameter Strategi Spike</div>
+          <div class="g2">
+            <div class="fg"><label>VOLUME SPIKE (× rata-rata)</label><input type="number" id="sc_volmult" value="2.5" min="1" step="0.1"></div>
+            <div class="fg"><label>MOMENTUM MIN BODY (%)</label><input type="number" id="sc_mom" value="0.3" min="0" step="0.1"></div>
+          </div>
+          <div class="g2">
+            <div class="fg"><label>MAX RANGE KONSOLIDASI (%)</label><input type="number" id="sc_consol" value="6" min="0" step="0.5"></div>
+            <div class="fg"><label>TAKER BUY RATIO MIN</label><input type="number" id="sc_taker" value="0.55" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="g2">
+            <div class="fg"><label>ATR PERIOD</label><input type="number" id="sc_atrp" value="14" min="2" step="1"></div>
+            <div class="fg"><label>SL = ATR ×</label><input type="number" id="sc_atrmult" value="1.5" min="0.1" step="0.1"></div>
+          </div>
+          <div class="g2">
+            <div class="fg"><label>RISK : REWARD (1:?)</label><input type="number" id="sc_rr" value="2" min="0.1" step="0.1"></div>
+            <div class="fg"><label>ARAH SINYAL</label>
+              <select id="sc_dir">
+                <option value="both" selected>Long & Short</option>
+                <option value="long">Long saja (pre-pump)</option>
+                <option value="short">Short saja (pre-dump)</option>
+              </select>
+            </div>
+          </div>
+          <div class="g2">
+            <div class="fg"><label>MAX HOLD (candle)</label><input type="number" id="sc_maxhold" value="24" min="1" step="1"></div>
+            <div class="fg"><label>COOLDOWN (candle)</label><input type="number" id="sc_cooldown" value="5" min="0" step="1"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group mt16">
+        <button class="btn btn-primary" id="sc_btn" onclick="runScanner()">🛰️ Tarik Data & Scan</button>
+        <button class="btn btn-ghost" onclick="resetScannerParams()">↺ Reset Parameter</button>
+      </div>
+
+      <div id="sc_status" style="display:none;margin-top:12px;font-family:var(--mono);font-size:12px;padding:12px 14px;border-radius:10px;background:var(--card2,#11161f);border:1px solid var(--border)"></div>
+
+      <!-- HASIL SCAN -->
+      <div id="sc_result" style="display:none;margin-top:16px">
+        <div class="g4 mb16">
+          <div class="stat"><div class="stat-lbl">SINYAL TERDETEKSI</div><div class="stat-val" id="sc-total">0</div><div class="stat-sub" id="sc-range">—</div></div>
+          <div class="stat"><div class="stat-lbl">WINRATE</div><div class="stat-val c-green" id="sc-wr">—</div><div class="stat-sub">TP vs SL</div></div>
+          <div class="stat"><div class="stat-lbl">NET RETURN</div><div class="stat-val" id="sc-net">—</div><div class="stat-sub">kumulatif %</div></div>
+          <div class="stat"><div class="stat-lbl">PROFIT FACTOR</div><div class="stat-val c-blue" id="sc-pf">—</div><div class="stat-sub">gross P/L</div></div>
+        </div>
+        <div class="g4 mb16">
+          <div class="stat"><div class="stat-lbl">LONG</div><div class="stat-val" id="sc-long">—</div><div class="stat-sub">jumlah · WR</div></div>
+          <div class="stat"><div class="stat-lbl">SHORT</div><div class="stat-val" id="sc-short">—</div><div class="stat-sub">jumlah · WR</div></div>
+          <div class="stat"><div class="stat-lbl">AVG BARS HELD</div><div class="stat-val" id="sc-bars">—</div><div class="stat-sub">candle / trade</div></div>
+          <div class="stat"><div class="stat-lbl">AVG RETURN</div><div class="stat-val" id="sc-avg">—</div><div class="stat-sub">per trade</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>Sinyal Hasil Deteksi</span>
+            <span class="btn-group">
+              <button class="btn btn-primary btn-xs" onclick="importScannerToSignals()">📥 Kirim ke Hasil Backtest</button>
+              <button class="btn btn-outline btn-xs" onclick="exportScannerCSV()">⬇ Export CSV</button>
+            </span>
+          </div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr>
+                <th>#</th><th>WAKTU ENTRY</th><th>ARAH</th><th>ENTRY</th><th>TP</th><th>SL</th><th>EXIT</th><th>PNL %</th><th>BARS</th><th>HASIL</th>
+              </tr></thead>
+              <tbody id="sc_tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ======== GUIDE ======== -->
     <div class="page" id="page-guide">
       <div class="page-title">📖 Panduan Lengkap</div>
@@ -1083,6 +1198,7 @@ TP: 1.0790 | SL: 1.0880</div>
   <button class="bnav-item active" onclick="goPage('home')" id="bn-home"><div class="bnav-icon">🏠</div>Home</button>
   <button class="bnav-item" onclick="goPage('parser')" id="bn-parser"><div class="bnav-icon">✈️</div>Parser</button>
   <button class="bnav-item" onclick="goPage('signals')" id="bn-signals"><div class="bnav-icon">📊</div>Signal</button>
+  <button class="bnav-item" onclick="goPage('scanner')" id="bn-scanner"><div class="bnav-icon">🛰️</div>Scanner</button>
   <button class="bnav-item" onclick="goPage('result')" id="bn-result"><div class="bnav-icon">📈</div>Backtest</button>
   <button class="bnav-item" onclick="goPage('calc')" id="bn-calc"><div class="bnav-icon">💰</div>Kalkulator</button>
 </div>
@@ -1118,7 +1234,7 @@ window.onload = () => {
 /* ============================================================
    NAVIGATION
 ============================================================ */
-const PAGES = ['home','setup','parser','signals','result','calc','guide'];
+const PAGES = ['home','setup','parser','signals','scanner','result','calc','guide'];
 
 function goPage(id) {
   PAGES.forEach(p => {
@@ -1136,6 +1252,7 @@ function goPage(id) {
 
   if (id === 'result') runAnalysis();
   if (id === 'home') updateDashboard();
+  if (id === 'scanner') initScanner();
   window.scrollTo(0,0);
 }
 
@@ -1838,6 +1955,282 @@ function setDefaultDates(){
 }
 
 function markStep(id,cls){const el=document.getElementById(id);if(el){el.className='step-item '+cls;}}
+
+/* ============================================================
+   SPIKE SCANNER — BINANCE INTEGRATION
+   Tarik klines publik -> deteksi spike -> backtest -> import
+============================================================ */
+let scanTrades = [];          // hasil deteksi terakhir (objek signal via buildSig)
+const SC_DEFAULTS = {volmult:2.5, mom:0.3, consol:6, taker:0.55, atrp:14, atrmult:1.5, rr:2, maxhold:24, cooldown:5};
+
+function initScanner() {
+  // prefill pair dari config bila kolom masih default & cfg.pair ada
+  if (cfg && cfg.pair && gv('sc_pair') === 'BTCUSDT') {
+    const p = String(cfg.pair).split(/[,;\s]/)[0].toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if (p) setV('sc_pair', p);
+  }
+  if (cfg && cfg.rr && +gv('sc_rr') === 2) setV('sc_rr', cfg.rr);
+}
+
+function resetScannerParams() {
+  setV('sc_volmult',SC_DEFAULTS.volmult); setV('sc_mom',SC_DEFAULTS.mom);
+  setV('sc_consol',SC_DEFAULTS.consol);   setV('sc_taker',SC_DEFAULTS.taker);
+  setV('sc_atrp',SC_DEFAULTS.atrp);       setV('sc_atrmult',SC_DEFAULTS.atrmult);
+  setV('sc_rr',SC_DEFAULTS.rr);           setV('sc_maxhold',SC_DEFAULTS.maxhold);
+  setV('sc_cooldown',SC_DEFAULTS.cooldown);
+  notify('↺ Parameter direset');
+}
+
+function scStatus(msg, type) {
+  const el = document.getElementById('sc_status');
+  el.style.display = 'block';
+  const col = type==='err' ? 'var(--red)' : type==='ok' ? 'var(--accent)' : 'var(--yellow)';
+  el.style.borderLeft = '3px solid ' + col;
+  el.innerHTML = msg;
+}
+
+/* ---------- FETCH KLINES (CORS-friendly + fallback + paginasi) ---------- */
+async function fetchKlines(symbol, interval, total, market) {
+  const bases = market === 'futures'
+    ? ['https://fapi.binance.com/fapi/v1/klines']
+    : ['https://data-api.binance.vision/api/v3/klines', 'https://api.binance.com/api/v3/klines'];
+  const perReq = market === 'futures' ? 1500 : 1000;
+  let collected = [];
+  let endTime = null;
+  let lastErr = null;
+
+  while (collected.length < total) {
+    const limit = Math.min(perReq, total - collected.length);
+    let chunk = null;
+    for (const base of bases) {
+      try {
+        let url = `${base}?symbol=${encodeURIComponent(symbol)}&interval=${interval}&limit=${limit}`;
+        if (endTime) url += `&endTime=${endTime}`;
+        const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
+        chunk = await res.json();
+        break;
+      } catch (e) { lastErr = e.message || 'network error'; }
+    }
+    if (!chunk || !chunk.length) break;
+    collected = chunk.concat(collected);
+    endTime = chunk[0][0] - 1;          // mundur ke candle lebih lama
+    if (chunk.length < limit) break;    // sudah habis data historis
+    await new Promise(r => setTimeout(r, 120)); // jeda anti rate-limit
+  }
+  if (!collected.length) throw new Error(lastErr || 'Tidak ada data diterima');
+
+  // dedupe & urutkan by openTime
+  const map = new Map();
+  collected.forEach(k => map.set(k[0], k));
+  const arr = [...map.values()].sort((a,b)=>a[0]-b[0]);
+  return arr.map(k => ({
+    t: k[0], o:+k[1], h:+k[2], l:+k[3], c:+k[4], v:+k[5],
+    closeT: k[6], qv:+k[7], takerBase:+k[9]
+  }));
+}
+
+/* ---------- INDIKATOR ---------- */
+function smaAt(arr, i, period) {
+  if (i - period + 1 < 0) return null;
+  let s = 0; for (let k = i - period + 1; k <= i; k++) s += arr[k];
+  return s / period;
+}
+function computeATR(candles, period) {
+  const tr = candles.map((c,i) => i===0 ? c.h-c.l
+    : Math.max(c.h-c.l, Math.abs(c.h-candles[i-1].c), Math.abs(c.l-candles[i-1].c)));
+  const atr = new Array(candles.length).fill(null);
+  for (let i=0;i<candles.length;i++) {
+    if (i>=period) { let s=0; for(let k=i-period+1;k<=i;k++) s+=tr[k]; atr[i]=s/period; }
+  }
+  return atr;
+}
+
+/* ---------- DETEKSI SPIKE + SIMULASI ---------- */
+function detectAndBacktest(candles, p) {
+  const n = candles.length;
+  const vols = candles.map(c=>c.v);
+  const atr = computeATR(candles, p.atrp);
+  const volLookback = 20, consolLookback = 10;
+  const startIdx = Math.max(volLookback, consolLookback, p.atrp) + 1;
+  const trades = [];
+  let lastSig = -9999;
+
+  for (let i = startIdx; i < n - 1; i++) {
+    if (i - lastSig < p.cooldown) continue;
+    const c = candles[i];
+    const volAvg = smaAt(vols, i-1, volLookback);
+    if (!volAvg || volAvg <= 0) continue;
+    const volRatio = c.v / volAvg;
+    if (volRatio < p.volmult) continue;                 // butuh volume spike
+
+    // konsolidasi sebelum spike
+    let wh=-Infinity, wl=Infinity;
+    for (let k=i-consolLookback;k<i;k++){ if(candles[k].h>wh)wh=candles[k].h; if(candles[k].l<wl)wl=candles[k].l; }
+    const rangePct = wl>0 ? (wh-wl)/wl*100 : 999;
+    if (rangePct > p.consol) continue;                  // harga harus konsolidasi dulu
+
+    const bodyPct = (c.c - c.o) / c.o * 100;
+    const takerRatio = c.v>0 ? c.takerBase / c.v : 0;
+    const a = atr[i];
+    if (!a || a <= 0) continue;
+
+    let dir = null;
+    const longOk  = bodyPct >=  p.mom && takerRatio >= p.taker;
+    const shortOk = bodyPct <= -p.mom && takerRatio <= (1 - p.taker);
+    if ((p.dir==='both'||p.dir==='long')  && longOk)  dir = 'BUY';
+    else if ((p.dir==='both'||p.dir==='short') && shortOk) dir = 'SELL';
+    if (!dir) continue;
+
+    // entry di candle berikutnya (open), TP/SL berbasis ATR
+    const e = candles[i+1].o;
+    const slDist = a * p.atrmult;
+    if (slDist <= 0) continue;
+    const tp = dir==='BUY' ? e + slDist*p.rr : e - slDist*p.rr;
+    const sl = dir==='BUY' ? e - slDist     : e + slDist;
+
+    // simulasi forward
+    let exit=null, exitT=null, bars=0, hit=null;
+    const end = Math.min(i+1+p.maxhold, n-1);
+    for (let j=i+1;j<=end;j++){
+      const cj = candles[j]; bars = j-(i+1)+1;
+      if (dir==='BUY') {
+        if (cj.l<=sl){ exit=sl; exitT=cj.closeT; hit='SL'; break; }
+        if (cj.h>=tp){ exit=tp; exitT=cj.closeT; hit='TP'; break; }
+      } else {
+        if (cj.h>=sl){ exit=sl; exitT=cj.closeT; hit='SL'; break; }
+        if (cj.l<=tp){ exit=tp; exitT=cj.closeT; hit='TP'; break; }
+      }
+    }
+    if (exit===null){ exit = candles[end].c; exitT = candles[end].closeT; hit='TIMEOUT'; bars = end-(i+1)+1; }
+
+    const dtStr   = new Date(candles[i+1].t).toISOString().slice(0,16);
+    const exitStr = new Date(exitT).toISOString().slice(0,16);
+    const sig = buildSig(dtStr, dir, round6(e), round6(tp), round6(sl), round6(exit), exitStr);
+    sig.bars = bars;
+    trades.push(sig);
+    lastSig = i;
+  }
+  return { trades, first: candles[0], last: candles[n-1] };
+}
+
+function round6(x){ return Math.round(x*1e6)/1e6; }
+
+/* ---------- ORCHESTRATOR ---------- */
+async function runScanner() {
+  const btn = document.getElementById('sc_btn');
+  const symbol = gv('sc_pair').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const interval = gv('sc_interval');
+  const market = gv('sc_market');
+  const total = Math.max(100, Math.min(5000, parseInt(gv('sc_candles'))||1000));
+  if (!symbol) { notify('⚠ Isi pair/symbol','warn'); return; }
+
+  const p = {
+    volmult:  parseFloat(gv('sc_volmult'))||SC_DEFAULTS.volmult,
+    mom:      parseFloat(gv('sc_mom'))||0,
+    consol:   parseFloat(gv('sc_consol'))||SC_DEFAULTS.consol,
+    taker:    parseFloat(gv('sc_taker'))||0.5,
+    atrp:     parseInt(gv('sc_atrp'))||14,
+    atrmult:  parseFloat(gv('sc_atrmult'))||1.5,
+    rr:       parseFloat(gv('sc_rr'))||2,
+    dir:      gv('sc_dir'),
+    maxhold:  parseInt(gv('sc_maxhold'))||24,
+    cooldown: parseInt(gv('sc_cooldown'))||0
+  };
+
+  btn.disabled = true; const oldTxt = btn.textContent; btn.textContent = '⏳ Mengambil data...';
+  scStatus(`⏳ Mengambil ${total} candle <b>${symbol}</b> (${interval}, ${market}) dari Binance...`, 'warn');
+  try {
+    const candles = await fetchKlines(symbol, interval, total, market);
+    if (candles.length < 50) throw new Error('Data terlalu sedikit ('+candles.length+' candle). Cek symbol/timeframe.');
+    scStatus(`✅ ${candles.length} candle diterima. ⚙️ Mendeteksi sinyal spike...`, 'ok');
+
+    const { trades, first, last } = detectAndBacktest(candles, p);
+    scanTrades = trades;
+
+    const fromStr = new Date(first.t).toISOString().slice(0,10);
+    const toStr   = new Date(last.t).toISOString().slice(0,10);
+
+    if (!trades.length) {
+      document.getElementById('sc_result').style.display = 'none';
+      scStatus(`✅ ${candles.length} candle (${fromStr} → ${toStr}) discan, tapi <b>0 sinyal</b> cocok. Coba longgarkan parameter (turunkan Volume Spike / Momentum / naikkan Max Range Konsolidasi).`, 'warn');
+      btn.disabled=false; btn.textContent=oldTxt; return;
+    }
+    renderScannerResult(trades, symbol, interval, fromStr, toStr, candles.length);
+    scStatus(`✅ Selesai. <b>${trades.length} sinyal</b> terdeteksi dari ${candles.length} candle (${fromStr} → ${toStr}).`, 'ok');
+  } catch (e) {
+    document.getElementById('sc_result').style.display = 'none';
+    scStatus(`❌ Gagal: ${e.message}.<br><span style="color:var(--muted)">Kemungkinan: symbol salah, atau Binance diblok di jaringan/region kamu (coba VPN, atau pakai market Spot).</span>`, 'err');
+    notify('❌ Gagal ambil data','err');
+  }
+  btn.disabled=false; btn.textContent=oldTxt;
+}
+
+function renderScannerResult(trades, symbol, interval, fromStr, toStr, nCandles) {
+  const wins = trades.filter(t=>t.status==='TP'||t.status==='WIN');
+  const losses = trades.filter(t=>t.status==='SL'||t.status==='LOSS');
+  const total = trades.length;
+  const wr = total ? wins.length/total*100 : 0;
+  const pnls = trades.map(t=>t.pnl_pct||0);
+  const grossP = pnls.filter(x=>x>0).reduce((a,b)=>a+b,0);
+  const grossL = Math.abs(pnls.filter(x=>x<0).reduce((a,b)=>a+b,0));
+  const net = grossP - grossL;
+  const pf = grossL>0 ? grossP/grossL : grossP>0?999:0;
+  const avg = total ? pnls.reduce((a,b)=>a+b,0)/total : 0;
+  const avgBars = total ? trades.reduce((a,t)=>a+(t.bars||0),0)/total : 0;
+
+  const longs = trades.filter(t=>t.dir==='BUY'), shorts = trades.filter(t=>t.dir==='SELL');
+  const lw = longs.filter(t=>t.status==='TP'||t.status==='WIN').length;
+  const sw = shorts.filter(t=>t.status==='TP'||t.status==='WIN').length;
+
+  setElC('sc-wr', wr.toFixed(1)+'%', wr>=55?'c-green':wr>=45?'c-yellow':'c-red');
+  setTxt('sc-total', total);
+  setTxt('sc-range', `${symbol} ${interval}`);
+  setElC('sc-net', (net>=0?'+':'')+net.toFixed(2)+'%', net>=0?'c-green':'c-red');
+  setElC('sc-pf', pf>999?'∞':pf.toFixed(2), pf>=1.5?'c-green':pf>=1?'c-yellow':'c-red');
+  setTxt('sc-long', `${longs.length} · ${longs.length?(lw/longs.length*100).toFixed(0):0}%`);
+  setTxt('sc-short', `${shorts.length} · ${shorts.length?(sw/shorts.length*100).toFixed(0):0}%`);
+  setTxt('sc-bars', avgBars.toFixed(1));
+  setElC('sc-avg', (avg>=0?'+':'')+avg.toFixed(2)+'%', avg>=0?'c-green':'c-red');
+
+  document.getElementById('sc_tbody').innerHTML = trades.map((s,i)=>{
+    const pnl = s.pnl_pct!==null ? `<span class="${s.pnl_pct>=0?'c-green':'c-red'}">${s.pnl_pct>=0?'+':''}${s.pnl_pct.toFixed(2)}%</span>` : '—';
+    const res = (s.status==='TP'||s.status==='WIN') ? '<span class="pill pill-win">WIN</span>' : '<span class="pill pill-loss">LOSS</span>';
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${(s.dt||'').replace('T',' ')}</td>
+      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
+      <td>${fmtN(s.entry)}</td><td>${fmtN(s.tp)}</td><td>${fmtN(s.sl)}</td>
+      <td>${fmtN(s.exit)}</td><td>${pnl}</td><td>${s.bars||'—'}</td><td>${res}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('sc_result').style.display = 'block';
+}
+
+function importScannerToSignals() {
+  if (!scanTrades.length) { notify('⚠ Belum ada hasil scan','warn'); return; }
+  let mode = 'append';
+  if (signals.length) {
+    mode = confirm(`Ada ${signals.length} signal lama.\n\nOK = GANTI semua dengan ${scanTrades.length} sinyal scanner.\nCancel = TAMBAHKAN ke signal lama.`) ? 'replace' : 'append';
+  }
+  // clone agar id unik & tidak terikat array scan
+  const fresh = scanTrades.map(s => ({ ...s, id: Date.now() + Math.random() }));
+  signals = (mode==='replace') ? fresh : signals.concat(fresh);
+  saveStorage(); renderSignalTable(); updateNavBadge(); updateDashboard();
+  notify(`✅ ${fresh.length} sinyal masuk ke backtest (${mode==='replace'?'ganti':'tambah'})`);
+  goPage('result');
+}
+
+function exportScannerCSV() {
+  if (!scanTrades.length) { notify('⚠ Belum ada hasil scan','warn'); return; }
+  const hdr = 'date,direction,entry,tp,sl,exit,exit_date,status,pnl_pct,bars';
+  const rows = scanTrades.map(s => [
+    s.dt, s.dir, s.entry, s.tp, s.sl, s.exit??'', s.exit_dt??'', s.status, s.pnl_pct?.toFixed(3)??'', s.bars??''
+  ].join(','));
+  dlBlob(hdr+'\n'+rows.join('\n'), 'text/csv', `spike_scan_${today()}.csv`);
+  notify('⬇ Hasil scan diekspor!');
+}
 
 </script>
 </body>
