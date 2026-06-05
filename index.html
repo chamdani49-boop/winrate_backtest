@@ -2738,17 +2738,26 @@ function exportScannerCSV() {
    ROBOT LIVE 24/7 — baca data/*.json (forward-test)
 ============================================================ */
 let liveTimer = null;
+let priceTimer = null;
 let liveOpen = [];      // referensi posisi terbuka aktif (untuk popup)
 let liveHistory = [];   // referensi history (untuk popup)
 let liveEvents = [];
+let lastStats = null;   // cache stats terakhir (untuk re-render saat polling harga)
+let lastState = null;
+let lastPriceFetchAt = null;
 const SEEN_KEY = 'tvbt_events_seen_ts';
 
 function startLiveRefresh() {
   loadLiveData();
   stopLiveRefresh();
-  liveTimer = setInterval(() => loadLiveData(), 60000);
+  liveTimer  = setInterval(() => loadLiveData(), 60000);   // muat ulang JSON tiap 60s
+  priceTimer = setInterval(() => pollLivePrices(), 30000); // poll harga Binance tiap 30s
+  setTimeout(() => pollLivePrices(), 1500);                // poll pertama setelah load awal
 }
-function stopLiveRefresh() { if (liveTimer) { clearInterval(liveTimer); liveTimer = null; } }
+function stopLiveRefresh() {
+  if (liveTimer)  { clearInterval(liveTimer);  liveTimer  = null; }
+  if (priceTimer) { clearInterval(priceTimer); priceTimer = null; }
+}
 
 async function loadLiveData(manual) {
   const bust = '?t=' + Date.now();
@@ -2761,6 +2770,7 @@ async function loadLiveData(manual) {
     ]);
     liveOpen = (state && state.open) || [];
     liveHistory = Array.isArray(history) ? history : [];
+    lastStats = stats; lastState = state;
     handleNewEvents(Array.isArray(events) ? events : []);
     renderLive(stats, state, liveHistory);
     renderBell();
@@ -2769,6 +2779,107 @@ async function loadLiveData(manual) {
     setTxt('live-state', 'Gagal memuat data');
     if (manual) notify('⚠ Gagal memuat data live', 'warn');
   }
+}
+
+/* ============================================================
+   POLLING HARGA REALTIME (Binance public ticker, no API key)
+   - Ambil harga semua pair posisi terbuka tiap 30 detik
+   - Update lastPrice in-memory + lastPriceTime
+   - Re-render hanya section yang dipengaruhi harga
+============================================================ */
+async function pollLivePrices() {
+  if (!liveOpen.length) {
+    setLiveBadge('idle');
+    return;
+  }
+  const symbols = [...new Set(liveOpen.map(p => p.pair))];
+  const params = encodeURIComponent(JSON.stringify(symbols));
+  const urls = [
+    `https://data-api.binance.vision/api/v3/ticker/price?symbols=${params}`,
+    `https://api.binance.com/api/v3/ticker/price?symbols=${params}`
+  ];
+  setLiveBadge('fetching');
+  let data = null;
+  for (const url of urls) {
+    try {
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!r.ok) continue;
+      data = await r.json(); break;
+    } catch (e) { /* coba url berikutnya */ }
+  }
+  if (!data || !Array.isArray(data)) {
+    setLiveBadge('error');
+    return;
+  }
+  const map = {};
+  data.forEach(d => { map[d.symbol] = +d.price; });
+  let updated = 0;
+  liveOpen.forEach(p => {
+    if (map[p.pair] != null && Number.isFinite(map[p.pair])) {
+      p.lastPrice = map[p.pair];
+      p.lastPriceTime = new Date().toISOString();
+      updated++;
+    }
+  });
+  lastPriceFetchAt = new Date().toISOString();
+  setLiveBadge('ok');
+  // re-render section yang dipengaruhi harga (tanpa fetch JSON ulang)
+  if (lastStats) {
+    renderOpenCards();
+    renderLiveTerminal(lastStats);
+    renderCapitalSim(lastStats, liveHistory);
+  }
+}
+
+function setLiveBadge(state) {
+  const el = document.getElementById('live-state');
+  if (!el) return;
+  if (state === 'fetching') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">harga…</span>';
+  else if (state === 'ok')  el.innerHTML = 'AKTIF · <span style="color:var(--accent)">live ' + (lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '') + '</span>';
+  else if (state === 'idle') { /* biarkan default */ }
+  else if (state === 'error') el.innerHTML = 'AKTIF · <span style="color:var(--yellow)">harga: gagal</span>';
+}
+
+/* ekstrak render-ulang card posisi terbuka & terminal sebagai fungsi terpisah */
+function renderOpenCards() {
+  const cards = document.getElementById('lv-open-cards');
+  if (!cards) return;
+  setTxt('lv-open-count', liveOpen.length);
+  if (!liveOpen.length) {
+    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
+  } else {
+    cards.innerHTML = liveOpen.map((p, i) => renderPosCard(p, i)).join('');
+  }
+  // total floating
+  let totalFloat = 0;
+  liveOpen.forEach(p => {
+    const last = p.lastPrice != null ? p.lastPrice : p.entry;
+    const dirSign = p.dir === 'BUY' ? 1 : -1;
+    const realized = +(p.realizedPct || 0);
+    const remaining = (p.remaining != null) ? p.remaining : 1;
+    totalFloat += realized + ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+  });
+  setElC('lv-floating', (totalFloat >= 0 ? '+' : '') + totalFloat.toFixed(2) + '%', totalFloat >= 0 ? 'c-green' : 'c-red');
+}
+
+function renderLiveTerminal(stats) {
+  // recompute dari liveOpen pakai lastPrice terbaru
+  let profit = 0, loss = 0;
+  liveOpen.forEach(p => {
+    const last = p.lastPrice != null ? p.lastPrice : p.entry;
+    const dirSign = p.dir === 'BUY' ? 1 : -1;
+    const realized = +(p.realizedPct || 0);
+    const remaining = (p.remaining != null) ? p.remaining : 1;
+    const float = realized + ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+    if (float >= 0) profit++; else loss++;
+  });
+  const acc = (profit + loss) ? Math.round(profit / (profit + loss) * 100) : 0;
+  setTxt('lt-profit', profit);
+  setTxt('lt-loss', loss);
+  setElC('lt-acc', acc + '%', acc >= 60 ? 'c-green' : acc >= 40 ? 'c-blue' : acc > 0 ? 'c-yellow' : 'c-muted');
+  const stripWidth = (profit + loss) ? (profit / (profit + loss) * 100) : 0;
+  const fill = document.getElementById('lt-strip-fill'); if (fill) fill.style.width = stripWidth + '%';
+  setTxt('lt-strip-txt', `${profit + loss} posisi terbuka · ${profit} profit · ${loss} loss · update ${lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '—'}`);
 }
 
 function handleNewEvents(events) {
@@ -2823,15 +2934,8 @@ function renderLive(stats, state, history) {
   const flo = stats.openFloatingPct ?? 0;
   setElC('lv-floating', (flo>=0?'+':'') + flo.toFixed(2) + '%', flo>=0?'c-green':'c-red');
 
-  // POSISI TERBUKA → CARD GRID
-  const open = liveOpen;
-  setTxt('lv-open-count', open.length);
-  const cards = document.getElementById('lv-open-cards');
-  if (!open.length) {
-    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
-  } else {
-    cards.innerHTML = open.map((p, i) => renderPosCard(p, i)).join('');
-  }
+  // POSISI TERBUKA → CARD GRID (pakai helper)
+  renderOpenCards();
 
   // HISTORI dengan kolom strategi + TP hits + tombol detail
   const hist = [...history].sort((a,b)=> new Date(b.exitTime)-new Date(a.exitTime)).slice(0,40);
@@ -2881,14 +2985,8 @@ function renderLive(stats, state, history) {
   document.getElementById('lv-side-sell').style.width = (totSide ? sellN / totSide * 100 : 50) + '%';
   setTxt('lv-hi-score', stats.highScore || 0);
 
-  // Live Signal Terminal
-  const lt = stats.liveTerminal || { profit: 0, loss: 0, accuracy: 0 };
-  setTxt('lt-profit', lt.profit);
-  setTxt('lt-loss', lt.loss);
-  setElC('lt-acc', (lt.accuracy != null ? lt.accuracy : 0) + '%', lt.accuracy >= 60 ? 'c-green' : lt.accuracy >= 40 ? 'c-blue' : lt.accuracy > 0 ? 'c-yellow' : 'c-muted');
-  const stripWidth = (lt.profit + lt.loss) ? (lt.profit / (lt.profit + lt.loss) * 100) : 0;
-  document.getElementById('lt-strip-fill').style.width = stripWidth + '%';
-  setTxt('lt-strip-txt', `${lt.profit + lt.loss} posisi terbuka · ${lt.profit} profit · ${lt.loss} loss`);
+  // Live Signal Terminal (pakai helper - konsisten dgn polling harga)
+  renderLiveTerminal(stats);
 
   // TP Hit Distribution
   const tpc = stats.tpCounts || { TP1: 0, TP2: 0, TP3: 0 };
