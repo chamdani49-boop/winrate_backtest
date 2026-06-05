@@ -1,37 +1,37 @@
 {
-  "updatedAt": "2026-06-05T07:45:03.817Z",
+  "updatedAt": "2026-06-05T08:18:11.572Z",
   "provider": "binance-vision",
   "bigTF": "4h",
   "smallTF": "15m",
   "since": "2026-06-05T05:44:59.999Z",
-  "totalClosed": 2,
-  "open": 1,
-  "wins": 2,
+  "totalClosed": 3,
+  "open": 0,
+  "wins": 3,
   "losses": 0,
   "winrate": 100,
-  "grossProfit": 4.67,
+  "grossProfit": 5.26,
   "grossLoss": 0,
-  "netReturn": 4.67,
+  "netReturn": 5.26,
   "profitFactor": 999,
-  "avgReturn": 2.337,
+  "avgReturn": 1.754,
   "bestPct": 2.67,
-  "worstPct": 2,
+  "worstPct": 0.59,
   "tpCounts": {
-    "TP1": 2,
+    "TP1": 3,
     "TP2": 2,
     "TP3": 1
   },
   "closedByCounts": {
     "TP3": 1,
-    "SL": 1,
+    "SL": 2,
     "TIMEOUT": 0
   },
-  "slCount": 1,
+  "slCount": 2,
   "safetyNet": [
     {
       "level": "TP1",
       "rr": 1,
-      "hit": 2,
+      "hit": 3,
       "miss": 0,
       "safetyRatio": 100,
       "expectancy": 1
@@ -40,17 +40,17 @@
       "level": "TP2",
       "rr": 2,
       "hit": 2,
-      "miss": 0,
-      "safetyRatio": 100,
-      "expectancy": 2
+      "miss": 1,
+      "safetyRatio": 66.7,
+      "expectancy": 1
     },
     {
       "level": "TP3",
       "rr": 3,
       "hit": 1,
-      "miss": 1,
-      "safetyRatio": 50,
-      "expectancy": 1
+      "miss": 2,
+      "safetyRatio": 33.3,
+      "expectancy": 0.333
     }
   ],
   "dailyEquity": [
@@ -288,35 +288,27 @@
     },
     {
       "date": "2026-06-05",
-      "trades": 2,
-      "wins": 2,
+      "trades": 3,
+      "wins": 3,
       "losses": 0,
-      "dayPnl": 4.67,
-      "cumulative": 4.67
+      "dayPnl": 5.26,
+      "cumulative": 5.26
     }
   ],
   "marketBias": {
     "bullish": 0,
     "bearish": 100,
     "sample": "recent_48h",
-    "count": 2
+    "count": 3
   },
   "highScore": 82,
   "liveTerminal": {
-    "profit": 1,
+    "profit": 0,
     "loss": 0,
-    "accuracy": 100,
-    "items": [
-      {
-        "pair": "SOLUSDT",
-        "dir": "SELL",
-        "score": 72,
-        "validity": "MODERATE",
-        "floating": 0.78
-      }
-    ]
+    "accuracy": 0,
+    "items": []
   },
-  "openFloatingPct": 0.78,
+  "openFloatingPct": 0,
   "byPair": {
     "ETHUSDT": {
       "trades": 1,
@@ -329,6 +321,12 @@
       "wins": 1,
       "net": 2,
       "winrate": 100
+    },
+    "SOLUSDT": {
+      "trades": 1,
+      "wins": 1,
+      "net": 0.59,
+      "winrate": 100
     }
   },
   "bySide": {
@@ -338,8 +336,8 @@
       "winrate": 0
     },
     "SELL": {
-      "trades": 2,
-      "wins": 2,
+      "trades": 3,
+      "wins": 3,
       "winrate": 100
     }
   },
@@ -361,8 +359,8 @@
     "RLUSDUSDT",
     "OPNUSDT",
     "ENAUSDT",
-    "ONDOUSDT",
+    "MEMEUSDT",
     "LINKUSDT",
-    "MEMEUSDT"
+    "ONDOUSDT"
   ]
 }
