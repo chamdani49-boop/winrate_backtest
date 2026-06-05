@@ -4,30 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>TVBT Pro — Signal Backtest Suite</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    ROOT & RESET
 ============================================================ */
 :root {
-  --bg:       #090c12;
-  --surf:     #0f1318;
-  --card:     #141920;
-  --card2:    #191f28;
-  --border:   #1e2738;
-  --border2:  #252f42;
+  --bg:       #080b11;
+  --surf:     #0e1219;
+  --card:     #131923;
+  --card2:    #1a2230;
+  --border:   #212c40;
+  --border2:  #2c3a56;
   --accent:   #00e5a0;
   --accent2:  #ff6b35;
-  --blue:     #3d9fff;
-  --yellow:   #ffc947;
-  --red:      #ff4560;
+  --blue:     #4aa3ff;
+  --yellow:   #ffce5c;
+  --red:      #ff5470;
   --green:    #00e5a0;
-  --text:     #e2e8f4;
-  --muted:    #546080;
-  --muted2:   #7a89a8;
+  --text:     #eaeff9;
+  --muted:    #6a789c;
+  --muted2:   #99a7c6;
   --mono:     'IBM Plex Mono', monospace;
-  --sans:     'Outfit', sans-serif;
-  --nav-w:    220px;
+  --sans:     'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --nav-w:    222px;
   --topbar-h: 56px;
   --bot-h:    60px;
 }
@@ -484,6 +484,52 @@ td input, td select{
 .collapsible-hd.open .chevron{transform:rotate(180deg);}
 .collapsible-body{display:block;}
 
+/* ============================================================
+   UI POLISH v2 — refresh warna, font & keterbacaan
+   (hanya menambah gaya visual; tidak mengubah layout)
+============================================================ */
+body{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; letter-spacing:-.1px; }
+html{ scroll-behavior:smooth; }
+
+/* scrollbar lebih rapi */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:var(--surf); }
+::-webkit-scrollbar-thumb{ background:var(--border2); border-radius:6px; border:2px solid var(--surf); }
+::-webkit-scrollbar-thumb:hover{ background:var(--muted); }
+
+/* judul & sub lebih tegas */
+.page-title{ font-weight:800; letter-spacing:-.6px; }
+.page-sub{ color:var(--muted2); }
+.card-hd{ font-weight:700; }
+
+/* kartu & stat: hover halus + aksen */
+.card{ transition:border-color .2s ease, box-shadow .2s ease; }
+.card:hover{ border-color:var(--border2); }
+.stat{ position:relative; overflow:hidden; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.stat::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),transparent); opacity:.45; }
+.stat:hover{ transform:translateY(-2px); border-color:var(--border2); box-shadow:0 10px 26px rgba(0,0,0,.38); }
+.stat-val{ letter-spacing:-.5px; }
+
+/* tombol utama: gradient + glow lembut */
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#00c489)!important;
+  color:#04130d!important; border:none!important; font-weight:700;
+  box-shadow:0 4px 16px rgba(0,229,160,.20);
+}
+.btn-primary:hover{ filter:brightness(1.06); box-shadow:0 7px 22px rgba(0,229,160,.34); }
+
+/* indikator menu aktif */
+.nav-item{ transition:background .18s ease, color .18s ease; }
+.nav-item.active{ position:relative; }
+.nav-item.active::before{ content:''; position:absolute; left:0; top:18%; bottom:18%; width:3px; border-radius:0 3px 3px 0; background:var(--accent); }
+.bnav-item.active{ color:var(--accent); }
+
+.pill{ letter-spacing:.3px; }
+
+/* dot "live" berdenyut */
+#nb-live, #live-dot{ animation:livePulse 1.8s ease-in-out infinite; }
+@keyframes livePulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+
 </style>
 </head>
 <body>
@@ -541,6 +587,12 @@ td input, td select{
     </button>
     <button class="nav-item" onclick="goPage('setup')" id="nav-setup">
       <span class="nav-icon">⚙️</span><span class="nav-label">Setup Indikator</span>
+    </button>
+
+    <div class="nav-group">Robot 24/7</div>
+    <button class="nav-item" onclick="goPage('live')" id="nav-live">
+      <span class="nav-icon">🤖</span><span class="nav-label">Live 24/7</span>
+      <span class="nav-badge" id="nb-live" style="background:var(--red)">●</span>
     </button>
 
     <div class="nav-group">Signal</div>
@@ -604,8 +656,9 @@ td input, td select{
         <div class="card">
           <div class="card-hd">Quick Actions</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <button class="btn btn-primary btn-full" onclick="goPage('parser')">✈️ Parse Signal Telegram</button>
-            <button class="btn btn-outline btn-full" onclick="openModal()">➕ Tambah Signal Manual</button>
+            <button class="btn btn-primary btn-full" onclick="goPage('live')">🤖 Robot Live 24/7</button>
+            <button class="btn btn-outline btn-full" onclick="goPage('scanner')">🛰️ Spike Scanner (Binance)</button>
+            <button class="btn btn-ghost btn-full" onclick="goPage('parser')">✈️ Parse Signal Telegram</button>
             <button class="btn btn-ghost btn-full" onclick="goPage('result')">📈 Lihat Hasil Backtest</button>
             <button class="btn btn-ghost btn-full" onclick="loadDemo()">🎲 Muat Data Demo</button>
           </div>
@@ -977,6 +1030,85 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
       </div>
     </div>
 
+    <!-- ======== ROBOT LIVE 24/7 ======== -->
+    <div class="page" id="page-live">
+      <div class="page-title">🤖 Robot Live 24/7</div>
+      <div class="page-sub">Forward-test otomatis: robot di GitHub Actions memindai top-20 coin tiap 15 menit (4h bias + 15m entry), mencatat TP/SL, dan winrate-nya terus bertumbuh — walau browser kamu tertutup.</div>
+
+      <!-- status bar -->
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:12px">
+          <span><span id="live-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin-right:6px"></span><span id="live-state">Memuat...</span></span>
+          <span class="c-muted">Update: <span id="live-updated" class="c-blue">—</span></span>
+          <span class="c-muted">Sumber: <span id="live-provider" class="c-accent">—</span></span>
+          <span class="c-muted">TF: <span id="live-tf">—</span></span>
+        </div>
+        <button class="btn btn-outline btn-xs" onclick="loadLiveData(true)">🔄 Refresh</button>
+      </div>
+
+      <!-- empty state (robot belum jalan) -->
+      <div id="live-empty" class="card" style="display:none;text-align:center;padding:40px 20px">
+        <div style="font-size:40px;margin-bottom:10px">🛰️</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:6px">Robot belum menghasilkan data</div>
+        <div class="c-muted" style="font-size:13px;line-height:1.7;max-width:560px;margin:0 auto">
+          Setelah PR di-merge, aktifkan robot lewat:<br>
+          <b>repo → tab Actions → "Scanner 24/7" → Run workflow</b><br>
+          atau tunggu jadwal cron berikutnya (tiap 15 menit). Hasil winrate akan muncul otomatis di sini.
+        </div>
+      </div>
+
+      <!-- konten live -->
+      <div id="live-content" style="display:none">
+        <div class="g4 mb16">
+          <div class="stat"><div class="stat-lbl">WINRATE KUMULATIF</div><div class="stat-val c-green" id="lv-wr">—</div><div class="stat-sub" id="lv-wr-sub">closed trades</div></div>
+          <div class="stat"><div class="stat-lbl">TOTAL CLOSED</div><div class="stat-val" id="lv-total">—</div><div class="stat-sub" id="lv-open-sub">posisi terbuka —</div></div>
+          <div class="stat"><div class="stat-lbl">NET RETURN</div><div class="stat-val" id="lv-net">—</div><div class="stat-sub">kumulatif %</div></div>
+          <div class="stat"><div class="stat-lbl">PROFIT FACTOR</div><div class="stat-val c-blue" id="lv-pf">—</div><div class="stat-sub">gross P/L</div></div>
+        </div>
+        <div class="g4 mb16">
+          <div class="stat"><div class="stat-lbl">WINS</div><div class="stat-val c-green" id="lv-wins">—</div><div class="stat-sub">TP / profit</div></div>
+          <div class="stat"><div class="stat-lbl">LOSSES</div><div class="stat-val c-red" id="lv-losses">—</div><div class="stat-sub">SL / rugi</div></div>
+          <div class="stat"><div class="stat-lbl">AVG RETURN</div><div class="stat-val" id="lv-avg">—</div><div class="stat-sub">per trade</div></div>
+          <div class="stat"><div class="stat-lbl">BEST / WORST</div><div class="stat-val" id="lv-bw" style="font-size:15px">—</div><div class="stat-sub">% trade</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd">📡 Posisi Terbuka (live) — <span id="lv-open-count">0</span></div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr><th>#</th><th>PAIR</th><th>ARAH</th><th>BIAS 4H</th><th>ENTRY</th><th>TP</th><th>SL</th><th>DIBUKA</th></tr></thead>
+              <tbody id="lv-open-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt12">
+          <div class="card-hd">✅ Trade Selesai Terbaru</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr><th>#</th><th>WAKTU EXIT</th><th>PAIR</th><th>ARAH</th><th>ENTRY</th><th>EXIT</th><th>PNL %</th><th>BARS</th><th>HASIL</th></tr></thead>
+              <tbody id="lv-hist-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt12">
+          <div class="card-hd">🏆 Performa per Coin</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
+              <tbody id="lv-pair-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt12">
+          <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
+          <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
+        </div>
+      </div>
+    </div>
+
     <!-- ======== SPIKE SCANNER ======== -->
     <div class="page" id="page-scanner">
       <div class="page-title">🛰️ Spike Scanner — Binance</div>
@@ -1196,8 +1328,7 @@ TP: 1.0790 | SL: 1.0880</div>
 <!-- BOTTOM NAV (mobile) -->
 <div class="bottomnav">
   <button class="bnav-item active" onclick="goPage('home')" id="bn-home"><div class="bnav-icon">🏠</div>Home</button>
-  <button class="bnav-item" onclick="goPage('parser')" id="bn-parser"><div class="bnav-icon">✈️</div>Parser</button>
-  <button class="bnav-item" onclick="goPage('signals')" id="bn-signals"><div class="bnav-icon">📊</div>Signal</button>
+  <button class="bnav-item" onclick="goPage('live')" id="bn-live"><div class="bnav-icon">🤖</div>Live</button>
   <button class="bnav-item" onclick="goPage('scanner')" id="bn-scanner"><div class="bnav-icon">🛰️</div>Scanner</button>
   <button class="bnav-item" onclick="goPage('result')" id="bn-result"><div class="bnav-icon">📈</div>Backtest</button>
   <button class="bnav-item" onclick="goPage('calc')" id="bn-calc"><div class="bnav-icon">💰</div>Kalkulator</button>
@@ -1234,7 +1365,7 @@ window.onload = () => {
 /* ============================================================
    NAVIGATION
 ============================================================ */
-const PAGES = ['home','setup','parser','signals','scanner','result','calc','guide'];
+const PAGES = ['home','setup','live','parser','signals','scanner','result','calc','guide'];
 
 function goPage(id) {
   PAGES.forEach(p => {
@@ -1253,6 +1384,7 @@ function goPage(id) {
   if (id === 'result') runAnalysis();
   if (id === 'home') updateDashboard();
   if (id === 'scanner') initScanner();
+  if (id === 'live') startLiveRefresh(); else stopLiveRefresh();
   window.scrollTo(0,0);
 }
 
@@ -2230,6 +2362,114 @@ function exportScannerCSV() {
   ].join(','));
   dlBlob(hdr+'\n'+rows.join('\n'), 'text/csv', `spike_scan_${today()}.csv`);
   notify('⬇ Hasil scan diekspor!');
+}
+
+/* ============================================================
+   ROBOT LIVE 24/7 — baca data/*.json (forward-test)
+============================================================ */
+let liveTimer = null;
+
+function startLiveRefresh() {
+  loadLiveData();
+  stopLiveRefresh();
+  liveTimer = setInterval(() => loadLiveData(), 60000); // auto-refresh 60s
+}
+function stopLiveRefresh() { if (liveTimer) { clearInterval(liveTimer); liveTimer = null; } }
+
+async function loadLiveData(manual) {
+  const bust = '?t=' + Date.now();
+  try {
+    const [stats, state, history] = await Promise.all([
+      fetch('data/stats.json'   + bust).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data/state.json'   + bust).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data/history.json' + bust).then(r => r.ok ? r.json() : []).catch(() => [])
+    ]);
+    renderLive(stats, state, Array.isArray(history) ? history : []);
+    if (manual) notify('🔄 Data live diperbarui');
+  } catch (e) {
+    setTxt('live-state', 'Gagal memuat data');
+    if (manual) notify('⚠ Gagal memuat data live', 'warn');
+  }
+}
+
+function renderLive(stats, state, history) {
+  const dot = document.getElementById('live-dot');
+  const hasRun = stats && stats.updatedAt;
+  setTxt('live-provider', (stats && stats.provider) || (state && state.provider) || '—');
+  setTxt('live-tf', stats ? `${stats.bigTF||'4h'} + ${stats.smallTF||'15m'}` : '—');
+  setTxt('live-updated', hasRun ? timeAgo(stats.updatedAt) : 'belum jalan');
+
+  if (!hasRun) {
+    document.getElementById('live-empty').style.display = 'block';
+    document.getElementById('live-content').style.display = 'none';
+    setTxt('live-state', 'Menunggu robot');
+    if (dot) dot.style.background = 'var(--muted)';
+    return;
+  }
+  document.getElementById('live-empty').style.display = 'none';
+  document.getElementById('live-content').style.display = 'block';
+
+  // status: hijau bila update < 30 menit
+  const ageMin = (Date.now() - new Date(stats.updatedAt).getTime()) / 60000;
+  setTxt('live-state', ageMin < 30 ? 'AKTIF' : 'Tertunda');
+  if (dot) dot.style.background = ageMin < 30 ? 'var(--accent)' : 'var(--yellow)';
+
+  // stat utama
+  const tgt = (cfg && cfg.target_wr) || 55;
+  setElC('lv-wr', (stats.winrate ?? 0).toFixed(1) + '%', stats.winrate >= tgt ? 'c-green' : stats.winrate >= 45 ? 'c-yellow' : 'c-red');
+  setTxt('lv-wr-sub', `${stats.totalClosed||0} closed · target ${tgt}%`);
+  setTxt('lv-total', stats.totalClosed || 0);
+  setTxt('lv-open-sub', `posisi terbuka ${stats.open || 0}`);
+  setElC('lv-net', (stats.netReturn >= 0 ? '+' : '') + (stats.netReturn ?? 0).toFixed(2) + '%', stats.netReturn >= 0 ? 'c-green' : 'c-red');
+  setElC('lv-pf', stats.profitFactor >= 999 ? '∞' : (stats.profitFactor ?? 0).toFixed(2), stats.profitFactor >= 1.5 ? 'c-green' : stats.profitFactor >= 1 ? 'c-yellow' : 'c-red');
+  setTxt('lv-wins', stats.wins || 0);
+  setTxt('lv-losses', stats.losses || 0);
+  setElC('lv-avg', (stats.avgReturn >= 0 ? '+' : '') + (stats.avgReturn ?? 0).toFixed(2) + '%', stats.avgReturn >= 0 ? 'c-green' : 'c-red');
+  document.getElementById('lv-bw').innerHTML = `<span class="c-green">+${(stats.bestPct??0).toFixed(1)}%</span> / <span class="c-red">${(stats.worstPct??0).toFixed(1)}%</span>`;
+
+  // posisi terbuka
+  const open = (state && state.open) || [];
+  setTxt('lv-open-count', open.length);
+  document.getElementById('lv-open-body').innerHTML = open.length ? open.map((p, i) => `<tr>
+    <td>${i+1}</td><td><b>${p.pair}</b></td>
+    <td><span class="pill ${p.dir==='BUY'?'pill-buy':'pill-sell'}">${p.dir}</span></td>
+    <td><span class="c-muted">${p.bias||'—'}</span></td>
+    <td>${fmtN(p.entry)}</td><td class="c-green">${fmtN(p.tp)}</td><td class="c-red">${fmtN(p.sl)}</td>
+    <td>${timeAgo(p.openTime)}</td></tr>`).join('')
+    : `<tr><td colspan="8"><div class="empty"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div></td></tr>`;
+
+  // history terbaru (maks 40, terbaru dulu)
+  const hist = [...history].sort((a,b)=> new Date(b.exitTime)-new Date(a.exitTime)).slice(0,40);
+  document.getElementById('lv-hist-body').innerHTML = hist.length ? hist.map((s,i)=>{
+    const pnl = `<span class="${s.pnl_pct>=0?'c-green':'c-red'}">${s.pnl_pct>=0?'+':''}${(s.pnl_pct??0).toFixed(2)}%</span>`;
+    const res = (s.status==='TP'||s.status==='WIN') ? '<span class="pill pill-win">WIN</span>' : '<span class="pill pill-loss">LOSS</span>';
+    return `<tr><td>${i+1}</td><td>${(s.exitTime||'').slice(0,16).replace('T',' ')}</td>
+      <td><b>${s.pair}</b></td><td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
+      <td>${fmtN(s.entry)}</td><td>${fmtN(s.exit)}</td><td>${pnl}</td><td>${s.bars??'—'}</td><td>${res}</td></tr>`;
+  }).join('') : `<tr><td colspan="9"><div class="empty"><div class="empty-txt">Belum ada trade selesai.</div></div></td></tr>`;
+
+  // per pair
+  const byPair = stats.byPair || {};
+  const pairs = Object.keys(byPair).sort((a,b)=> byPair[b].trades - byPair[a].trades);
+  document.getElementById('lv-pair-body').innerHTML = pairs.length ? pairs.map(p=>{
+    const d = byPair[p];
+    return `<tr><td><b>${p}</b></td><td>${d.trades}</td>
+      <td class="${d.winrate>=55?'c-green':d.winrate>=45?'c-yellow':'c-red'}">${d.winrate}%</td>
+      <td class="${d.net>=0?'c-green':'c-red'}">${d.net>=0?'+':''}${d.net}%</td></tr>`;
+  }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
+
+  // watchlist
+  setTxt('lv-watch', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.join('  ·  ') : '—');
+}
+
+function timeAgo(iso) {
+  if (!iso) return '—';
+  const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (s < 0) return 'baru saja';
+  if (s < 60) return s + ' dtk lalu';
+  const m = Math.floor(s/60); if (m < 60) return m + ' mnt lalu';
+  const h = Math.floor(m/60); if (h < 24) return h + ' jam lalu';
+  const d = Math.floor(h/24); return d + ' hari lalu';
 }
 
 </script>

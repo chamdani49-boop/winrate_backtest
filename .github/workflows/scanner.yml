@@ -1,0 +1,45 @@
+name: Scanner 24/7
+
+# Robot forward-test: pindai top-20 coin, deteksi sinyal MTF (4h+15m),
+# lacak TP/SL, dan commit hasil kumulatif ke data/*.json.
+
+on:
+  schedule:
+    # Tiap 15 menit (UTC). Catatan: GitHub bisa menunda saat beban tinggi.
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}   # tombol "Run workflow" manual di tab Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scanner
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Jalankan scanner
+        run: node scanner/run.js
+
+      - name: Commit hasil bila ada perubahan
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "Tidak ada perubahan data."
+          else
+            git commit -m "chore(scanner): update data $(date -u +'%Y-%m-%dT%H:%MZ') [skip ci]"
+            git push
+          fi
