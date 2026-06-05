@@ -741,6 +741,63 @@ html{ scroll-behavior:smooth; }
   transition:left .5s ease;
 }
 
+/* ============================================================
+   MOBILE RESPONSIVE FIX — halaman Live di HP / layar sempit
+   - Card posisi tidak terlalu lebar (max-width 100vw aman)
+   - Stat card: angka rapi, sub-label tidak tumpah ke samping
+   - TP boxes lebih kompak di mobile
+============================================================ */
+@media (max-width: 600px) {
+  /* Card umum: kurangi padding */
+  .card{ padding:12px 12px; }
+  .card-hd{ font-size:13px; }
+
+  /* Hero stat values lebih kecil di HP */
+  .hero-val{ font-size:30px; }
+  .terminal-val{ font-size:24px; }
+
+  /* Stat card padding lebih kecil */
+  .stat{ padding:10px 11px; border-radius:8px; }
+  .stat-val{ font-size:18px; word-break:break-word; }
+  .stat-sub{ font-size:9px; word-break:break-word; line-height:1.4; }
+
+  /* Position card grid: 1 kolom penuh di HP */
+  .pos-grid{ grid-template-columns:1fr; gap:10px; }
+  .pos-card{ padding:11px; }
+  .pos-pair{ font-size:14px; }
+  .pos-float-val{ font-size:14px; }
+
+  /* TP boxes lebih kompak */
+  .tp-box{ padding:5px 3px; }
+  .tp-box-lbl{ font-size:8.5px; }
+  .tp-box-price{ font-size:10px; }
+  .tp-box-pct{ font-size:9px; }
+
+  /* Sub-tab navigasi: tombol lebih kecil */
+  .live-tab-btn{ padding:8px 8px; font-size:11px; }
+
+  /* Live Signal Terminal: vertikal di mobile */
+  .terminal-cell{ padding:14px 10px; }
+}
+
+/* Layar sangat sempit (≤380px) */
+@media (max-width: 380px) {
+  .hero-val{ font-size:26px; }
+  .stat-val{ font-size:16px; }
+  .pos-meta{ grid-template-columns:1fr; gap:6px 10px; }
+  .tp-box-price{ font-size:9.5px; }
+}
+
+/* Stat card: pastikan angka panjang ('+$1,234.56 (+12.34%)') tidak lari ke kanan */
+.stat-val, .stat-sub{ overflow-wrap:break-word; word-break:break-word; }
+
+/* Stat card "Modal Sekarang" — varian compact dgn layout terstruktur */
+.stat-compact .stat-val{ font-size:clamp(16px, 2.4vw, 22px); display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+.stat-compact .stat-val .pct{ font-size:.7em; opacity:.85; font-weight:600; }
+.stat-compact .stat-sub{ font-size:9.5px; line-height:1.5; }
+.stat-compact .stat-sub .lbl{ color:var(--muted); margin-right:2px; }
+.stat-compact .stat-sub .val{ color:var(--text); font-weight:600; }
+
 </style>
 </head>
 <body>
@@ -1313,7 +1370,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <button class="live-tab-btn active" onclick="setLiveTab('live')" data-tab="live">🚀 Live</button>
           <button class="live-tab-btn" onclick="setLiveTab('perf')" data-tab="perf">📊 Performa</button>
           <button class="live-tab-btn" onclick="setLiveTab('acc')"  data-tab="acc">💰 Akun</button>
-          <button class="live-tab-btn" onclick="setLiveTab('mkt')"  data-tab="mkt">🌐 Pasar</button>
         </div>
 
         <!-- ============ TAB: LIVE ============ -->
@@ -1346,6 +1402,33 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <div id="lv-open-cards" class="pos-grid">
             <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>
           </div>
+        </div>
+
+        <!-- ============ MARKET INTELLIGENCE (in tab Live) ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🌐 Market Intelligence</span>
+            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
+            <span class="c-green">BULLISH BIAS</span>
+            <span class="c-red">BEARISH BIAS</span>
+          </div>
+          <div class="mi-bar">
+            <div id="mi-fill"></div>
+            <div id="mi-marker"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
+            <span class="c-green" id="mi-bull-pct">0%</span>
+            <span id="mi-label" class="c-muted">NEUTRAL</span>
+            <span class="c-red" id="mi-bear-pct">0%</span>
+          </div>
+        </div>
+
+        <!-- ============ WATCHLIST (in tab Live) ============ -->
+        <div class="card mt12">
+          <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
+          <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
         </div>
 
         </div><!-- /tab Live -->
@@ -1433,7 +1516,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
           <div class="g4">
             <div class="stat"><div class="stat-lbl">MODAL AWAL</div><div class="stat-val" id="lv-cap-init">$100</div><div class="stat-sub" id="lv-cap-alloc">$5 / coin (top-20)</div></div>
-            <div class="stat"><div class="stat-lbl">MODAL SEKARANG</div><div class="stat-val" id="lv-cap-now">—</div><div class="stat-sub" id="lv-cap-pnl">—</div></div>
+            <div class="stat stat-compact"><div class="stat-lbl">MODAL SEKARANG</div><div class="stat-val" id="lv-cap-now">—</div><div class="stat-sub" id="lv-cap-pnl">—</div></div>
             <div class="stat"><div class="stat-lbl">FLOATING (open)</div><div class="stat-val" id="lv-cap-float">—</div><div class="stat-sub">posisi terbuka</div></div>
             <div class="stat"><div class="stat-lbl">PROYEKSI 30 HARI</div><div class="stat-val" id="lv-cap-proj">—</div><div class="stat-sub" id="lv-cap-proj-sub">berdasarkan tren</div></div>
           </div>
@@ -1467,38 +1550,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         </div>
 
         </div><!-- /tab Akun -->
-
-        <!-- ============ TAB: PASAR ============ -->
-        <div class="live-tab-pane" id="live-pane-mkt">
-
-        <!-- ============ MARKET INTELLIGENCE ============ -->
-        <div class="card mt12">
-          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <span>🌐 Market Intelligence</span>
-            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
-          </div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
-            <span class="c-green">BULLISH BIAS</span>
-            <span class="c-red">BEARISH BIAS</span>
-          </div>
-          <div class="mi-bar">
-            <div id="mi-fill"></div>
-            <div id="mi-marker"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
-            <span class="c-green" id="mi-bull-pct">0%</span>
-            <span id="mi-label" class="c-muted">NEUTRAL</span>
-            <span class="c-red" id="mi-bear-pct">0%</span>
-          </div>
-        </div>
-
-        <!-- ============ WATCHLIST ============ -->
-        <div class="card mt12">
-          <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
-          <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
-        </div>
-
-        </div><!-- /tab Pasar -->
 
         <!-- HIDDEN: stat lama (dipertahankan untuk kompatibilitas, tidak ditampilkan) -->
         <div style="display:none">
@@ -2823,8 +2874,8 @@ function startLiveRefresh() {
    LIVE TAB SWITCHER (sub-menu di halaman Live)
 ============================================================ */
 function setLiveTab(name, silent) {
-  const valid = ['live', 'perf', 'acc', 'mkt'];
-  if (!valid.includes(name)) name = 'live';
+  const valid = ['live', 'perf', 'acc'];
+  if (!valid.includes(name)) name = 'live';   // mkt lama auto -> live
   document.querySelectorAll('#live-tabs .live-tab-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.tab === name);
   });
@@ -3449,11 +3500,20 @@ function renderCapitalSim(stats, history) {
   const sim = simulateCapital(initial, N, history, liveOpen);
   const modalNet = sim.modalNow - initial;
   const modalPct = initial > 0 ? (modalNet / initial * 100) : 0;
-  setElC('lv-cap-now', fmtUsd(sim.modalNow), modalNet >= 0 ? 'c-green' : 'c-red');
-  // sub: detail breakdown closed + partial
-  const closedNet = sim.closedBalance - initial;
-  const partLabel = sim.realizedPartial > 0 ? ' (+TP partial ' + fmtUsd(sim.realizedPartial) + ')' : (sim.realizedPartial < 0 ? ' (' + fmtUsd(sim.realizedPartial) + ' partial)' : '');
-  setElC('lv-cap-pnl', (modalNet >= 0 ? '+' : '') + fmtUsd(modalNet) + ' (' + (modalPct >= 0 ? '+' : '') + modalPct.toFixed(2) + '%)' + partLabel, modalNet >= 0 ? 'c-green' : 'c-red');
+  const cls = modalNet >= 0 ? 'c-green' : 'c-red';
+  // Modal Sekarang: angka utama + chip % di sebelahnya (compact)
+  document.getElementById('lv-cap-now').innerHTML =
+    `<span class="${cls}">${fmtUsd(sim.modalNow)}</span>` +
+    `<span class="pct ${cls}">${modalNet >= 0 ? '+' : ''}${modalPct.toFixed(2)}%</span>`;
+  // sub: 2 baris ringkas — Net + Realized partial (jika ada)
+  const subParts = [
+    `<span class="lbl">Net:</span> <span class="val ${cls}">${modalNet >= 0 ? '+' : ''}${fmtUsd(modalNet)}</span>`
+  ];
+  if (Math.abs(sim.realizedPartial) > 0.01) {
+    const pCls = sim.realizedPartial >= 0 ? 'c-green' : 'c-red';
+    subParts.push(`<span class="lbl">TP partial:</span> <span class="val ${pCls}">${sim.realizedPartial >= 0 ? '+' : ''}${fmtUsd(sim.realizedPartial)}</span>`);
+  }
+  document.getElementById('lv-cap-pnl').innerHTML = subParts.join('<br>');
   setElC('lv-cap-float', (sim.floating >= 0 ? '+' : '') + fmtUsd(sim.floating), sim.floating >= 0 ? 'c-green' : 'c-red');
 
   // proyeksi 30 hari berdasarkan rata-rata return per hari
