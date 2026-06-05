@@ -449,6 +449,105 @@ function computeStats(history, openPositions, watchlist, meta) {
 
   const tpCounts = { TP1: 0, TP2: 0, TP3: 0 };
   history.forEach(t => (t.tpHits || []).forEach(h => { if (tpCounts[h] != null) tpCounts[h]++; }));
+  const closedByCounts = { TP3: 0, SL: 0, TIMEOUT: 0 };
+  history.forEach(t => { if (closedByCounts[t.closedBy] != null) closedByCounts[t.closedBy]++; });
+  const slCount = closedByCounts.SL || 0;
+
+  // Strategy Safety Net: per target — berapa trade yang sentuh tiap level
+  // RR rata-rata dari trade yang punya tpRR
+  const rrAvg = (() => {
+    const arr = history.filter(t => Array.isArray(t.tpRR) && t.tpRR.length === 3).map(t => t.tpRR);
+    if (!arr.length) return [1, 2, 3];
+    return [0, 1, 2].map(i => arr.reduce((s, r) => s + r[i], 0) / arr.length);
+  })();
+  const safetyNet = ['TP1', 'TP2', 'TP3'].map((lvl, i) => {
+    const hit = tpCounts[lvl];
+    const miss = total - hit;
+    const safetyRatio = total ? +(hit / total * 100).toFixed(1) : 0;
+    // expectancy proxy: prob(hit) * RR — prob(miss) * 1
+    const p = total ? hit / total : 0;
+    const rr = +rrAvg[i].toFixed(2);
+    const exp = +((p * rr) - ((1 - p) * 1)).toFixed(3);
+    return { level: lvl, rr, hit, miss, safetyRatio, expectancy: exp };
+  });
+
+  // Daily Equity (30 hari terakhir, untuk chart)
+  const dailyEquity = (() => {
+    const days = 30;
+    const startMs = Date.UTC(
+      new Date().getUTCFullYear(),
+      new Date().getUTCMonth(),
+      new Date().getUTCDate()
+    ) - (days - 1) * 86400000;
+    // bucket per tanggal YYYY-MM-DD
+    const buckets = {};
+    for (let i = 0; i < days; i++) {
+      const d = new Date(startMs + i * 86400000).toISOString().slice(0, 10);
+      buckets[d] = { date: d, trades: 0, wins: 0, losses: 0, dayPnl: 0 };
+    }
+    history.forEach(t => {
+      const d = (t.exitTime || '').slice(0, 10);
+      if (!buckets[d]) return;
+      buckets[d].trades++;
+      if ((t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN') buckets[d].wins++;
+      else buckets[d].losses++;
+      buckets[d].dayPnl += t.pnl_pct || 0;
+    });
+    // cumulative net% sampai akhir tiap hari
+    let cum = 0;
+    const arr = Object.values(buckets).sort((a, b) => a.date.localeCompare(b.date));
+    arr.forEach(b => { cum += b.dayPnl; b.cumulative = +cum.toFixed(2); b.dayPnl = +b.dayPnl.toFixed(2); });
+    return arr;
+  })();
+
+  // Market Intelligence: ratio bullish vs bearish dari 48 jam terakhir
+  // Bullish = long_wins + short_losses ; Bearish = short_wins + long_losses
+  // (jika pasar trending naik, long lebih sering profit & short lebih sering rugi)
+  const marketBias = (() => {
+    const cutoff = Date.now() - 48 * 3600e3;
+    const recent = history.filter(t => new Date(t.exitTime).getTime() >= cutoff);
+    if (!recent.length) {
+      // fallback: pakai bias dari posisi terbuka
+      const longs = openPositions.filter(p => p.dir === 'BUY').length;
+      const shorts = openPositions.filter(p => p.dir === 'SELL').length;
+      const tot = longs + shorts;
+      return { bullish: tot ? +(longs / tot * 100).toFixed(0) : 50, bearish: tot ? +(shorts / tot * 100).toFixed(0) : 50, sample: 'open', count: tot };
+    }
+    let bull = 0, bear = 0;
+    recent.forEach(t => {
+      const w = (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN';
+      if ((t.dir === 'BUY' && w) || (t.dir === 'SELL' && !w)) bull++;
+      else bear++;
+    });
+    const tot = bull + bear;
+    return { bullish: tot ? +(bull / tot * 100).toFixed(0) : 50, bearish: tot ? +(bear / tot * 100).toFixed(0) : 50, sample: 'recent_48h', count: tot };
+  })();
+
+  // High score: validity score tertinggi dari 24 jam terakhir
+  const highScore = (() => {
+    const cutoff = Date.now() - 24 * 3600e3;
+    const recent = [...openPositions, ...history.filter(t => new Date(t.exitTime).getTime() >= cutoff)]
+      .map(x => x.intel ? x.intel.score : null)
+      .filter(s => s != null);
+    return recent.length ? Math.max(...recent) : 0;
+  })();
+
+  // Live Signal Terminal: posisi terbuka diklasifikasikan in-profit / in-loss
+  const liveTerminal = (() => {
+    let profit = 0, loss = 0;
+    const items = openPositions.map(p => {
+      const last = (p.lastPrice != null) ? p.lastPrice : p.entry;
+      const dirSign = p.dir === 'BUY' ? 1 : -1;
+      const realized = +(p.realizedPct || 0);
+      const remaining = (p.remaining != null) ? p.remaining : 1;
+      const unreal = ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+      const float = realized + unreal;
+      if (float >= 0) profit++; else loss++;
+      return { pair: p.pair, dir: p.dir, score: p.intel ? p.intel.score : null, validity: p.intel ? p.intel.validity : null, floating: +float.toFixed(2) };
+    });
+    const accuracy = (profit + loss) ? +(profit / (profit + loss) * 100).toFixed(0) : 0;
+    return { profit, loss, accuracy, items };
+  })();
 
   const byPair = {};
   history.forEach(t => {
@@ -489,6 +588,13 @@ function computeStats(history, openPositions, watchlist, meta) {
     bestPct: pnls.length ? +Math.max(...pnls).toFixed(2) : 0,
     worstPct: pnls.length ? +Math.min(...pnls).toFixed(2) : 0,
     tpCounts,
+    closedByCounts,
+    slCount,
+    safetyNet,
+    dailyEquity,
+    marketBias,
+    highScore,
+    liveTerminal,
     openFloatingPct: +openFloatingPct.toFixed(2),
     byPair,
     bySide: { BUY: side('BUY'), SELL: side('SELL') },

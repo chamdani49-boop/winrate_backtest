@@ -660,6 +660,55 @@ html{ scroll-behavior:smooth; }
 .tp-step.hit{ background:rgba(0,229,160,.14); border-color:rgba(0,229,160,.4); color:var(--accent); }
 .tp-step.next{ border-color:var(--blue); color:var(--blue); }
 
+/* ============================================================
+   HALAMAN LIVE — komponen visual ala CryptoSpike
+============================================================ */
+.g3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+@media (max-width:720px){ .g3{ grid-template-columns:1fr; } }
+
+/* Hero stat cards */
+.hero-card{ position:relative; overflow:hidden; }
+.hero-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--blue),var(--accent)); }
+.hero-lbl{ font-size:10px; letter-spacing:1.4px; color:var(--muted); font-weight:700; }
+.hero-val{ font-size:38px; font-weight:800; letter-spacing:-1.5px; line-height:1; }
+.hero-bar{ display:flex; height:6px; border-radius:3px; background:var(--surf); overflow:hidden; margin-top:14px; }
+.hero-bar > div{ height:100%; transition:width .5s ease; }
+
+/* Terminal cells (Profit / Loss / Accuracy strip) */
+.terminal-cell{
+  text-align:center; padding:18px 12px; border-radius:10px;
+  border:1px solid var(--border); position:relative; overflow:hidden;
+}
+.terminal-cell.c-green-bg{ background:linear-gradient(180deg,rgba(0,229,160,.08),transparent); border-color:rgba(0,229,160,.25); }
+.terminal-cell.c-red-bg{   background:linear-gradient(180deg,rgba(255,84,112,.08),transparent); border-color:rgba(255,84,112,.25); }
+.terminal-cell.c-blue-bg{  background:linear-gradient(180deg,rgba(74,163,255,.08),transparent); border-color:rgba(74,163,255,.25); }
+.terminal-icon{ font-size:14px; opacity:.85; margin-bottom:4px; }
+.terminal-val{ font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1; }
+.terminal-sub{ font-family:var(--mono); font-size:10px; letter-spacing:1.2px; color:var(--muted); margin-top:6px; }
+.terminal-strip{ height:4px; border-radius:2px; background:var(--surf); overflow:hidden; margin:12px 0 4px; }
+.terminal-strip > div{ height:100%; background:linear-gradient(90deg,var(--accent),var(--blue)); transition:width .5s ease; }
+
+/* TP Hit Distribution stats */
+.tp-stat{ position:relative; }
+.tp-stat::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.tp-stat.tp1::before{ background:rgba(0,229,160,.45); }
+.tp-stat.tp2::before{ background:rgba(0,229,160,.7); }
+.tp-stat.tp3::before{ background:var(--accent); }
+.tp-stat.sl::before{  background:var(--red); }
+
+/* Market Intelligence bar */
+.mi-bar{
+  position:relative; height:24px; border-radius:12px;
+  background:linear-gradient(90deg, rgba(0,229,160,.18), rgba(255,206,92,.12) 50%, rgba(255,84,112,.18));
+  border:1px solid var(--border2); overflow:visible;
+}
+.mi-bar #mi-fill{ position:absolute; top:0; bottom:0; left:0; border-radius:12px 0 0 12px; background:linear-gradient(90deg, var(--accent), rgba(0,229,160,.0)); transition:width .5s ease; }
+.mi-bar #mi-marker{
+  position:absolute; top:-4px; bottom:-4px; width:3px; border-radius:2px;
+  background:var(--text); box-shadow:0 0 0 3px rgba(255,255,255,.05);
+  transition:left .5s ease;
+}
+
 </style>
 </head>
 <body>
@@ -1189,29 +1238,146 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
       <!-- konten live -->
       <div id="live-content" style="display:none">
-        <div class="g4 mb16">
-          <div class="stat"><div class="stat-lbl">WINRATE KUMULATIF</div><div class="stat-val c-green" id="lv-wr">—</div><div class="stat-sub" id="lv-wr-sub">closed trades</div></div>
-          <div class="stat"><div class="stat-lbl">TOTAL CLOSED</div><div class="stat-val" id="lv-total">—</div><div class="stat-sub" id="lv-open-sub">posisi terbuka —</div></div>
-          <div class="stat"><div class="stat-lbl">NET RETURN</div><div class="stat-val" id="lv-net">—</div><div class="stat-sub">kumulatif %</div></div>
-          <div class="stat"><div class="stat-lbl">PROFIT FACTOR</div><div class="stat-val c-blue" id="lv-pf">—</div><div class="stat-sub">gross P/L</div></div>
-        </div>
-        <div class="g4 mb16">
-          <div class="stat"><div class="stat-lbl">WINS</div><div class="stat-val c-green" id="lv-wins">—</div><div class="stat-sub">TP / profit</div></div>
-          <div class="stat"><div class="stat-lbl">LOSSES</div><div class="stat-val c-red" id="lv-losses">—</div><div class="stat-sub">SL / rugi</div></div>
-          <div class="stat"><div class="stat-lbl">AVG RETURN</div><div class="stat-val" id="lv-avg">—</div><div class="stat-sub">per trade</div></div>
-          <div class="stat"><div class="stat-lbl">BEST / WORST</div><div class="stat-val" id="lv-bw" style="font-size:15px">—</div><div class="stat-sub">% trade</div></div>
-        </div>
 
-        <div class="card">
-          <div class="card-hd">📡 Posisi Terbuka (live) — <span id="lv-open-count">0</span> · floating <span id="lv-floating" class="c-blue">—</span></div>
-          <div id="lv-open-cards" class="pos-grid">
-            <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka.</div></div>
+        <!-- ============ HERO: WIN RATE + SYSTEM SIGNALS ============ -->
+        <div class="g2">
+          <div class="card hero-card">
+            <div class="hero-lbl">WIN RATE</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:6px">
+              <div class="hero-val c-green" id="lv-wr">—</div>
+              <div class="c-muted" style="font-family:var(--mono);font-size:11px">
+                Net <span id="lv-net" class="c-green">—</span><br>
+                <span style="opacity:.7">Overall winrate</span>
+              </div>
+            </div>
+            <div class="hero-bar"><div id="lv-wr-bar" style="background:linear-gradient(90deg,var(--blue),var(--accent))"></div></div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">
+              <span id="lv-wr-sub">closed trades</span>
+              <span>PF <span id="lv-pf" class="c-blue">—</span></span>
+            </div>
+          </div>
+          <div class="card hero-card">
+            <div class="hero-lbl">SYSTEM SIGNALS</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:6px">
+              <div class="hero-val" id="lv-total">—</div>
+              <div class="c-muted" style="font-family:var(--mono);font-size:11px;text-align:right">
+                <span class="c-green" id="lv-buy-n">0</span> BUY · <span class="c-red" id="lv-sell-n">0</span> SELL<br>
+                <span style="opacity:.7">High Score <span class="c-blue" id="lv-hi-score">—</span></span>
+              </div>
+            </div>
+            <div class="hero-bar">
+              <div id="lv-side-buy" style="background:var(--accent)"></div>
+              <div id="lv-side-sell" style="background:var(--red)"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">
+              <span id="lv-open-sub">posisi terbuka —</span>
+              <span>Total tracked</span>
+            </div>
           </div>
         </div>
 
-        <div class="card">
+        <!-- ============ LIVE SIGNAL TERMINAL ============ -->
+        <div class="card mt12">
+          <div class="card-hd">⚡ Live Signal Terminal</div>
+          <div class="g3">
+            <div class="terminal-cell c-green-bg">
+              <div class="terminal-icon">📈</div>
+              <div class="terminal-val c-green" id="lt-profit">0</div>
+              <div class="terminal-sub">PROFIT SIGNALS</div>
+            </div>
+            <div class="terminal-cell c-red-bg">
+              <div class="terminal-icon">📉</div>
+              <div class="terminal-val c-red" id="lt-loss">0</div>
+              <div class="terminal-sub">LOSS SIGNALS</div>
+            </div>
+            <div class="terminal-cell c-blue-bg">
+              <div class="terminal-icon">🎯</div>
+              <div class="terminal-val c-blue" id="lt-acc">—</div>
+              <div class="terminal-sub">LIVE ACCURACY</div>
+            </div>
+          </div>
+          <div class="terminal-strip"><div id="lt-strip-fill"></div></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-bottom:10px"><span id="lt-strip-txt">— posisi terbuka</span></div>
+
+          <div class="card-hd" style="border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:10px">📡 Real-time P&L Stream — <span id="lv-open-count">0</span> · floating <span id="lv-floating" class="c-blue">—</span></div>
+          <div id="lv-open-cards" class="pos-grid">
+            <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>
+          </div>
+        </div>
+
+        <!-- ============ TP HIT DISTRIBUTION ============ -->
+        <div class="card mt12">
+          <div class="card-hd">🎯 TP Hit Distribution — kena target berapa kali, total</div>
+          <div class="g4">
+            <div class="stat tp-stat tp1"><div class="stat-lbl">TP1 HIT</div><div class="stat-val c-green" id="tp-c1">0</div><div class="stat-sub">target pertama</div></div>
+            <div class="stat tp-stat tp2"><div class="stat-lbl">TP2 HIT</div><div class="stat-val c-green" id="tp-c2">0</div><div class="stat-sub">target kedua</div></div>
+            <div class="stat tp-stat tp3"><div class="stat-lbl">TP3 HIT</div><div class="stat-val c-green" id="tp-c3">0</div><div class="stat-sub">target ketiga</div></div>
+            <div class="stat tp-stat sl"><div class="stat-lbl">SL HIT</div><div class="stat-val c-red" id="tp-csl">0</div><div class="stat-sub">stop loss</div></div>
+          </div>
+        </div>
+
+        <!-- ============ 30-DAY PERFORMANCE HISTORY ============ -->
+        <div class="card mt12">
           <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <span>💰 Simulator Modal — pembagian merata per coin</span>
+            <span>📊 30-Day Performance History</span>
+            <span style="display:flex;gap:14px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+              <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent);border-radius:2px;margin-right:4px"></span>day +%</span>
+              <span><span style="display:inline-block;width:10px;height:10px;background:var(--red);border-radius:2px;margin-right:4px"></span>day −%</span>
+              <span><span style="display:inline-block;width:14px;height:2px;background:var(--blue);margin-right:4px;vertical-align:middle"></span>cumulative</span>
+            </span>
+          </div>
+          <div id="day-audit" style="background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:11px;display:none;margin-bottom:8px">
+            <span class="c-muted" id="day-audit-date">—</span> ·
+            <span id="day-audit-eq">Equity Impact: —</span> ·
+            <span id="day-audit-day">Day Growth: —</span>
+          </div>
+          <canvas id="dayChart" style="width:100%;height:220px;display:block"></canvas>
+        </div>
+
+        <!-- ============ MARKET INTELLIGENCE ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🌐 Market Intelligence</span>
+            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
+            <span class="c-green">BULLISH BIAS</span>
+            <span class="c-red">BEARISH BIAS</span>
+          </div>
+          <div class="mi-bar">
+            <div id="mi-fill"></div>
+            <div id="mi-marker"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
+            <span class="c-green" id="mi-bull-pct">0%</span>
+            <span id="mi-label" class="c-muted">NEUTRAL</span>
+            <span class="c-red" id="mi-bear-pct">0%</span>
+          </div>
+        </div>
+
+        <!-- ============ STRATEGY SAFETY NET ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🛡️ Strategy Safety Net</span>
+            <span class="chip info" style="margin:0">RR Performance</span>
+          </div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr>
+                <th>TARGET LEVEL</th><th style="text-align:center">SAFETY RATIO</th><th style="text-align:center">HIT / MISS</th><th style="text-align:right">EXPECTANCY (R)</th>
+              </tr></thead>
+              <tbody id="lv-safety-body"></tbody>
+            </table>
+          </div>
+          <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px;line-height:1.6">
+            ⓘ <b>Safety Ratio</b>: % trade yang menyentuh target ini. <b>Expectancy</b>: ekspektasi profit dalam satuan R (1R = jarak entry→SL). Positif = strategi profitable di level itu.
+          </div>
+        </div>
+
+        <!-- ============ ACCOUNT SIMULATION ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>💰 Account Simulation — equal-weight per coin</span>
             <span style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--muted)">
               MODAL AWAL
               <span style="position:relative;display:inline-flex;align-items:center">
@@ -1233,6 +1399,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ TRADE HISTORY ============ -->
         <div class="card mt12">
           <div class="card-hd">✅ Trade Selesai Terbaru</div>
           <div style="overflow-x:auto">
@@ -1243,6 +1410,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ PER COIN ============ -->
         <div class="card mt12">
           <div class="card-hd">🏆 Performa per Coin</div>
           <div style="overflow-x:auto">
@@ -1253,6 +1421,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ MONTHLY SUMMARY ============ -->
         <div class="card mt12">
           <div class="card-hd">📅 Ringkasan Per Bulan</div>
           <div style="overflow-x:auto">
@@ -1265,9 +1434,15 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ WATCHLIST ============ -->
         <div class="card mt12">
           <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
           <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
+        </div>
+
+        <!-- HIDDEN: stat lama (dipertahankan untuk kompatibilitas, tidak ditampilkan) -->
+        <div style="display:none">
+          <span id="lv-wins"></span><span id="lv-losses"></span><span id="lv-avg"></span><span id="lv-bw"></span>
         </div>
       </div>
     </div>
@@ -2690,9 +2865,187 @@ function renderLive(stats, state, history) {
 
   setTxt('lv-watch', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.join('  ·  ') : '—');
 
+  // ====== KOMPONEN VISUAL BARU (CryptoSpike-style) ======
+  // Win rate progress bar
+  const wrBar = document.getElementById('lv-wr-bar');
+  if (wrBar) wrBar.style.width = Math.max(2, Math.min(100, stats.winrate || 0)) + '%';
+
+  // BUY/SELL breakdown + High Score
+  const bs = stats.bySide || { BUY: { trades: 0 }, SELL: { trades: 0 } };
+  const buyN = bs.BUY?.trades || 0;
+  const sellN = bs.SELL?.trades || 0;
+  const totSide = buyN + sellN;
+  setTxt('lv-buy-n', buyN);
+  setTxt('lv-sell-n', sellN);
+  document.getElementById('lv-side-buy').style.width = (totSide ? buyN / totSide * 100 : 50) + '%';
+  document.getElementById('lv-side-sell').style.width = (totSide ? sellN / totSide * 100 : 50) + '%';
+  setTxt('lv-hi-score', stats.highScore || 0);
+
+  // Live Signal Terminal
+  const lt = stats.liveTerminal || { profit: 0, loss: 0, accuracy: 0 };
+  setTxt('lt-profit', lt.profit);
+  setTxt('lt-loss', lt.loss);
+  setElC('lt-acc', (lt.accuracy != null ? lt.accuracy : 0) + '%', lt.accuracy >= 60 ? 'c-green' : lt.accuracy >= 40 ? 'c-blue' : lt.accuracy > 0 ? 'c-yellow' : 'c-muted');
+  const stripWidth = (lt.profit + lt.loss) ? (lt.profit / (lt.profit + lt.loss) * 100) : 0;
+  document.getElementById('lt-strip-fill').style.width = stripWidth + '%';
+  setTxt('lt-strip-txt', `${lt.profit + lt.loss} posisi terbuka · ${lt.profit} profit · ${lt.loss} loss`);
+
+  // TP Hit Distribution
+  const tpc = stats.tpCounts || { TP1: 0, TP2: 0, TP3: 0 };
+  setTxt('tp-c1', tpc.TP1 || 0);
+  setTxt('tp-c2', tpc.TP2 || 0);
+  setTxt('tp-c3', tpc.TP3 || 0);
+  setTxt('tp-csl', stats.slCount || 0);
+
+  // Market Intelligence
+  const mi = stats.marketBias || { bullish: 50, bearish: 50, sample: '—', count: 0 };
+  document.getElementById('mi-fill').style.width = mi.bullish + '%';
+  document.getElementById('mi-marker').style.left = `calc(${mi.bullish}% - 1.5px)`;
+  setTxt('mi-bull-pct', mi.bullish + '%');
+  setTxt('mi-bear-pct', mi.bearish + '%');
+  let label = 'NEUTRAL';
+  if (mi.bullish >= 65) label = 'STRONG BULLISH';
+  else if (mi.bullish >= 55) label = 'BULLISH BIAS';
+  else if (mi.bullish <= 35) label = 'STRONG BEARISH';
+  else if (mi.bullish <= 45) label = 'BEARISH BIAS';
+  setTxt('mi-label', label);
+  setTxt('mi-sample', mi.sample === 'recent_48h' ? `recent 48h · ${mi.count} trade` : `posisi terbuka · ${mi.count}`);
+
+  // Strategy Safety Net
+  const sn = stats.safetyNet || [];
+  const snBody = document.getElementById('lv-safety-body');
+  if (sn.length) {
+    snBody.innerHTML = sn.map((row, i) => {
+      const trophy = ['🥇', '🥈', '🥉'][i] || '🎯';
+      const ratioCls = row.safetyRatio >= 50 ? 'c-green' : row.safetyRatio >= 25 ? 'c-yellow' : 'c-red';
+      const expCls = row.expectancy >= 0 ? 'c-green' : 'c-red';
+      const expStr = (row.expectancy >= 0 ? '+' : '') + row.expectancy.toFixed(3) + 'R';
+      return `<tr>
+        <td><b>${trophy} ${row.level}</b> <span class="c-muted" style="font-family:var(--mono);font-size:10px">RR 1:${row.rr}</span></td>
+        <td style="text-align:center" class="${ratioCls}">${row.safetyRatio}%</td>
+        <td style="text-align:center"><span class="c-green">${row.hit}W</span> / <span class="c-red">${row.miss}L</span></td>
+        <td style="text-align:right" class="${expCls}">${expStr}</td>
+      </tr>`;
+    }).join('');
+  } else {
+    snBody.innerHTML = '<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data safety net.</div></div></td></tr>';
+  }
+
+  // 30-Day Chart
+  drawDayChart(stats.dailyEquity || []);
+
   // simulator modal & ringkasan bulanan
   renderCapitalSim(stats, history);
   renderMonthly(history);
+}
+
+/* ============================================================
+   30-DAY PERFORMANCE CHART (canvas, vanilla)
+   - Bar harian (hijau/merah) untuk dayPnl%
+   - Line untuk cumulative net%
+   - Hover tooltip via mousemove
+============================================================ */
+function drawDayChart(dailyEquity) {
+  const canvas = document.getElementById('dayChart');
+  if (!canvas || !dailyEquity || !dailyEquity.length) return;
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.offsetWidth || 600;
+  const cssH = 220;
+  canvas.width = cssW * dpr;
+  canvas.height = cssH * dpr;
+  canvas.style.height = cssH + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssW, cssH);
+
+  const pad = { t: 14, r: 44, b: 28, l: 44 };
+  const W = cssW - pad.l - pad.r;
+  const H = cssH - pad.t - pad.b;
+  const N = dailyEquity.length;
+
+  // Bar scale (left axis) — daily %
+  const dayMax = Math.max(2, ...dailyEquity.map(d => Math.abs(d.dayPnl || 0)));
+  const dayScale = H / 2 / dayMax;
+  const zeroY = pad.t + H / 2;
+
+  // Line scale (right axis) — cumulative
+  const cums = dailyEquity.map(d => d.cumulative || 0);
+  const cumMin = Math.min(0, ...cums);
+  const cumMax = Math.max(0, ...cums);
+  const cumRange = (cumMax - cumMin) || 1;
+  const cumY = v => pad.t + (1 - (v - cumMin) / cumRange) * H;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (i / 4) * H;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + W, y); ctx.stroke();
+  }
+
+  // Bars
+  const barW = Math.max(2, (W / N) * 0.7);
+  const gap = (W / N) - barW;
+  ctx.font = '9px IBM Plex Mono, monospace';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = 'rgba(154,167,198,0.6)';
+  dailyEquity.forEach((d, i) => {
+    const x = pad.l + i * (barW + gap) + gap / 2;
+    const v = d.dayPnl || 0;
+    const h = Math.abs(v) * dayScale;
+    if (v >= 0) {
+      ctx.fillStyle = 'rgba(0,229,160,0.85)';
+      ctx.fillRect(x, zeroY - h, barW, h);
+    } else {
+      ctx.fillStyle = 'rgba(255,84,112,0.85)';
+      ctx.fillRect(x, zeroY, barW, h);
+    }
+    // x-axis label tiap ~5 hari
+    if (i % Math.max(1, Math.floor(N / 6)) === 0 || i === N - 1) {
+      ctx.fillStyle = 'rgba(154,167,198,0.6)';
+      const lbl = d.date.slice(5);
+      ctx.fillText(lbl, x, pad.t + H + 6);
+    }
+  });
+
+  // Zero line
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.l, zeroY); ctx.lineTo(pad.l + W, zeroY); ctx.stroke();
+
+  // Cumulative line
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(74,163,255,1)';
+  ctx.beginPath();
+  dailyEquity.forEach((d, i) => {
+    const x = pad.l + i * (barW + gap) + gap / 2 + barW / 2;
+    const y = cumY(d.cumulative || 0);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Right axis labels (cumulative)
+  ctx.fillStyle = 'rgba(154,167,198,0.6)';
+  ctx.font = '9px IBM Plex Mono, monospace';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(cumMax.toFixed(1) + '%', pad.l + W + 4, pad.t + 4);
+  ctx.fillText(cumMin.toFixed(1) + '%', pad.l + W + 4, pad.t + H - 4);
+
+  // Hover handler (audit panel)
+  canvas.onmousemove = (e) => {
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left;
+    const idx = Math.max(0, Math.min(N - 1, Math.floor((mx - pad.l) / (W / N))));
+    const d = dailyEquity[idx]; if (!d) return;
+    const audit = document.getElementById('day-audit');
+    audit.style.display = 'block';
+    document.getElementById('day-audit-date').textContent = d.date;
+    const eq = d.cumulative || 0;
+    const day = d.dayPnl || 0;
+    document.getElementById('day-audit-eq').innerHTML = 'Equity: <span class="' + (eq >= 0 ? 'c-green' : 'c-red') + '">' + (eq >= 0 ? '+' : '') + eq.toFixed(2) + '%</span>';
+    document.getElementById('day-audit-day').innerHTML = 'Day: <span class="' + (day >= 0 ? 'c-green' : 'c-red') + '">' + (day >= 0 ? '+' : '') + day.toFixed(2) + '%</span> · ' + d.trades + ' trade';
+  };
+  canvas.onmouseleave = () => { document.getElementById('day-audit').style.display = 'none'; };
 }
 
 /* ============================================================
