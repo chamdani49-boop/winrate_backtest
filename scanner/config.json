@@ -1,0 +1,24 @@
+{
+  "_comment": "Konfigurasi robot scanner 24/7. Ubah nilai di sini lalu commit; robot akan memakai setting baru pada run berikutnya.",
+  "topN": 20,
+  "quote": "USDT",
+  "bigTF": "4h",
+  "smallTF": "15m",
+  "biasEmaPeriod": 50,
+  "excludeContains": ["UP", "DOWN", "BULL", "BEAR", "3L", "3S", "5L", "5S"],
+  "excludeSymbols": ["USDCUSDT", "FDUSDUSDT", "TUSDUSDT", "BUSDUSDT", "EURUSDT", "GBPUSDT", "USDPUSDT", "DAIUSDT", "AEURUSDT", "EURIUSDT"],
+  "strategy": {
+    "volMult": 2.5,
+    "volLookback": 20,
+    "consolLookback": 10,
+    "consolPct": 6,
+    "momPct": 0.3,
+    "takerRatio": 0.55,
+    "atrPeriod": 14,
+    "atrMult": 1.5,
+    "rr": 2,
+    "direction": "both",
+    "maxHoldHours": 48,
+    "cooldownBars": 5
+  }
+}
