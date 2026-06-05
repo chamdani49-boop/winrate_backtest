@@ -815,6 +815,127 @@ html{ scroll-behavior:smooth; }
 @keyframes flashUp{ 0%{ box-shadow:inset 0 0 0 2px rgba(0,229,160,.55); } 100%{ box-shadow:inset 0 0 0 2px transparent; } }
 @keyframes flashDown{ 0%{ box-shadow:inset 0 0 0 2px rgba(255,84,112,.55); } 100%{ box-shadow:inset 0 0 0 2px transparent; } }
 
+/* ============================================================
+   VISUAL ANALYSIS dlm popup detail strategi
+============================================================ */
+.vis-grid{ display:grid; grid-template-columns: 1fr 1.4fr; gap:14px; margin-top:8px; }
+@media (max-width:560px){ .vis-grid{ grid-template-columns:1fr; } }
+.vis-section-lbl{ font-size:9px; letter-spacing:1.4px; color:var(--muted); margin-bottom:6px; font-weight:700; }
+
+/* Price Ladder */
+.lad-wrap{ background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:14px 14px 14px 6px; min-height:240px; }
+.lad-axis{ position:relative; height:212px; margin-left:34px; border-left:2px dashed var(--border2); }
+.lad-line{ position:absolute; left:-2px; right:0; height:0; border-top:1.5px solid; }
+.lad-line.tp1{ border-top-color:rgba(0,229,160,0.55); }
+.lad-line.tp2{ border-top-color:rgba(0,229,160,0.75); }
+.lad-line.tp3{ border-top-color:var(--accent); }
+.lad-line.entry{ border-top-color:var(--blue); border-top-style:solid; border-top-width:2px; }
+.lad-line.sl{ border-top-color:var(--red); }
+.lad-line.hit{ border-top-style:double; border-top-width:3px; }
+.lad-lbl{ position:absolute; left:-32px; top:-7px; font-family:var(--mono); font-size:9px; font-weight:700; color:var(--text); width:30px; text-align:right; }
+.lad-line.tp1 .lad-lbl, .lad-line.tp2 .lad-lbl, .lad-line.tp3 .lad-lbl{ color:var(--accent); }
+.lad-line.entry .lad-lbl{ color:var(--blue); }
+.lad-line.sl .lad-lbl{ color:var(--red); }
+.lad-price{ position:absolute; right:6px; top:-7px; font-family:var(--mono); font-size:9.5px; color:var(--muted2); }
+.lad-line.hit .lad-price{ color:var(--accent); }
+.lad-marker{ position:absolute; left:-2px; right:0; height:0; border-top:1.5px dashed var(--yellow); animation:ladPulse 1.6s ease-in-out infinite; }
+.lad-marker-lbl{ position:absolute; right:6px; top:-7px; font-family:var(--mono); font-size:9.5px; font-weight:800; color:var(--yellow); background:var(--bg); padding:1px 4px; border-radius:3px; }
+@keyframes ladPulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+
+/* Visual rows (RSI / Vol / MACD / MTF) */
+.vis-row{ display:grid; grid-template-columns:60px 1fr 90px; gap:8px; align-items:center; padding:6px 0; border-bottom:1px dashed var(--border); }
+.vis-row:last-child{ border-bottom:0; }
+.vis-row.mtf-row-wrap{ grid-template-columns:60px 1fr; }
+.vis-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.5px; }
+.vis-bar{ position:relative; height:18px; border-radius:4px; background:var(--card2); border:1px solid var(--border); overflow:hidden; }
+.vis-val{ font-family:var(--mono); font-size:10px; text-align:right; }
+
+/* RSI bar */
+.rsi-bar{ background:linear-gradient(90deg, rgba(74,163,255,0.18) 0%, rgba(74,163,255,0.18) 30%, transparent 30%, transparent 70%, rgba(255,84,112,0.18) 70%, rgba(255,84,112,0.18) 100%); }
+.rsi-zone.os, .rsi-zone.ob{ display:none; }
+.rsi-marker{ position:absolute; top:-2px; bottom:-2px; width:3px; background:var(--text); border-radius:2px; box-shadow:0 0 0 2px rgba(0,0,0,.55); transform:translateX(-50%); }
+
+/* Volume bar */
+.vol-bar{ background:var(--card2); }
+.vol-fill{ height:100%; background:linear-gradient(90deg, var(--yellow), var(--accent)); transition:width .4s ease; }
+.vol-tick{ position:absolute; top:0; bottom:0; width:1px; background:rgba(255,255,255,0.18); }
+.vol-tick::after{ content:attr(data-lbl); position:absolute; top:-12px; left:0; transform:translateX(-50%); font-family:var(--mono); font-size:8px; color:var(--muted); }
+
+/* MACD visual badge */
+.macd-vis{ display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; font-weight:600; padding:0 8px; }
+
+/* MTF Matrix */
+.mtf-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.mtf-cell{ padding:6px 4px; border-radius:6px; text-align:center; background:var(--card2); border:1px solid var(--border); display:flex; flex-direction:column; gap:1px; }
+.mtf-cell.mtf-up{ background:rgba(0,229,160,0.12); border-color:rgba(0,229,160,0.35); color:var(--accent); }
+.mtf-cell.mtf-down{ background:rgba(255,84,112,0.12); border-color:rgba(255,84,112,0.35); color:var(--red); }
+.mtf-cell.mtf-flat{ color:var(--muted2); }
+.mtf-tf{ font-family:var(--mono); font-size:9px; font-weight:700; opacity:.7; }
+.mtf-arr{ font-size:14px; line-height:1; font-weight:700; }
+.mtf-val{ font-family:var(--mono); font-size:8.5px; opacity:.85; }
+
+/* Validity Score Ring */
+.ring{ width:42px; height:42px; border-radius:50%; padding:3px; display:flex; align-items:center; justify-content:center; }
+.ring-inner{ width:100%; height:100%; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:13px; font-weight:800; }
+
+/* ============================================================
+   TOP / BOTTOM COINS RANK LIST
+============================================================ */
+.rank-list{ display:flex; flex-direction:column; gap:6px; }
+.rank-item{ display:grid; grid-template-columns:24px 1fr auto; gap:10px; align-items:center; padding:7px 10px; background:var(--card2); border:1px solid var(--border); border-radius:8px; }
+.rank-item .rank-pos{ font-family:var(--mono); font-size:11px; color:var(--muted); font-weight:700; }
+.rank-item .rank-pair{ font-weight:700; font-size:13px; }
+.rank-item .rank-pair .rank-meta{ display:block; font-family:var(--mono); font-size:9px; color:var(--muted); font-weight:400; margin-top:1px; }
+.rank-item .rank-pct{ font-family:var(--mono); font-size:13px; font-weight:700; }
+.rank-item:nth-child(1) .rank-pos{ color:#ffd34d; font-size:14px; }
+.rank-item:nth-child(2) .rank-pos{ color:#cfd6e4; font-size:13px; }
+.rank-item:nth-child(3) .rank-pos{ color:#cd7f32; font-size:13px; }
+
+/* ============================================================
+   SCORE ANOMALY CARD
+============================================================ */
+.anomaly-card{ border-color:rgba(255,206,92,0.45) !important; background:linear-gradient(180deg, rgba(255,206,92,0.06), transparent); }
+.anomaly-icon{ font-size:30px; line-height:1; }
+.anomaly-badge{
+  display:inline-block; padding:3px 10px; border-radius:14px;
+  background:rgba(255,206,92,0.16); color:var(--yellow);
+  border:1px solid rgba(255,206,92,0.45);
+  font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:1.2px;
+}
+.anomaly-card.drift .anomaly-badge{ background:rgba(255,84,112,0.16); color:var(--red); border-color:rgba(255,84,112,0.45); }
+
+/* ============================================================
+   RECENT SIGNALS LOG — filter tabs + pagination + S/Stat columns
+============================================================ */
+.rsl-filter{ display:flex; gap:3px; background:var(--card2); padding:3px; border-radius:18px; }
+.rsl-fbtn{
+  padding:5px 14px; border:0; background:transparent; cursor:pointer;
+  color:var(--muted2); font-family:var(--sans); font-size:11px; font-weight:600;
+  border-radius:14px; transition:all .18s ease;
+}
+.rsl-fbtn:hover{ color:var(--text); }
+.rsl-fbtn.active{ background:linear-gradient(135deg, var(--blue), #6b89ff); color:#fff; }
+
+.rsl-pager{ display:flex; justify-content:center; align-items:center; gap:14px; margin-top:12px; padding-top:10px; border-top:1px solid var(--border); }
+.rsl-pageinfo{ font-family:var(--mono); font-size:11.5px; color:var(--muted); }
+
+/* Recent Signals Log table styling */
+.rsl-table td{ vertical-align:middle; }
+.rsl-sig-pair{ font-weight:700; font-size:12.5px; }
+.rsl-sig-meta{ font-family:var(--mono); font-size:9px; color:var(--muted); margin-top:2px; }
+.rsl-s-dir{ font-weight:700; font-size:13px; }
+.rsl-s-meta{ font-family:var(--mono); font-size:9px; color:var(--muted); margin-top:2px; }
+.rsl-stat-pill{
+  display:inline-flex; align-items:center; gap:3px;
+  padding:3px 9px; border-radius:10px; font-family:var(--mono); font-size:10.5px; font-weight:700;
+}
+.rsl-stat-pill.t1{ background:rgba(74,163,255,0.14); color:var(--blue); border:1px solid rgba(74,163,255,0.3); }
+.rsl-stat-pill.t2{ background:rgba(0,229,160,0.14); color:var(--accent); border:1px solid rgba(0,229,160,0.3); }
+.rsl-stat-pill.t3{ background:rgba(255,206,92,0.14); color:var(--yellow); border:1px solid rgba(255,206,92,0.4); }
+.rsl-stat-pill.tsl{ background:rgba(74,163,255,0.14); color:var(--blue); border:1px solid rgba(74,163,255,0.3); }
+.rsl-stat-pill.sl{ background:rgba(255,84,112,0.14); color:var(--red); border:1px solid rgba(255,84,112,0.3); }
+.rsl-stat-pill.run{ background:rgba(255,255,255,0.06); color:var(--muted2); border:1px solid var(--border2); }
+
 </style>
 </head>
 <body>
@@ -1512,6 +1633,60 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ SCORE ANOMALY (warning if low score outperforms) ============ -->
+        <div class="card mt12 anomaly-card" id="lv-anomaly-card" style="display:none">
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div class="anomaly-icon">📌</div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:9.5px;color:var(--muted);letter-spacing:1.2px;font-weight:700">SCORE EFFICIENCY</div>
+              <div style="margin-top:5px"><span class="anomaly-badge" id="lv-anomaly-badge">SCORE ANOMALY</span></div>
+              <div style="font-size:11.5px;color:var(--muted2);margin-top:6px;line-height:1.5" id="lv-anomaly-msg">—</div>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);text-align:right">
+              <div>Low: <span id="lv-anom-low" class="c-blue">—</span></div>
+              <div>High: <span id="lv-anom-high" class="c-yellow">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ TOP / BOTTOM COINS ============ -->
+        <div class="g2 mt12">
+          <div class="card">
+            <div class="card-hd">🏆 Top 5 Coins</div>
+            <div id="lv-top-coins" class="rank-list">
+              <div class="empty"><div class="empty-txt">Belum ada data.</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd">🚨 Bottom 5 Coins</div>
+            <div id="lv-bottom-coins" class="rank-list">
+              <div class="empty"><div class="empty-txt">Belum ada data.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ PERFORMANCE BY SCORE BRACKET ============ -->
+        <div class="card mt12">
+          <div class="card-hd">📊 Performance by Score Bracket</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr>
+                <th>BRACKET</th>
+                <th style="text-align:center">TP3</th>
+                <th style="text-align:center">TP2</th>
+                <th style="text-align:center">TP1</th>
+                <th style="text-align:center">SL</th>
+                <th style="text-align:center">WR</th>
+                <th style="text-align:right">P&L %</th>
+              </tr></thead>
+              <tbody id="lv-score-body"></tbody>
+            </table>
+          </div>
+          <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px;line-height:1.6">
+            ⓘ Trade dikelompokkan berdasarkan validity score saat sinyal terbuka. Bracket dgn winrate tertinggi = strategi paling efektif.
+          </div>
+        </div>
+
         </div><!-- /tab Performa -->
 
         <!-- ============ TAB: AKUN ============ -->
@@ -1544,12 +1719,31 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
         <!-- ============ TRADE HISTORY ============ -->
         <div class="card mt12">
-          <div class="card-hd">✅ Trade Selesai Terbaru</div>
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>📋 Recent Signals Log</span>
+            <div class="rsl-filter">
+              <button class="rsl-fbtn active" onclick="setRslFilter('all')" data-f="all">All</button>
+              <button class="rsl-fbtn" onclick="setRslFilter('run')" data-f="run">Run</button>
+              <button class="rsl-fbtn" onclick="setRslFilter('cls')" data-f="cls">Cls</button>
+            </div>
+          </div>
           <div style="overflow-x:auto">
-            <table style="width:100%">
-              <thead><tr><th>#</th><th>WAKTU EXIT</th><th>PAIR</th><th>STRATEGI</th><th>ARAH</th><th>TP HIT</th><th>EXIT</th><th>PNL %</th><th>HASIL</th><th></th></tr></thead>
+            <table style="width:100%" class="rsl-table">
+              <thead><tr>
+                <th>SIGNAL</th>
+                <th style="text-align:center">S</th>
+                <th style="text-align:center">SC</th>
+                <th style="text-align:center">STAT</th>
+                <th style="text-align:right">P&L</th>
+                <th></th>
+              </tr></thead>
               <tbody id="lv-hist-body"></tbody>
             </table>
+          </div>
+          <div class="rsl-pager" id="lv-rsl-pager">
+            <button class="btn btn-ghost btn-xs" onclick="rslPagePrev()">←</button>
+            <span class="rsl-pageinfo" id="lv-rsl-pageinfo">Page 1 / 1</span>
+            <button class="btn btn-ghost btn-xs" onclick="rslPageNext()">→</button>
           </div>
         </div>
 
@@ -3253,6 +3447,204 @@ function renderTpDistribution(stats) {
   setTxt('tp-csl', slCount);
 }
 
+/* Render Top 5 / Bottom 5 Coins + Performance by Score Bracket */
+function renderTopCoins(stats) {
+  const renderList = (id, items, isTop) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (!items || !items.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-txt">Belum ada data.</div></div>';
+      return;
+    }
+    const medals = ['🥇', '🥈', '🥉', '4', '5'];
+    el.innerHTML = items.map((c, i) => {
+      const cls = c.net >= 0 ? 'c-green' : 'c-red';
+      const sign = c.net >= 0 ? '+' : '';
+      return `<div class="rank-item">
+        <div class="rank-pos">${medals[i]}</div>
+        <div class="rank-pair">${c.pair}<span class="rank-meta">${c.trades} trade · WR ${c.winrate}%</span></div>
+        <div class="rank-pct ${cls}">${sign}${c.net.toFixed(2)}%</div>
+      </div>`;
+    }).join('');
+  };
+  renderList('lv-top-coins',    stats.topCoins,    true);
+  renderList('lv-bottom-coins', stats.bottomCoins, false);
+}
+
+function renderScoreBracket(stats) {
+  const tbody = document.getElementById('lv-score-body');
+  if (!tbody) return;
+  const rows = stats.scoreBrackets || [];
+  if (!rows.length || !rows.some(r => r.trades > 0)) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="empty-txt">Belum ada data score bracket.</div></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(r => {
+    const wrCls = r.winrate >= 55 ? 'c-green' : r.winrate >= 45 ? 'c-yellow' : r.winrate > 0 ? 'c-red' : 'c-muted';
+    const netCls = r.net >= 0 ? 'c-green' : r.net < 0 ? 'c-red' : 'c-muted';
+    const sign = r.net >= 0 ? '+' : '';
+    const dim = r.trades === 0 ? 'opacity:.45;' : '';
+    return `<tr style="${dim}">
+      <td><b>${r.name}</b></td>
+      <td style="text-align:center" class="c-green">${r.tp3 || '—'}</td>
+      <td style="text-align:center" class="c-green">${r.tp2 || '—'}</td>
+      <td style="text-align:center" class="c-green">${r.tp1 || '—'}</td>
+      <td style="text-align:center" class="c-red">${r.sl || '—'}</td>
+      <td style="text-align:center" class="${wrCls}">${r.trades ? r.winrate + '%' : '—'}</td>
+      <td style="text-align:right" class="${netCls}">${r.trades ? sign + r.net.toFixed(2) + '%' : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* Score Anomaly card — peringatan ketika low-score lebih akurat dari high-score */
+function renderScoreAnomaly(stats) {
+  const card = document.getElementById('lv-anomaly-card');
+  if (!card) return;
+  const a = stats.scoreAnomaly;
+  if (!a) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  card.classList.toggle('drift', a.type === 'HIGH_SCORE_COLD');
+  document.getElementById('lv-anomaly-badge').textContent = a.label || 'SCORE ANOMALY';
+  document.getElementById('lv-anomaly-msg').textContent = a.message || '—';
+  setTxt('lv-anom-low', (a.lowWR != null ? a.lowWR.toFixed(1) + '% (' + (a.sampleLow || '?') + ')' : '—'));
+  setTxt('lv-anom-high', (a.highWR != null ? a.highWR.toFixed(1) + '% (' + (a.sampleHigh || '?') + ')' : '—'));
+}
+
+/* ============================================================
+   RECENT SIGNALS LOG — filter (All/Run/Cls) + pagination
+============================================================ */
+let rslFilter = 'all';
+let rslPage = 1;
+const RSL_PAGE_SIZE = 10;
+
+function setRslFilter(f) {
+  rslFilter = f;
+  rslPage = 1;
+  document.querySelectorAll('.rsl-fbtn').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  renderRecentSignals();
+}
+function rslPagePrev() { if (rslPage > 1) { rslPage--; renderRecentSignals(); } }
+function rslPageNext() {
+  const totalPages = Math.max(1, Math.ceil(_rslTotalItems / RSL_PAGE_SIZE));
+  if (rslPage < totalPages) { rslPage++; renderRecentSignals(); }
+}
+
+let _rslTotalItems = 0;
+
+function renderRecentSignals() {
+  const tbody = document.getElementById('lv-hist-body');
+  if (!tbody) return;
+
+  // Gabungkan open + history sesuai filter
+  const openItems = liveOpen.map(p => ({
+    isOpen: true,
+    id: p.id,
+    pair: p.pair, dir: p.dir, intel: p.intel, score: p.intel ? p.intel.score : null,
+    entry: p.entry, sl: p.sl, slInit: p.slInit, atr: p.atr, atrPct: p.atrPct,
+    tpHits: p.tpHits || [], lastPrice: p.lastPrice,
+    openTime: p.openTime, virtualClosed: p.virtualClosed,
+    _orig: p
+  }));
+  const closedItems = liveHistory.map(t => ({
+    isOpen: false,
+    id: t.id, pair: t.pair, dir: t.dir, intel: t.intel, score: t.intel ? t.intel.score : null,
+    entry: t.entry, sl: t.slInit, slInit: t.slInit, exit: t.exit,
+    tpHits: t.tpHits || [], closedBy: t.closedBy, pnl_pct: t.pnl_pct, result: t.result,
+    openTime: t.openTime, exitTime: t.exitTime,
+    _orig: t
+  }));
+
+  let items = [];
+  if (rslFilter === 'all') items = openItems.concat(closedItems);
+  else if (rslFilter === 'run') items = openItems;
+  else if (rslFilter === 'cls') items = closedItems;
+
+  // sort: terbaru duluan
+  items.sort((a, b) => {
+    const ta = new Date(a.exitTime || a.openTime).getTime();
+    const tb = new Date(b.exitTime || b.openTime).getTime();
+    return tb - ta;
+  });
+
+  _rslTotalItems = items.length;
+  const totalPages = Math.max(1, Math.ceil(items.length / RSL_PAGE_SIZE));
+  if (rslPage > totalPages) rslPage = totalPages;
+  const start = (rslPage - 1) * RSL_PAGE_SIZE;
+  const slice = items.slice(start, start + RSL_PAGE_SIZE);
+
+  if (!slice.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="empty-txt">Belum ada signal.</div></div></td></tr>';
+  } else {
+    const initialCap = getInitialCapital();
+    const N = (window.__lastStats && window.__lastStats.watchlist && window.__lastStats.watchlist.length) || 20;
+    const allocPerCoin = initialCap / N;
+    const leverage = 10;
+
+    tbody.innerHTML = slice.map(s => {
+      const dirCls = s.dir === 'BUY' ? 'c-green' : 'c-red';
+      const dirLbl = s.dir === 'BUY' ? 'L' : 'S';
+      // Hitung SL distance %
+      const slPx = s.sl || s.slInit || s.entry;
+      const slPct = ((slPx - s.entry) / s.entry * 100 * (s.dir === 'BUY' ? 1 : -1)).toFixed(1);
+      // Stat pill — TP1/T1/T2/T3/TSL/SL/RUN
+      let statHTML;
+      if (s.isOpen) {
+        const lastTP = (s.tpHits || []).slice(-1)[0];
+        if (lastTP) statHTML = `<span class="rsl-stat-pill ${lastTP.toLowerCase().replace('p','')}">${lastTP} (Running)</span>`;
+        else statHTML = `<span class="rsl-stat-pill run">▶ RUN</span>`;
+      } else {
+        // Closed: tentukan label berdasarkan closedBy + tpHits
+        const cb = s.closedBy;
+        const lastTP = (s.tpHits || []).slice(-1)[0];
+        if (cb === 'TP3') statHTML = `<span class="rsl-stat-pill t3">🏆 T3</span>`;
+        else if (cb === 'SL' && lastTP) statHTML = `<span class="rsl-stat-pill tsl">🛡 TSL</span>`;
+        else if (cb === 'SL') statHTML = `<span class="rsl-stat-pill sl">✕ SL</span>`;
+        else if (cb === 'TIMEOUT' && lastTP === 'TP2') statHTML = `<span class="rsl-stat-pill t2">📊 T2</span>`;
+        else if (cb === 'TIMEOUT' && lastTP === 'TP1') statHTML = `<span class="rsl-stat-pill t1">📊 T1</span>`;
+        else statHTML = `<span class="rsl-stat-pill ${(s.pnl_pct||0)>=0?'t1':'sl'}">${(s.pnl_pct||0)>=0?'WIN':'LOSS'}</span>`;
+      }
+      // P&L
+      let pnl;
+      if (s.isOpen) {
+        const last = s.lastPrice != null ? s.lastPrice : s.entry;
+        const dirSign = s.dir === 'BUY' ? 1 : -1;
+        const pn = ((last - s.entry) / s.entry * 100) * dirSign;
+        pnl = `<span class="${pn>=0?'c-green':'c-red'}">${pn>=0?'+':''}${pn.toFixed(1)}%</span>`;
+      } else {
+        const pn = s.pnl_pct || 0;
+        pnl = `<span class="${pn>=0?'c-green':'c-red'}">${pn>=0?'+':''}${pn.toFixed(1)}%</span>`;
+      }
+      const ago = timeAgo(s.exitTime || s.openTime);
+      const onclickHandler = s.isOpen
+        ? `openStratModalFromOpenById('${s.id}')`
+        : `openStratModalFromHistory('${s.id}')`;
+      return `<tr style="cursor:pointer" onclick="${onclickHandler}">
+        <td>
+          <div class="rsl-sig-pair">${s.pair.replace('USDT','')}</div>
+          <div class="rsl-sig-meta">${ago}</div>
+        </td>
+        <td style="text-align:center">
+          <div class="rsl-s-dir ${dirCls}">${dirLbl}</div>
+          <div class="rsl-s-meta">${leverage}x · $${allocPerCoin.toFixed(0)} · SL ${slPct}%</div>
+        </td>
+        <td style="text-align:center"><b>${s.score != null ? s.score : '—'}</b></td>
+        <td style="text-align:center">${statHTML}</td>
+        <td style="text-align:right">${pnl}</td>
+        <td style="text-align:center"><span class="c-muted" style="font-size:10px">ℹ</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // pager update
+  setTxt('lv-rsl-pageinfo', `Page ${rslPage} / ${totalPages}`);
+}
+
+/* helper: open modal posisi terbuka by id */
+function openStratModalFromOpenById(id) {
+  const idx = liveOpen.findIndex(p => String(p.id) === String(id));
+  if (idx >= 0) showStratModal(liveOpen[idx], false);
+}
+
 /* ekstrak render-ulang card posisi terbuka & terminal sebagai fungsi terpisah */
 const _lastRenderPrice = {}; // pair -> price (snapshot terakhir untuk flash effect)
 function renderOpenCards() {
@@ -3364,25 +3756,8 @@ function renderLive(stats, state, history) {
   // POSISI TERBUKA → CARD GRID (pakai helper)
   renderOpenCards();
 
-  // HISTORI dengan kolom strategi + TP hits + tombol detail
-  const hist = [...history].sort((a,b)=> new Date(b.exitTime)-new Date(a.exitTime)).slice(0,40);
-  document.getElementById('lv-hist-body').innerHTML = hist.length ? hist.map((s,i)=>{
-    const pnl = `<span class="${s.pnl_pct>=0?'c-green':'c-red'}">${s.pnl_pct>=0?'+':''}${(s.pnl_pct??0).toFixed(2)}%</span>`;
-    const res = (s.result==='WIN' || s.pnl_pct>=0) ? '<span class="pill pill-win">WIN</span>' : '<span class="pill pill-loss">LOSS</span>';
-    const tps = (s.tpHits||[]).map(h=>`<span class="chip ok" style="margin:0 2px 0 0;padding:2px 6px;font-size:9px">${h}</span>`).join('') || `<span class="c-muted">—</span>`;
-    return `<tr>
-      <td>${i+1}</td>
-      <td>${(s.exitTime||'').slice(0,16).replace('T',' ')}</td>
-      <td><b>${s.pair}</b></td>
-      <td><span class="chip info" style="margin:0">${s.strategyShort||s.strategy||'—'}</span></td>
-      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
-      <td>${tps}</td>
-      <td>${fmtN(s.exit)}</td>
-      <td>${pnl}</td>
-      <td>${res}</td>
-      <td><button class="btn btn-ghost btn-xs" onclick="openStratModalFromHistory('${s.id}')">ℹ Detail</button></td>
-    </tr>`;
-  }).join('') : `<tr><td colspan="10"><div class="empty"><div class="empty-txt">Belum ada trade selesai.</div></div></td></tr>`;
+  // RECENT SIGNALS LOG (filter + pagination via renderer terpisah)
+  renderRecentSignals();
 
   // per pair
   const byPair = stats.byPair || {};
@@ -3458,6 +3833,11 @@ function renderLive(stats, state, history) {
 
   // 30-Day Chart
   drawDayChart(stats.dailyEquity || []);
+
+  // Top 5 / Bottom 5 Coins + Score Bracket + Anomaly (tab Performa)
+  renderTopCoins(stats);
+  renderScoreBracket(stats);
+  renderScoreAnomaly(stats);
 
   // simulator modal & ringkasan bulanan
   renderCapitalSim(stats, history);
@@ -3812,6 +4192,176 @@ function openStratModalFromHistory(id) {
 }
 function closeStratModal() { document.getElementById('stratModal').classList.remove('show'); }
 
+/* ============================================================
+   BUILD VISUAL ANALYSIS (untuk popup detail strategi)
+   - Price ladder (SL→Entry→TP1→TP2→TP3 dgn marker harga sekarang)
+   - RSI gauge horizontal dgn zona
+   - MTF matrix (D/W/4H/1H sebagai kotak warna)
+   - MACD & Volume spike visual bar
+============================================================ */
+function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
+  const dirSign = p.dir === 'BUY' ? 1 : -1;
+  const tpHits = new Set(p.tpHits || []);
+  const cur = lastPrice != null ? lastPrice : p.entry;
+
+  // === 1) PRICE LADDER ===
+  // Susun level: untuk LONG urut bawah->atas: SL, Entry, TP1, TP2, TP3
+  // untuk SHORT terbalik (TP3 di bawah). Kita posisikan berdasarkan harga absolut.
+  const levels = [
+    { lbl: 'TP3', price: p.tp3, color: 'var(--accent)',         class: 'tp3', hit: tpHits.has('TP3') },
+    { lbl: 'TP2', price: p.tp2, color: 'rgba(0,229,160,0.75)',  class: 'tp2', hit: tpHits.has('TP2') },
+    { lbl: 'TP1', price: p.tp1, color: 'rgba(0,229,160,0.55)',  class: 'tp1', hit: tpHits.has('TP1') },
+    { lbl: 'ENTRY', price: p.entry, color: 'var(--blue)',       class: 'entry', hit: false },
+    { lbl: 'SL',  price: p.sl||p.slInit, color: 'var(--red)',   class: 'sl', hit: false }
+  ];
+  // tentukan rentang harga (min/max) — termasuk current price
+  const allPrices = levels.map(l => l.price).concat([cur]).filter(x => x);
+  const minP = Math.min(...allPrices);
+  const maxP = Math.max(...allPrices);
+  const pad = (maxP - minP) * 0.08; // padding atas/bawah 8%
+  const lo = minP - pad;
+  const hi = maxP + pad;
+  const range = (hi - lo) || 1;
+  const yPct = price => ((hi - price) / range * 100); // 0% top, 100% bottom
+
+  const ladderHTML = `
+    <div class="lad-wrap">
+      <div class="lad-axis">
+        ${levels.map(l => `
+          <div class="lad-line ${l.class} ${l.hit?'hit':''}" style="top:${yPct(l.price).toFixed(2)}%">
+            <span class="lad-lbl">${l.hit?'✓ ':''}${l.lbl}</span>
+            <span class="lad-price">${fmtN(l.price)}</span>
+          </div>
+        `).join('')}
+        <div class="lad-marker" style="top:${yPct(cur).toFixed(2)}%">
+          <span class="lad-marker-lbl">▶ ${fmtN(cur)} (${(((cur - p.entry)/p.entry*100)*dirSign).toFixed(2)}%)</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // === 2) RSI GAUGE ===
+  const rsi = intel.rsi;
+  let rsiHTML = '';
+  if (rsi != null) {
+    const pct = Math.max(0, Math.min(100, rsi));
+    const zone = rsi <= 30 ? 'OVERSOLD' : rsi >= 70 ? 'OVERBOUGHT' : 'NETRAL';
+    const zoneCls = rsi <= 30 ? 'c-blue' : rsi >= 70 ? 'c-red' : 'c-muted2';
+    rsiHTML = `
+      <div class="vis-row">
+        <div class="vis-lbl">RSI(14)</div>
+        <div class="vis-bar rsi-bar">
+          <div class="rsi-zone ob"></div>
+          <div class="rsi-zone os"></div>
+          <div class="rsi-marker" style="left:${pct}%"></div>
+        </div>
+        <div class="vis-val"><b>${rsi.toFixed(1)}</b> <span class="${zoneCls}" style="font-size:9.5px">${zone}</span></div>
+      </div>
+    `;
+  }
+
+  // === 3) VOLUME SPIKE BAR ===
+  const volRatio = (p.reasons && p.reasons.volRatio) || (intel && intel.reasons ? null : null);
+  let volHTML = '';
+  if (volRatio) {
+    const cap = 5; // 5x = full bar
+    const pct = Math.min(100, (volRatio / cap) * 100);
+    const cls = volRatio >= 3 ? 'c-green' : volRatio >= 2 ? 'c-yellow' : 'c-muted2';
+    volHTML = `
+      <div class="vis-row">
+        <div class="vis-lbl">Vol Spike</div>
+        <div class="vis-bar vol-bar">
+          <div class="vol-fill" style="width:${pct}%"></div>
+          <div class="vol-tick" style="left:20%" data-lbl="1x"></div>
+          <div class="vol-tick" style="left:40%" data-lbl="2x"></div>
+          <div class="vol-tick" style="left:60%" data-lbl="3x"></div>
+          <div class="vol-tick" style="left:80%" data-lbl="4x"></div>
+        </div>
+        <div class="vis-val"><b class="${cls}">${volRatio.toFixed(1)}×</b> <span class="c-muted" style="font-size:9.5px">vs avg</span></div>
+      </div>
+    `;
+  }
+
+  // === 4) MACD DIRECTION ===
+  let macdHTML = '';
+  if (intel.macd) {
+    const macdConf = {
+      rising:       { icon: '🚀', txt: 'NAIK',         cls: 'c-green' },
+      fading_up:    { icon: '↗️', txt: 'NAIK MEMUDAR', cls: 'c-yellow' },
+      flat:         { icon: '➡️', txt: 'DATAR',        cls: 'c-muted2' },
+      falling:      { icon: '🔻', txt: 'TURUN',        cls: 'c-red' },
+      fading_down:  { icon: '↘️', txt: 'TURUN MEMUDAR',cls: 'c-yellow' }
+    };
+    const m = macdConf[intel.macd] || { icon: '?', txt: intel.macd, cls: '' };
+    macdHTML = `
+      <div class="vis-row">
+        <div class="vis-lbl">MACD</div>
+        <div class="vis-bar macd-vis ${m.cls}">${m.icon} ${m.txt}</div>
+        <div class="vis-val"></div>
+      </div>
+    `;
+  }
+
+  // === 5) MTF MATRIX (D / W / 4H / 1H) ===
+  const mtf = intel.mtf || {};
+  const tfCell = (lbl, val) => {
+    const v = val || '—';
+    const up = /UPTREND|UP|BULL|ABOVE/i.test(v);
+    const down = /DOWNTREND|DOWN|BEAR|BELOW/i.test(v);
+    const cls = up ? 'mtf-up' : down ? 'mtf-down' : 'mtf-flat';
+    const arr = up ? '↑' : down ? '↓' : '↔';
+    return `<div class="mtf-cell ${cls}"><div class="mtf-tf">${lbl}</div><div class="mtf-arr">${arr}</div><div class="mtf-val">${v.replace(/UPTREND|UP/,'UP').replace(/DOWNTREND|DOWN/,'DOWN').replace(/RANGE/,'RNG').slice(0,5)}</div></div>`;
+  };
+  const mtfHTML = `
+    <div class="vis-row mtf-row-wrap">
+      <div class="vis-lbl">Multi-TF</div>
+      <div class="mtf-grid">
+        ${tfCell('D', mtf.D)}
+        ${tfCell('W', mtf.W)}
+        ${tfCell('4H', mtf['4H'])}
+        ${tfCell('1H', mtf['1H'])}
+      </div>
+    </div>
+  `;
+
+  // === Validity Score Ring ===
+  const score = intel.score || 0;
+  const v = intel.validity || '—';
+  const ringDeg = (score / 100) * 360;
+  const ringColor = v === 'STRONG' ? 'var(--accent)' : v === 'MODERATE' ? 'var(--yellow)' : 'var(--red)';
+  const ringHTML = `
+    <div class="vis-row">
+      <div class="vis-lbl">Validity</div>
+      <div class="vis-bar" style="display:flex;align-items:center;gap:10px">
+        <div class="ring" style="background:conic-gradient(${ringColor} ${ringDeg}deg, var(--border) 0)">
+          <div class="ring-inner">${score}</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px"><b class="${v==='STRONG'?'c-green':v==='WEAK'?'c-red':'c-yellow'}">${v}</b><br><span class="c-muted" style="font-size:9.5px">/100</span></div>
+      </div>
+      <div class="vis-val"></div>
+    </div>
+  `;
+
+  return `
+    <div class="modal-section">
+      <div class="modal-section-hd">📊 VISUAL ANALISA</div>
+      <div class="vis-grid">
+        <div class="vis-ladder-col">
+          <div class="vis-section-lbl">Price Ladder</div>
+          ${ladderHTML}
+        </div>
+        <div class="vis-bars-col">
+          ${ringHTML}
+          ${rsiHTML}
+          ${volHTML}
+          ${macdHTML}
+          ${mtfHTML}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function showStratModal(p, isHistory) {
   const dirIcon = p.dir === 'BUY' ? '🟢' : '🔴';
   const intel = p.intel || {};
@@ -3872,6 +4422,8 @@ function showStratModal(p, isHistory) {
       ${p.slInit && p.sl !== p.slInit ? `<div class="kv-row"><span class="k">SL awal</span><span class="v" style="opacity:.7">${fmtN(p.slInit)}</span></div>` : ''}
       <div class="kv-row"><span class="k">📐 ATR</span><span class="v">${fmtN(p.atr)} (${p.atrPct ?? '—'}%)</span></div>
     </div>
+
+    ${buildVisualAnalysis(p, intel, isHistory, last)}
 
     <div class="modal-section">
       <div class="modal-section-hd">📈 ${isHistory ? 'HASIL' : 'POSISI SAAT INI'}</div>

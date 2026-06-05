@@ -595,6 +595,60 @@ function computeStats(history, openPositions, watchlist, meta) {
     marketBias,
     highScore,
     liveTerminal,
+    topCoins: (() => {
+      const arr = Object.entries(byPair).map(([pair, d]) => ({ pair, trades: d.trades, winrate: d.winrate, net: d.net }));
+      return arr.sort((a, b) => b.net - a.net).slice(0, 5);
+    })(),
+    bottomCoins: (() => {
+      const arr = Object.entries(byPair).map(([pair, d]) => ({ pair, trades: d.trades, winrate: d.winrate, net: d.net }));
+      return arr.filter(c => c.net < 0).sort((a, b) => a.net - b.net).slice(0, 5);
+    })(),
+    scoreBrackets: (() => {
+      const buckets = [
+        { name: '90+',   min: 90, max: 100 },
+        { name: '80-89', min: 80, max: 89 },
+        { name: '70-79', min: 70, max: 79 },
+        { name: '60-69', min: 60, max: 69 },
+        { name: '<60',   min: 0,  max: 59 }
+      ];
+      return buckets.map(b => {
+        const trades = history.filter(t => {
+          const s = (t.intel && t.intel.score != null) ? t.intel.score : -1;
+          return s >= b.min && s <= b.max;
+        });
+        const wins = trades.filter(t => (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN').length;
+        const tp1 = trades.filter(t => (t.tpHits || []).includes('TP1')).length;
+        const tp2 = trades.filter(t => (t.tpHits || []).includes('TP2')).length;
+        const tp3 = trades.filter(t => (t.tpHits || []).includes('TP3')).length;
+        const sl  = trades.filter(t => t.closedBy === 'SL').length;
+        const net = trades.reduce((a, t) => a + (t.pnl_pct || 0), 0);
+        return {
+          name: b.name, trades: trades.length, tp1, tp2, tp3, sl, wins,
+          winrate: trades.length ? +(wins / trades.length * 100).toFixed(1) : 0,
+          net: +net.toFixed(2)
+        };
+      });
+    })(),
+    scoreAnomaly: (() => {
+      // Deteksi anomali: WR low-score (<70) > WR high-score (80+) dlm 24h terakhir
+      // ATAU high score signifikan underperform.
+      const cutoff = Date.now() - 24 * 3600e3;
+      const recent = history.filter(t => new Date(t.exitTime).getTime() >= cutoff && t.intel && t.intel.score != null);
+      if (recent.length < 3) return null;
+      const lowS = recent.filter(t => t.intel.score < 70);
+      const highS = recent.filter(t => t.intel.score >= 80);
+      if (lowS.length < 2 || highS.length < 2) return null;
+      const wr = (arr) => arr.length ? arr.filter(t => (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN').length / arr.length * 100 : 0;
+      const lowWR = +wr(lowS).toFixed(1);
+      const highWR = +wr(highS).toFixed(1);
+      if (lowWR > highWR + 10) {
+        return { type: 'LOW_SCORE_HOT', label: 'SCORE ANOMALY', message: 'Low scores are more accurate today (' + lowWR + '% WR).', lowWR, highWR, sampleLow: lowS.length, sampleHigh: highS.length };
+      }
+      if (highWR < 30 && highS.length >= 3) {
+        return { type: 'HIGH_SCORE_COLD', label: 'STRATEGY DRIFT', message: 'High score signals underperforming today (' + highWR + '% WR).', lowWR, highWR, sampleLow: lowS.length, sampleHigh: highS.length };
+      }
+      return null;
+    })(),
     openFloatingPct: +openFloatingPct.toFixed(2),
     byPair,
     bySide: { BUY: side('BUY'), SELL: side('SELL') },
