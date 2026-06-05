@@ -1163,7 +1163,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
     <!-- ======== ROBOT LIVE 24/7 ======== -->
     <div class="page" id="page-live">
       <div class="page-title">🤖 Robot Live 24/7</div>
-      <div class="page-sub">Forward-test otomatis: robot di GitHub Actions memindai top-20 coin tiap 15 menit (4h bias + 15m entry), mencatat TP/SL, dan winrate-nya terus bertumbuh — walau browser kamu tertutup.</div>
+      <div class="page-sub">Forward-test otomatis: robot tvbtpro memindai top-20 coin tiap 15 menit (4h bias + 15m entry), mencatat TP/SL, dan winrate-nya terus bertumbuh — walau browser kamu tertutup.</div>
 
       <!-- status bar -->
       <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
@@ -1209,6 +1209,30 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <div class="card">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>💰 Simulator Modal — pembagian merata per coin</span>
+            <span style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+              MODAL AWAL
+              <span style="position:relative;display:inline-flex;align-items:center">
+                <span style="position:absolute;left:8px;color:var(--muted2);pointer-events:none">$</span>
+                <input type="number" id="lv-cap-input" value="100" min="1" step="1"
+                  style="width:88px;padding:4px 8px 4px 18px;font-family:var(--mono);background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px"
+                  onchange="onCapitalChange()" oninput="onCapitalChange()">
+              </span>
+            </span>
+          </div>
+          <div class="g4">
+            <div class="stat"><div class="stat-lbl">MODAL AWAL</div><div class="stat-val" id="lv-cap-init">$100</div><div class="stat-sub" id="lv-cap-alloc">$5 / coin (top-20)</div></div>
+            <div class="stat"><div class="stat-lbl">MODAL SEKARANG</div><div class="stat-val" id="lv-cap-now">—</div><div class="stat-sub" id="lv-cap-pnl">—</div></div>
+            <div class="stat"><div class="stat-lbl">FLOATING (open)</div><div class="stat-val" id="lv-cap-float">—</div><div class="stat-sub">posisi terbuka</div></div>
+            <div class="stat"><div class="stat-lbl">PROYEKSI 30 HARI</div><div class="stat-val" id="lv-cap-proj">—</div><div class="stat-sub" id="lv-cap-proj-sub">berdasarkan tren</div></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:10px;line-height:1.6">
+            ⓘ Simulasi <b>equal-weight</b>: modal dibagi rata ke <span id="lv-cap-n">20</span> coin. Tiap trade selesai → balance × (1/N) × pnl%. Pure simulasi, bukan trading nyata.
+          </div>
+        </div>
+
         <div class="card mt12">
           <div class="card-hd">✅ Trade Selesai Terbaru</div>
           <div style="overflow-x:auto">
@@ -1225,6 +1249,18 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <table style="width:100%">
               <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
               <tbody id="lv-pair-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt12">
+          <div class="card-hd">📅 Ringkasan Per Bulan</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr>
+                <th>BULAN</th><th>TRADE</th><th>W / L</th><th>WINRATE</th><th>NET %</th><th>BEST</th><th>WORST</th><th>SALDO AKHIR</th>
+              </tr></thead>
+              <tbody id="lv-month-body"></tbody>
             </table>
           </div>
         </div>
@@ -2653,6 +2689,147 @@ function renderLive(stats, state, history) {
   }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
 
   setTxt('lv-watch', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.join('  ·  ') : '—');
+
+  // simulator modal & ringkasan bulanan
+  renderCapitalSim(stats, history);
+  renderMonthly(history);
+}
+
+/* ============================================================
+   SIMULATOR MODAL — equal weight per coin
+============================================================ */
+const CAP_KEY = 'tvbt_cap_init';
+
+function getInitialCapital() {
+  const v = parseFloat(localStorage.getItem(CAP_KEY));
+  return (v && v > 0) ? v : 100;
+}
+
+function onCapitalChange() {
+  const v = parseFloat(document.getElementById('lv-cap-input').value);
+  if (v && v > 0) localStorage.setItem(CAP_KEY, String(v));
+  // re-render dgn data live yang ada
+  if (liveHistory) renderCapitalSim(window.__lastStats || {}, liveHistory);
+}
+
+/* simulasi equal-weight compounding:
+ *   tiap trade selesai → balance += (balance / N) × (pnl_pct/100)
+ *   floating (open)    →  balance + Σ((balance/N) × (current_pnl_pct/100)) untuk posisi terbuka
+ */
+function simulateCapital(initial, N, history, openPositions) {
+  // sort history by exitTime (kronologis)
+  const sorted = [...history].sort((a, b) => new Date(a.exitTime) - new Date(b.exitTime));
+  let bal = initial;
+  const equity = [{ t: sorted.length ? new Date(sorted[0].openTime).getTime() : Date.now(), v: bal }];
+  const monthly = {};
+  for (const t of sorted) {
+    const slot = bal / N;
+    const pnlUsd = slot * ((t.pnl_pct || 0) / 100);
+    const balBefore = bal;
+    bal += pnlUsd;
+    const ym = (t.exitTime || '').slice(0, 7);
+    const m = monthly[ym] || (monthly[ym] = { trades: 0, wins: 0, losses: 0, sumPnl: 0, best: -Infinity, worst: Infinity, startBal: balBefore, endBal: bal });
+    m.trades++;
+    if ((t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN') m.wins++; else m.losses++;
+    m.sumPnl += t.pnl_pct || 0;
+    if ((t.pnl_pct || 0) > m.best) m.best = t.pnl_pct || 0;
+    if ((t.pnl_pct || 0) < m.worst) m.worst = t.pnl_pct || 0;
+    m.endBal = bal;
+    equity.push({ t: new Date(t.exitTime).getTime(), v: bal });
+  }
+  // floating dari posisi terbuka (pakai balance saat ini sebagai basis slot)
+  let floating = 0;
+  (openPositions || []).forEach(p => {
+    const last = (p.lastPrice != null) ? p.lastPrice : p.entry;
+    const dirSign = p.dir === 'BUY' ? 1 : -1;
+    const realized = +(p.realizedPct || 0);
+    const remaining = (p.remaining != null) ? p.remaining : 1;
+    const unreal = ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+    const pnlPct = realized + unreal;
+    const slot = bal / N;
+    floating += slot * (pnlPct / 100);
+  });
+  return { closedBalance: bal, floating, totalNow: bal + floating, equity, monthly };
+}
+
+function fmtUsd(v) {
+  const sign = v < 0 ? '-' : '';
+  const abs = Math.abs(v);
+  if (abs >= 1000) return sign + '$' + abs.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  return sign + '$' + abs.toFixed(2);
+}
+
+function renderCapitalSim(stats, history) {
+  window.__lastStats = stats;
+  const initial = getInitialCapital();
+  const N = (stats && stats.watchlist && stats.watchlist.length) || 20;
+  const inputEl = document.getElementById('lv-cap-input');
+  if (inputEl && document.activeElement !== inputEl) inputEl.value = initial;
+  setTxt('lv-cap-n', N);
+  setTxt('lv-cap-init', fmtUsd(initial));
+  setTxt('lv-cap-alloc', fmtUsd(initial / N) + ' / coin (top-' + N + ')');
+
+  const sim = simulateCapital(initial, N, history, liveOpen);
+  const closedNet = sim.closedBalance - initial;
+  const closedPct = initial > 0 ? (closedNet / initial * 100) : 0;
+  setElC('lv-cap-now', fmtUsd(sim.closedBalance), closedNet >= 0 ? 'c-green' : 'c-red');
+  setElC('lv-cap-pnl', (closedNet >= 0 ? '+' : '') + fmtUsd(closedNet) + ' (' + (closedPct >= 0 ? '+' : '') + closedPct.toFixed(2) + '%)', closedNet >= 0 ? 'c-green' : 'c-red');
+  setElC('lv-cap-float', (sim.floating >= 0 ? '+' : '') + fmtUsd(sim.floating), sim.floating >= 0 ? 'c-green' : 'c-red');
+
+  // proyeksi 30 hari berdasarkan rata-rata return per hari
+  if (history.length >= 3) {
+    const sortedH = [...history].sort((a, b) => new Date(a.exitTime) - new Date(b.exitTime));
+    const days = Math.max(1, (new Date(sortedH[sortedH.length - 1].exitTime) - new Date(sortedH[0].exitTime)) / 86400000);
+    const dailyRate = (sim.closedBalance / initial) ** (1 / days);
+    const proj = sim.closedBalance * (dailyRate ** 30);
+    const projNet = proj - sim.closedBalance;
+    setElC('lv-cap-proj', fmtUsd(proj), proj >= sim.closedBalance ? 'c-green' : 'c-red');
+    setTxt('lv-cap-proj-sub', (projNet >= 0 ? '+' : '') + fmtUsd(projNet) + ' (≈ ' + (((proj / sim.closedBalance) - 1) * 100).toFixed(1) + '%)');
+  } else {
+    setTxt('lv-cap-proj', '—');
+    setTxt('lv-cap-proj-sub', 'butuh ≥3 trade selesai');
+  }
+
+  return sim;
+}
+
+/* ============================================================
+   MONTHLY SUMMARY
+============================================================ */
+function renderMonthly(history) {
+  const initial = getInitialCapital();
+  const N = (window.__lastStats && window.__lastStats.watchlist && window.__lastStats.watchlist.length) || 20;
+  const sim = simulateCapital(initial, N, history, []);
+  const months = Object.keys(sim.monthly).sort().reverse(); // terbaru duluan
+  const tbody = document.getElementById('lv-month-body');
+  if (!months.length) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><div class="empty-txt">Belum ada data bulanan.</div></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = months.map(ym => {
+    const m = sim.monthly[ym];
+    const wr = m.trades ? (m.wins / m.trades * 100) : 0;
+    const wrCls = wr >= 55 ? 'c-green' : wr >= 45 ? 'c-yellow' : 'c-red';
+    const netCls = m.sumPnl >= 0 ? 'c-green' : 'c-red';
+    const balCls = m.endBal >= initial ? 'c-green' : 'c-red';
+    const label = formatMonth(ym);
+    return `<tr>
+      <td><b>${label}</b></td>
+      <td>${m.trades}</td>
+      <td><span class="c-green">${m.wins}</span> / <span class="c-red">${m.losses}</span></td>
+      <td class="${wrCls}">${wr.toFixed(1)}%</td>
+      <td class="${netCls}">${m.sumPnl >= 0 ? '+' : ''}${m.sumPnl.toFixed(2)}%</td>
+      <td class="c-green">+${(m.best === -Infinity ? 0 : m.best).toFixed(2)}%</td>
+      <td class="c-red">${(m.worst === Infinity ? 0 : m.worst).toFixed(2)}%</td>
+      <td class="${balCls}">${fmtUsd(m.endBal)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function formatMonth(ym) {
+  const [y, m] = ym.split('-');
+  const names = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'];
+  return (names[parseInt(m, 10) - 1] || m) + ' ' + y;
 }
 
 /* ---------- RENDER POSITION CARD (open positions) ---------- */
