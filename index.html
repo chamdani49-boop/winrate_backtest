@@ -651,14 +651,46 @@ html{ scroll-behavior:smooth; }
 .pos-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-family:var(--mono); font-size:11px; }
 .pos-meta-k{ color:var(--muted); font-size:9px; letter-spacing:.8px; }
 .pos-meta-v{ color:var(--text); }
-.tp-row{ display:flex; gap:5px; margin-top:10px; }
-.tp-step{
-  flex:1; padding:6px 4px; border-radius:6px; text-align:center;
-  background:var(--card2); border:1px solid var(--border); font-family:var(--mono); font-size:9.5px;
-  letter-spacing:.4px; color:var(--muted2);
+/* ============================================================
+   LIVE TAB NAVIGATION (sub-menu di dalam halaman Live)
+============================================================ */
+.live-tabs{
+  display:flex; gap:4px; overflow-x:auto;
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:5px; margin-top:12px; scrollbar-width:none;
 }
-.tp-step.hit{ background:rgba(0,229,160,.14); border-color:rgba(0,229,160,.4); color:var(--accent); }
-.tp-step.next{ border-color:var(--blue); color:var(--blue); }
+.live-tabs::-webkit-scrollbar{ display:none; }
+.live-tab-btn{
+  flex:1; min-width:max-content; padding:9px 14px; border:0; background:transparent;
+  color:var(--muted2); cursor:pointer; border-radius:8px;
+  font-family:var(--sans); font-weight:600; font-size:12.5px; letter-spacing:.2px;
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  transition:all .18s ease;
+}
+.live-tab-btn:hover{ color:var(--text); background:var(--card2); }
+.live-tab-btn.active{ background:linear-gradient(135deg,var(--accent),#00c489); color:#04130d; box-shadow:0 4px 12px rgba(0,229,160,.18); }
+.live-tab-pane{ display:none; animation:fadeIn .2s ease; }
+.live-tab-pane.active{ display:block; }
+@keyframes fadeIn{ from{ opacity:0; transform:translateY(4px); } to{ opacity:1; transform:translateY(0); } }
+@media (max-width:720px){ .live-tab-btn{ padding:8px 10px; font-size:11.5px; } }
+.tp-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:10px; }
+.tp-box{
+  padding:7px 5px; border-radius:6px; text-align:center;
+  background:var(--card2); border:1px solid var(--border);
+  font-family:var(--mono); display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.tp-box-lbl{ font-size:9px; letter-spacing:.6px; color:var(--muted2); display:flex; align-items:center; gap:3px; }
+.tp-box-price{ font-size:11px; font-weight:700; color:var(--text); }
+.tp-box-pct{ font-size:9.5px; font-weight:600; }
+.tp-box.sl{ border-color:rgba(255,84,112,.25); background:rgba(255,84,112,.05); }
+.tp-box.sl .tp-box-pct{ color:var(--red); }
+.tp-box.tp{ }
+.tp-box.tp .tp-box-pct{ color:var(--accent); }
+.tp-box.hit{ background:rgba(0,229,160,.14); border-color:rgba(0,229,160,.45); }
+.tp-box.hit .tp-box-lbl{ color:var(--accent); }
+.tp-box.pending{ }
+.tp-box.next{ border-color:rgba(74,163,255,.45); }
+.tp-box.next .tp-box-lbl{ color:var(--blue); }
 
 /* ============================================================
    HALAMAN LIVE — komponen visual ala CryptoSpike
@@ -1276,6 +1308,17 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ TAB NAVIGATION ============ -->
+        <div class="live-tabs" id="live-tabs">
+          <button class="live-tab-btn active" onclick="setLiveTab('live')" data-tab="live">🚀 Live</button>
+          <button class="live-tab-btn" onclick="setLiveTab('perf')" data-tab="perf">📊 Performa</button>
+          <button class="live-tab-btn" onclick="setLiveTab('acc')"  data-tab="acc">💰 Akun</button>
+          <button class="live-tab-btn" onclick="setLiveTab('mkt')"  data-tab="mkt">🌐 Pasar</button>
+        </div>
+
+        <!-- ============ TAB: LIVE ============ -->
+        <div class="live-tab-pane active" id="live-pane-live">
+
         <!-- ============ LIVE SIGNAL TERMINAL ============ -->
         <div class="card mt12">
           <div class="card-hd">⚡ Live Signal Terminal</div>
@@ -1304,6 +1347,11 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>
           </div>
         </div>
+
+        </div><!-- /tab Live -->
+
+        <!-- ============ TAB: PERFORMA ============ -->
+        <div class="live-tab-pane" id="live-pane-perf">
 
         <!-- ============ TP HIT DISTRIBUTION ============ -->
         <div class="card mt12">
@@ -1334,27 +1382,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <canvas id="dayChart" style="width:100%;height:220px;display:block"></canvas>
         </div>
 
-        <!-- ============ MARKET INTELLIGENCE ============ -->
-        <div class="card mt12">
-          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <span>🌐 Market Intelligence</span>
-            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
-          </div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
-            <span class="c-green">BULLISH BIAS</span>
-            <span class="c-red">BEARISH BIAS</span>
-          </div>
-          <div class="mi-bar">
-            <div id="mi-fill"></div>
-            <div id="mi-marker"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
-            <span class="c-green" id="mi-bull-pct">0%</span>
-            <span id="mi-label" class="c-muted">NEUTRAL</span>
-            <span class="c-red" id="mi-bear-pct">0%</span>
-          </div>
-        </div>
-
         <!-- ============ STRATEGY SAFETY NET ============ -->
         <div class="card mt12">
           <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
@@ -1373,6 +1400,22 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             ⓘ <b>Safety Ratio</b>: % trade yang menyentuh target ini. <b>Expectancy</b>: ekspektasi profit dalam satuan R (1R = jarak entry→SL). Positif = strategi profitable di level itu.
           </div>
         </div>
+
+        <!-- ============ PER COIN ============ -->
+        <div class="card mt12">
+          <div class="card-hd">🏆 Performa per Coin</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
+              <tbody id="lv-pair-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        </div><!-- /tab Performa -->
+
+        <!-- ============ TAB: AKUN ============ -->
+        <div class="live-tab-pane" id="live-pane-acc">
 
         <!-- ============ ACCOUNT SIMULATION ============ -->
         <div class="card mt12">
@@ -1410,17 +1453,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
-        <!-- ============ PER COIN ============ -->
-        <div class="card mt12">
-          <div class="card-hd">🏆 Performa per Coin</div>
-          <div style="overflow-x:auto">
-            <table style="width:100%">
-              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
-              <tbody id="lv-pair-body"></tbody>
-            </table>
-          </div>
-        </div>
-
         <!-- ============ MONTHLY SUMMARY ============ -->
         <div class="card mt12">
           <div class="card-hd">📅 Ringkasan Per Bulan</div>
@@ -1434,11 +1466,39 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        </div><!-- /tab Akun -->
+
+        <!-- ============ TAB: PASAR ============ -->
+        <div class="live-tab-pane" id="live-pane-mkt">
+
+        <!-- ============ MARKET INTELLIGENCE ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🌐 Market Intelligence</span>
+            <span class="chip info" id="mi-sample" style="margin:0">recent 48h</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px">
+            <span class="c-green">BULLISH BIAS</span>
+            <span class="c-red">BEARISH BIAS</span>
+          </div>
+          <div class="mi-bar">
+            <div id="mi-fill"></div>
+            <div id="mi-marker"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin-top:6px">
+            <span class="c-green" id="mi-bull-pct">0%</span>
+            <span id="mi-label" class="c-muted">NEUTRAL</span>
+            <span class="c-red" id="mi-bear-pct">0%</span>
+          </div>
+        </div>
+
         <!-- ============ WATCHLIST ============ -->
         <div class="card mt12">
           <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
           <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
         </div>
+
+        </div><!-- /tab Pasar -->
 
         <!-- HIDDEN: stat lama (dipertahankan untuk kompatibilitas, tidak ditampilkan) -->
         <div style="display:none">
@@ -2753,6 +2813,28 @@ function startLiveRefresh() {
   liveTimer  = setInterval(() => loadLiveData(), 60000);   // muat ulang JSON tiap 60s
   priceTimer = setInterval(() => pollLivePrices(), 30000); // poll harga Binance tiap 30s
   setTimeout(() => pollLivePrices(), 1500);                // poll pertama setelah load awal
+  // restore tab terakhir
+  const saved = localStorage.getItem('tvbt_live_tab') || 'live';
+  setLiveTab(saved, true);
+}
+
+/* ============================================================
+   LIVE TAB SWITCHER (sub-menu di halaman Live)
+============================================================ */
+function setLiveTab(name, silent) {
+  const valid = ['live', 'perf', 'acc', 'mkt'];
+  if (!valid.includes(name)) name = 'live';
+  document.querySelectorAll('#live-tabs .live-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.querySelectorAll('#live-content .live-tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === 'live-pane-' + name);
+  });
+  if (!silent) localStorage.setItem('tvbt_live_tab', name);
+  // re-draw chart bila pindah ke perf (canvas perlu re-render dgn ukuran benar)
+  if (name === 'perf' && lastStats) drawDayChart(lastStats.dailyEquity || []);
+  // scroll ke atas konten saat ganti tab
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function stopLiveRefresh() {
   if (liveTimer)  { clearInterval(liveTimer);  liveTimer  = null; }
@@ -3294,13 +3376,39 @@ function renderPosCard(p, i) {
   const cls = floating >= 0 ? 'c-green' : 'c-red';
   const dirLow = p.dir === 'BUY' ? 'long' : 'short';
   const tpHits = new Set(p.tpHits || []);
-  const tpStep = (lvl) => {
-    const hit = tpHits.has(lvl);
-    const nextOne = !hit && [...tpHits].length === { TP1: 0, TP2: 1, TP3: 2 }[lvl];
-    return `<div class="tp-step ${hit?'hit':nextOne?'next':''}">${hit?'✓ ':''}${lvl}</div>`;
-  };
   const v = p.intel ? p.intel.validity : null;
   const validityBadge = v ? `<span class="chip ${v==='STRONG'?'ok':v==='WEAK'?'bad':'info'}" style="margin:0">${v}</span>` : '';
+
+  // % return dari entry (long: tp>entry positif; short: tp<entry positif)
+  const pctTo = (price) => ((price - p.entry) / p.entry * 100 * dirSign).toFixed(1);
+
+  // status box
+  const tpHitsArr = [...tpHits];
+  const nextLevel = ['TP1','TP2','TP3'][tpHitsArr.length];
+
+  const slPct = pctTo(p.sl);
+  const tp1Pct = pctTo(p.tp1);
+  const tp2Pct = pctTo(p.tp2);
+  const tp3Pct = pctTo(p.tp3);
+
+  const tpBox = (lvl, price, pct) => {
+    const hit = tpHits.has(lvl);
+    const next = !hit && lvl === nextLevel;
+    const cls2 = (hit ? 'hit ' : (next ? 'next ' : 'pending ')) + 'tp';
+    const icon = hit ? '✅' : (next ? '⏳' : '⌛');
+    const sign = +pct >= 0 ? '+' : '';
+    return `<div class="tp-box ${cls2}">
+      <div class="tp-box-lbl">${icon} ${lvl}</div>
+      <div class="tp-box-price">${fmtN(price)}</div>
+      <div class="tp-box-pct">${sign}${pct}%</div>
+    </div>`;
+  };
+
+  const slBox = `<div class="tp-box sl">
+    <div class="tp-box-lbl">🛡️ SL</div>
+    <div class="tp-box-price">${fmtN(p.sl)}</div>
+    <div class="tp-box-pct">${slPct}%</div>
+  </div>`;
 
   return `<div class="pos-card ${dirLow}" onclick="openStratModalFromOpen(${i})">
     <div class="pos-card-top">
@@ -3310,16 +3418,19 @@ function renderPosCard(p, i) {
       </div>
       <div class="pos-float">
         <div class="pos-float-val ${cls}">${floating>=0?'+':''}${floating.toFixed(2)}%</div>
-        <div class="pos-float-sub">floating · ${timeAgo(p.openTime)}</div>
+        <div class="pos-float-sub">P&amp;L · ${timeAgo(p.openTime)}</div>
       </div>
     </div>
     <div class="pos-meta">
       <div><div class="pos-meta-k">ENTRY</div><div class="pos-meta-v">${fmtN(p.entry)}</div></div>
       <div><div class="pos-meta-k">HARGA NOW</div><div class="pos-meta-v">${fmtN(last)}</div></div>
-      <div><div class="pos-meta-k">SL</div><div class="pos-meta-v c-red">${fmtN(p.sl)}</div></div>
-      <div><div class="pos-meta-k">TP3</div><div class="pos-meta-v c-green">${fmtN(p.tp3)}</div></div>
     </div>
-    <div class="tp-row">${tpStep('TP1')}${tpStep('TP2')}${tpStep('TP3')}</div>
+    <div class="tp-row">
+      ${slBox}
+      ${tpBox('TP1', p.tp1, tp1Pct)}
+      ${tpBox('TP2', p.tp2, tp2Pct)}
+      ${tpBox('TP3', p.tp3, tp3Pct)}
+    </div>
   </div>`;
 }
 
