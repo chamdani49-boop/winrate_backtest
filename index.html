@@ -530,6 +530,136 @@ html{ scroll-behavior:smooth; }
 #nb-live, #live-dot{ animation:livePulse 1.8s ease-in-out infinite; }
 @keyframes livePulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
 
+/* ============================================================
+   BELL NOTIFICATION (floating top-right)
+============================================================ */
+.bell{
+  position:fixed; top:14px; right:18px; z-index:150;
+  width:42px; height:42px; border-radius:50%;
+  background:var(--card2); border:1px solid var(--border2);
+  display:grid; place-items:center; cursor:pointer;
+  font-size:18px; color:var(--text);
+  box-shadow:0 6px 18px rgba(0,0,0,.32); transition:all .18s ease;
+}
+.bell:hover{ border-color:var(--accent); transform:translateY(-1px); }
+.bell-badge{
+  position:absolute; top:-4px; right:-4px; min-width:18px; height:18px;
+  border-radius:9px; background:var(--red); color:#fff;
+  font-family:var(--mono); font-size:10px; font-weight:700;
+  display:none; align-items:center; justify-content:center; padding:0 5px;
+  box-shadow:0 0 0 2px var(--bg);
+}
+.bell-badge.show{ display:flex; animation:bellPop .4s ease; }
+@keyframes bellPop{ 0%{ transform:scale(0); } 60%{ transform:scale(1.3); } 100%{ transform:scale(1); } }
+@media (max-width:900px){ .bell{ top:10px; right:12px; width:38px; height:38px; font-size:16px; } }
+
+.bell-panel{
+  position:fixed; top:64px; right:18px; z-index:151;
+  width:min(380px, calc(100vw - 36px));
+  max-height:min(70vh, 560px); overflow:hidden;
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:14px; box-shadow:0 18px 48px rgba(0,0,0,.55);
+  display:none; flex-direction:column;
+}
+.bell-panel.show{ display:flex; animation:bellSlide .18s ease; }
+@keyframes bellSlide{ from{ opacity:0; transform:translateY(-6px); } to{ opacity:1; transform:translateY(0); } }
+.bell-hd{
+  padding:14px 16px; display:flex; justify-content:space-between; align-items:center;
+  border-bottom:1px solid var(--border); font-weight:700;
+}
+.bell-list{ overflow-y:auto; flex:1; }
+.bell-item{
+  padding:11px 16px; border-bottom:1px solid var(--border);
+  font-size:12px; line-height:1.5; display:flex; gap:10px; align-items:flex-start;
+}
+.bell-item:last-child{ border-bottom:0; }
+.bell-item-ic{ font-size:16px; line-height:1; margin-top:1px; }
+.bell-item-body{ flex:1; min-width:0; }
+.bell-item-meta{ color:var(--muted); font-family:var(--mono); font-size:10px; margin-top:2px; }
+.bell-empty{ padding:40px 20px; text-align:center; color:var(--muted); font-size:13px; }
+@media (max-width:900px){ .bell-panel{ top:56px; right:12px; } }
+
+/* ============================================================
+   TOAST untuk event baru
+============================================================ */
+.toast-stack{ position:fixed; top:70px; right:18px; z-index:140; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
+.toast{
+  background:var(--card); border:1px solid var(--border2); border-left:3px solid var(--accent);
+  padding:11px 14px; border-radius:10px; min-width:240px; max-width:340px;
+  font-size:12px; box-shadow:0 10px 26px rgba(0,0,0,.45);
+  animation:toastIn .25s ease, toastOut .35s ease 5.6s forwards;
+}
+.toast.tp{ border-left-color:var(--green); }
+.toast.sl{ border-left-color:var(--red); }
+.toast.signal{ border-left-color:var(--blue); }
+@keyframes toastIn{ from{ opacity:0; transform:translateX(20px); } to{ opacity:1; transform:translateX(0); } }
+@keyframes toastOut{ to{ opacity:0; transform:translateX(20px); } }
+@media (max-width:900px){ .toast-stack{ top:60px; right:12px; left:12px; } .toast{ max-width:none; } }
+
+/* ============================================================
+   MODAL LEBAR untuk detail strategi
+============================================================ */
+.modal-wide{ max-width:680px !important; }
+.modal-section{
+  background:var(--surf); border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; margin-top:10px;
+}
+.modal-section-hd{
+  font-size:10px; letter-spacing:1.4px; color:var(--muted); font-weight:700; margin-bottom:8px;
+}
+.kv-row{ display:flex; justify-content:space-between; align-items:center; padding:5px 0; font-family:var(--mono); font-size:12px; }
+.kv-row + .kv-row{ border-top:1px dashed var(--border); }
+.kv-row .k{ color:var(--muted2); }
+.kv-row .v{ color:var(--text); font-weight:600; }
+.chip{
+  display:inline-block; font-size:10px; padding:3px 8px; border-radius:14px;
+  background:var(--card2); border:1px solid var(--border2); color:var(--muted2);
+  margin:3px 4px 0 0; font-family:var(--mono); letter-spacing:.4px;
+}
+.chip.ok{ color:var(--accent); border-color:rgba(0,229,160,.35); }
+.chip.bad{ color:var(--red); border-color:rgba(255,84,112,.35); }
+.chip.info{ color:var(--blue); border-color:rgba(74,163,255,.35); }
+.validity-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:20px; font-family:var(--mono);
+  font-weight:700; font-size:11px; letter-spacing:1px;
+}
+.validity-STRONG{ background:rgba(0,229,160,.14); color:var(--accent); border:1px solid rgba(0,229,160,.4); }
+.validity-MODERATE{ background:rgba(255,206,92,.14); color:var(--yellow); border:1px solid rgba(255,206,92,.4); }
+.validity-WEAK{ background:rgba(255,84,112,.14); color:var(--red); border:1px solid rgba(255,84,112,.4); }
+.score-bar{ height:6px; border-radius:3px; background:var(--border); overflow:hidden; margin-top:6px; }
+.score-bar > div{ height:100%; transition:width .4s ease; background:linear-gradient(90deg,var(--blue),var(--accent)); }
+
+/* ============================================================
+   POSITION CARD
+============================================================ */
+.pos-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+.pos-card{
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:14px; cursor:pointer; transition:all .18s ease; position:relative; overflow:hidden;
+}
+.pos-card::before{ content:''; position:absolute; top:0; left:0; bottom:0; width:3px; background:var(--muted); }
+.pos-card.long::before{ background:var(--accent); }
+.pos-card.short::before{ background:var(--red); }
+.pos-card:hover{ border-color:var(--border2); transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.4); }
+.pos-card-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; gap:8px; }
+.pos-pair{ font-weight:800; font-size:15px; letter-spacing:-.3px; }
+.pos-strat{ font-size:9px; letter-spacing:1px; color:var(--muted); margin-top:2px; font-family:var(--mono); }
+.pos-float{ text-align:right; }
+.pos-float-val{ font-family:var(--mono); font-weight:800; font-size:16px; letter-spacing:-.3px; }
+.pos-float-sub{ font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:2px; }
+.pos-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-family:var(--mono); font-size:11px; }
+.pos-meta-k{ color:var(--muted); font-size:9px; letter-spacing:.8px; }
+.pos-meta-v{ color:var(--text); }
+.tp-row{ display:flex; gap:5px; margin-top:10px; }
+.tp-step{
+  flex:1; padding:6px 4px; border-radius:6px; text-align:center;
+  background:var(--card2); border:1px solid var(--border); font-family:var(--mono); font-size:9.5px;
+  letter-spacing:.4px; color:var(--muted2);
+}
+.tp-step.hit{ background:rgba(0,229,160,.14); border-color:rgba(0,229,160,.4); color:var(--accent); }
+.tp-step.next{ border-color:var(--blue); color:var(--blue); }
+
 </style>
 </head>
 <body>
@@ -1073,12 +1203,9 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         </div>
 
         <div class="card">
-          <div class="card-hd">📡 Posisi Terbuka (live) — <span id="lv-open-count">0</span></div>
-          <div style="overflow-x:auto">
-            <table style="width:100%">
-              <thead><tr><th>#</th><th>PAIR</th><th>ARAH</th><th>BIAS 4H</th><th>ENTRY</th><th>TP</th><th>SL</th><th>DIBUKA</th></tr></thead>
-              <tbody id="lv-open-body"></tbody>
-            </table>
+          <div class="card-hd">📡 Posisi Terbuka (live) — <span id="lv-open-count">0</span> · floating <span id="lv-floating" class="c-blue">—</span></div>
+          <div id="lv-open-cards" class="pos-grid">
+            <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka.</div></div>
           </div>
         </div>
 
@@ -1086,7 +1213,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <div class="card-hd">✅ Trade Selesai Terbaru</div>
           <div style="overflow-x:auto">
             <table style="width:100%">
-              <thead><tr><th>#</th><th>WAKTU EXIT</th><th>PAIR</th><th>ARAH</th><th>ENTRY</th><th>EXIT</th><th>PNL %</th><th>BARS</th><th>HASIL</th></tr></thead>
+              <thead><tr><th>#</th><th>WAKTU EXIT</th><th>PAIR</th><th>STRATEGI</th><th>ARAH</th><th>TP HIT</th><th>EXIT</th><th>PNL %</th><th>HASIL</th><th></th></tr></thead>
               <tbody id="lv-hist-body"></tbody>
             </table>
           </div>
@@ -1325,6 +1452,37 @@ TP: 1.0790 | SL: 1.0880</div>
   </main><!-- /main -->
 </div><!-- /app -->
 
+<!-- BELL NOTIFICATION (floating top-right) -->
+<button class="bell" id="bellBtn" onclick="toggleBell()" title="Notifikasi">
+  🔔<span class="bell-badge" id="bellBadge">0</span>
+</button>
+<div class="bell-panel" id="bellPanel">
+  <div class="bell-hd">
+    <span>🔔 Notifikasi Robot</span>
+    <span class="btn-group">
+      <button class="btn btn-ghost btn-xs" onclick="clearBell()">✓ Tandai dibaca</button>
+      <button class="btn btn-ghost btn-xs" onclick="toggleBell()">✕</button>
+    </span>
+  </div>
+  <div class="bell-list" id="bellList">
+    <div class="bell-empty">Belum ada notifikasi.</div>
+  </div>
+</div>
+
+<!-- TOAST STACK -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- STRATEGY DETAIL MODAL -->
+<div class="modal-bg" id="stratModal" onclick="if(event.target.id==='stratModal')closeStratModal()">
+  <div class="modal modal-wide" id="stratModalCard">
+    <div class="modal-title" id="stratModalTitle">
+      Detail Strategi
+      <span class="modal-close" onclick="closeStratModal()">✕</span>
+    </div>
+    <div id="stratModalBody"></div>
+  </div>
+</div>
+
 <!-- BOTTOM NAV (mobile) -->
 <div class="bottomnav">
   <button class="bnav-item active" onclick="goPage('home')" id="bn-home"><div class="bnav-icon">🏠</div>Home</button>
@@ -1360,6 +1518,7 @@ window.onload = () => {
   updateNavBadge();
   document.getElementById('c-src').addEventListener('change', toggleCalcSrc);
   toggleCalcSrc();
+  initBellGlobal();
 };
 
 /* ============================================================
@@ -2368,28 +2527,52 @@ function exportScannerCSV() {
    ROBOT LIVE 24/7 — baca data/*.json (forward-test)
 ============================================================ */
 let liveTimer = null;
+let liveOpen = [];      // referensi posisi terbuka aktif (untuk popup)
+let liveHistory = [];   // referensi history (untuk popup)
+let liveEvents = [];
+const SEEN_KEY = 'tvbt_events_seen_ts';
 
 function startLiveRefresh() {
   loadLiveData();
   stopLiveRefresh();
-  liveTimer = setInterval(() => loadLiveData(), 60000); // auto-refresh 60s
+  liveTimer = setInterval(() => loadLiveData(), 60000);
 }
 function stopLiveRefresh() { if (liveTimer) { clearInterval(liveTimer); liveTimer = null; } }
 
 async function loadLiveData(manual) {
   const bust = '?t=' + Date.now();
   try {
-    const [stats, state, history] = await Promise.all([
+    const [stats, state, history, events] = await Promise.all([
       fetch('data/stats.json'   + bust).then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('data/state.json'   + bust).then(r => r.ok ? r.json() : null).catch(() => null),
-      fetch('data/history.json' + bust).then(r => r.ok ? r.json() : []).catch(() => [])
+      fetch('data/history.json' + bust).then(r => r.ok ? r.json() : []).catch(() => []),
+      fetch('data/events.json'  + bust).then(r => r.ok ? r.json() : []).catch(() => [])
     ]);
-    renderLive(stats, state, Array.isArray(history) ? history : []);
+    liveOpen = (state && state.open) || [];
+    liveHistory = Array.isArray(history) ? history : [];
+    handleNewEvents(Array.isArray(events) ? events : []);
+    renderLive(stats, state, liveHistory);
+    renderBell();
     if (manual) notify('🔄 Data live diperbarui');
   } catch (e) {
     setTxt('live-state', 'Gagal memuat data');
     if (manual) notify('⚠ Gagal memuat data live', 'warn');
   }
+}
+
+function handleNewEvents(events) {
+  const lastSeen = +localStorage.getItem(SEEN_KEY) || 0;
+  // jika ini load pertama (lastSeen=0), set ke event terbaru → tidak spam toast saat pertama buka
+  if (!lastSeen && events.length) {
+    const newest = Math.max(...events.map(e => new Date(e.ts).getTime()));
+    localStorage.setItem(SEEN_KEY, String(newest));
+    liveEvents = events;
+    return;
+  }
+  const fresh = events.filter(e => new Date(e.ts).getTime() > lastSeen);
+  // tampilkan toast HANYA bila ini bukan render pertama (ada perbedaan dengan liveEvents lama)
+  if (liveEvents.length) fresh.forEach(showToast);
+  liveEvents = events;
 }
 
 function renderLive(stats, state, history) {
@@ -2409,12 +2592,10 @@ function renderLive(stats, state, history) {
   document.getElementById('live-empty').style.display = 'none';
   document.getElementById('live-content').style.display = 'block';
 
-  // status: hijau bila update < 30 menit
   const ageMin = (Date.now() - new Date(stats.updatedAt).getTime()) / 60000;
   setTxt('live-state', ageMin < 30 ? 'AKTIF' : 'Tertunda');
   if (dot) dot.style.background = ageMin < 30 ? 'var(--accent)' : 'var(--yellow)';
 
-  // stat utama
   const tgt = (cfg && cfg.target_wr) || 55;
   setElC('lv-wr', (stats.winrate ?? 0).toFixed(1) + '%', stats.winrate >= tgt ? 'c-green' : stats.winrate >= 45 ? 'c-yellow' : 'c-red');
   setTxt('lv-wr-sub', `${stats.totalClosed||0} closed · target ${tgt}%`);
@@ -2427,26 +2608,39 @@ function renderLive(stats, state, history) {
   setElC('lv-avg', (stats.avgReturn >= 0 ? '+' : '') + (stats.avgReturn ?? 0).toFixed(2) + '%', stats.avgReturn >= 0 ? 'c-green' : 'c-red');
   document.getElementById('lv-bw').innerHTML = `<span class="c-green">+${(stats.bestPct??0).toFixed(1)}%</span> / <span class="c-red">${(stats.worstPct??0).toFixed(1)}%</span>`;
 
-  // posisi terbuka
-  const open = (state && state.open) || [];
-  setTxt('lv-open-count', open.length);
-  document.getElementById('lv-open-body').innerHTML = open.length ? open.map((p, i) => `<tr>
-    <td>${i+1}</td><td><b>${p.pair}</b></td>
-    <td><span class="pill ${p.dir==='BUY'?'pill-buy':'pill-sell'}">${p.dir}</span></td>
-    <td><span class="c-muted">${p.bias||'—'}</span></td>
-    <td>${fmtN(p.entry)}</td><td class="c-green">${fmtN(p.tp)}</td><td class="c-red">${fmtN(p.sl)}</td>
-    <td>${timeAgo(p.openTime)}</td></tr>`).join('')
-    : `<tr><td colspan="8"><div class="empty"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div></td></tr>`;
+  // floating total
+  const flo = stats.openFloatingPct ?? 0;
+  setElC('lv-floating', (flo>=0?'+':'') + flo.toFixed(2) + '%', flo>=0?'c-green':'c-red');
 
-  // history terbaru (maks 40, terbaru dulu)
+  // POSISI TERBUKA → CARD GRID
+  const open = liveOpen;
+  setTxt('lv-open-count', open.length);
+  const cards = document.getElementById('lv-open-cards');
+  if (!open.length) {
+    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
+  } else {
+    cards.innerHTML = open.map((p, i) => renderPosCard(p, i)).join('');
+  }
+
+  // HISTORI dengan kolom strategi + TP hits + tombol detail
   const hist = [...history].sort((a,b)=> new Date(b.exitTime)-new Date(a.exitTime)).slice(0,40);
   document.getElementById('lv-hist-body').innerHTML = hist.length ? hist.map((s,i)=>{
     const pnl = `<span class="${s.pnl_pct>=0?'c-green':'c-red'}">${s.pnl_pct>=0?'+':''}${(s.pnl_pct??0).toFixed(2)}%</span>`;
-    const res = (s.status==='TP'||s.status==='WIN') ? '<span class="pill pill-win">WIN</span>' : '<span class="pill pill-loss">LOSS</span>';
-    return `<tr><td>${i+1}</td><td>${(s.exitTime||'').slice(0,16).replace('T',' ')}</td>
-      <td><b>${s.pair}</b></td><td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
-      <td>${fmtN(s.entry)}</td><td>${fmtN(s.exit)}</td><td>${pnl}</td><td>${s.bars??'—'}</td><td>${res}</td></tr>`;
-  }).join('') : `<tr><td colspan="9"><div class="empty"><div class="empty-txt">Belum ada trade selesai.</div></div></td></tr>`;
+    const res = (s.result==='WIN' || s.pnl_pct>=0) ? '<span class="pill pill-win">WIN</span>' : '<span class="pill pill-loss">LOSS</span>';
+    const tps = (s.tpHits||[]).map(h=>`<span class="chip ok" style="margin:0 2px 0 0;padding:2px 6px;font-size:9px">${h}</span>`).join('') || `<span class="c-muted">—</span>`;
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${(s.exitTime||'').slice(0,16).replace('T',' ')}</td>
+      <td><b>${s.pair}</b></td>
+      <td><span class="chip info" style="margin:0">${s.strategyShort||s.strategy||'—'}</span></td>
+      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
+      <td>${tps}</td>
+      <td>${fmtN(s.exit)}</td>
+      <td>${pnl}</td>
+      <td>${res}</td>
+      <td><button class="btn btn-ghost btn-xs" onclick="openStratModalFromHistory('${s.id}')">ℹ Detail</button></td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="10"><div class="empty"><div class="empty-txt">Belum ada trade selesai.</div></div></td></tr>`;
 
   // per pair
   const byPair = stats.byPair || {};
@@ -2458,8 +2652,255 @@ function renderLive(stats, state, history) {
       <td class="${d.net>=0?'c-green':'c-red'}">${d.net>=0?'+':''}${d.net}%</td></tr>`;
   }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
 
-  // watchlist
   setTxt('lv-watch', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.join('  ·  ') : '—');
+}
+
+/* ---------- RENDER POSITION CARD (open positions) ---------- */
+function renderPosCard(p, i) {
+  const last = (p.lastPrice != null) ? p.lastPrice : p.entry;
+  const realized = +(p.realizedPct || 0);
+  const remaining = (p.remaining != null) ? p.remaining : 1;
+  const dirSign = p.dir === 'BUY' ? 1 : -1;
+  const unreal = ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+  const floating = realized + unreal;
+  const cls = floating >= 0 ? 'c-green' : 'c-red';
+  const dirLow = p.dir === 'BUY' ? 'long' : 'short';
+  const tpHits = new Set(p.tpHits || []);
+  const tpStep = (lvl) => {
+    const hit = tpHits.has(lvl);
+    const nextOne = !hit && [...tpHits].length === { TP1: 0, TP2: 1, TP3: 2 }[lvl];
+    return `<div class="tp-step ${hit?'hit':nextOne?'next':''}">${hit?'✓ ':''}${lvl}</div>`;
+  };
+  const v = p.intel ? p.intel.validity : null;
+  const validityBadge = v ? `<span class="chip ${v==='STRONG'?'ok':v==='WEAK'?'bad':'info'}" style="margin:0">${v}</span>` : '';
+
+  return `<div class="pos-card ${dirLow}" onclick="openStratModalFromOpen(${i})">
+    <div class="pos-card-top">
+      <div>
+        <div class="pos-pair">${p.pair} <span class="pill ${p.dir==='BUY'?'pill-buy':'pill-sell'}" style="margin-left:4px;font-size:9px">${p.dir}</span></div>
+        <div class="pos-strat">${p.strategyShort||p.strategy||'SPIKE'} ${validityBadge}</div>
+      </div>
+      <div class="pos-float">
+        <div class="pos-float-val ${cls}">${floating>=0?'+':''}${floating.toFixed(2)}%</div>
+        <div class="pos-float-sub">floating · ${timeAgo(p.openTime)}</div>
+      </div>
+    </div>
+    <div class="pos-meta">
+      <div><div class="pos-meta-k">ENTRY</div><div class="pos-meta-v">${fmtN(p.entry)}</div></div>
+      <div><div class="pos-meta-k">HARGA NOW</div><div class="pos-meta-v">${fmtN(last)}</div></div>
+      <div><div class="pos-meta-k">SL</div><div class="pos-meta-v c-red">${fmtN(p.sl)}</div></div>
+      <div><div class="pos-meta-k">TP3</div><div class="pos-meta-v c-green">${fmtN(p.tp3)}</div></div>
+    </div>
+    <div class="tp-row">${tpStep('TP1')}${tpStep('TP2')}${tpStep('TP3')}</div>
+  </div>`;
+}
+
+/* ============================================================
+   STRATEGY DETAIL POPUP
+============================================================ */
+function openStratModalFromOpen(idx) {
+  const p = liveOpen[idx]; if (!p) return;
+  showStratModal(p, false);
+}
+function openStratModalFromHistory(id) {
+  const t = liveHistory.find(h => String(h.id) === String(id)); if (!t) return;
+  showStratModal(t, true);
+}
+function closeStratModal() { document.getElementById('stratModal').classList.remove('show'); }
+
+function showStratModal(p, isHistory) {
+  const dirIcon = p.dir === 'BUY' ? '🟢' : '🔴';
+  const intel = p.intel || {};
+  const v = intel.validity || '—';
+  const score = intel.score || 0;
+  const last = p.lastPrice != null ? p.lastPrice : (p.exit != null ? p.exit : p.entry);
+  const dirSign = p.dir === 'BUY' ? 1 : -1;
+  const realized = +(p.realizedPct || 0);
+  const remaining = (p.remaining != null) ? p.remaining : 0;
+  const unreal = isHistory ? 0 : ((last - p.entry) / p.entry * 100) * dirSign * remaining;
+  const floatPnl = isHistory ? (p.pnl_pct||0) : (realized + unreal);
+  const cls = floatPnl >= 0 ? 'c-green' : 'c-red';
+
+  document.getElementById('stratModalTitle').innerHTML = `${dirIcon} ${p.pair} — ${p.dir} <span class="modal-close" onclick="closeStratModal()">✕</span>`;
+
+  const tpRR = p.tpRR || [1, 2, 3];
+  const tpHits = new Set(p.tpHits || []);
+  const pctTo = (price) => ((price - p.entry) / p.entry * 100 * dirSign).toFixed(2);
+  const tpRow = (lvl, price, rr) => {
+    const hit = tpHits.has(lvl);
+    return `<div class="kv-row">
+      <span class="k">${hit?'✅':'•'} ${lvl} (RR 1:${rr})</span>
+      <span class="v">${fmtN(price)} <span class="c-muted" style="font-size:10px">(+${pctTo(price)}%)</span></span>
+    </div>`;
+  };
+
+  const reasonsChips = (intel.reasons || []).map(r => {
+    const low = String(r).toLowerCase();
+    const cls2 = (low.includes('uptrend') || low.includes('oversold') || low.includes('above') || low.includes('rising') || low.includes('heavy') || low.includes('buy')) ? 'ok'
+              : (low.includes('downtrend') || low.includes('overbought') || low.includes('below') || low.includes('falling') || low.includes('sell')) ? 'bad' : '';
+    return `<span class="chip ${cls2}">${r}</span>`;
+  }).join('');
+
+  const mtf = intel.mtf || {};
+  const macdHuman = { rising: 'naik', fading_up: 'memudar (+)', falling: 'turun', fading_down: 'memudar (−)', flat: 'datar' };
+
+  const html = `
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px">
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:1px">STRATEGI</div>
+        <div style="font-weight:700;font-size:14px">${p.strategyShort || p.strategy || 'SPIKE'}</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:2px">${p.strategyName || ''}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="validity-badge validity-${v}">B ${v}</span>
+        <div class="score-bar" style="width:140px;margin-left:auto"><div style="width:${score}%"></div></div>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">SCORE ${score}/100</div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-hd">🎯 ENTRY & TARGETS</div>
+      <div class="kv-row"><span class="k">Entry</span><span class="v">${fmtN(p.entry)}</span></div>
+      ${tpRow('TP1', p.tp1, tpRR[0])}
+      ${tpRow('TP2', p.tp2, tpRR[1])}
+      ${tpRow('TP3', p.tp3, tpRR[2])}
+      <div class="kv-row"><span class="k">🛡️ SL${p.slInit && p.slInit!==p.sl?' (saat ini)':''}</span><span class="v c-red">${fmtN(p.sl||p.slInit)} (${pctTo(p.sl||p.slInit)}%)</span></div>
+      ${p.slInit && p.sl !== p.slInit ? `<div class="kv-row"><span class="k">SL awal</span><span class="v" style="opacity:.7">${fmtN(p.slInit)}</span></div>` : ''}
+      <div class="kv-row"><span class="k">📐 ATR</span><span class="v">${fmtN(p.atr)} (${p.atrPct ?? '—'}%)</span></div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-hd">📈 ${isHistory ? 'HASIL' : 'POSISI SAAT INI'}</div>
+      ${isHistory ? `
+        <div class="kv-row"><span class="k">Hasil</span><span class="v ${cls}">${(p.pnl_pct>=0?'+':'')}${(p.pnl_pct||0).toFixed(2)}% · ${p.result||'—'}</span></div>
+        <div class="kv-row"><span class="k">Tutup karena</span><span class="v">${p.closedBy||'—'}</span></div>
+        <div class="kv-row"><span class="k">TP tercapai</span><span class="v">${(p.tpHits||[]).join(', ')||'—'}</span></div>
+        <div class="kv-row"><span class="k">Bars dipegang</span><span class="v">${p.bars||'—'} candle</span></div>
+        <div class="kv-row"><span class="k">Exit</span><span class="v">${fmtN(p.exit)} pada ${(p.exitTime||'').slice(0,16).replace('T',' ')}</span></div>
+      ` : `
+        <div class="kv-row"><span class="k">Floating P&amp;L</span><span class="v ${cls}">${floatPnl>=0?'+':''}${floatPnl.toFixed(2)}%</span></div>
+        <div class="kv-row"><span class="k">Harga sekarang</span><span class="v">${fmtN(last)} <span class="c-muted" style="font-size:10px">(${timeAgo(p.lastPriceTime||p.openTime)})</span></span></div>
+        <div class="kv-row"><span class="k">TP tercapai</span><span class="v c-green">${(p.tpHits||[]).join(', ')||'belum'}</span></div>
+        <div class="kv-row"><span class="k">Sisa posisi</span><span class="v">${Math.round(remaining*100)}%</span></div>
+        <div class="kv-row"><span class="k">Realized</span><span class="v">${realized>=0?'+':''}${realized.toFixed(2)}%</span></div>
+      `}
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-hd">📡 MARKET INTELLIGENCE (multi-timeframe)</div>
+      <div class="kv-row"><span class="k">Daily / Weekly</span><span class="v">${mtf.D||'—'} / ${mtf.W||'—'}</span></div>
+      <div class="kv-row"><span class="k">4H / 1H</span><span class="v">${mtf['4H']||'—'} / ${mtf['1H']||'—'}</span></div>
+      <div class="kv-row"><span class="k">Structure</span><span class="v">${intel.structure||'—'}</span></div>
+      <div class="kv-row"><span class="k">RSI(14)</span><span class="v">${intel.rsi != null ? intel.rsi : '—'}</span></div>
+      <div class="kv-row"><span class="k">MACD</span><span class="v">${intel.macd ? (macdHuman[intel.macd]||intel.macd) : '—'}</span></div>
+      <div class="kv-row"><span class="k">Vol Spike</span><span class="v">${(p.reasons && p.reasons.volRatio) ? p.reasons.volRatio + 'x' : '—'}</span></div>
+      ${intel.ma200 ? `<div class="kv-row"><span class="k">MA200</span><span class="v">${intel.ma200}</span></div>` : ''}
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-hd">📌 PANDUAN MANAJEMEN</div>
+      <div class="kv-row"><span class="k">💰 Position Size</span><span class="v">${intel.positionSize||'—'}</span></div>
+      <div class="kv-row"><span class="k">⏱ Hold Duration</span><span class="v">${intel.holdDuration||'—'}</span></div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:8px;line-height:1.6">${intel.management||''}</div>
+    </div>
+
+    ${reasonsChips ? `<div class="modal-section">
+      <div class="modal-section-hd">💡 ALASAN SINYAL</div>
+      <div>${reasonsChips}</div>
+    </div>` : ''}
+  `;
+  document.getElementById('stratModalBody').innerHTML = html;
+  document.getElementById('stratModal').classList.add('show');
+}
+
+/* ============================================================
+   BELL NOTIFICATION
+============================================================ */
+function toggleBell() {
+  const panel = document.getElementById('bellPanel');
+  const open = panel.classList.toggle('show');
+  if (open) clearBell();
+}
+function clearBell() {
+  const newest = liveEvents.length ? Math.max(...liveEvents.map(e => new Date(e.ts).getTime())) : Date.now();
+  localStorage.setItem(SEEN_KEY, String(newest));
+  renderBell();
+}
+function renderBell() {
+  const lastSeen = +localStorage.getItem(SEEN_KEY) || 0;
+  const unread = liveEvents.filter(e => new Date(e.ts).getTime() > lastSeen).length;
+  const badge = document.getElementById('bellBadge');
+  if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.classList.add('show'); }
+  else { badge.classList.remove('show'); }
+
+  const list = document.getElementById('bellList');
+  if (!liveEvents.length) {
+    list.innerHTML = '<div class="bell-empty">Belum ada notifikasi.</div>';
+    return;
+  }
+  const sorted = [...liveEvents].sort((a,b)=> new Date(b.ts) - new Date(a.ts)).slice(0, 50);
+  list.innerHTML = sorted.map(e => {
+    const fmt = formatEvent(e);
+    return `<div class="bell-item">
+      <div class="bell-item-ic">${fmt.icon}</div>
+      <div class="bell-item-body">
+        <div>${fmt.html}</div>
+        <div class="bell-item-meta">${timeAgo(e.ts)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function formatEvent(e) {
+  if (e.type === 'new_signal') {
+    const arrow = e.dir === 'BUY' ? '🟢' : '🔴';
+    const v = e.validity || '';
+    const cls = v==='STRONG'?'ok':v==='WEAK'?'bad':'info';
+    return { icon: arrow, html: `<b>${e.pair}</b> ${e.dir} <span class="chip ${cls}" style="margin:0 0 0 4px">${v} ${e.score||''}</span><br><span class="c-muted">Sinyal baru @ ${fmtN(e.entry)}</span>` };
+  }
+  if (e.type === 'tp_hit') {
+    return { icon: '🎯', html: `<b>${e.pair}</b> ${e.dir} kena <span class="chip ok" style="margin:0 0 0 4px">${e.hit}</span><br><span class="c-muted">@ ${fmtN(e.price)}</span>` };
+  }
+  if (e.type === 'closed') {
+    const isWin = e.result === 'WIN';
+    const cls = isWin?'c-green':'c-red';
+    return { icon: isWin?'✅':'❌', html: `<b>${e.pair}</b> tutup ${e.closedBy||'—'} <span class="${cls}">${e.pnl_pct>=0?'+':''}${(e.pnl_pct||0).toFixed(2)}%</span>` };
+  }
+  return { icon: '🔔', html: JSON.stringify(e).slice(0, 80) };
+}
+
+function showToast(e) {
+  const fmt = formatEvent(e);
+  const cls = e.type === 'tp_hit' ? 'tp' : e.type === 'closed' ? (e.result==='WIN'?'tp':'sl') : 'signal';
+  const div = document.createElement('div');
+  div.className = 'toast ' + cls;
+  div.innerHTML = `<div style="display:flex;gap:10px;align-items:flex-start">
+    <div style="font-size:18px;line-height:1">${fmt.icon}</div>
+    <div style="flex:1;min-width:0">${fmt.html}</div>
+  </div>`;
+  document.getElementById('toastStack').appendChild(div);
+  setTimeout(() => div.remove(), 6500);
+}
+
+/* close modal/panel via Escape */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeStratModal();
+    document.getElementById('bellPanel').classList.remove('show');
+  }
+});
+
+/* inisialisasi bell dari halaman manapun (auto refresh tiap 90 detik) */
+function initBellGlobal() {
+  fetchEventsOnce();
+  setInterval(fetchEventsOnce, 90000);
+}
+async function fetchEventsOnce() {
+  try {
+    const events = await fetch('data/events.json?t=' + Date.now()).then(r => r.ok ? r.json() : []).catch(() => []);
+    handleNewEvents(Array.isArray(events) ? events : []);
+    renderBell();
+  } catch (e) { /* abaikan */ }
 }
 
 function timeAgo(iso) {
