@@ -891,6 +891,51 @@ html{ scroll-behavior:smooth; }
 .rank-item:nth-child(2) .rank-pos{ color:#cfd6e4; font-size:13px; }
 .rank-item:nth-child(3) .rank-pos{ color:#cd7f32; font-size:13px; }
 
+/* ============================================================
+   SCORE ANOMALY CARD
+============================================================ */
+.anomaly-card{ border-color:rgba(255,206,92,0.45) !important; background:linear-gradient(180deg, rgba(255,206,92,0.06), transparent); }
+.anomaly-icon{ font-size:30px; line-height:1; }
+.anomaly-badge{
+  display:inline-block; padding:3px 10px; border-radius:14px;
+  background:rgba(255,206,92,0.16); color:var(--yellow);
+  border:1px solid rgba(255,206,92,0.45);
+  font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:1.2px;
+}
+.anomaly-card.drift .anomaly-badge{ background:rgba(255,84,112,0.16); color:var(--red); border-color:rgba(255,84,112,0.45); }
+
+/* ============================================================
+   RECENT SIGNALS LOG — filter tabs + pagination + S/Stat columns
+============================================================ */
+.rsl-filter{ display:flex; gap:3px; background:var(--card2); padding:3px; border-radius:18px; }
+.rsl-fbtn{
+  padding:5px 14px; border:0; background:transparent; cursor:pointer;
+  color:var(--muted2); font-family:var(--sans); font-size:11px; font-weight:600;
+  border-radius:14px; transition:all .18s ease;
+}
+.rsl-fbtn:hover{ color:var(--text); }
+.rsl-fbtn.active{ background:linear-gradient(135deg, var(--blue), #6b89ff); color:#fff; }
+
+.rsl-pager{ display:flex; justify-content:center; align-items:center; gap:14px; margin-top:12px; padding-top:10px; border-top:1px solid var(--border); }
+.rsl-pageinfo{ font-family:var(--mono); font-size:11.5px; color:var(--muted); }
+
+/* Recent Signals Log table styling */
+.rsl-table td{ vertical-align:middle; }
+.rsl-sig-pair{ font-weight:700; font-size:12.5px; }
+.rsl-sig-meta{ font-family:var(--mono); font-size:9px; color:var(--muted); margin-top:2px; }
+.rsl-s-dir{ font-weight:700; font-size:13px; }
+.rsl-s-meta{ font-family:var(--mono); font-size:9px; color:var(--muted); margin-top:2px; }
+.rsl-stat-pill{
+  display:inline-flex; align-items:center; gap:3px;
+  padding:3px 9px; border-radius:10px; font-family:var(--mono); font-size:10.5px; font-weight:700;
+}
+.rsl-stat-pill.t1{ background:rgba(74,163,255,0.14); color:var(--blue); border:1px solid rgba(74,163,255,0.3); }
+.rsl-stat-pill.t2{ background:rgba(0,229,160,0.14); color:var(--accent); border:1px solid rgba(0,229,160,0.3); }
+.rsl-stat-pill.t3{ background:rgba(255,206,92,0.14); color:var(--yellow); border:1px solid rgba(255,206,92,0.4); }
+.rsl-stat-pill.tsl{ background:rgba(74,163,255,0.14); color:var(--blue); border:1px solid rgba(74,163,255,0.3); }
+.rsl-stat-pill.sl{ background:rgba(255,84,112,0.14); color:var(--red); border:1px solid rgba(255,84,112,0.3); }
+.rsl-stat-pill.run{ background:rgba(255,255,255,0.06); color:var(--muted2); border:1px solid var(--border2); }
+
 </style>
 </head>
 <body>
@@ -1588,6 +1633,22 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
+        <!-- ============ SCORE ANOMALY (warning if low score outperforms) ============ -->
+        <div class="card mt12 anomaly-card" id="lv-anomaly-card" style="display:none">
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div class="anomaly-icon">📌</div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:9.5px;color:var(--muted);letter-spacing:1.2px;font-weight:700">SCORE EFFICIENCY</div>
+              <div style="margin-top:5px"><span class="anomaly-badge" id="lv-anomaly-badge">SCORE ANOMALY</span></div>
+              <div style="font-size:11.5px;color:var(--muted2);margin-top:6px;line-height:1.5" id="lv-anomaly-msg">—</div>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);text-align:right">
+              <div>Low: <span id="lv-anom-low" class="c-blue">—</span></div>
+              <div>High: <span id="lv-anom-high" class="c-yellow">—</span></div>
+            </div>
+          </div>
+        </div>
+
         <!-- ============ TOP / BOTTOM COINS ============ -->
         <div class="g2 mt12">
           <div class="card">
@@ -1658,12 +1719,31 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
         <!-- ============ TRADE HISTORY ============ -->
         <div class="card mt12">
-          <div class="card-hd">✅ Trade Selesai Terbaru</div>
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>📋 Recent Signals Log</span>
+            <div class="rsl-filter">
+              <button class="rsl-fbtn active" onclick="setRslFilter('all')" data-f="all">All</button>
+              <button class="rsl-fbtn" onclick="setRslFilter('run')" data-f="run">Run</button>
+              <button class="rsl-fbtn" onclick="setRslFilter('cls')" data-f="cls">Cls</button>
+            </div>
+          </div>
           <div style="overflow-x:auto">
-            <table style="width:100%">
-              <thead><tr><th>#</th><th>WAKTU EXIT</th><th>PAIR</th><th>STRATEGI</th><th>ARAH</th><th>TP HIT</th><th>EXIT</th><th>PNL %</th><th>HASIL</th><th></th></tr></thead>
+            <table style="width:100%" class="rsl-table">
+              <thead><tr>
+                <th>SIGNAL</th>
+                <th style="text-align:center">S</th>
+                <th style="text-align:center">SC</th>
+                <th style="text-align:center">STAT</th>
+                <th style="text-align:right">P&L</th>
+                <th></th>
+              </tr></thead>
               <tbody id="lv-hist-body"></tbody>
             </table>
+          </div>
+          <div class="rsl-pager" id="lv-rsl-pager">
+            <button class="btn btn-ghost btn-xs" onclick="rslPagePrev()">←</button>
+            <span class="rsl-pageinfo" id="lv-rsl-pageinfo">Page 1 / 1</span>
+            <button class="btn btn-ghost btn-xs" onclick="rslPageNext()">→</button>
           </div>
         </div>
 
@@ -3416,6 +3496,155 @@ function renderScoreBracket(stats) {
   }).join('');
 }
 
+/* Score Anomaly card — peringatan ketika low-score lebih akurat dari high-score */
+function renderScoreAnomaly(stats) {
+  const card = document.getElementById('lv-anomaly-card');
+  if (!card) return;
+  const a = stats.scoreAnomaly;
+  if (!a) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  card.classList.toggle('drift', a.type === 'HIGH_SCORE_COLD');
+  document.getElementById('lv-anomaly-badge').textContent = a.label || 'SCORE ANOMALY';
+  document.getElementById('lv-anomaly-msg').textContent = a.message || '—';
+  setTxt('lv-anom-low', (a.lowWR != null ? a.lowWR.toFixed(1) + '% (' + (a.sampleLow || '?') + ')' : '—'));
+  setTxt('lv-anom-high', (a.highWR != null ? a.highWR.toFixed(1) + '% (' + (a.sampleHigh || '?') + ')' : '—'));
+}
+
+/* ============================================================
+   RECENT SIGNALS LOG — filter (All/Run/Cls) + pagination
+============================================================ */
+let rslFilter = 'all';
+let rslPage = 1;
+const RSL_PAGE_SIZE = 10;
+
+function setRslFilter(f) {
+  rslFilter = f;
+  rslPage = 1;
+  document.querySelectorAll('.rsl-fbtn').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  renderRecentSignals();
+}
+function rslPagePrev() { if (rslPage > 1) { rslPage--; renderRecentSignals(); } }
+function rslPageNext() {
+  const totalPages = Math.max(1, Math.ceil(_rslTotalItems / RSL_PAGE_SIZE));
+  if (rslPage < totalPages) { rslPage++; renderRecentSignals(); }
+}
+
+let _rslTotalItems = 0;
+
+function renderRecentSignals() {
+  const tbody = document.getElementById('lv-hist-body');
+  if (!tbody) return;
+
+  // Gabungkan open + history sesuai filter
+  const openItems = liveOpen.map(p => ({
+    isOpen: true,
+    id: p.id,
+    pair: p.pair, dir: p.dir, intel: p.intel, score: p.intel ? p.intel.score : null,
+    entry: p.entry, sl: p.sl, slInit: p.slInit, atr: p.atr, atrPct: p.atrPct,
+    tpHits: p.tpHits || [], lastPrice: p.lastPrice,
+    openTime: p.openTime, virtualClosed: p.virtualClosed,
+    _orig: p
+  }));
+  const closedItems = liveHistory.map(t => ({
+    isOpen: false,
+    id: t.id, pair: t.pair, dir: t.dir, intel: t.intel, score: t.intel ? t.intel.score : null,
+    entry: t.entry, sl: t.slInit, slInit: t.slInit, exit: t.exit,
+    tpHits: t.tpHits || [], closedBy: t.closedBy, pnl_pct: t.pnl_pct, result: t.result,
+    openTime: t.openTime, exitTime: t.exitTime,
+    _orig: t
+  }));
+
+  let items = [];
+  if (rslFilter === 'all') items = openItems.concat(closedItems);
+  else if (rslFilter === 'run') items = openItems;
+  else if (rslFilter === 'cls') items = closedItems;
+
+  // sort: terbaru duluan
+  items.sort((a, b) => {
+    const ta = new Date(a.exitTime || a.openTime).getTime();
+    const tb = new Date(b.exitTime || b.openTime).getTime();
+    return tb - ta;
+  });
+
+  _rslTotalItems = items.length;
+  const totalPages = Math.max(1, Math.ceil(items.length / RSL_PAGE_SIZE));
+  if (rslPage > totalPages) rslPage = totalPages;
+  const start = (rslPage - 1) * RSL_PAGE_SIZE;
+  const slice = items.slice(start, start + RSL_PAGE_SIZE);
+
+  if (!slice.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="empty-txt">Belum ada signal.</div></div></td></tr>';
+  } else {
+    const initialCap = getInitialCapital();
+    const N = (window.__lastStats && window.__lastStats.watchlist && window.__lastStats.watchlist.length) || 20;
+    const allocPerCoin = initialCap / N;
+    const leverage = 10;
+
+    tbody.innerHTML = slice.map(s => {
+      const dirCls = s.dir === 'BUY' ? 'c-green' : 'c-red';
+      const dirLbl = s.dir === 'BUY' ? 'L' : 'S';
+      // Hitung SL distance %
+      const slPx = s.sl || s.slInit || s.entry;
+      const slPct = ((slPx - s.entry) / s.entry * 100 * (s.dir === 'BUY' ? 1 : -1)).toFixed(1);
+      // Stat pill — TP1/T1/T2/T3/TSL/SL/RUN
+      let statHTML;
+      if (s.isOpen) {
+        const lastTP = (s.tpHits || []).slice(-1)[0];
+        if (lastTP) statHTML = `<span class="rsl-stat-pill ${lastTP.toLowerCase().replace('p','')}">${lastTP} (Running)</span>`;
+        else statHTML = `<span class="rsl-stat-pill run">▶ RUN</span>`;
+      } else {
+        // Closed: tentukan label berdasarkan closedBy + tpHits
+        const cb = s.closedBy;
+        const lastTP = (s.tpHits || []).slice(-1)[0];
+        if (cb === 'TP3') statHTML = `<span class="rsl-stat-pill t3">🏆 T3</span>`;
+        else if (cb === 'SL' && lastTP) statHTML = `<span class="rsl-stat-pill tsl">🛡 TSL</span>`;
+        else if (cb === 'SL') statHTML = `<span class="rsl-stat-pill sl">✕ SL</span>`;
+        else if (cb === 'TIMEOUT' && lastTP === 'TP2') statHTML = `<span class="rsl-stat-pill t2">📊 T2</span>`;
+        else if (cb === 'TIMEOUT' && lastTP === 'TP1') statHTML = `<span class="rsl-stat-pill t1">📊 T1</span>`;
+        else statHTML = `<span class="rsl-stat-pill ${(s.pnl_pct||0)>=0?'t1':'sl'}">${(s.pnl_pct||0)>=0?'WIN':'LOSS'}</span>`;
+      }
+      // P&L
+      let pnl;
+      if (s.isOpen) {
+        const last = s.lastPrice != null ? s.lastPrice : s.entry;
+        const dirSign = s.dir === 'BUY' ? 1 : -1;
+        const pn = ((last - s.entry) / s.entry * 100) * dirSign;
+        pnl = `<span class="${pn>=0?'c-green':'c-red'}">${pn>=0?'+':''}${pn.toFixed(1)}%</span>`;
+      } else {
+        const pn = s.pnl_pct || 0;
+        pnl = `<span class="${pn>=0?'c-green':'c-red'}">${pn>=0?'+':''}${pn.toFixed(1)}%</span>`;
+      }
+      const ago = timeAgo(s.exitTime || s.openTime);
+      const onclickHandler = s.isOpen
+        ? `openStratModalFromOpenById('${s.id}')`
+        : `openStratModalFromHistory('${s.id}')`;
+      return `<tr style="cursor:pointer" onclick="${onclickHandler}">
+        <td>
+          <div class="rsl-sig-pair">${s.pair.replace('USDT','')}</div>
+          <div class="rsl-sig-meta">${ago}</div>
+        </td>
+        <td style="text-align:center">
+          <div class="rsl-s-dir ${dirCls}">${dirLbl}</div>
+          <div class="rsl-s-meta">${leverage}x · $${allocPerCoin.toFixed(0)} · SL ${slPct}%</div>
+        </td>
+        <td style="text-align:center"><b>${s.score != null ? s.score : '—'}</b></td>
+        <td style="text-align:center">${statHTML}</td>
+        <td style="text-align:right">${pnl}</td>
+        <td style="text-align:center"><span class="c-muted" style="font-size:10px">ℹ</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // pager update
+  setTxt('lv-rsl-pageinfo', `Page ${rslPage} / ${totalPages}`);
+}
+
+/* helper: open modal posisi terbuka by id */
+function openStratModalFromOpenById(id) {
+  const idx = liveOpen.findIndex(p => String(p.id) === String(id));
+  if (idx >= 0) showStratModal(liveOpen[idx], false);
+}
+
 /* ekstrak render-ulang card posisi terbuka & terminal sebagai fungsi terpisah */
 const _lastRenderPrice = {}; // pair -> price (snapshot terakhir untuk flash effect)
 function renderOpenCards() {
@@ -3527,25 +3756,8 @@ function renderLive(stats, state, history) {
   // POSISI TERBUKA → CARD GRID (pakai helper)
   renderOpenCards();
 
-  // HISTORI dengan kolom strategi + TP hits + tombol detail
-  const hist = [...history].sort((a,b)=> new Date(b.exitTime)-new Date(a.exitTime)).slice(0,40);
-  document.getElementById('lv-hist-body').innerHTML = hist.length ? hist.map((s,i)=>{
-    const pnl = `<span class="${s.pnl_pct>=0?'c-green':'c-red'}">${s.pnl_pct>=0?'+':''}${(s.pnl_pct??0).toFixed(2)}%</span>`;
-    const res = (s.result==='WIN' || s.pnl_pct>=0) ? '<span class="pill pill-win">WIN</span>' : '<span class="pill pill-loss">LOSS</span>';
-    const tps = (s.tpHits||[]).map(h=>`<span class="chip ok" style="margin:0 2px 0 0;padding:2px 6px;font-size:9px">${h}</span>`).join('') || `<span class="c-muted">—</span>`;
-    return `<tr>
-      <td>${i+1}</td>
-      <td>${(s.exitTime||'').slice(0,16).replace('T',' ')}</td>
-      <td><b>${s.pair}</b></td>
-      <td><span class="chip info" style="margin:0">${s.strategyShort||s.strategy||'—'}</span></td>
-      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
-      <td>${tps}</td>
-      <td>${fmtN(s.exit)}</td>
-      <td>${pnl}</td>
-      <td>${res}</td>
-      <td><button class="btn btn-ghost btn-xs" onclick="openStratModalFromHistory('${s.id}')">ℹ Detail</button></td>
-    </tr>`;
-  }).join('') : `<tr><td colspan="10"><div class="empty"><div class="empty-txt">Belum ada trade selesai.</div></div></td></tr>`;
+  // RECENT SIGNALS LOG (filter + pagination via renderer terpisah)
+  renderRecentSignals();
 
   // per pair
   const byPair = stats.byPair || {};
@@ -3622,9 +3834,10 @@ function renderLive(stats, state, history) {
   // 30-Day Chart
   drawDayChart(stats.dailyEquity || []);
 
-  // Top 5 / Bottom 5 Coins + Score Bracket (tab Performa)
+  // Top 5 / Bottom 5 Coins + Score Bracket + Anomaly (tab Performa)
   renderTopCoins(stats);
   renderScoreBracket(stats);
+  renderScoreAnomaly(stats);
 
   // simulator modal & ringkasan bulanan
   renderCapitalSim(stats, history);

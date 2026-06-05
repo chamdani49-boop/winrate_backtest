@@ -629,6 +629,26 @@ function computeStats(history, openPositions, watchlist, meta) {
         };
       });
     })(),
+    scoreAnomaly: (() => {
+      // Deteksi anomali: WR low-score (<70) > WR high-score (80+) dlm 24h terakhir
+      // ATAU high score signifikan underperform.
+      const cutoff = Date.now() - 24 * 3600e3;
+      const recent = history.filter(t => new Date(t.exitTime).getTime() >= cutoff && t.intel && t.intel.score != null);
+      if (recent.length < 3) return null;
+      const lowS = recent.filter(t => t.intel.score < 70);
+      const highS = recent.filter(t => t.intel.score >= 80);
+      if (lowS.length < 2 || highS.length < 2) return null;
+      const wr = (arr) => arr.length ? arr.filter(t => (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN').length / arr.length * 100 : 0;
+      const lowWR = +wr(lowS).toFixed(1);
+      const highWR = +wr(highS).toFixed(1);
+      if (lowWR > highWR + 10) {
+        return { type: 'LOW_SCORE_HOT', label: 'SCORE ANOMALY', message: 'Low scores are more accurate today (' + lowWR + '% WR).', lowWR, highWR, sampleLow: lowS.length, sampleHigh: highS.length };
+      }
+      if (highWR < 30 && highS.length >= 3) {
+        return { type: 'HIGH_SCORE_COLD', label: 'STRATEGY DRIFT', message: 'High score signals underperforming today (' + highWR + '% WR).', lowWR, highWR, sampleLow: lowS.length, sampleHigh: highS.length };
+      }
+      return null;
+    })(),
     openFloatingPct: +openFloatingPct.toFixed(2),
     byPair,
     bySide: { BUY: side('BUY'), SELL: side('SELL') },
