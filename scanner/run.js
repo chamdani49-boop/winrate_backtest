@@ -390,17 +390,36 @@ function detectSignal(smallCandles, bigCandles, strat, bias, hasTaker) {
     const aBig = atrAt(bigArr, bigArr.length - 1, strat.atrPeriod);
     if (aBig && aBig > 0) aTarget = aBig;       // jarak SL/TP berkaca pada swing 4h
   }
-  const slDist = aTarget * strat.atrMult;
-  if (slDist <= 0) return null;
   const tpR = Array.isArray(strat.tpR) && strat.tpR.length === 3 ? strat.tpR : [1, 2, 3];
-  const lvl = r => dir === 'BUY' ? entry + slDist * r : entry - slDist * r;
-  const sl = dir === 'BUY' ? entry - slDist : entry + slDist;
+
+  // === Jarak risiko (R) — menentukan SL & kelipatan TP ===
+  // slMode 'structure' (default): SL di level "patah" struktur = batas konsolidasi
+  //   (low utk LONG / high utk SHORT) + buffer kecil. Dinamis mengikuti coin.
+  //   TP1/2/3 = kelipatan R, jadi TP1 dijamin >= jarak SL secara %.
+  // slMode 'atr': mode lama, R = ATR(targetTF) x atrMult (kelipatan % kaku).
+  const slMode = strat.slMode || 'structure';
+  let riskDist;
+  if (slMode === 'structure') {
+    const buffer = aTarget * (strat.slBufferAtr != null ? strat.slBufferAtr : 0.25);
+    riskDist = dir === 'BUY' ? (entry - (wl - buffer)) : ((wh + buffer) - entry);
+    // guardrail: jangan terlalu sempit / terlalu lebar (berkaca volatilitas targetTF)
+    const minDist = entry * ((strat.slMinPct != null ? strat.slMinPct : 0.3) / 100);
+    const maxDist = aTarget * (strat.slMaxAtrMult != null ? strat.slMaxAtrMult : 4);
+    if (!(riskDist > 0) || riskDist < minDist) riskDist = minDist;
+    if (riskDist > maxDist) riskDist = maxDist;
+  } else {
+    riskDist = aTarget * strat.atrMult;
+  }
+  if (!(riskDist > 0)) return null;
+  const lvl = r => dir === 'BUY' ? entry + riskDist * r : entry - riskDist * r;
+  const sl = dir === 'BUY' ? entry - riskDist : entry + riskDist;
   const lab = strategyLabel(dir);
 
   return {
     dir, entry: round6(entry), sl: round6(sl),
     tp1: round6(lvl(tpR[0])), tp2: round6(lvl(tpR[1])), tp3: round6(lvl(tpR[2])),
     tpRR: tpR.slice(),
+    slMode, riskPct: +(riskDist / entry * 100).toFixed(2),
     atr: round6(aTarget), atrPct: +(aTarget / entry * 100).toFixed(2), atrTF: targetTF,
     atr15: round6(a), atr15Pct: +(a / entry * 100).toFixed(2),
     strategy: lab.code, strategyName: lab.name, strategyShort: lab.short,
