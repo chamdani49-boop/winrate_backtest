@@ -1,56 +1,56 @@
 {
-  "updatedAt": "2026-06-07T13:56:11.957Z",
+  "updatedAt": "2026-06-07T14:45:41.170Z",
   "provider": "binance-vision",
   "bigTF": "4h",
   "smallTF": "15m",
   "since": "2026-06-05T05:44:59.999Z",
-  "totalClosed": 9,
-  "open": 19,
-  "wins": 6,
-  "losses": 3,
-  "winrate": 66.7,
-  "grossProfit": 6.61,
-  "grossLoss": 4.29,
-  "netReturn": 2.32,
-  "profitFactor": 1.54,
-  "avgReturn": 0.258,
+  "totalClosed": 24,
+  "open": 5,
+  "wins": 9,
+  "losses": 15,
+  "winrate": 37.5,
+  "grossProfit": 8.03,
+  "grossLoss": 17.11,
+  "netReturn": -9.08,
+  "profitFactor": 0.47,
+  "avgReturn": -0.378,
   "bestPct": 2.67,
   "worstPct": -1.59,
   "tpCounts": {
-    "TP1": 6,
+    "TP1": 9,
     "TP2": 2,
     "TP3": 1
   },
   "closedByCounts": {
     "TP3": 1,
-    "SL": 8,
+    "SL": 23,
     "TIMEOUT": 0
   },
-  "slCount": 8,
+  "slCount": 23,
   "safetyNet": [
     {
       "level": "TP1",
       "rr": 1,
-      "hit": 6,
-      "miss": 3,
-      "safetyRatio": 66.7,
-      "expectancy": 0.333
+      "hit": 9,
+      "miss": 15,
+      "safetyRatio": 37.5,
+      "expectancy": -0.25
     },
     {
       "level": "TP2",
       "rr": 2,
       "hit": 2,
-      "miss": 7,
-      "safetyRatio": 22.2,
-      "expectancy": -0.333
+      "miss": 22,
+      "safetyRatio": 8.3,
+      "expectancy": -0.75
     },
     {
       "level": "TP3",
       "rr": 3,
       "hit": 1,
-      "miss": 8,
-      "safetyRatio": 11.1,
-      "expectancy": -0.556
+      "miss": 23,
+      "safetyRatio": 4.2,
+      "expectancy": -0.833
     }
   ],
   "dailyEquity": [
@@ -288,157 +288,59 @@
     },
     {
       "date": "2026-06-07",
-      "trades": 6,
-      "wins": 3,
-      "losses": 3,
-      "dayPnl": -2.94,
-      "cumulative": 2.32
+      "trades": 21,
+      "wins": 6,
+      "losses": 15,
+      "dayPnl": -14.34,
+      "cumulative": -9.08
     }
   ],
   "marketBias": {
-    "bullish": 50,
-    "bearish": 50,
+    "bullish": 71,
+    "bearish": 29,
     "sample": "recent_48h",
-    "count": 6
+    "count": 21
   },
   "highScore": 88,
   "liveTerminal": {
-    "profit": 6,
-    "loss": 13,
-    "accuracy": 32,
+    "profit": 2,
+    "loss": 3,
+    "accuracy": 40,
     "items": [
       {
         "pair": "NEIROUSDT",
         "dir": "SELL",
         "score": 86,
         "validity": "STRONG",
-        "floating": 0.48
+        "floating": -0.17
       },
       {
         "pair": "MOVRUSDT",
         "dir": "SELL",
         "score": 85,
         "validity": "STRONG",
-        "floating": 1.42
-      },
-      {
-        "pair": "CHZUSDT",
-        "dir": "SELL",
-        "score": 83,
-        "validity": "STRONG",
-        "floating": -0.73
-      },
-      {
-        "pair": "RENDERUSDT",
-        "dir": "SELL",
-        "score": 82,
-        "validity": "STRONG",
-        "floating": -0.92
-      },
-      {
-        "pair": "ICPUSDT",
-        "dir": "SELL",
-        "score": 79,
-        "validity": "STRONG",
-        "floating": -0.77
+        "floating": 2.5
       },
       {
         "pair": "NILUSDT",
         "dir": "SELL",
         "score": 79,
         "validity": "STRONG",
-        "floating": -0.27
-      },
-      {
-        "pair": "HYPERUSDT",
-        "dir": "SELL",
-        "score": 78,
-        "validity": "STRONG",
-        "floating": -0.15
-      },
-      {
-        "pair": "OPUSDT",
-        "dir": "SELL",
-        "score": 75,
-        "validity": "STRONG",
-        "floating": -0.96
-      },
-      {
-        "pair": "ZKUSDT",
-        "dir": "SELL",
-        "score": 75,
-        "validity": "STRONG",
-        "floating": 0.61
-      },
-      {
-        "pair": "CAKEUSDT",
-        "dir": "SELL",
-        "score": 72,
-        "validity": "MODERATE",
-        "floating": -0.49
-      },
-      {
-        "pair": "ETCUSDT",
-        "dir": "SELL",
-        "score": 71,
-        "validity": "MODERATE",
-        "floating": -0.14
+        "floating": -0.35
       },
       {
         "pair": "TONUSDT",
         "dir": "SELL",
         "score": 68,
         "validity": "MODERATE",
-        "floating": -0.42
+        "floating": -0.65
       },
       {
-        "pair": "DOGEUSDT",
+        "pair": "JSTUSDT",
         "dir": "SELL",
-        "score": 67,
+        "score": 72,
         "validity": "MODERATE",
-        "floating": -0.36
-      },
-      {
-        "pair": "ARUSDT",
-        "dir": "SELL",
-        "score": 67,
-        "validity": "MODERATE",
-        "floating": 1.34
-      },
-      {
-        "pair": "LINKUSDT",
-        "dir": "SELL",
-        "score": 60,
-        "validity": "MODERATE",
-        "floating": -0.59
-      },
-      {
-        "pair": "ZAMAUSDT",
-        "dir": "SELL",
-        "score": 59,
-        "validity": "MODERATE",
-        "floating": 0.64
-      },
-      {
-        "pair": "FILUSDT",
-        "dir": "SELL",
-        "score": 74,
-        "validity": "MODERATE",
-        "floating": -0.8
-      },
-      {
-        "pair": "ASTERUSDT",
-        "dir": "SELL",
-        "score": 62,
-        "validity": "MODERATE",
-        "floating": 0.32
-      },
-      {
-        "pair": "UNIUSDT",
-        "dir": "SELL",
-        "score": 68,
-        "validity": "MODERATE",
-        "floating": -0.28
+        "floating": 0
       }
     ]
   },
@@ -451,9 +353,9 @@
     },
     {
       "pair": "DOGEUSDT",
-      "trades": 1,
-      "winrate": 100,
-      "net": 2
+      "trades": 2,
+      "winrate": 50,
+      "net": 1.1
     },
     {
       "pair": "SOLUSDT",
@@ -462,16 +364,16 @@
       "net": 0.59
     },
     {
+      "pair": "ARUSDT",
+      "trades": 1,
+      "winrate": 100,
+      "net": 0.57
+    },
+    {
       "pair": "ENAUSDT",
       "trades": 1,
       "winrate": 100,
       "net": 0.56
-    },
-    {
-      "pair": "NFPUSDT",
-      "trades": 1,
-      "winrate": 100,
-      "net": 0.47
     }
   ],
   "bottomCoins": [
@@ -488,10 +390,22 @@
       "net": -1.56
     },
     {
-      "pair": "APTUSDT",
+      "pair": "FILUSDT",
       "trades": 1,
       "winrate": 0,
-      "net": -1.13
+      "net": -1.41
+    },
+    {
+      "pair": "RENDERUSDT",
+      "trades": 1,
+      "winrate": 0,
+      "net": -1.38
+    },
+    {
+      "pair": "OPUSDT",
+      "trades": 1,
+      "winrate": 0,
+      "net": -1.37
     }
   ],
   "scoreBrackets": [
@@ -508,51 +422,51 @@
     },
     {
       "name": "80-89",
-      "trades": 4,
+      "trades": 6,
       "tp1": 3,
       "tp2": 1,
       "tp3": 1,
-      "sl": 3,
+      "sl": 5,
       "wins": 3,
-      "winrate": 75,
-      "net": 2.11
+      "winrate": 50,
+      "net": -0.4
     },
     {
       "name": "70-79",
-      "trades": 3,
-      "tp1": 2,
+      "trades": 10,
+      "tp1": 3,
       "tp2": 1,
       "tp3": 0,
-      "sl": 3,
-      "wins": 2,
-      "winrate": 66.7,
-      "net": 1.46
+      "sl": 10,
+      "wins": 3,
+      "winrate": 30,
+      "net": -4.6
     },
     {
       "name": "60-69",
-      "trades": 2,
-      "tp1": 1,
+      "trades": 7,
+      "tp1": 2,
       "tp2": 0,
       "tp3": 0,
-      "sl": 2,
-      "wins": 1,
-      "winrate": 50,
-      "net": -1.25
+      "sl": 7,
+      "wins": 2,
+      "winrate": 28.6,
+      "net": -4.52
     },
     {
       "name": "<60",
-      "trades": 0,
-      "tp1": 0,
+      "trades": 1,
+      "tp1": 1,
       "tp2": 0,
       "tp3": 0,
-      "sl": 0,
-      "wins": 0,
-      "winrate": 0,
-      "net": 0
+      "sl": 1,
+      "wins": 1,
+      "winrate": 100,
+      "net": 0.44
     }
   ],
   "scoreAnomaly": null,
-  "openFloatingPct": -2.05,
+  "openFloatingPct": 1.32,
   "byPair": {
     "ETHUSDT": {
       "trades": 1,
@@ -561,10 +475,10 @@
       "winrate": 100
     },
     "DOGEUSDT": {
-      "trades": 1,
+      "trades": 2,
       "wins": 1,
-      "net": 2,
-      "winrate": 100
+      "net": 1.1,
+      "winrate": 50
     },
     "SOLUSDT": {
       "trades": 1,
@@ -607,6 +521,90 @@
       "wins": 0,
       "net": -1.56,
       "winrate": 0
+    },
+    "CHZUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -1.12,
+      "winrate": 0
+    },
+    "RENDERUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -1.38,
+      "winrate": 0
+    },
+    "ICPUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -1.16,
+      "winrate": 0
+    },
+    "HYPERUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -0.91,
+      "winrate": 0
+    },
+    "OPUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -1.37,
+      "winrate": 0
+    },
+    "ZKUSDT": {
+      "trades": 1,
+      "wins": 1,
+      "net": 0.42,
+      "winrate": 100
+    },
+    "CAKEUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -0.77,
+      "winrate": 0
+    },
+    "ETCUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -0.86,
+      "winrate": 0
+    },
+    "ARUSDT": {
+      "trades": 1,
+      "wins": 1,
+      "net": 0.57,
+      "winrate": 100
+    },
+    "LINKUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -0.98,
+      "winrate": 0
+    },
+    "ZAMAUSDT": {
+      "trades": 1,
+      "wins": 1,
+      "net": 0.44,
+      "winrate": 100
+    },
+    "FILUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -1.41,
+      "winrate": 0
+    },
+    "ASTERUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -0.9,
+      "winrate": 0
+    },
+    "UNIUSDT": {
+      "trades": 1,
+      "wins": 0,
+      "net": -1.06,
+      "winrate": 0
     }
   },
   "bySide": {
@@ -616,9 +614,9 @@
       "winrate": 0
     },
     "SELL": {
-      "trades": 9,
-      "wins": 6,
-      "winrate": 66.7
+      "trades": 24,
+      "wins": 9,
+      "winrate": 37.5
     }
   },
   "watchlist": [
@@ -634,164 +632,160 @@
     "ALLOUSDT",
     "USD1USDT",
     "SUIUSDT",
-    "DOGEUSDT",
     "币安人生USDT",
+    "DOGEUSDT",
     "ADAUSDT",
     "TRXUSDT",
     "HOMEUSDT",
     "TONUSDT",
     "FIDAUSDT",
     "TAOUSDT",
-    "HEIUSDT",
     "PEPEUSDT",
     "ENAUSDT",
     "LINKUSDT",
-    "OPNUSDT",
     "PORTALUSDT",
+    "HEIUSDT",
     "LTCUSDT",
+    "OPNUSDT",
     "AVAXUSDT",
     "DASHUSDT",
-    "EDENUSDT",
     "ONDOUSDT",
+    "EDENUSDT",
     "PENGUUSDT",
     "FETUSDT",
     "ASTERUSDT",
-    "UUSDT",
     "PAXGUSDT",
+    "UUSDT",
     "AAVEUSDT",
-    "HOLOUSDT",
     "UTKUSDT",
+    "HOLOUSDT",
     "ARBUSDT",
     "RLUSDUSDT",
     "HBARUSDT",
     "INJUSDT",
-    "APTUSDT",
     "JTOUSDT",
     "BCHUSDT",
-    "ICPUSDT",
-    "BABYUSDT",
-    "TRUMPUSDT",
     "UNIUSDT",
-    "PARTIUSDT",
+    "ICPUSDT",
+    "TRUMPUSDT",
     "GIGGLEUSDT",
-    "RENDERUSDT",
+    "BABYUSDT",
     "XAUTUSDT",
+    "RENDERUSDT",
+    "PUMPUSDT",
+    "PARTIUSDT",
+    "APTUSDT",
     "DOTUSDT",
     "FILUSDT",
-    "PUMPUSDT",
-    "GUNUSDT",
     "LUNCUSDT",
+    "GUNUSDT",
     "JSTUSDT",
-    "VIRTUALUSDT",
-    "GENIUSUSDT",
-    "BANKUSDT",
     "SAHARAUSDT",
+    "GENIUSUSDT",
+    "VIRTUALUSDT",
     "OPGUSDT",
+    "BANKUSDT",
     "XPLUSDT",
-    "POLUSDT",
     "ZROUSDT",
-    "SEIUSDT",
+    "POLUSDT",
     "KITEUSDT",
+    "SEIUSDT",
+    "STRAXUSDT",
     "MEMEUSDT",
     "SPKUSDT",
-    "STRAXUSDT",
-    "GPSUSDT",
     "ZENUSDT",
+    "GPSUSDT",
     "WBTCUSDT",
     "CHZUSDT",
     "ARUSDT",
+    "BIOUSDT",
+    "EPICUSDT",
     "TIAUSDT",
     "HAEDALUSDT",
-    "HIGHUSDT",
-    "EPICUSDT",
-    "ASRUSDT",
-    "BIOUSDT",
     "WLFIUSDT",
+    "CTSIUSDT",
     "DEXEUSDT",
     "LRCUSDT",
     "OPUSDT",
-    "CTSIUSDT",
+    "ASRUSDT",
     "SHIBUSDT",
+    "OPENUSDT",
     "CHIPUSDT",
     "ZAMAUSDT",
     "ETHFIUSDT",
     "BONKUSDT",
-    "OPENUSDT",
-    "BFUSDUSDT",
+    "HIGHUSDT",
+    "OSMOUSDT",
     "MANTAUSDT",
     "NXPCUSDT",
     "NIGHTUSDT",
-    "CUSDT",
-    "OSMOUSDT",
     "MEGAUSDT",
+    "CUSDT",
     "OGUSDT",
+    "PENDLEUSDT",
+    "MIRAUSDT",
     "XUSDUSDT",
     "ALGOUSDT",
-    "ZBTUSDT",
-    "MIRAUSDT",
-    "PENDLEUSDT",
-    "CAKEUSDT",
-    "FORMUSDT",
     "LDOUSDT",
+    "FORMUSDT",
+    "ZBTUSDT",
     "ORDIUSDT",
     "CRVUSDT",
-    "AIGENSYNUSDT",
-    "FLOKIUSDT",
-    "WIFUSDT",
     "FFUSDT",
-    "RNDRUSDT",
+    "CAKEUSDT",
+    "AIGENSYNUSDT",
+    "WIFUSDT",
+    "FLOKIUSDT",
     "TUTUSDT",
-    "IDUSDT",
     "MOVRUSDT",
+    "RNDRUSDT",
+    "IDUSDT",
     "GALAUSDT",
-    "IOUSDT",
-    "COCOSUSDT",
     "PLUMEUSDT",
+    "COCOSUSDT",
+    "IOUSDT",
     "POLYUSDT",
-    "SAGAUSDT",
-    "PHBUSDT",
-    "VICUSDT",
     "NEIROUSDT",
-    "SKYUSDT",
-    "BANANAS31USDT",
+    "PHBUSDT",
+    "SAGAUSDT",
     "ROBOUSDT",
-    "WBETHUSDT",
-    "ATOMUSDT",
     "CFGUSDT",
+    "ATOMUSDT",
+    "SKYUSDT",
+    "WBETHUSDT",
+    "BANANAS31USDT",
+    "EIGENUSDT",
     "DYDXUSDT",
-    "NOMUSDT",
     "NILUSDT",
-    "DUSDT",
+    "NOMUSDT",
     "SUNUSDT",
     "FTMUSDT",
     "GALUSDT",
     "STOUSDT",
+    "STRKUSDT",
+    "VICUSDT",
+    "ETCUSDT",
     "KAIAUSDT",
     "QNTUSDT",
-    "EIGENUSDT",
-    "STRKUSDT",
-    "ETCUSDT",
     "USDEUSDT",
-    "HYPERUSDT",
     "A2ZUSDT",
-    "SUSDT",
-    "COSUSDT",
-    "DENTUSDT",
+    "HYPERUSDT",
     "WUSDT",
+    "DENTUSDT",
     "OMNIUSDT",
-    "NFPUSDT",
     "RDNTUSDT",
     "TOMOUSDT",
+    "DUSDT",
     "MATICUSDT",
-    "LAUSDT",
-    "ZKUSDT",
-    "ATAUSDT",
     "MEUSDT",
-    "MBOXUSDT",
-    "AIUSDT",
-    "DOGSUSDT",
+    "COSUSDT",
+    "SUSDT",
+    "ATAUSDT",
+    "LAUSDT",
+    "LINEAUSDT",
     "TVKUSDT",
     "FIOUSDT",
+    "VETUSDT",
     "IOTAUSDT"
   ]
 }
