@@ -1547,5 +1547,66 @@
       "consolPct": 1.51,
       "bias": "short"
     }
+  },
+  {
+    "id": "TONUSDT-1780834499999",
+    "pair": "TONUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 1.682,
+    "slInit": 1.707393,
+    "tp1": 1.656607,
+    "tp2": 1.631214,
+    "tp3": 1.605821,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-07T12:14:59.999Z",
+    "exitTime": "2026-06-07T16:44:59.999Z",
+    "exit": 1.70739,
+    "bars": 18,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.51,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "4-12 jam (max 48 jam)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "RANGE",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 39.1,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.5x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 39 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.52,
+      "bodyPct": -2.04,
+      "takerRatio": 0.29,
+      "consolPct": 2.01,
+      "bias": "short"
+    }
   }
 ]
