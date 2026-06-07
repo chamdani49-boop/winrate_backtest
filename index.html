@@ -389,6 +389,21 @@ tr:hover td{background:rgba(0,229,160,.02);}
 .modal-close{cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:20px;line-height:1;padding:2px 6px;margin:-2px -4px;}
 .modal-close:hover{color:var(--text);}
 
+/* BTC live ticker (ramah mobile) */
+.btc-live{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.btc-live-l{ display:flex; align-items:center; gap:10px; min-width:0; }
+.btc-ico{ width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#f7931a,#ffb347); color:#1a1200; display:grid; place-items:center; font-weight:800; font-size:18px; flex-shrink:0; }
+.btc-live-lbl{ font-family:var(--mono); font-size:9px; letter-spacing:1px; color:var(--muted); }
+.btc-live-px{ font-family:var(--mono); font-size:20px; font-weight:800; letter-spacing:-.3px; }
+.btc-live-r{ text-align:right; }
+.btc-live-chg{ font-family:var(--mono); font-size:18px; font-weight:800; }
+.btc-live-sub{ font-family:var(--mono); font-size:9px; color:var(--muted); margin-top:2px; }
+@media(max-width:480px){
+  .btc-live-px{ font-size:17px; }
+  .btc-live-chg{ font-size:16px; }
+  .btc-ico{ width:30px; height:30px; font-size:16px; }
+}
+
 /* Watchlist sebagai chip (ramah mobile: wrap + mudah dibaca) */
 #lv-watch{display:flex;flex-wrap:wrap;gap:6px;}
 .wl-chip{
@@ -1495,6 +1510,21 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
       <!-- konten live -->
       <div id="live-content" style="display:none">
+
+        <!-- ============ BTC LIVE TICKER ============ -->
+        <div class="card btc-live">
+          <div class="btc-live-l">
+            <span class="btc-ico">₿</span>
+            <div>
+              <div class="btc-live-lbl">BTC / USDT · LIVE</div>
+              <div class="btc-live-px" id="btc-live-px">—</div>
+            </div>
+          </div>
+          <div class="btc-live-r">
+            <div class="btc-live-chg" id="btc-live-chg">—</div>
+            <div class="btc-live-sub">floating hari berjalan</div>
+          </div>
+        </div>
 
         <!-- ============ HERO: WIN RATE + SYSTEM SIGNALS ============ -->
         <div class="g2">
@@ -3122,6 +3152,7 @@ function exportScannerCSV() {
 ============================================================ */
 let liveTimer = null;
 let priceTimer = null;
+let btcTimer = null;        // interval update harga BTC live + % hari berjalan
 let liveWS = null;          // WebSocket Binance untuk harga sub-second
 let liveWSPairs = [];       // pair list yg sedang ter-subscribe via WS
 let liveWSReconnect = null; // timer reconnect
@@ -3149,6 +3180,9 @@ function startLiveRefresh() {
   priceTimer = setInterval(() => {
     if (!liveWSAlive) pollLivePrices();
   }, 30000);
+  // BTC live ticker + floating % hari berjalan (independen dari posisi terbuka)
+  updateBtcLive();
+  btcTimer = setInterval(updateBtcLive, 20000);
   // restore tab terakhir
   const saved = localStorage.getItem('tvbt_live_tab') || 'live';
   setLiveTab(saved, true);
@@ -3175,7 +3209,60 @@ function setLiveTab(name, silent) {
 function stopLiveRefresh() {
   if (liveTimer)  { clearInterval(liveTimer);  liveTimer  = null; }
   if (priceTimer) { clearInterval(priceTimer); priceTimer = null; }
+  if (btcTimer)   { clearInterval(btcTimer);   btcTimer   = null; }
   closeLiveWS();
+}
+
+/* ============================================================
+   BTC LIVE TICKER + FLOATING % HARI BERJALAN
+   - 1 request kline 1d (limit=1) → dapat open hari ini + harga terkini
+   - floating% = (harga - open_hari_ini) / open_hari_ini * 100
+   - tanpa API key; fallback Binance.vision → Binance → Bybit
+============================================================ */
+let _btcLastPx = null;
+async function updateBtcLive() {
+  let px = null, open = null;
+  // 1) Binance (vision dulu, sering lolos region) — kline 1d candle berjalan
+  for (const base of ['https://data-api.binance.vision', 'https://api.binance.com']) {
+    try {
+      const r = await fetch(`${base}/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=1`, { headers: { 'Accept': 'application/json' } });
+      if (!r.ok) continue;
+      const k = await r.json();
+      if (Array.isArray(k) && k[0]) { open = +k[0][1]; px = +k[0][4]; break; }
+    } catch (e) { /* coba berikutnya */ }
+  }
+  // 2) fallback Bybit (interval D). list row: [start,open,high,low,close,...]
+  if (px == null) {
+    try {
+      const r = await fetch('https://api.bybit.com/v5/market/kline?category=spot&symbol=BTCUSDT&interval=D&limit=1', { headers: { 'Accept': 'application/json' } });
+      if (r.ok) {
+        const j = await r.json();
+        const row = j && j.result && j.result.list && j.result.list[0];
+        if (row) { open = +row[1]; px = +row[4]; }
+      }
+    } catch (e) { /* skip */ }
+  }
+  if (px != null && px > 0) renderBtcLive(px, open);
+}
+
+function renderBtcLive(price, open) {
+  const pxEl = document.getElementById('btc-live-px');
+  const chgEl = document.getElementById('btc-live-chg');
+  if (!pxEl || !chgEl) return;
+  pxEl.textContent = '$' + fmtN(price);
+  if (open && open > 0) {
+    const pct = (price - open) / open * 100;
+    const cls = pct >= 0 ? 'c-green' : 'c-red';
+    chgEl.className = 'btc-live-chg ' + cls;
+    chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+  }
+  // flash hijau/merah pada harga saat berubah
+  if (_btcLastPx != null && price !== _btcLastPx) {
+    const up = price > _btcLastPx;
+    pxEl.classList.add(up ? 'flash-num-up' : 'flash-num-down');
+    setTimeout(() => pxEl.classList.remove('flash-num-up', 'flash-num-down'), 600);
+  }
+  _btcLastPx = price;
 }
 
 /* ============================================================
@@ -3791,13 +3878,21 @@ function renderOpenCards() {
   if (!liveOpen.length) {
     cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
   } else {
-    cards.innerHTML = liveOpen.map((p, i) => renderPosCard(p, i)).join('');
-    // Flash effect: bandingkan harga sekarang dgn snapshot terakhir
-    liveOpen.forEach((p, i) => {
+    // URUTAN TAMPILAN: signal terbaru di atas (openTime desc). Index asli liveOpen
+    // tetap dipakai utk onclick/flash agar popup & efek konsisten.
+    const order = liveOpen.map((p, i) => i).sort((a, b) => {
+      const ta = new Date(liveOpen[a].openTime).getTime() || 0;
+      const tb = new Date(liveOpen[b].openTime).getTime() || 0;
+      return tb - ta;
+    });
+    cards.innerHTML = order.map(idx => renderPosCard(liveOpen[idx], idx)).join('');
+    // Flash effect: bandingkan harga sekarang dgn snapshot terakhir (ikut urutan tampilan)
+    order.forEach((idx, pos) => {
+      const p = liveOpen[idx];
       const prev = _lastRenderPrice[p.pair];
       const cur = p.lastPrice;
       if (prev != null && cur != null && prev !== cur) {
-        const card = cards.children[i];
+        const card = cards.children[pos];
         if (card && card.classList) {
           const up = cur > prev;
           card.classList.add(up ? 'flash-up' : 'flash-down');
