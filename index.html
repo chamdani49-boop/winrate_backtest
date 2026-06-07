@@ -3874,17 +3874,19 @@ const _lastRenderPrice = {}; // pair -> price (snapshot terakhir untuk flash eff
 function renderOpenCards() {
   const cards = document.getElementById('lv-open-cards');
   if (!cards) return;
-  setTxt('lv-open-count', liveOpen.length);
-  if (!liveOpen.length) {
-    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
-  } else {
-    // URUTAN TAMPILAN: signal terbaru di atas (openTime desc). Index asli liveOpen
-    // tetap dipakai utk onclick/flash agar popup & efek konsisten.
-    const order = liveOpen.map((p, i) => i).sort((a, b) => {
+  // Posisi yg sudah kena TP3/SL (virtualClosed) DISEMBUNYIKAN dari kartu —
+  // sudah tercatat di Performa & Akun (history). Hanya tampilkan yg masih jalan.
+  const order = liveOpen.map((p, i) => i)
+    .filter(i => !liveOpen[i].virtualClosed)
+    .sort((a, b) => {
       const ta = new Date(liveOpen[a].openTime).getTime() || 0;
       const tb = new Date(liveOpen[b].openTime).getTime() || 0;
-      return tb - ta;
+      return tb - ta;  // signal terbaru di atas
     });
+  setTxt('lv-open-count', order.length);
+  if (!order.length) {
+    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
+  } else {
     cards.innerHTML = order.map(idx => renderPosCard(liveOpen[idx], idx)).join('');
     // Flash effect: bandingkan harga sekarang dgn snapshot terakhir (ikut urutan tampilan)
     order.forEach((idx, pos) => {
@@ -3909,9 +3911,10 @@ function renderOpenCards() {
       _lastRenderPrice[p.pair] = cur;
     });
   }
-  // total floating
+  // total floating — hanya posisi yg masih jalan (kecualikan virtualClosed)
   let totalFloat = 0;
   liveOpen.forEach(p => {
+    if (p.virtualClosed) return;
     const last = p.lastPrice != null ? p.lastPrice : p.entry;
     const dirSign = p.dir === 'BUY' ? 1 : -1;
     const realized = +(p.realizedPct || 0);
@@ -3925,6 +3928,7 @@ function renderLiveTerminal(stats) {
   // recompute dari liveOpen pakai lastPrice terbaru
   let profit = 0, loss = 0;
   liveOpen.forEach(p => {
+    if (p.virtualClosed) return;   // sudah TP3/SL → pindah ke Performa/Akun
     const last = p.lastPrice != null ? p.lastPrice : p.entry;
     const dirSign = p.dir === 'BUY' ? 1 : -1;
     const realized = +(p.realizedPct || 0);
