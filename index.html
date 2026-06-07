@@ -3029,7 +3029,14 @@ function detectAndBacktest(candles, p) {
   return { trades, first: candles[0], last: candles[n-1] };
 }
 
-function round6(x){ return Math.round(x*1e6)/1e6; }
+function round6(x){
+  if(!isFinite(x)||x===0)return x;
+  const a=Math.abs(x);
+  let dec;
+  if(a>=1000)dec=3;else if(a>=1)dec=5;else if(a>=0.01)dec=6;else if(a>=0.0001)dec=8;else if(a>=0.000001)dec=10;else dec=12;
+  const f=Math.pow(10,dec);
+  return Math.round(x*f)/f;
+}
 
 /* ---------- ORCHESTRATOR ---------- */
 async function runScanner() {
@@ -3807,8 +3814,8 @@ function renderRecentSignals() {
     tbody.innerHTML = slice.map(s => {
       const dirCls = s.dir === 'BUY' ? 'c-green' : 'c-red';
       const dirLbl = s.dir === 'BUY' ? 'L' : 'S';
-      // Hitung SL distance %
-      const slPx = s.sl || s.slInit || s.entry;
+      // Hitung SL distance % — tampilkan SL awal (slInit) konsisten dgn kartu
+      const slPx = s.slInit || s.sl || s.entry;
       const slPct = ((slPx - s.entry) / s.entry * 100 * (s.dir === 'BUY' ? 1 : -1)).toFixed(1);
       // Stat pill — TP1/T1/T2/T3/TSL/SL/RUN
       let statHTML;
@@ -4379,7 +4386,10 @@ function renderPosCard(p, i) {
   const tpHitsArr = [...tpHits];
   const nextLevel = ['TP1','TP2','TP3'][tpHitsArr.length];
 
-  const slPct = pctTo(p.sl);
+  // FRONTEND: tampilkan SL pada level AWAL ENTRY (slInit), walau di backend SL
+  // sudah trailing (naik saat TP kena). Logika exit backend tetap pakai p.sl.
+  const slDisplay = (p.slInit != null ? p.slInit : p.sl);
+  const slPct = pctTo(slDisplay);
   const tp1Pct = pctTo(p.tp1);
   const tp2Pct = pctTo(p.tp2);
   const tp3Pct = pctTo(p.tp3);
@@ -4399,7 +4409,7 @@ function renderPosCard(p, i) {
 
   const slBox = `<div class="tp-box sl">
     <div class="tp-box-lbl">🛡️ SL</div>
-    <div class="tp-box-price">${fmtN(p.sl)}</div>
+    <div class="tp-box-price">${fmtN(slDisplay)}</div>
     <div class="tp-box-pct">${slPct}%</div>
   </div>`;
 
@@ -4465,7 +4475,7 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
     { lbl: 'TP2', price: p.tp2, color: 'rgba(0,229,160,0.75)',  class: 'tp2', hit: tpHits.has('TP2') },
     { lbl: 'TP1', price: p.tp1, color: 'rgba(0,229,160,0.55)',  class: 'tp1', hit: tpHits.has('TP1') },
     { lbl: 'ENTRY', price: p.entry, color: 'var(--blue)',       class: 'entry', hit: false },
-    { lbl: 'SL',  price: p.sl||p.slInit, color: 'var(--red)',   class: 'sl', hit: false }
+    { lbl: 'SL',  price: p.slInit||p.sl, color: 'var(--red)',   class: 'sl', hit: false }
   ];
   // tentukan rentang harga (min/max) — termasuk current price
   const allPrices = levels.map(l => l.price).concat([cur]).filter(x => x);
@@ -4671,8 +4681,8 @@ function showStratModal(p, isHistory) {
       ${tpRow('TP1', p.tp1, tpRR[0])}
       ${tpRow('TP2', p.tp2, tpRR[1])}
       ${tpRow('TP3', p.tp3, tpRR[2])}
-      <div class="kv-row"><span class="k">🛡️ SL${p.slInit && p.slInit!==p.sl?' (saat ini)':''}</span><span class="v c-red">${fmtN(p.sl||p.slInit)} (${pctTo(p.sl||p.slInit)}%)</span></div>
-      ${p.slInit && p.sl !== p.slInit ? `<div class="kv-row"><span class="k">SL awal</span><span class="v" style="opacity:.7">${fmtN(p.slInit)}</span></div>` : ''}
+      <div class="kv-row"><span class="k">🛡️ SL</span><span class="v c-red">${fmtN(p.slInit||p.sl)} (${pctTo(p.slInit||p.sl)}%)</span></div>
+      ${p.slInit && p.sl !== p.slInit ? `<div class="kv-row"><span class="k">SL trailing (backend)</span><span class="v" style="opacity:.7">${fmtN(p.sl)}</span></div>` : ''}
       <div class="kv-row"><span class="k">📐 ATR</span><span class="v">${fmtN(p.atr)} (${p.atrPct ?? '—'}%)</span></div>
     </div>
 
