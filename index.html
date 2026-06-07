@@ -651,6 +651,8 @@ html{ scroll-behavior:smooth; }
 .pos-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-family:var(--mono); font-size:11px; }
 .pos-meta-k{ color:var(--muted); font-size:9px; letter-spacing:.8px; }
 .pos-meta-v{ color:var(--text); font-size:10px; word-break:break-all; line-height:1.25; }
+.pos-entry-date{ font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:10px; padding-top:8px; border-top:1px dashed var(--border); display:flex; gap:5px; align-items:center; flex-wrap:wrap; }
+.pos-entry-date span{ color:var(--muted2); font-weight:600; }
 /* ============================================================
    LIVE TAB NAVIGATION (sub-menu di dalam halaman Live)
 ============================================================ */
@@ -2776,6 +2778,7 @@ function fmtN(n){
 }
 function fmtRp(n){return Math.abs(n).toLocaleString('id-ID',{maximumFractionDigits:0});}
 function fmtDur(ms){if(!ms||ms<0)return'—';const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000);return h>=24?Math.floor(h/24)+'h '+String(h%24)+'j':h+'j '+m+'m';}
+function fmtDateTime(t){if(!t)return'—';const d=new Date(t);if(isNaN(d))return'—';return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 function today(){return new Date().toISOString().slice(0,10);}
 
 function cleanN(str){
@@ -4298,6 +4301,7 @@ function renderPosCard(p, i) {
       <div><div class="pos-meta-k">ENTRY</div><div class="pos-meta-v">${fmtN(p.entry)}</div></div>
       <div><div class="pos-meta-k">HARGA NOW</div><div class="pos-meta-v js-now-px">${fmtN(last)}</div></div>
     </div>
+    <div class="pos-entry-date">📅 Entry: <span>${fmtDateTime(p.openTime)}</span></div>
     <div class="tp-row">
       ${slBox}
       ${tpBox('TP1', p.tp1, tp1Pct)}
