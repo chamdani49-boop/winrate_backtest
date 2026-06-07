@@ -1707,13 +1707,13 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             </span>
           </div>
           <div class="g4">
-            <div class="stat"><div class="stat-lbl">MODAL AWAL</div><div class="stat-val" id="lv-cap-init">$100</div><div class="stat-sub" id="lv-cap-alloc">$5 / coin (top-20)</div></div>
+            <div class="stat"><div class="stat-lbl">MODAL AWAL</div><div class="stat-val" id="lv-cap-init">$100</div><div class="stat-sub" id="lv-cap-alloc">$5 / slot (20 posisi)</div></div>
             <div class="stat stat-compact"><div class="stat-lbl">MODAL SEKARANG</div><div class="stat-val" id="lv-cap-now">—</div><div class="stat-sub" id="lv-cap-pnl">—</div></div>
             <div class="stat"><div class="stat-lbl">FLOATING (open)</div><div class="stat-val" id="lv-cap-float">—</div><div class="stat-sub">posisi terbuka</div></div>
             <div class="stat"><div class="stat-lbl">PROYEKSI 30 HARI</div><div class="stat-val" id="lv-cap-proj">—</div><div class="stat-sub" id="lv-cap-proj-sub">berdasarkan tren</div></div>
           </div>
           <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:10px;line-height:1.6">
-            ⓘ Simulasi <b>equal-weight</b>: modal dibagi rata ke <span id="lv-cap-n">20</span> coin. Tiap trade selesai → balance × (1/N) × pnl%. Pure simulasi, bukan trading nyata.
+            ⓘ Simulasi <b>equal-weight</b>: modal dibagi rata ke <span id="lv-cap-n">20</span> slot posisi (maks 20 posisi paralel). Tiap trade selesai → balance × (1/N) × pnl%. Pure simulasi, bukan trading nyata.
           </div>
         </div>
 
@@ -3613,7 +3613,7 @@ function renderRecentSignals() {
     tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="empty-txt">Belum ada signal.</div></div></td></tr>';
   } else {
     const initialCap = getInitialCapital();
-    const N = (window.__lastStats && window.__lastStats.watchlist && window.__lastStats.watchlist.length) || 20;
+    const N = MAX_SLOTS;
     const allocPerCoin = initialCap / N;
     const leverage = 10;
 
@@ -3994,6 +3994,9 @@ function drawDayChart(dailyEquity) {
    SIMULATOR MODAL — equal weight per coin
 ============================================================ */
 const CAP_KEY = 'tvbt_cap_init';
+// Simulasi modal: alokasi equal-weight ke jumlah SLOT posisi tetap (bukan jumlah watchlist),
+// supaya tetap realistis walau robot memindai ratusan coin. Maks 20 posisi paralel.
+const MAX_SLOTS = 20;
 
 function getInitialCapital() {
   const v = parseFloat(localStorage.getItem(CAP_KEY));
@@ -4065,12 +4068,12 @@ function fmtUsd(v) {
 function renderCapitalSim(stats, history) {
   window.__lastStats = stats;
   const initial = getInitialCapital();
-  const N = (stats && stats.watchlist && stats.watchlist.length) || 20;
+  const N = MAX_SLOTS;
   const inputEl = document.getElementById('lv-cap-input');
   if (inputEl && document.activeElement !== inputEl) inputEl.value = initial;
   setTxt('lv-cap-n', N);
   setTxt('lv-cap-init', fmtUsd(initial));
-  setTxt('lv-cap-alloc', fmtUsd(initial / N) + ' / coin (top-' + N + ')');
+  setTxt('lv-cap-alloc', fmtUsd(initial / N) + ' / slot (' + N + ' posisi)');
 
   const sim = simulateCapital(initial, N, history, liveOpen);
   const modalNet = sim.modalNow - initial;
