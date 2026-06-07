@@ -1,7 +1,7 @@
 name: Scanner 24/7
 
-# Robot forward-test: pindai top-20 coin, deteksi sinyal MTF (4h+15m),
-# lacak TP/SL, dan commit hasil kumulatif ke data/*.json.
+# Robot forward-test: pindai SEMUA coin USDT di atas ambang volume,
+# deteksi sinyal MTF (4h+15m), lacak TP/SL, commit hasil ke data/*.json.
 
 on:
   schedule:
@@ -19,7 +19,7 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
