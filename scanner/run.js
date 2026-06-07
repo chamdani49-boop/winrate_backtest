@@ -334,11 +334,15 @@ function buildIntel(ctx) {
 }
 
 /* ============================================================
-   DETEKSI SINYAL SPIKE (timeframe kecil 15m) — fungsi murni
+   DETEKSI SINYAL SPIKE — fungsi murni
+   Entry/keputusan masuk DIDETEKSI di timeframe kecil (15m),
+   sedangkan jarak SL & TP MENGACU volatilitas timeframe besar (4h)
+   bila strat.targetAtrTF === 'big' (default), supaya target tidak
+   terlalu pendek dan mengikuti swing besar.
    Mengembalikan objek sinyal {dir, entry, sl, tp1, tp2, tp3, atr,
    strategy, strategyName, candleT, candleCloseT, reasons} | null
    ============================================================ */
-function detectSignal(smallCandles, strat, bias, hasTaker) {
+function detectSignal(smallCandles, bigCandles, strat, bias, hasTaker) {
   const arr = smallCandles.slice(0, -1); // pakai candle yang sudah close
   const i = arr.length - 1;
   const need = Math.max(strat.volLookback, strat.consolLookback, strat.atrPeriod) + 2;
@@ -377,7 +381,16 @@ function detectSignal(smallCandles, strat, bias, hasTaker) {
   if (bias === 'short' && dir !== 'SELL') return null;
 
   const entry = c.c;
-  const slDist = a * strat.atrMult;
+  // ATR entry (15m) tetap dihitung untuk validasi sinyal di atas (`a`),
+  // tetapi jarak SL/TP mengacu ke ATR timeframe BESAR (4h) bila diaktifkan.
+  const targetTF = strat.targetAtrTF || 'big';
+  let aTarget = a;                 // default: pakai ATR 15m
+  if (targetTF === 'big' && Array.isArray(bigCandles) && bigCandles.length) {
+    const bigArr = bigCandles.slice(0, -1);   // buang candle 4h in-progress
+    const aBig = atrAt(bigArr, bigArr.length - 1, strat.atrPeriod);
+    if (aBig && aBig > 0) aTarget = aBig;       // jarak SL/TP berkaca pada swing 4h
+  }
+  const slDist = aTarget * strat.atrMult;
   if (slDist <= 0) return null;
   const tpR = Array.isArray(strat.tpR) && strat.tpR.length === 3 ? strat.tpR : [1, 2, 3];
   const lvl = r => dir === 'BUY' ? entry + slDist * r : entry - slDist * r;
@@ -388,7 +401,8 @@ function detectSignal(smallCandles, strat, bias, hasTaker) {
     dir, entry: round6(entry), sl: round6(sl),
     tp1: round6(lvl(tpR[0])), tp2: round6(lvl(tpR[1])), tp3: round6(lvl(tpR[2])),
     tpRR: tpR.slice(),
-    atr: round6(a), atrPct: +(a / entry * 100).toFixed(2),
+    atr: round6(aTarget), atrPct: +(aTarget / entry * 100).toFixed(2), atrTF: targetTF,
+    atr15: round6(a), atr15Pct: +(a / entry * 100).toFixed(2),
     strategy: lab.code, strategyName: lab.name, strategyShort: lab.short,
     candleT: c.t, candleCloseT: c.closeT, candleClose: c.c,
     raw: { volRatio: +volRatio.toFixed(2), bodyPct: +bodyPct.toFixed(2), takerRatio: takerRatio == null ? null : +takerRatio.toFixed(3), consolPct: +rangePct.toFixed(2), bias },
@@ -791,7 +805,7 @@ async function main() {
 
     const small = await provider.klines(sym, cfg.smallTF, 250);
     await sleep(reqDelay);
-    const sig = detectSignal(small, strat, bias, provider.hasTaker);
+    const sig = detectSignal(small, big, strat, bias, provider.hasTaker);
     if (!sig) return null;
 
     // ada kandidat → ambil 1h + 1d untuk MTF intel
