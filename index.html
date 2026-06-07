@@ -650,7 +650,7 @@ html{ scroll-behavior:smooth; }
 .pos-float-sub{ font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:2px; }
 .pos-meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-family:var(--mono); font-size:11px; }
 .pos-meta-k{ color:var(--muted); font-size:9px; letter-spacing:.8px; }
-.pos-meta-v{ color:var(--text); }
+.pos-meta-v{ color:var(--text); font-size:10px; word-break:break-all; line-height:1.25; }
 /* ============================================================
    LIVE TAB NAVIGATION (sub-menu di dalam halaman Live)
 ============================================================ */
@@ -680,7 +680,7 @@ html{ scroll-behavior:smooth; }
   font-family:var(--mono); display:flex; flex-direction:column; align-items:center; gap:2px;
 }
 .tp-box-lbl{ font-size:9px; letter-spacing:.6px; color:var(--muted2); display:flex; align-items:center; gap:3px; }
-.tp-box-price{ font-size:11px; font-weight:700; color:var(--text); }
+.tp-box-price{ font-size:9.5px; font-weight:700; color:var(--text); word-break:break-all; line-height:1.15; }
 .tp-box-pct{ font-size:9.5px; font-weight:600; }
 .tp-box.sl{ border-color:rgba(255,84,112,.25); background:rgba(255,84,112,.05); }
 .tp-box.sl .tp-box-pct{ color:var(--red); }
@@ -770,7 +770,7 @@ html{ scroll-behavior:smooth; }
   /* TP boxes lebih kompak */
   .tp-box{ padding:5px 3px; }
   .tp-box-lbl{ font-size:8.5px; }
-  .tp-box-price{ font-size:10px; }
+  .tp-box-price{ font-size:9px; word-break:break-all; }
   .tp-box-pct{ font-size:9px; }
 
   /* Sub-tab navigasi: tombol lebih kecil */
@@ -785,7 +785,7 @@ html{ scroll-behavior:smooth; }
   .hero-val{ font-size:26px; }
   .stat-val{ font-size:16px; }
   .pos-meta{ grid-template-columns:1fr; gap:6px 10px; }
-  .tp-box-price{ font-size:9.5px; }
+  .tp-box-price{ font-size:8.5px; word-break:break-all; }
 }
 
 /* Stat card: pastikan angka panjang ('+$1,234.56 (+12.34%)') tidak lari ke kanan */
@@ -814,6 +814,18 @@ html{ scroll-behavior:smooth; }
 .pos-card.flash-down{ animation:flashDown .6s ease; }
 @keyframes flashUp{ 0%{ box-shadow:inset 0 0 0 2px rgba(0,229,160,.55); } 100%{ box-shadow:inset 0 0 0 2px transparent; } }
 @keyframes flashDown{ 0%{ box-shadow:inset 0 0 0 2px rgba(255,84,112,.55); } 100%{ box-shadow:inset 0 0 0 2px transparent; } }
+
+/* Flash hijau/merah pada ANGKA (HARGA NOW & floating) saat harga berubah */
+.flash-num-up{ animation:flashNumUp .6s ease; border-radius:4px; }
+.flash-num-down{ animation:flashNumDown .6s ease; border-radius:4px; }
+@keyframes flashNumUp{
+  0%{ background:rgba(0,229,160,.30); box-shadow:0 0 8px rgba(0,229,160,.45); }
+  100%{ background:transparent; box-shadow:0 0 0 transparent; }
+}
+@keyframes flashNumDown{
+  0%{ background:rgba(255,84,112,.30); box-shadow:0 0 8px rgba(255,84,112,.45); }
+  100%{ background:transparent; box-shadow:0 0 0 transparent; }
+}
 
 /* ============================================================
    VISUAL ANALYSIS dlm popup detail strategi
@@ -2733,7 +2745,22 @@ function setTxt(id,v){const el=document.getElementById(id);if(el)el.textContent=
 function setElC(id,v,cls){const el=document.getElementById(id);if(!el)return;el.textContent=v;el.className=cls||'';}
 function setPB(id,pct,val){document.getElementById(id).style.width=pct+'%';document.getElementById(id+'-v').textContent=val;}
 
-function fmtN(n){if(!n&&n!==0)return'—';return Number(n).toLocaleString('id-ID');}
+function fmtN(n){
+  if(n==null||n==='')return'—';
+  const num=Number(n);
+  if(!isFinite(num))return'—';
+  const abs=Math.abs(num);
+  // desimal adaptif: harga micro (mis. NEIROUSDT ~0.0004) tetap tampil presisi, bukan 0
+  let dec;
+  if(abs===0)        dec=2;
+  else if(abs>=1000) dec=2;
+  else if(abs>=1)    dec=4;
+  else if(abs>=0.01) dec=5;
+  else if(abs>=0.0001)   dec=6;
+  else if(abs>=0.000001) dec=8;
+  else                   dec=10;
+  return num.toLocaleString('id-ID',{minimumFractionDigits:0,maximumFractionDigits:dec});
+}
 function fmtRp(n){return Math.abs(n).toLocaleString('id-ID',{maximumFractionDigits:0});}
 function fmtDur(ms){if(!ms||ms<0)return'—';const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000);return h>=24?Math.floor(h/24)+'h '+String(h%24)+'j':h+'j '+m+'m';}
 function today(){return new Date().toISOString().slice(0,10);}
@@ -3738,8 +3765,16 @@ function renderOpenCards() {
       if (prev != null && cur != null && prev !== cur) {
         const card = cards.children[i];
         if (card && card.classList) {
-          card.classList.add(cur > prev ? 'flash-up' : 'flash-down');
-          setTimeout(() => { card.classList.remove('flash-up', 'flash-down'); }, 600);
+          const up = cur > prev;
+          card.classList.add(up ? 'flash-up' : 'flash-down');
+          // flash pada ANGKA: HARGA NOW & floating P&L
+          const numEls = [card.querySelector('.js-now-px'), card.querySelector('.js-float-val')];
+          const numCls = up ? 'flash-num-up' : 'flash-num-down';
+          numEls.forEach(el => { if (el) el.classList.add(numCls); });
+          setTimeout(() => {
+            card.classList.remove('flash-up', 'flash-down');
+            numEls.forEach(el => { if (el) el.classList.remove('flash-num-up', 'flash-num-down'); });
+          }, 600);
         }
       }
       _lastRenderPrice[p.pair] = cur;
@@ -4241,13 +4276,13 @@ function renderPosCard(p, i) {
         <div class="pos-strat">${p.strategyShort||p.strategy||'SPIKE'} ${validityBadge}</div>
       </div>
       <div class="pos-float">
-        <div class="pos-float-val ${cls}">${floating>=0?'+':''}${floating.toFixed(2)}%</div>
+        <div class="pos-float-val ${cls} js-float-val">${floating>=0?'+':''}${floating.toFixed(2)}%</div>
         <div class="pos-float-sub">P&amp;L · ${timeAgo(p.openTime)}</div>
       </div>
     </div>
     <div class="pos-meta">
       <div><div class="pos-meta-k">ENTRY</div><div class="pos-meta-v">${fmtN(p.entry)}</div></div>
-      <div><div class="pos-meta-k">HARGA NOW</div><div class="pos-meta-v">${fmtN(last)}</div></div>
+      <div><div class="pos-meta-k">HARGA NOW</div><div class="pos-meta-v js-now-px">${fmtN(last)}</div></div>
     </div>
     <div class="tp-row">
       ${slBox}
