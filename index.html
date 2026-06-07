@@ -1439,7 +1439,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
     <!-- ======== ROBOT LIVE 24/7 ======== -->
     <div class="page" id="page-live">
       <div class="page-title">🤖 Robot Live 24/7</div>
-      <div class="page-sub">Forward-test otomatis: robot tvbtpro memindai top-20 coin tiap 15 menit (4h bias + 15m entry), mencatat TP/SL, dan winrate-nya terus bertumbuh — walau browser kamu tertutup.</div>
+      <div class="page-sub">Forward-test otomatis: robot tvbtpro memindai semua coin USDT (volume ≥ $1 jt) tiap 15 menit (4h bias + 15m entry), mencatat TP/SL, dan winrate-nya terus bertumbuh — walau browser kamu tertutup.</div>
 
       <!-- status bar -->
       <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
@@ -3320,6 +3320,43 @@ async function pollLivePrices() {
     } catch (e) { /* skip */ }
   }
 
+  // 3) fallback: Bybit spot (format simbol sama "BTCUSDT", sering lolos saat Binance diblok region)
+  if (!priceMap) {
+    try {
+      const r = await fetch('https://api.bybit.com/v5/market/tickers?category=spot', { headers: { 'Accept': 'application/json' } });
+      if (r.ok) {
+        const j = await r.json();
+        const list = (j && j.result && j.result.list) || [];
+        if (list.length) {
+          const want = new Set(symbols);
+          const map = {};
+          list.forEach(t => { if (want.has(t.symbol) && +t.lastPrice > 0) map[t.symbol] = +t.lastPrice; });
+          if (Object.keys(map).length) priceMap = map;
+        }
+      }
+    } catch (e) { /* lanjut ke fallback berikutnya */ }
+  }
+
+  // 4) fallback terakhir: OKX per-symbol (format "BTC-USDT")
+  if (!priceMap) {
+    try {
+      const results = await Promise.all(symbols.map(async sym => {
+        const inst = sym.replace(/USDT$/, '-USDT').replace(/USDC$/, '-USDC');
+        try {
+          const r = await fetch('https://www.okx.com/api/v5/market/ticker?instId=' + inst);
+          if (r.ok) {
+            const j = await r.json();
+            const px = j && j.data && j.data[0] && +j.data[0].last;
+            if (px > 0) return [sym, px];
+          }
+        } catch (e) { /* skip */ }
+        return [sym, null];
+      }));
+      const okx = results.filter(([, p]) => p != null);
+      if (okx.length) { priceMap = {}; okx.forEach(([s, p]) => priceMap[s] = p); }
+    } catch (e) { /* skip */ }
+  }
+
   if (!priceMap || !Object.keys(priceMap).length) {
     setLiveBadge('error');
     return;
@@ -3428,7 +3465,7 @@ function setLiveBadge(state, count) {
   else if (state === 'ws_ok') el.innerHTML = '<span class="ws-pulse"></span> WS LIVE · <span style="color:var(--accent)">realtime</span>' + (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : '');
   else if (state === 'connecting') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">menyambung WS…</span>';
   else if (state === 'idle') el.innerHTML = 'AKTIF · <span class="c-muted">tidak ada posisi</span>';
-  else if (state === 'error') el.innerHTML = 'AKTIF · <span style="color:var(--yellow)">harga: gagal (jaringan/region)</span>';
+  else if (state === 'error') el.innerHTML = 'AKTIF · <span style="color:var(--yellow)">harga live diblok jaringan/region — robot tetap jalan, floating update tiap 15 mnt</span>';
 }
 
 /* Render TP Hit Distribution dari open + history (live) */
