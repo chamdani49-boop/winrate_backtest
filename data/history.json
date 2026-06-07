@@ -1608,5 +1608,69 @@
       "consolPct": 2.01,
       "bias": "short"
     }
+  },
+  {
+    "id": "JSTUSDT-1780843499999",
+    "pair": "JSTUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.07794,
+    "slInit": 0.078792,
+    "tp1": 0.077088,
+    "tp2": 0.076236,
+    "tp3": 0.075385,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-07T14:44:59.999Z",
+    "exitTime": "2026-06-07T17:29:59.999Z",
+    "exit": 0.077088,
+    "bars": 11,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.458,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 72,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "4-12 jam (max 48 jam)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 19.2,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.4x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 19 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 69%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.35,
+      "bodyPct": -1.83,
+      "takerRatio": 0.31,
+      "consolPct": 2.37,
+      "bias": "short"
+    }
   }
 ]
