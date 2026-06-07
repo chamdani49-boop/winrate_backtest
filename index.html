@@ -969,7 +969,7 @@ html{ scroll-behavior:smooth; }
     </div>
     <div class="fg"><label>TANGGAL & WAKTU</label><input type="datetime-local" id="m_dt"></div>
     <div class="fg"><label>ARAH</label>
-      <select id="m_dir"><option value="BUY">BUY / LONG</option><option value="SELL">SELL / SHORT</option></select>
+      <select id="m_dir"><option value="BUY">LONG</option><option value="SELL">SHORT</option></select>
     </div>
     <div class="g2">
       <div class="fg"><label>ENTRY</label><input type="number" id="m_entry" placeholder="0" step="any"></div>
@@ -1252,7 +1252,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;align-items:end;margin-top:10px;">
             <div class="fg" style="margin:0"><label>TANGGAL</label><input type="date" id="q_date"></div>
             <div class="fg" style="margin:0"><label>ARAH</label>
-              <select id="q_dir"><option value="BUY">BUY</option><option value="SELL">SELL</option></select>
+              <select id="q_dir"><option value="BUY">LONG</option><option value="SELL">SHORT</option></select>
             </div>
             <div class="fg" style="margin:0"><label>ENTRY</label><input type="number" id="q_entry" placeholder="0" step="any"></div>
             <div class="fg" style="margin:0"><label>TP</label><input type="number" id="q_tp" placeholder="0" step="any"></div>
@@ -1347,7 +1347,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         <!-- BUY/SELL -->
         <div class="g2 mb16">
           <div class="card">
-            <div class="card-hd">BUY Signals</div>
+            <div class="card-hd">LONG Signals</div>
             <div class="g2" style="font-family:var(--mono);font-size:12px;">
               <div><div class="c-muted" style="font-size:9px">TOTAL</div><div id="buy-t">0</div></div>
               <div><div class="c-muted" style="font-size:9px">WINRATE</div><div class="c-green" id="buy-wr">—</div></div>
@@ -1356,7 +1356,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             </div>
           </div>
           <div class="card">
-            <div class="card-hd">SELL Signals</div>
+            <div class="card-hd">SHORT Signals</div>
             <div class="g2" style="font-family:var(--mono);font-size:12px;">
               <div><div class="c-muted" style="font-size:9px">TOTAL</div><div id="sell-t">0</div></div>
               <div><div class="c-muted" style="font-size:9px">WINRATE</div><div class="c-green" id="sell-wr">—</div></div>
@@ -1502,7 +1502,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:6px">
               <div class="hero-val" id="lv-total">—</div>
               <div class="c-muted" style="font-family:var(--mono);font-size:11px;text-align:right">
-                <span class="c-green" id="lv-buy-n">0</span> BUY · <span class="c-red" id="lv-sell-n">0</span> SELL<br>
+                <span class="c-green" id="lv-buy-n">0</span> LONG · <span class="c-red" id="lv-sell-n">0</span> SHORT<br>
                 <span style="opacity:.7">High Score <span class="c-blue" id="lv-hi-score">—</span></span>
               </div>
             </div>
@@ -2231,7 +2231,7 @@ function renderSignalTable() {
     return `<tr>
       <td>${i+1}</td>
       <td>${(s.dt||'').slice(0,10)}</td>
-      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
+      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${dirLabel(s.dir)}</span></td>
       <td>${fmtN(s.entry)}</td><td>${fmtN(s.tp)}</td><td>${fmtN(s.sl)}</td>
       <td>${s.exit!==null?fmtN(s.exit):'—'}</td>
       <td>${pnl}</td><td>${s.duration}</td><td>${sp}</td>
@@ -2387,7 +2387,7 @@ function renderParserTable() {
       <td>${i+1}</td>
       <td><input type="date" value="${s.date}" onchange="parsedSigs[${i}].date=this.value" style="width:120px"></td>
       <td><input type="text" value="${s.pair}" onchange="parsedSigs[${i}].pair=this.value" style="width:80px" placeholder="PAIR"></td>
-      <td><select onchange="parsedSigs[${i}].dir=this.value" style="width:65px"><option ${s.dir==='BUY'?'selected':''}>BUY</option><option ${s.dir==='SELL'?'selected':''}>SELL</option></select></td>
+      <td><select onchange="parsedSigs[${i}].dir=this.value" style="width:65px"><option value="BUY" ${s.dir==='BUY'?'selected':''}>LONG</option><option value="SELL" ${s.dir==='SELL'?'selected':''}>SHORT</option></select></td>
       <td><input type="number" value="${s.entry||''}" onchange="parsedSigs[${i}].entry=+this.value" style="width:90px" placeholder="Entry" step="any"></td>
       <td><input type="number" value="${s.tp||''}" onchange="parsedSigs[${i}].tp=+this.value" style="width:90px" placeholder="TP" step="any"></td>
       <td><input type="number" value="${s.sl||''}" onchange="parsedSigs[${i}].sl=+this.value" style="width:90px" placeholder="SL" step="any"></td>
@@ -2571,7 +2571,7 @@ function runAnalysis() {
   document.getElementById('resultBody').innerHTML = sorted.map((s,i)=>{
     const pnl=s.pnl_pct!==null?`<span class="${s.pnl_pct>=0?'c-green':'c-red'}">${s.pnl_pct>=0?'+':''}${s.pnl_pct.toFixed(2)}%</span>`:'—';
     return `<tr><td>${i+1}</td><td>${(s.dt||'').slice(0,10)}</td>
-    <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
+    <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${dirLabel(s.dir)}</span></td>
     <td>${fmtN(s.entry)}</td><td>${s.exit!==null?fmtN(s.exit):'—'}</td><td>${pnl}</td>
     <td>${s.duration}</td>
     <td>${(s.status==='TP'||s.status==='WIN')?'<span class="pill pill-win">WIN</span>':'<span class="pill pill-loss">LOSS</span>'}</td></tr>`;
@@ -2779,6 +2779,8 @@ function fmtN(n){
 function fmtRp(n){return Math.abs(n).toLocaleString('id-ID',{maximumFractionDigits:0});}
 function fmtDur(ms){if(!ms||ms<0)return'—';const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000);return h>=24?Math.floor(h/24)+'h '+String(h%24)+'j':h+'j '+m+'m';}
 function fmtDateTime(t){if(!t)return'—';const d=new Date(t);if(isNaN(d))return'—';return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+/* label arah untuk tampilan: nilai internal tetap BUY/SELL, ditampilkan LONG/SHORT */
+function dirLabel(dir){return dir==='BUY'?'LONG':dir==='SELL'?'SHORT':(dir||'—');}
 function today(){return new Date().toISOString().slice(0,10);}
 
 function cleanN(str){
@@ -3066,7 +3068,7 @@ function renderScannerResult(trades, symbol, interval, fromStr, toStr, nCandles)
     return `<tr>
       <td>${i+1}</td>
       <td>${(s.dt||'').replace('T',' ')}</td>
-      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${s.dir}</span></td>
+      <td><span class="pill ${s.dir==='BUY'?'pill-buy':'pill-sell'}">${dirLabel(s.dir)}</span></td>
       <td>${fmtN(s.entry)}</td><td>${fmtN(s.tp)}</td><td>${fmtN(s.sl)}</td>
       <td>${fmtN(s.exit)}</td><td>${pnl}</td><td>${s.bars||'—'}</td><td>${res}</td>
     </tr>`;
@@ -4289,7 +4291,7 @@ function renderPosCard(p, i) {
   return `<div class="pos-card ${dirLow}" onclick="openStratModalFromOpen(${i})">
     <div class="pos-card-top">
       <div>
-        <div class="pos-pair">${p.pair} <span class="pill ${p.dir==='BUY'?'pill-buy':'pill-sell'}" style="margin-left:4px;font-size:9px">${p.dir}</span></div>
+        <div class="pos-pair">${p.pair} <span class="pill ${p.dir==='BUY'?'pill-buy':'pill-sell'}" style="margin-left:4px;font-size:9px">${dirLabel(p.dir)}</span></div>
         <div class="pos-strat">${p.strategyShort||p.strategy||'SPIKE'} ${validityBadge}</div>
       </div>
       <div class="pos-float">
@@ -4511,7 +4513,7 @@ function showStratModal(p, isHistory) {
   const floatPnl = isHistory ? (p.pnl_pct||0) : (realized + unreal);
   const cls = floatPnl >= 0 ? 'c-green' : 'c-red';
 
-  document.getElementById('stratModalTitle').innerHTML = `${dirIcon} ${p.pair} — ${p.dir} <span class="modal-close" onclick="closeStratModal()">✕</span>`;
+  document.getElementById('stratModalTitle').innerHTML = `${dirIcon} ${p.pair} — ${dirLabel(p.dir)} <span class="modal-close" onclick="closeStratModal()">✕</span>`;
 
   const tpRR = p.tpRR || [1, 2, 3];
   const tpHits = new Set(p.tpHits || []);
