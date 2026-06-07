@@ -3065,6 +3065,8 @@ let liveWS = null;          // WebSocket Binance untuk harga sub-second
 let liveWSPairs = [];       // pair list yg sedang ter-subscribe via WS
 let liveWSReconnect = null; // timer reconnect
 let liveWSAlive = false;    // status WS aktif
+let wsFailCount = 0;        // berapa kali WS gagal (untuk berhenti mencoba bila diblok permanen)
+let liveSrcLabel = '';      // sumber harga yang sedang dipakai (Binance/Bybit/OKX/CoinGecko)
 let renderThrottle = null;  // requestAnimationFrame ID untuk throttle render
 let lastWSMessageAt = null; // ts pesan WS terakhir
 let liveOpen = [];      // referensi posisi terbuka aktif (untuk popup)
@@ -3136,13 +3138,15 @@ function setupLiveWS() {
   // pakai stream.binance.com utama, fallback ke fstream untuk futures bila ada nanti)
   const url = `wss://stream.binance.com:9443/stream?streams=${streams}`;
 
-  setLiveBadge('connecting');
+  if (!hasRecentPrice()) setLiveBadge('connecting');
   let ws;
-  try { ws = new WebSocket(url); } catch (e) { setLiveBadge('error'); scheduleReconnect(); return; }
+  try { ws = new WebSocket(url); } catch (e) { liveWSAlive = false; scheduleReconnect(); pollLivePrices(); return; }
   liveWS = ws;
 
   ws.onopen = () => {
     liveWSAlive = true;
+    wsFailCount = 0;
+    liveSrcLabel = '';
     setLiveBadge('ws_ok', pairs.length);
   };
   ws.onmessage = (ev) => {
@@ -3181,12 +3185,15 @@ function setupLiveWS() {
     } catch (e) { /* abaikan pesan rusak */ }
   };
   ws.onerror = () => {
+    // WS Binance gagal/diblok BUKAN berarti harga mati — REST fallback (Bybit/OKX/CoinGecko)
+    // bisa tetap meng-cover. Jangan tampilkan "diblok" di sini; biarkan pollLivePrices yang
+    // menentukan status berdasarkan keberhasilan ambil harga sebenarnya.
     liveWSAlive = false;
-    setLiveBadge('error');
+    pollLivePrices();
   };
   ws.onclose = () => {
     liveWSAlive = false;
-    if (liveOpen.length) scheduleReconnect();
+    if (liveOpen.length) { scheduleReconnect(); pollLivePrices(); }
   };
 }
 
@@ -3200,10 +3207,20 @@ function closeLiveWS() {
 }
 function scheduleReconnect() {
   if (liveWSReconnect) return;
+  wsFailCount++;
+  // Bila WS Binance gagal terus (mis. diblok permanen di region ini), berhenti mencoba WS
+  // dan andalkan REST polling tiap 30s (priceTimer). Ini mencegah badge "berkedip" dan
+  // menghemat percobaan sia-sia.
+  if (wsFailCount > 4) return;
   liveWSReconnect = setTimeout(() => {
     liveWSReconnect = null;
     setupLiveWS();
   }, 3000);
+}
+
+/* Apakah kita baru saja menerima harga dari sumber mana pun (WS/REST)? */
+function hasRecentPrice() {
+  return !!lastPriceFetchAt && (Date.now() - new Date(lastPriceFetchAt).getTime() < 45000);
 }
 
 /* Re-subscribe WS jika daftar pair posisi terbuka berubah */
@@ -3292,6 +3309,7 @@ async function pollLivePrices() {
       if (Array.isArray(arr) && arr.length) {
         priceMap = {};
         arr.forEach(d => { priceMap[d.symbol] = +d.price; });
+        liveSrcLabel = 'Binance';
         break;
       }
     } catch (e) { /* coba url berikutnya */ }
@@ -3316,6 +3334,7 @@ async function pollLivePrices() {
       if (pairs.length) {
         priceMap = {};
         pairs.forEach(([s, p]) => priceMap[s] = p);
+        liveSrcLabel = 'Binance';
       }
     } catch (e) { /* skip */ }
   }
@@ -3331,7 +3350,7 @@ async function pollLivePrices() {
           const want = new Set(symbols);
           const map = {};
           list.forEach(t => { if (want.has(t.symbol) && +t.lastPrice > 0) map[t.symbol] = +t.lastPrice; });
-          if (Object.keys(map).length) priceMap = map;
+          if (Object.keys(map).length) { priceMap = map; liveSrcLabel = 'Bybit'; }
         }
       }
     } catch (e) { /* lanjut ke fallback berikutnya */ }
@@ -3353,7 +3372,27 @@ async function pollLivePrices() {
         return [sym, null];
       }));
       const okx = results.filter(([, p]) => p != null);
-      if (okx.length) { priceMap = {}; okx.forEach(([s, p]) => priceMap[s] = p); }
+      if (okx.length) { priceMap = {}; okx.forEach(([s, p]) => priceMap[s] = p); liveSrcLabel = 'OKX'; }
+    } catch (e) { /* skip */ }
+  }
+
+  // 5) fallback paling tahan-blokir: CoinGecko keyless (agregator data, umumnya tidak diblok ISP).
+  //    Tanpa API key. Pakai /coins/markets (top market cap) yang sudah memuat harga langsung.
+  if (!priceMap) {
+    try {
+      const r = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false', { headers: { 'Accept': 'application/json' } });
+      if (r.ok) {
+        const arr = await r.json();
+        if (Array.isArray(arr) && arr.length) {
+          const want = new Set(symbols);
+          const map = {};
+          arr.forEach(c => {
+            const sym = (c.symbol || '').toUpperCase() + 'USDT';
+            if (want.has(sym) && +c.current_price > 0 && map[sym] == null) map[sym] = +c.current_price;
+          });
+          if (Object.keys(map).length) { priceMap = map; liveSrcLabel = 'CoinGecko'; }
+        }
+      }
     } catch (e) { /* skip */ }
   }
 
@@ -3461,7 +3500,7 @@ function setLiveBadge(state, count) {
   const el = document.getElementById('live-state');
   if (!el) return;
   if (state === 'fetching') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">harga…</span>';
-  else if (state === 'ok')  el.innerHTML = 'AKTIF · <span style="color:var(--accent)">live ' + (lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '') + '</span>' + (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : '');
+  else if (state === 'ok')  el.innerHTML = 'AKTIF · <span style="color:var(--accent)">live ' + (lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '') + '</span>' + (liveSrcLabel ? ' <span class="c-muted" style="font-size:10px">via ' + liveSrcLabel + (count ? ' · ' + count + ' pair' : '') + '</span>' : (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : ''));
   else if (state === 'ws_ok') el.innerHTML = '<span class="ws-pulse"></span> WS LIVE · <span style="color:var(--accent)">realtime</span>' + (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : '');
   else if (state === 'connecting') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">menyambung WS…</span>';
   else if (state === 'idle') el.innerHTML = 'AKTIF · <span class="c-muted">tidak ada posisi</span>';
