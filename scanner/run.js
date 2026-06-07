@@ -29,14 +29,41 @@ const TF_MS = { '1m': 60e3, '5m': 300e3, '15m': 900e3, '30m': 1800e3, '1h': 3600
 /* ============================================================
    DATA PROVIDERS (fallback chain)
    ============================================================ */
-async function httpJSON(url, timeoutMs = 12000) {
-  const ctrl = new AbortController();
-  const to = setTimeout(() => ctrl.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, { signal: ctrl.signal, headers: { 'Accept': 'application/json' } });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
-  } finally { clearTimeout(to); }
+async function httpJSON(url, timeoutMs = 12000, retries = 3) {
+  for (let attempt = 0; ; attempt++) {
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal, headers: { 'Accept': 'application/json' } });
+      // 429 = rate limit, 418 = IP auto-ban sementara (Binance). Hormati Retry-After lalu coba lagi.
+      if (res.status === 429 || res.status === 418) {
+        const ra = parseInt(res.headers.get('retry-after') || '0', 10);
+        if (attempt < retries) {
+          const wait = ra > 0 ? ra * 1000 : Math.min(15000, 800 * Math.pow(2, attempt));
+          await new Promise(r => setTimeout(r, wait));
+          continue;
+        }
+        throw new Error('HTTP ' + res.status + ' (rate-limited)');
+      }
+      if (!res.ok) {
+        // 5xx sementara → retry dengan backoff
+        if (res.status >= 500 && attempt < retries) {
+          await new Promise(r => setTimeout(r, Math.min(8000, 600 * Math.pow(2, attempt))));
+          continue;
+        }
+        throw new Error('HTTP ' + res.status);
+      }
+      return await res.json();
+    } catch (e) {
+      // timeout / jaringan putus → retry beberapa kali
+      const transient = e.name === 'AbortError' || /network|fetch failed|ECONN|ETIMEDOUT|EAI_AGAIN/i.test(e.message || '');
+      if (transient && attempt < retries) {
+        await new Promise(r => setTimeout(r, Math.min(8000, 600 * Math.pow(2, attempt))));
+        continue;
+      }
+      throw e;
+    } finally { clearTimeout(to); }
+  }
 }
 
 const PROVIDERS = [
@@ -183,14 +210,17 @@ function trendOf(candles, period) {
 function filterTopN(tickers, cfg) {
   const exC = cfg.excludeContains || [];
   const exS = new Set(cfg.excludeSymbols || []);
-  return tickers
+  const minVol = Number.isFinite(cfg.minQuoteVolume) ? cfg.minQuoteVolume : 0;
+  const ranked = tickers
     .filter(t => t.symbol.endsWith(cfg.quote))
     .filter(t => !exS.has(t.symbol))
     .filter(t => !exC.some(frag => t.symbol.includes(frag)))
     .filter(t => Number.isFinite(t.quoteVolume) && t.quoteVolume > 0)
-    .sort((a, b) => b.quoteVolume - a.quoteVolume)
-    .slice(0, cfg.topN)
-    .map(t => t.symbol);
+    .filter(t => t.quoteVolume >= minVol)
+    .sort((a, b) => b.quoteVolume - a.quoteVolume);
+  // topN<=0 (atau tidak diset) => tanpa batas (semua yang lolos minQuoteVolume)
+  const capped = (cfg.topN && cfg.topN > 0) ? ranked.slice(0, cfg.topN) : ranked;
+  return capped.map(t => t.symbol);
 }
 
 /* ============================================================
@@ -700,7 +730,7 @@ async function main() {
 
   const { provider, tickers } = await pickProvider(cfg.quote);
   const watchlist = filterTopN(tickers, cfg);
-  console.log(`[watchlist] ${watchlist.length} pair: ${watchlist.join(', ')}`);
+  console.log(`[watchlist] ${watchlist.length} pair (min vol $${(cfg.minQuoteVolume || 0).toLocaleString('en-US')}): ${watchlist.slice(0, 30).join(', ')}${watchlist.length > 30 ? ', …' : ''}`);
 
   const state = readJSON(path.join(DATA_DIR, 'state.json'), { open: [] });
   const history = readJSON(path.join(DATA_DIR, 'history.json'), []);
@@ -738,69 +768,95 @@ async function main() {
   }
   open = stillOpen;
 
-  /* 2) DETEKSI SINYAL BARU */
+  /* 2) DETEKSI SINYAL BARU (worker-pool paralel terbatas: cepat tapi aman rate-limit) */
   const openPairs = new Set(open.map(p => p.pair));
   const cooldownMs = (strat.cooldownBars || 0) * (TF_MS[cfg.smallTF] || 900e3);
-  for (const sym of watchlist) {
-    if (openPairs.has(sym)) continue;
+  const reqDelay = Number.isFinite(cfg.requestDelayMs) ? cfg.requestDelayMs : 100;
+
+  // pair yang layak dipindai: belum punya posisi terbuka & sudah lewat cooldown
+  const candidates = watchlist.filter(sym => {
+    if (openPairs.has(sym)) return false;
     const lastEx = history.filter(t => t.pair === sym).map(t => new Date(t.exitTime).getTime()).sort((a, b) => b - a)[0];
-    if (lastEx && (nowMs - lastEx) < cooldownMs) continue;
+    return !(lastEx && (nowMs - lastEx) < cooldownMs);
+  });
+  const concurrency = Math.max(1, Math.min(cfg.concurrency || 4, 8));
+  console.log(`[scan] ${candidates.length} pair akan dipindai (konkurensi ${concurrency}, delay ${reqDelay}ms)`);
 
-    try {
-      const big = await provider.klines(sym, cfg.bigTF, Math.max((cfg.biasEmaPeriod || 50) + 30, 120));
-      await sleep(120);
-      const { bias } = computeBias(big, cfg.biasEmaPeriod || 50);
-      if (bias === 'neutral') continue;
+  // Pindai 1 simbol → kembalikan objek posisi bila ada sinyal, atau null.
+  async function scanSymbol(sym) {
+    const big = await provider.klines(sym, cfg.bigTF, Math.max((cfg.biasEmaPeriod || 50) + 30, 120));
+    await sleep(reqDelay);
+    const { bias } = computeBias(big, cfg.biasEmaPeriod || 50);
+    if (bias === 'neutral') return null;
 
-      const small = await provider.klines(sym, cfg.smallTF, 250);
-      await sleep(120);
-      const sig = detectSignal(small, strat, bias, provider.hasTaker);
-      if (!sig) continue;
+    const small = await provider.klines(sym, cfg.smallTF, 250);
+    await sleep(reqDelay);
+    const sig = detectSignal(small, strat, bias, provider.hasTaker);
+    if (!sig) return null;
 
-      // ada kandidat → ambil 1h + 1d untuk MTF intel
-      let h1 = [], d1 = [];
-      try { h1 = await provider.klines(sym, '1h', 220); await sleep(120); } catch (_) {}
-      try { d1 = await provider.klines(sym, '1d', 220); await sleep(120); } catch (_) {}
+    // ada kandidat → ambil 1h + 1d untuk MTF intel
+    let h1 = [], d1 = [];
+    try { h1 = await provider.klines(sym, '1h', 220); await sleep(reqDelay); } catch (_) {}
+    try { d1 = await provider.klines(sym, '1d', 220); await sleep(reqDelay); } catch (_) {}
 
-      const closes15 = small.slice(0, -1).map(c => c.c);
-      const rsi15 = rsi(closes15.slice(-30), 14);
-      const macd15 = macdState(closes15.slice(-80));
-      let ma200State = null;
-      if (d1.length > 50) {
-        const dCloses = d1.slice(0, -1).map(c => c.c);
-        if (dCloses.length >= 200) {
-          const ma = sma(dCloses, dCloses.length - 1, 200);
-          if (ma) ma200State = dCloses[dCloses.length - 1] > ma ? 'ABOVE' : 'BELOW';
-        }
+    const closes15 = small.slice(0, -1).map(c => c.c);
+    const rsi15 = rsi(closes15.slice(-30), 14);
+    const macd15 = macdState(closes15.slice(-80));
+    let ma200State = null;
+    if (d1.length > 50) {
+      const dCloses = d1.slice(0, -1).map(c => c.c);
+      if (dCloses.length >= 200) {
+        const ma = sma(dCloses, dCloses.length - 1, 200);
+        if (ma) ma200State = dCloses[dCloses.length - 1] > ma ? 'ABOVE' : 'BELOW';
       }
-      const intel = buildIntel({
-        dir: sig.dir, smallCandles: small, big4h: big, hourly1h: h1, daily1d: d1,
-        volRatio: sig.raw.volRatio, takerRatio: sig.raw.takerRatio,
-        rsi15, macd15, ma200State
-      });
-
-      const pos = {
-        id: `${sym}-${sig.candleCloseT}`,
-        pair: sym, dir: sig.dir,
-        strategy: sig.strategy, strategyName: sig.strategyName, strategyShort: sig.strategyShort,
-        entry: sig.entry, slInit: sig.sl, sl: sig.sl,
-        tp1: sig.tp1, tp2: sig.tp2, tp3: sig.tp3, tpRR: sig.tpRR,
-        atr: sig.atr, atrPct: sig.atrPct,
-        openTime: new Date(sig.candleCloseT).toISOString(),
-        openCandleCloseT: sig.candleCloseT, checkFromCloseT: sig.candleCloseT,
-        bias, provider: provider.name, bigTF: cfg.bigTF, smallTF: cfg.smallTF,
-        intel, reasons: sig.reasons,
-        tpHits: [], realizedPct: 0, remaining: 1, bars: 0,
-        lastPrice: sig.entry, lastPriceTime: new Date(sig.candleCloseT).toISOString(),
-        status: 'OPEN'
-      };
-      open.push(pos);
-      openPairs.add(sym);
-      pushEv({ type: 'new_signal', pair: sym, dir: sig.dir, validity: intel.validity, score: intel.score, entry: sig.entry, strategyShort: sig.strategyShort });
-      console.log(`[open]  ${sym} ${sig.dir} ${intel.validity}(${intel.score}) entry=${sig.entry} tp=${sig.tp1}/${sig.tp2}/${sig.tp3} (${sig.strategyShort})`);
-    } catch (e) {
-      console.log(`[detect] ${sym} gagal: ${e.message}`);
     }
+    const intel = buildIntel({
+      dir: sig.dir, smallCandles: small, big4h: big, hourly1h: h1, daily1d: d1,
+      volRatio: sig.raw.volRatio, takerRatio: sig.raw.takerRatio,
+      rsi15, macd15, ma200State
+    });
+
+    return {
+      id: `${sym}-${sig.candleCloseT}`,
+      pair: sym, dir: sig.dir,
+      strategy: sig.strategy, strategyName: sig.strategyName, strategyShort: sig.strategyShort,
+      entry: sig.entry, slInit: sig.sl, sl: sig.sl,
+      tp1: sig.tp1, tp2: sig.tp2, tp3: sig.tp3, tpRR: sig.tpRR,
+      atr: sig.atr, atrPct: sig.atrPct,
+      openTime: new Date(sig.candleCloseT).toISOString(),
+      openCandleCloseT: sig.candleCloseT, checkFromCloseT: sig.candleCloseT,
+      bias, provider: provider.name, bigTF: cfg.bigTF, smallTF: cfg.smallTF,
+      intel, reasons: sig.reasons,
+      tpHits: [], realizedPct: 0, remaining: 1, bars: 0,
+      lastPrice: sig.entry, lastPriceTime: new Date(sig.candleCloseT).toISOString(),
+      status: 'OPEN'
+    };
+  }
+
+  // worker-pool: beberapa worker menarik pekerjaan dari antrian yang sama
+  const found = [];
+  let cursor = 0, done = 0;
+  async function worker() {
+    while (cursor < candidates.length) {
+      const sym = candidates[cursor++];
+      try {
+        const pos = await scanSymbol(sym);
+        if (pos) found.push(pos);
+      } catch (e) {
+        console.log(`[detect] ${sym} gagal: ${e.message}`);
+      }
+      if (++done % 50 === 0) console.log(`[scan] progress ${done}/${candidates.length}`);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, candidates.length) }, () => worker()));
+
+  // daftarkan sinyal yang ditemukan (skor tertinggi dulu agar log rapi)
+  found.sort((a, b) => (b.intel ? b.intel.score : 0) - (a.intel ? a.intel.score : 0));
+  for (const pos of found) {
+    open.push(pos);
+    openPairs.add(pos.pair);
+    pushEv({ type: 'new_signal', pair: pos.pair, dir: pos.dir, validity: pos.intel.validity, score: pos.intel.score, entry: pos.entry, strategyShort: pos.strategyShort });
+    console.log(`[open]  ${pos.pair} ${pos.dir} ${pos.intel.validity}(${pos.intel.score}) entry=${pos.entry} tp=${pos.tp1}/${pos.tp2}/${pos.tp3} (${pos.strategyShort})`);
   }
 
   /* 3) SIMPAN */

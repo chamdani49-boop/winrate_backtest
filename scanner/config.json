@@ -1,6 +1,10 @@
 {
   "_comment": "Konfigurasi robot scanner 24/7. Ubah nilai di sini lalu commit; robot akan memakai setting baru pada run berikutnya.",
-  "topN": 20,
+  "_comment_coverage": "topN=0 berarti pindai SEMUA pair USDT yang lolos minQuoteVolume (volume 24 jam dalam USDT). Set topN>0 untuk membatasi ke N pair teratas. minQuoteVolume=0 berarti benar-benar semua coin (termasuk yang sangat tidak likuid — tidak disarankan).",
+  "topN": 0,
+  "minQuoteVolume": 1000000,
+  "concurrency": 5,
+  "requestDelayMs": 80,
   "quote": "USDT",
   "bigTF": "4h",
   "smallTF": "15m",
