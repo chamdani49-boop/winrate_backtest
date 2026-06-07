@@ -319,7 +319,7 @@ function buildIntel(ctx) {
   score = Math.min(100, Math.round(score));
   const validity = score >= 75 ? 'STRONG' : score >= 50 ? 'MODERATE' : 'WEAK';
   const positionSize = validity === 'STRONG' ? '1-2% (Standard)' : validity === 'MODERATE' ? '0.5-1% (Conservative)' : '0.25-0.5% (Minimal)';
-  const holdDuration = '4-12 jam (max 48 jam)';
+  const holdDuration = 'Sampai TP3 / SL (tanpa batas waktu)';
   const management = 'TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.';
 
   return {
@@ -467,12 +467,8 @@ function advancePosition(pos, candles, nowMs, strat) {
         pos.tpHits.push('TP3'); pos.remaining = 0; closed = true; closedBy = 'TP3'; exitPrice = pos.tp3; exitTime = c.closeT; break;
       }
     }
-    // 5) timeout
-    const heldH = (nowMs - new Date(pos.openTime).getTime()) / 3600e3;
-    if (heldH >= strat.maxHoldHours) {
-      pos.realizedPct += pnlPctAt(pos.dir, pos.entry, c.c) * pos.remaining;
-      pos.remaining = 0; closed = true; closedBy = 'TIMEOUT'; exitPrice = c.c; exitTime = c.closeT; break;
-    }
+    // Tidak ada tutup paksa: posisi dibiarkan berjalan apa adanya sampai
+    // kena SL (full/trailing) atau TP3. Sesuai logika staged-exit mesin.
   }
   return { closed, closedBy, exitPrice, exitTime };
 }

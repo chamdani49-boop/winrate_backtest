@@ -25,7 +25,7 @@
     "_comment_targetAtrTF": "Sumber ATR untuk jarak SL/TP. 'big' = pakai volatilitas timeframe besar (bigTF, mis. 4h) -> target lebih lebar mengikuti swing; 'small' = pakai ATR timeframe entry (smallTF, mis. 15m) -> target lebih pendek (perilaku lama). Entry/keputusan masuk tetap dideteksi di smallTF apa pun nilainya.",
     "trailing": true,
     "direction": "both",
-    "maxHoldHours": 48,
+    "_comment_noTimeout": "Tidak ada tutup paksa berbasis waktu. Posisi dibiarkan berjalan apa adanya sampai kena SL (full/trailing) atau TP3, sesuai logika staged-exit mesin.",
     "cooldownBars": 5
   }
 }
