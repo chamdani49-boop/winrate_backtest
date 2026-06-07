@@ -2355,5 +2355,66 @@
       "consolPct": 3.58,
       "bias": "short"
     }
+  },
+  {
+    "id": "PAXGUSDT-1780871399999",
+    "pair": "PAXGUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 4310.72,
+    "slInit": 4331.931,
+    "tp1": 4289.509,
+    "tp2": 4268.298,
+    "tp3": 4247.087,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-07T22:29:59.999Z",
+    "exitTime": "2026-06-07T23:44:59.999Z",
+    "exit": 4331.931,
+    "bars": 5,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -0.492,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 77,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 52.7,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 53 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker 42%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.64,
+      "bodyPct": -0.34,
+      "takerRatio": 0.42,
+      "consolPct": 0.64,
+      "bias": "short"
+    }
   }
 ]
