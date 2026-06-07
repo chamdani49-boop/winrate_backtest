@@ -348,12 +348,58 @@ function buildIntel(ctx) {
   };
 }
 
+/* Pivot swing (fractal sederhana): high/low lokal dgn window w di kiri-kanan */
+function swingPivots(candles, type, w) {
+  const out = [];
+  for (let i = w; i < candles.length - w; i++) {
+    let ok = true;
+    for (let j = i - w; j <= i + w; j++) {
+      if (j === i) continue;
+      if (type === 'high' && candles[j].h >= candles[i].h) { ok = false; break; }
+      if (type === 'low'  && candles[j].l <= candles[i].l) { ok = false; break; }
+    }
+    if (ok) out.push(type === 'high' ? candles[i].h : candles[i].l);
+  }
+  return out;
+}
+
+/* TP DINAMIS berbasis STRUKTUR (analisa chart): pakai level swing timeframe besar
+   sebagai target — resistance (pivot high) utk LONG, support (pivot low) utk SHORT.
+   - Tiap TP minimal 1R dari entry (TP1% >= SL%) dan jaraknya monotonic membesar.
+   - Level swing yg terlalu rapat di-skip; bila kurang dari `count`, sisanya
+     dilengkapi kelipatan R sebagai fallback. Mengembalikan array harga absolut. */
+function structureTargets(bigCandles, dir, entry, riskDist, tpR, count, w) {
+  const closed = (bigCandles || []).slice(0, -1);
+  const win = w || 2;
+  let levels = dir === 'BUY'
+    ? swingPivots(closed, 'high', win).filter(p => p > entry).sort((a, b) => a - b)
+    : swingPivots(closed, 'low',  win).filter(p => p < entry).sort((a, b) => b - a);
+  const minGap = riskDist * 0.5;
+  const picked = [];
+  for (const p of levels) {
+    if (picked.length >= count) break;
+    const dist = Math.abs(p - entry);
+    if (dist < riskDist) continue;                                   // TP1 minimal 1R
+    if (picked.some(q => Math.abs(p - q) < minGap)) continue;        // jangan terlalu rapat
+    if (picked.length && dist <= Math.abs(picked[picked.length - 1] - entry)) continue; // harus makin jauh
+    picked.push(p);
+  }
+  // fallback: lengkapi sisa dgn kelipatan R, selalu lebih jauh dari target sebelumnya
+  let lastDist = picked.length ? Math.abs(picked[picked.length - 1] - entry) : 0;
+  for (let k = picked.length; k < count; k++) {
+    const rrDist = riskDist * ((tpR && tpR[k]) || (k + 1));
+    const dist = Math.max(rrDist, lastDist + riskDist);
+    picked.push(dir === 'BUY' ? entry + dist : entry - dist);
+    lastDist = dist;
+  }
+  return picked.slice(0, count);
+}
+
 /* ============================================================
    DETEKSI SINYAL SPIKE — fungsi murni
-   Entry/keputusan masuk DIDETEKSI di timeframe kecil (15m),
-   sedangkan jarak SL & TP MENGACU volatilitas timeframe besar (4h)
-   bila strat.targetAtrTF === 'big' (default), supaya target tidak
-   terlalu pendek dan mengikuti swing besar.
+   Entry/keputusan masuk DIDETEKSI di timeframe kecil (15m).
+   SL = level "patah" struktur (slMode). TP = level swing struktur 4h
+   (tpMode 'structure', dinamis mengikuti chart) atau kelipatan R ('rr').
    Mengembalikan objek sinyal {dir, entry, sl, tp1, tp2, tp3, atr,
    strategy, strategyName, candleT, candleCloseT, reasons} | null
    ============================================================ */
@@ -430,10 +476,22 @@ function detectSignal(smallCandles, bigCandles, strat, bias, hasTaker) {
   const sl = dir === 'BUY' ? entry - riskDist : entry + riskDist;
   const lab = strategyLabel(dir);
 
+  // === TARGET TP ===
+  // tpMode 'structure' (default): TP di level swing 4h (resistance/support nyata) -> dinamis per coin.
+  // tpMode 'rr': TP = kelipatan R [1,2,3] (seragam, perilaku lama).
+  const tpMode = strat.tpMode || 'structure';
+  let tps;
+  if (tpMode === 'structure') {
+    tps = structureTargets(bigCandles, dir, entry, riskDist, tpR, 3, strat.tpSwingWindow);
+  } else {
+    tps = [lvl(tpR[0]), lvl(tpR[1]), lvl(tpR[2])];
+  }
+  const tpRRout = tps.map(p => +(Math.abs(p - entry) / riskDist).toFixed(2));
+
   return {
     dir, entry: roundPx(entry), sl: roundPx(sl),
-    tp1: roundPx(lvl(tpR[0])), tp2: roundPx(lvl(tpR[1])), tp3: roundPx(lvl(tpR[2])),
-    tpRR: tpR.slice(),
+    tp1: roundPx(tps[0]), tp2: roundPx(tps[1]), tp3: roundPx(tps[2]),
+    tpRR: tpRRout, tpMode,
     slMode, riskPct: +(riskDist / entry * 100).toFixed(2),
     atr: roundPx(aTarget), atrPct: +(aTarget / entry * 100).toFixed(2), atrTF: targetTF,
     atr15: roundPx(a), atr15Pct: +(a / entry * 100).toFixed(2),
@@ -920,6 +978,7 @@ async function main() {
    ============================================================ */
 module.exports = {
   TF_MS, sma, ema, atrAt, roundPx, pnlPctAt, strategyLabel, rsi, macdState, trendOf, buildIntel,
+  swingPivots, structureTargets,
   filterTopN, computeBias, detectSignal, advancePosition, computeStats, buildHistoryEntry,
   PROVIDERS
 };
