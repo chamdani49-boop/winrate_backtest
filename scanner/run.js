@@ -146,7 +146,22 @@ function atrAt(candles, end, period) {
   }
   return s / period;
 }
-function round6(x) { return Math.round(x * 1e6) / 1e6; }
+// Pembulatan harga ADAPTIF: 6 desimal tetap (round6 lama) merusak harga micro
+// (mis. SHIB/NEIRO < 0.0001) -> SL/TP kolaps jadi sama dgn entry (persentase 0).
+// Sekarang jumlah desimal menyesuaikan besaran harga agar level tetap presisi.
+function roundPx(x) {
+  if (!isFinite(x) || x === 0) return x;
+  const a = Math.abs(x);
+  let dec;
+  if (a >= 1000)        dec = 3;
+  else if (a >= 1)      dec = 5;
+  else if (a >= 0.01)   dec = 6;
+  else if (a >= 0.0001) dec = 8;
+  else if (a >= 0.000001) dec = 10;
+  else                    dec = 12;
+  const f = Math.pow(10, dec);
+  return Math.round(x * f) / f;
+}
 function pnlPctAt(dir, entry, price) { return dir === 'BUY' ? (price - entry) / entry * 100 : (entry - price) / entry * 100; }
 
 /* RSI Wilder */
@@ -416,12 +431,12 @@ function detectSignal(smallCandles, bigCandles, strat, bias, hasTaker) {
   const lab = strategyLabel(dir);
 
   return {
-    dir, entry: round6(entry), sl: round6(sl),
-    tp1: round6(lvl(tpR[0])), tp2: round6(lvl(tpR[1])), tp3: round6(lvl(tpR[2])),
+    dir, entry: roundPx(entry), sl: roundPx(sl),
+    tp1: roundPx(lvl(tpR[0])), tp2: roundPx(lvl(tpR[1])), tp3: roundPx(lvl(tpR[2])),
     tpRR: tpR.slice(),
     slMode, riskPct: +(riskDist / entry * 100).toFixed(2),
-    atr: round6(aTarget), atrPct: +(aTarget / entry * 100).toFixed(2), atrTF: targetTF,
-    atr15: round6(a), atr15Pct: +(a / entry * 100).toFixed(2),
+    atr: roundPx(aTarget), atrPct: +(aTarget / entry * 100).toFixed(2), atrTF: targetTF,
+    atr15: roundPx(a), atr15Pct: +(a / entry * 100).toFixed(2),
     strategy: lab.code, strategyName: lab.name, strategyShort: lab.short,
     candleT: c.t, candleCloseT: c.closeT, candleClose: c.c,
     raw: { volRatio: +volRatio.toFixed(2), bodyPct: +bodyPct.toFixed(2), takerRatio: takerRatio == null ? null : +takerRatio.toFixed(3), consolPct: +rangePct.toFixed(2), bias },
@@ -741,7 +756,7 @@ function buildHistoryEntry(pos, ev) {
     strategy: pos.strategy, strategyName: pos.strategyName, strategyShort: pos.strategyShort,
     entry: pos.entry, slInit: pos.slInit, tp1: pos.tp1, tp2: pos.tp2, tp3: pos.tp3, tpRR: pos.tpRR,
     openTime: pos.openTime, exitTime: new Date(ev.exitTime).toISOString(),
-    exit: round6(ev.exitPrice), bars: pos.bars,
+    exit: roundPx(ev.exitPrice), bars: pos.bars,
     tpHits: pos.tpHits.slice(), closedBy: ev.closedBy,
     pnl_pct: pnl, result: pnl >= 0 ? 'WIN' : 'LOSS',
     bias: pos.bias, intel: pos.intel, reasons: pos.reasons
@@ -904,7 +919,7 @@ async function main() {
    EKSPOR untuk pengujian + jalankan bila dipanggil langsung
    ============================================================ */
 module.exports = {
-  TF_MS, sma, ema, atrAt, round6, pnlPctAt, strategyLabel, rsi, macdState, trendOf, buildIntel,
+  TF_MS, sma, ema, atrAt, roundPx, pnlPctAt, strategyLabel, rsi, macdState, trendOf, buildIntel,
   filterTopN, computeBias, detectSignal, advancePosition, computeStats, buildHistoryEntry,
   PROVIDERS
 };
