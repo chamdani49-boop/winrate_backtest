@@ -386,8 +386,24 @@ tr:hover td{background:rgba(0,229,160,.02);}
   font-size:16px;font-weight:700;margin-bottom:18px;
   display:flex;justify-content:space-between;align-items:center;
 }
-.modal-close{cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:20px;line-height:1;}
+.modal-close{cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:20px;line-height:1;padding:2px 6px;margin:-2px -4px;}
 .modal-close:hover{color:var(--text);}
+
+/* Watchlist sebagai chip (ramah mobile: wrap + mudah dibaca) */
+#lv-watch{display:flex;flex-wrap:wrap;gap:6px;}
+.wl-chip{
+  font-family:var(--mono);font-size:10.5px;color:var(--muted2);
+  background:var(--surf);border:1px solid var(--border);
+  padding:3px 8px;border-radius:14px;white-space:nowrap;line-height:1.4;
+}
+
+/* Modal lebih ringkas di layar kecil */
+@media(max-width:480px){
+  .modal{padding:16px 14px;border-radius:12px;}
+  .modal-title{font-size:15px;margin-bottom:14px;}
+  .modal-wide{max-width:100%;}
+  .wl-chip{font-size:10px;padding:3px 7px;}
+}
 
 /* Empty state */
 .empty{text-align:center;padding:clamp(30px,8vw,60px) 20px;color:var(--muted);}
@@ -3898,7 +3914,11 @@ function renderLive(stats, state, history) {
       <td class="${d.net>=0?'c-green':'c-red'}">${d.net>=0?'+':''}${d.net}%</td></tr>`;
   }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
 
-  setTxt('lv-watch', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.join('  ·  ') : '—');
+  const wlEl = document.getElementById('lv-watch');
+  if (wlEl) {
+    const wl = (stats.watchlist && stats.watchlist.length) ? stats.watchlist : [];
+    wlEl.innerHTML = wl.length ? wl.map(s => `<span class="wl-chip">${s}</span>`).join('') : '<span class="c-muted">—</span>';
+  }
   setTxt('lv-watch-count', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.length + ' pair' : '0');
 
   // ====== KOMPONEN VISUAL BARU (CryptoSpike-style) ======
