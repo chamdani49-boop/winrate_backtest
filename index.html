@@ -1577,8 +1577,10 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
         <!-- ============ WATCHLIST (in tab Live) ============ -->
         <div class="card mt12">
-          <div class="card-hd">👀 Watchlist Dipindai (top volume)</div>
-          <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2)">—</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <div class="card-hd" style="margin-bottom:0">👀 Watchlist Dipindai (top volume)</div>
+            <button class="btn btn-outline btn-sm" onclick="openWatchlistModal()">📋 Lihat Watchlist · <span id="lv-watch-count">0</span></button>
+          </div>
         </div>
 
         </div><!-- /tab Live -->
@@ -2025,6 +2027,17 @@ TP: 1.0790 | SL: 1.0880</div>
       <span class="modal-close" onclick="closeStratModal()">✕</span>
     </div>
     <div id="stratModalBody"></div>
+  </div>
+</div>
+
+<!-- WATCHLIST MODAL -->
+<div class="modal-bg" id="watchModal" onclick="if(event.target.id==='watchModal')closeWatchlistModal()">
+  <div class="modal modal-wide">
+    <div class="modal-title">
+      👀 Watchlist Dipindai (top volume)
+      <span class="modal-close" onclick="closeWatchlistModal()">✕</span>
+    </div>
+    <div id="lv-watch" style="font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--muted2);word-break:break-word">—</div>
   </div>
 </div>
 
@@ -3881,6 +3894,7 @@ function renderLive(stats, state, history) {
   }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
 
   setTxt('lv-watch', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.join('  ·  ') : '—');
+  setTxt('lv-watch-count', (stats.watchlist && stats.watchlist.length) ? stats.watchlist.length + ' pair' : '0');
 
   // ====== KOMPONEN VISUAL BARU (CryptoSpike-style) ======
   // Win rate progress bar
@@ -4306,6 +4320,10 @@ function openStratModalFromHistory(id) {
 }
 function closeStratModal() { document.getElementById('stratModal').classList.remove('show'); }
 
+/* ---- Watchlist modal (popup daftar pair yang dipindai) ---- */
+function openWatchlistModal() { document.getElementById('watchModal').classList.add('show'); }
+function closeWatchlistModal() { document.getElementById('watchModal').classList.remove('show'); }
+
 /* ============================================================
    BUILD VISUAL ANALYSIS (untuk popup detail strategi)
    - Price ladder (SL→Entry→TP1→TP2→TP3 dgn marker harga sekarang)
@@ -4656,6 +4674,7 @@ function showToast(e) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeStratModal();
+    closeWatchlistModal();
     document.getElementById('bellPanel').classList.remove('show');
   }
 });
