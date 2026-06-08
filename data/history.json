@@ -3463,5 +3463,66 @@
       "consolPct": 5.92,
       "bias": "short"
     }
+  },
+  {
+    "id": "DOTUSDT-1780924499999",
+    "pair": "DOTUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.978,
+    "slInit": 0.993304,
+    "tp1": 0.94,
+    "tp2": 0.911,
+    "tp3": 0.884,
+    "tpRR": [
+      2.48,
+      4.38,
+      6.14
+    ],
+    "openTime": "2026-06-08T13:14:59.999Z",
+    "exitTime": "2026-06-08T19:59:59.999Z",
+    "exit": 0.993304,
+    "bars": 27,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.565,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 59.4,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 59 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 78%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.06,
+      "bodyPct": -0.41,
+      "takerRatio": 0.22,
+      "consolPct": 2.39,
+      "bias": "short"
+    }
   }
 ]
