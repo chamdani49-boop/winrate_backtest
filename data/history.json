@@ -3402,5 +3402,66 @@
       "consolPct": 4.78,
       "bias": "short"
     }
+  },
+  {
+    "id": "CHZUSDT-1780871399999",
+    "pair": "CHZUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.02509,
+    "slInit": 0.026024,
+    "tp1": 0.02366,
+    "tp2": 0.02316,
+    "tp3": 0.022226,
+    "tpRR": [
+      1.53,
+      2.07,
+      3.07
+    ],
+    "openTime": "2026-06-07T22:29:59.999Z",
+    "exitTime": "2026-06-08T16:29:59.999Z",
+    "exit": 0.026024,
+    "bars": 72,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.723,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 89,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 52.8,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 15.0x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 53 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker 41%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 14.99,
+      "bodyPct": -2.41,
+      "takerRatio": 0.41,
+      "consolPct": 5.92,
+      "bias": "short"
+    }
   }
 ]
