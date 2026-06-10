@@ -3955,5 +3955,66 @@
       "consolPct": 3.41,
       "bias": "long"
     }
+  },
+  {
+    "id": "STRAXUSDT-1781050499999",
+    "pair": "STRAXUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.00827,
+    "slInit": 0.00846429,
+    "tp1": 0.0079,
+    "tp2": 0.00770571,
+    "tp3": 0.00751143,
+    "tpRR": [
+      1.9,
+      2.9,
+      3.9
+    ],
+    "openTime": "2026-06-10T00:14:59.999Z",
+    "exitTime": "2026-06-10T02:29:59.999Z",
+    "exit": 0.00846429,
+    "bars": 9,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.349,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 84,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 58,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 58 netral-turun",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 75%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.78,
+      "bodyPct": -0.84,
+      "takerRatio": 0.25,
+      "consolPct": 1.82,
+      "bias": "short"
+    }
   }
 ]
