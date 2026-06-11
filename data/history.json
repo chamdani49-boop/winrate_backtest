@@ -5252,5 +5252,69 @@
       "consolPct": 1.57,
       "bias": "short"
     }
+  },
+  {
+    "id": "EDENUSDT-1781066699999",
+    "pair": "EDENUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0412,
+    "slInit": 0.043048,
+    "tp1": 0.0389,
+    "tp2": 0.0375,
+    "tp3": 0.035652,
+    "tpRR": [
+      1.24,
+      2,
+      3
+    ],
+    "openTime": "2026-06-10T04:44:59.999Z",
+    "exitTime": "2026-06-11T00:29:59.999Z",
+    "exit": 0.0389,
+    "bars": 79,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 6.715,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 81,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 27.4,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.3x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 27 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 67%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.26,
+      "bodyPct": -0.72,
+      "takerRatio": 0.33,
+      "consolPct": 2.66,
+      "bias": "short"
+    }
   }
 ]
