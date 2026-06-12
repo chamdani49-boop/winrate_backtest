@@ -6429,5 +6429,69 @@
       "consolPct": 1.48,
       "bias": "long"
     }
+  },
+  {
+    "id": "NIGHTUSDT-1781223299999",
+    "pair": "NIGHTUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.03307,
+    "slInit": 0.032503,
+    "tp1": 0.034,
+    "tp2": 0.03449,
+    "tp3": 0.03478,
+    "tpRR": [
+      1.64,
+      2.5,
+      3.01
+    ],
+    "openTime": "2026-06-12T00:14:59.999Z",
+    "exitTime": "2026-06-12T11:59:59.999Z",
+    "exit": 0.03478,
+    "bars": 47,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 4.092,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 65,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "RANGE",
+        "1H": "UPTREND"
+      },
+      "rsi": 45.5,
+      "macd": "fading_down",
+      "ma200": null,
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 8.3x heavy",
+        "Daily downtrend",
+        "4H range",
+        "1H uptrend",
+        "RSI 46 netral-naik",
+        "MACD fading_down",
+        "Taker buy 86%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 8.31,
+      "bodyPct": 0.92,
+      "takerRatio": 0.86,
+      "consolPct": 1.47,
+      "bias": "long"
+    }
   }
 ]
