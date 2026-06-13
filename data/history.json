@@ -7853,5 +7853,66 @@
       "consolPct": 2.75,
       "bias": "short"
     }
+  },
+  {
+    "id": "POLUSDT-1781240399999",
+    "pair": "POLUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.07478,
+    "slInit": 0.076167,
+    "tp1": 0.0731,
+    "tp2": 0.07231,
+    "tp3": 0.0716,
+    "tpRR": [
+      1.21,
+      1.78,
+      2.29
+    ],
+    "openTime": "2026-06-12T04:59:59.999Z",
+    "exitTime": "2026-06-13T21:44:59.999Z",
+    "exit": 0.076167,
+    "bars": 163,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.855,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 79,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 52.8,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 9.2x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 53 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker 42%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 9.22,
+      "bodyPct": -1.2,
+      "takerRatio": 0.42,
+      "consolPct": 2.12,
+      "bias": "short"
+    }
   }
 ]
