@@ -7363,5 +7363,66 @@
       "consolPct": 2.27,
       "bias": "short"
     }
+  },
+  {
+    "id": "ZENUSDT-1781301599999",
+    "pair": "ZENUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 4.305,
+    "slInit": 4.38345,
+    "tp1": 4.118,
+    "tp2": 4.021,
+    "tp3": 3.922,
+    "tpRR": [
+      2.38,
+      3.62,
+      4.88
+    ],
+    "openTime": "2026-06-12T21:59:59.999Z",
+    "exitTime": "2026-06-13T08:59:59.999Z",
+    "exit": 4.38345,
+    "bars": 44,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.822,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 43.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 44 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 75%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.87,
+      "bodyPct": -0.37,
+      "takerRatio": 0.25,
+      "consolPct": 1.28,
+      "bias": "short"
+    }
   }
 ]
