@@ -7792,5 +7792,66 @@
       "consolPct": 4.15,
       "bias": "short"
     }
+  },
+  {
+    "id": "BBUSDT-1780992899999",
+    "pair": "BBUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0219,
+    "slInit": 0.022632,
+    "tp1": 0.0198,
+    "tp2": 0.0194,
+    "tp3": 0.0184,
+    "tpRR": [
+      2.87,
+      3.41,
+      4.78
+    ],
+    "openTime": "2026-06-09T08:14:59.999Z",
+    "exitTime": "2026-06-13T16:14:59.999Z",
+    "exit": 0.022632,
+    "bars": 416,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.342,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 79,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 50.5,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.4x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 50 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 86%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.37,
+      "bodyPct": -0.9,
+      "takerRatio": 0.14,
+      "consolPct": 2.75,
+      "bias": "short"
+    }
   }
 ]
