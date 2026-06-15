@@ -9339,5 +9339,66 @@
       "consolPct": 2.75,
       "bias": "long"
     }
+  },
+  {
+    "id": "FETUSDT-1781474399999",
+    "pair": "FETUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.2098,
+    "slInit": 0.213895,
+    "tp1": 0.2045,
+    "tp2": 0.202,
+    "tp3": 0.1969,
+    "tpRR": [
+      1.29,
+      1.9,
+      3.15
+    ],
+    "openTime": "2026-06-14T21:59:59.999Z",
+    "exitTime": "2026-06-15T00:29:59.999Z",
+    "exit": 0.213895,
+    "bars": 10,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.952,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 69,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.9,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 73 overbought",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker sell 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.81,
+      "bodyPct": -0.9,
+      "takerRatio": 0.39,
+      "consolPct": 5.58,
+      "bias": "short"
+    }
   }
 ]
