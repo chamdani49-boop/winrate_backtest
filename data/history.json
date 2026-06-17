@@ -11243,5 +11243,66 @@
       "consolPct": 2.58,
       "bias": "long"
     }
+  },
+  {
+    "id": "BCHUSDT-1781642699999",
+    "pair": "BCHUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 220.1,
+    "slInit": 215.85,
+    "tp1": 227.2,
+    "tp2": 229.7,
+    "tp3": 234.6,
+    "tpRR": [
+      1.67,
+      2.26,
+      3.41
+    ],
+    "openTime": "2026-06-16T20:44:59.999Z",
+    "exitTime": "2026-06-16T23:59:59.999Z",
+    "exit": 215.85,
+    "bars": 13,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.931,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 52,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 60.3,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 4.6x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H range",
+        "RSI 60 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 56%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.58,
+      "bodyPct": 0.5,
+      "takerRatio": 0.56,
+      "consolPct": 0.96,
+      "bias": "long"
+    }
   }
 ]
