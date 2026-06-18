@@ -12903,5 +12903,69 @@
       "consolPct": 2.62,
       "bias": "long"
     }
+  },
+  {
+    "id": "BTCUSDT-1781792099999",
+    "pair": "BTCUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 63780,
+    "slInit": 64675.288,
+    "tp1": 62829.81,
+    "tp2": 62348,
+    "tp3": 61383.56,
+    "tpRR": [
+      1.06,
+      1.6,
+      2.68
+    ],
+    "openTime": "2026-06-18T14:14:59.999Z",
+    "exitTime": "2026-06-18T18:29:59.999Z",
+    "exit": 62829.81,
+    "bars": 17,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.742,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 70,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 39.1,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 39 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker 44%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.66,
+      "bodyPct": -0.32,
+      "takerRatio": 0.44,
+      "consolPct": 1.01,
+      "bias": "short"
+    }
   }
 ]
