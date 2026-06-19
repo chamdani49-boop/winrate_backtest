@@ -13152,5 +13152,70 @@
       "consolPct": 3.84,
       "bias": "long"
     }
+  },
+  {
+    "id": "FFUSDT-1780861499999",
+    "pair": "FFUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.08995,
+    "slInit": 0.095844,
+    "tp1": 0.07945,
+    "tp2": 0.073556,
+    "tp3": 0.067662,
+    "tpRR": [
+      1.78,
+      2.78,
+      3.78
+    ],
+    "openTime": "2026-06-07T19:44:59.999Z",
+    "exitTime": "2026-06-19T08:29:59.999Z",
+    "exit": 0.067662,
+    "bars": 1107,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 18.226,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 57,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 22,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 22 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 73%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.79,
+      "bodyPct": -1.1,
+      "takerRatio": 0.27,
+      "consolPct": 4.48,
+      "bias": "short"
+    }
   }
 ]
