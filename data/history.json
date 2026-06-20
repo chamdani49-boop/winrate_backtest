@@ -13962,5 +13962,66 @@
       "consolPct": 1.01,
       "bias": "long"
     }
+  },
+  {
+    "id": "MIRAUSDT-1781927099999",
+    "pair": "MIRAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0478,
+    "slInit": 0.049414,
+    "tp1": 0.046186,
+    "tp2": 0.044571,
+    "tp3": 0.042957,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-20T03:44:59.999Z",
+    "exitTime": "2026-06-20T17:44:59.999Z",
+    "exit": 0.049414,
+    "bars": 56,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.377,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 37.1,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.9x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 37 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 96%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.88,
+      "bodyPct": -1.24,
+      "takerRatio": 0.04,
+      "consolPct": 1.87,
+      "bias": "short"
+    }
   }
 ]
