@@ -14885,5 +14885,66 @@
       "consolPct": 2.95,
       "bias": "long"
     }
+  },
+  {
+    "id": "TONUSDT-1782054899999",
+    "pair": "TONUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 1.707,
+    "slInit": 1.66805,
+    "tp1": 1.766,
+    "tp2": 1.795,
+    "tp3": 1.827,
+    "tpRR": [
+      1.51,
+      2.26,
+      3.08
+    ],
+    "openTime": "2026-06-21T15:14:59.999Z",
+    "exitTime": "2026-06-21T18:29:59.999Z",
+    "exit": 1.66805,
+    "bars": 13,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.282,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 71,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 62.8,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.2x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 63 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 62%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.24,
+      "bodyPct": 0.59,
+      "takerRatio": 0.62,
+      "consolPct": 1.43,
+      "bias": "long"
+    }
   }
 ]
