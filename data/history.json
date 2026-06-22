@@ -15680,5 +15680,188 @@
       "consolPct": 2.13,
       "bias": "short"
     }
+  },
+  {
+    "id": "MEGAUSDT-1781927099999",
+    "pair": "MEGAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.05428,
+    "slInit": 0.052559,
+    "tp1": 0.05771,
+    "tp2": 0.0602,
+    "tp3": 0.06488,
+    "tpRR": [
+      1.99,
+      3.44,
+      6.16
+    ],
+    "openTime": "2026-06-20T03:44:59.999Z",
+    "exitTime": "2026-06-22T06:44:59.999Z",
+    "exit": 0.05428,
+    "bars": 204,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.106,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 49,
+      "validity": "WEAK",
+      "positionSize": "0.25-0.5% (Minimal)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "RANGE",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 42.9,
+      "macd": "fading_down",
+      "ma200": null,
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 4.8x heavy",
+        "Daily downtrend",
+        "4H range",
+        "1H downtrend",
+        "RSI 43 netral-naik",
+        "MACD fading_down",
+        "Taker 57%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.83,
+      "bodyPct": 0.8,
+      "takerRatio": 0.57,
+      "consolPct": 3.82,
+      "bias": "long"
+    }
+  },
+  {
+    "id": "AIGENSYNUSDT-1782072899999",
+    "pair": "AIGENSYNUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.02524,
+    "slInit": 0.025868,
+    "tp1": 0.02455,
+    "tp2": 0.02403,
+    "tp3": 0.02347,
+    "tpRR": [
+      1.1,
+      1.93,
+      2.82
+    ],
+    "openTime": "2026-06-21T20:14:59.999Z",
+    "exitTime": "2026-06-22T03:44:59.999Z",
+    "exit": 0.025868,
+    "bars": 30,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.488,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 26.7,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.8x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 27 sudah rendah",
+        "MACD falling",
+        "Taker sell 82%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.75,
+      "bodyPct": -0.43,
+      "takerRatio": 0.18,
+      "consolPct": 1.18,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "ZECUSDT-1782083699999",
+    "pair": "ZECUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 440.57,
+    "slInit": 453.735,
+    "tp1": 422.71,
+    "tp2": 416.01,
+    "tp3": 405.28,
+    "tpRR": [
+      1.36,
+      1.87,
+      2.68
+    ],
+    "openTime": "2026-06-21T23:14:59.999Z",
+    "exitTime": "2026-06-22T07:29:59.999Z",
+    "exit": 453.735,
+    "bars": 33,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.988,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 70,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 25.4,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 25 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 66%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.12,
+      "bodyPct": -1.24,
+      "takerRatio": 0.34,
+      "consolPct": 1.44,
+      "bias": "short"
+    }
   }
 ]
