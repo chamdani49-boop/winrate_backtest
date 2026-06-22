@@ -15927,5 +15927,66 @@
       "consolPct": 4.48,
       "bias": "long"
     }
+  },
+  {
+    "id": "EDUUSDT-1782113399999",
+    "pair": "EDUUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0303,
+    "slInit": 0.028959,
+    "tp1": 0.0325,
+    "tp2": 0.0373,
+    "tp3": 0.038641,
+    "tpRR": [
+      1.64,
+      5.22,
+      6.22
+    ],
+    "openTime": "2026-06-22T07:29:59.999Z",
+    "exitTime": "2026-06-22T19:59:59.999Z",
+    "exit": 0.028959,
+    "bars": 50,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.426,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 58,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 59.1,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 59 sudah tinggi",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker buy 80%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.84,
+      "bodyPct": 2.36,
+      "takerRatio": 0.8,
+      "consolPct": 4.78,
+      "bias": "long"
+    }
   }
 ]
