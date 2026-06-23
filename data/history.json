@@ -16296,5 +16296,67 @@
       "consolPct": 1.94,
       "bias": "long"
     }
+  },
+  {
+    "id": "OPNUSDT-1782093599999",
+    "pair": "OPNUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.075,
+    "slInit": 0.077288,
+    "tp1": 0.0725,
+    "tp2": 0.0711,
+    "tp3": 0.069,
+    "tpRR": [
+      1.09,
+      1.7,
+      2.62
+    ],
+    "openTime": "2026-06-22T01:59:59.999Z",
+    "exitTime": "2026-06-22T23:59:59.999Z",
+    "exit": 0.075,
+    "bars": 88,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.111,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 49.2,
+      "macd": "fading_up",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.2x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 49 netral-turun",
+        "MACD fading_up",
+        "Taker sell 70%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.24,
+      "bodyPct": -1.19,
+      "takerRatio": 0.3,
+      "consolPct": 4.22,
+      "bias": "short"
+    }
   }
 ]
