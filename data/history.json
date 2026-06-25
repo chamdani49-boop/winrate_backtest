@@ -18292,5 +18292,66 @@
       "consolPct": 2.16,
       "bias": "short"
     }
+  },
+  {
+    "id": "RUNEUSDT-1782339299999",
+    "pair": "RUNEUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.406,
+    "slInit": 0.412071,
+    "tp1": 0.39,
+    "tp2": 0.386,
+    "tp3": 0.376,
+    "tpRR": [
+      2.64,
+      3.29,
+      4.94
+    ],
+    "openTime": "2026-06-24T22:14:59.999Z",
+    "exitTime": "2026-06-25T00:14:59.999Z",
+    "exit": 0.412071,
+    "bars": 8,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.495,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 86,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 51.6,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.0x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 52 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 62%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.99,
+      "bodyPct": -0.73,
+      "takerRatio": 0.38,
+      "consolPct": 2.51,
+      "bias": "short"
+    }
   }
 ]
