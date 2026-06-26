@@ -19225,5 +19225,65 @@
       "consolPct": 2.52,
       "bias": "long"
     }
+  },
+  {
+    "id": "CRCLBUSDT-1782414899999",
+    "pair": "CRCLBUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 68.01,
+    "slInit": 70.8875,
+    "tp1": 65.1325,
+    "tp2": 62.255,
+    "tp3": 59.3775,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-25T19:14:59.999Z",
+    "exitTime": "2026-06-26T13:44:59.999Z",
+    "exit": 70.8875,
+    "bars": 74,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.231,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 69,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "RANGE",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 30.9,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.0x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 31 sudah rendah",
+        "MACD falling",
+        "Taker sell 87%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.05,
+      "bodyPct": -0.7,
+      "takerRatio": 0.13,
+      "consolPct": 3.38,
+      "bias": "short"
+    }
   }
 ]
