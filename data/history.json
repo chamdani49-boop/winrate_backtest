@@ -19535,5 +19535,66 @@
       "consolPct": 1.61,
       "bias": "long"
     }
+  },
+  {
+    "id": "ZKUSDT-1782472499999",
+    "pair": "ZKUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.01007,
+    "slInit": 0.010561,
+    "tp1": 0.00957911,
+    "tp2": 0.00908821,
+    "tp3": 0.00859732,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-26T11:14:59.999Z",
+    "exitTime": "2026-06-27T04:44:59.999Z",
+    "exit": 0.010561,
+    "bars": 70,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.876,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 27.5,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 11.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 28 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 11.07,
+      "bodyPct": -0.98,
+      "takerRatio": 0.39,
+      "consolPct": 3.66,
+      "bias": "short"
+    }
   }
 ]
