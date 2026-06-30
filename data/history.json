@@ -22445,5 +22445,66 @@
       "consolPct": 4.9,
       "bias": "short"
     }
+  },
+  {
+    "id": "CAKEUSDT-1782812699999",
+    "pair": "CAKEUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 1.309,
+    "slInit": 1.32841,
+    "tp1": 1.272,
+    "tp2": 1.255,
+    "tp3": 1.23559,
+    "tpRR": [
+      1.91,
+      2.78,
+      3.78
+    ],
+    "openTime": "2026-06-30T09:44:59.999Z",
+    "exitTime": "2026-06-30T19:44:59.999Z",
+    "exit": 1.32841,
+    "bars": 40,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.483,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 25.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 8.6x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 65%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 8.55,
+      "bodyPct": -0.38,
+      "takerRatio": 0.36,
+      "consolPct": 0.84,
+      "bias": "short"
+    }
   }
 ]
