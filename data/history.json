@@ -23005,5 +23005,70 @@
       "consolPct": 4.09,
       "bias": "short"
     }
+  },
+  {
+    "id": "WLDUSDT-1782837899999",
+    "pair": "WLDUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.4066,
+    "slInit": 0.420507,
+    "tp1": 0.392693,
+    "tp2": 0.378786,
+    "tp3": 0.364879,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-06-30T16:44:59.999Z",
+    "exitTime": "2026-07-01T18:59:59.999Z",
+    "exit": 0.364879,
+    "bars": 105,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 6.841,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 38.1,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 8.0x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 38 sudah rendah",
+        "MACD fading_up",
+        "ABOVE MA200",
+        "Taker sell 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 8,
+      "bodyPct": -0.9,
+      "takerRatio": 0.39,
+      "consolPct": 2.21,
+      "bias": "short"
+    }
   }
 ]
