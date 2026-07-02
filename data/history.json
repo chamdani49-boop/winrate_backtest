@@ -23625,5 +23625,66 @@
       "consolPct": 2.4,
       "bias": "long"
     }
+  },
+  {
+    "id": "TURBOUSDT-1782956699999",
+    "pair": "TURBOUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.000839,
+    "slInit": 0.00085584,
+    "tp1": 0.000798,
+    "tp2": 0.000781,
+    "tp3": 0.000768,
+    "tpRR": [
+      2.43,
+      3.44,
+      4.22
+    ],
+    "openTime": "2026-07-02T01:44:59.999Z",
+    "exitTime": "2026-07-02T13:29:59.999Z",
+    "exit": 0.00085584,
+    "bars": 47,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.007,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 85,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 47.8,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.3x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 48 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 62%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.29,
+      "bodyPct": -1.06,
+      "takerRatio": 0.38,
+      "consolPct": 1.8,
+      "bias": "short"
+    }
   }
 ]
