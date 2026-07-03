@@ -24491,5 +24491,70 @@
       "consolPct": 0.87,
       "bias": "short"
     }
+  },
+  {
+    "id": "BONKUSDT-1782992699999",
+    "pair": "BONKUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0000044,
+    "slInit": 0.00000422,
+    "tp1": 0.00000458,
+    "tp2": 0.00000472,
+    "tp3": 0.00000486,
+    "tpRR": [
+      1,
+      1.78,
+      2.56
+    ],
+    "openTime": "2026-07-02T11:44:59.999Z",
+    "exitTime": "2026-07-03T21:59:59.999Z",
+    "exit": 0.00000486,
+    "bars": 137,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 7.273,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 49,
+      "validity": "WEAK",
+      "positionSize": "0.25-0.5% (Minimal)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "RANGE",
+        "1H": "UPTREND"
+      },
+      "rsi": 77.3,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.0x heavy",
+        "Daily downtrend",
+        "4H range",
+        "1H uptrend",
+        "RSI 77 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 78%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.02,
+      "bodyPct": 0.46,
+      "takerRatio": 0.78,
+      "consolPct": 3.29,
+      "bias": "long"
+    }
   }
 ]
