@@ -23933,5 +23933,66 @@
       "consolPct": 4.98,
       "bias": "short"
     }
+  },
+  {
+    "id": "PIXELUSDT-1783000799999",
+    "pair": "PIXELUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00514,
+    "slInit": 0.00492929,
+    "tp1": 0.00539,
+    "tp2": 0.00559,
+    "tp3": 0.00579,
+    "tpRR": [
+      1.19,
+      2.14,
+      3.08
+    ],
+    "openTime": "2026-07-02T13:59:59.999Z",
+    "exitTime": "2026-07-03T00:29:59.999Z",
+    "exit": 0.00492929,
+    "bars": 42,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.099,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 57,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 73 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 69%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.74,
+      "bodyPct": 1.58,
+      "takerRatio": 0.69,
+      "consolPct": 2.61,
+      "bias": "long"
+    }
   }
 ]
