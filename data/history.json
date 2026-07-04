@@ -24620,5 +24620,69 @@
       "consolPct": 0.82,
       "bias": "long"
     }
+  },
+  {
+    "id": "WIFUSDT-1783041299999",
+    "pair": "WIFUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.1734,
+    "slInit": 0.16958,
+    "tp1": 0.1787,
+    "tp2": 0.1811,
+    "tp3": 0.1844,
+    "tpRR": [
+      1.39,
+      2.02,
+      2.88
+    ],
+    "openTime": "2026-07-03T01:14:59.999Z",
+    "exitTime": "2026-07-04T01:14:59.999Z",
+    "exit": 0.1787,
+    "bars": 96,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 3.518,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 54,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 59.1,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.7x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H range",
+        "RSI 59 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.66,
+      "bodyPct": 1.05,
+      "takerRatio": 0.61,
+      "consolPct": 1.05,
+      "bias": "long"
+    }
   }
 ]
