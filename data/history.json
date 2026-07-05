@@ -28035,5 +28035,66 @@
       "consolPct": 4.84,
       "bias": "long"
     }
+  },
+  {
+    "id": "BICOUSDT-1783258199999",
+    "pair": "BICOUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.01535,
+    "slInit": 0.015782,
+    "tp1": 0.01465,
+    "tp2": 0.014218,
+    "tp3": 0.013787,
+    "tpRR": [
+      1.62,
+      2.62,
+      3.62
+    ],
+    "openTime": "2026-07-05T13:29:59.999Z",
+    "exitTime": "2026-07-05T21:44:59.999Z",
+    "exit": 0.015782,
+    "bars": 33,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.814,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 92,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 47.2,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.8x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 47 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 62%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.75,
+      "bodyPct": -0.78,
+      "takerRatio": 0.38,
+      "consolPct": 2.36,
+      "bias": "short"
+    }
   }
 ]
