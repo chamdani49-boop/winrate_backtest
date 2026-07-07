@@ -31470,5 +31470,66 @@
       "consolPct": 1.53,
       "bias": "long"
     }
+  },
+  {
+    "id": "HEMIUSDT-1783402199999",
+    "pair": "HEMIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00486,
+    "slInit": 0.00469804,
+    "tp1": 0.00503,
+    "tp2": 0.00515,
+    "tp3": 0.00539,
+    "tpRR": [
+      1.05,
+      1.79,
+      3.27
+    ],
+    "openTime": "2026-07-07T05:29:59.999Z",
+    "exitTime": "2026-07-07T09:29:59.999Z",
+    "exit": 0.00469804,
+    "bars": 16,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.333,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 63,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 51.4,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 51 netral-naik",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker buy 66%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.63,
+      "bodyPct": 2.53,
+      "takerRatio": 0.66,
+      "consolPct": 3.16,
+      "bias": "long"
+    }
   }
 ]
