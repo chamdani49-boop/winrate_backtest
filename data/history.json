@@ -31838,5 +31838,69 @@
       "consolPct": 1.82,
       "bias": "long"
     }
+  },
+  {
+    "id": "UNIUSDT-1783424699999",
+    "pair": "UNIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 3.192,
+    "slInit": 3.1262,
+    "tp1": 3.26,
+    "tp2": 3.309,
+    "tp3": 3.38941,
+    "tpRR": [
+      1.03,
+      1.78,
+      3
+    ],
+    "openTime": "2026-07-07T11:44:59.999Z",
+    "exitTime": "2026-07-07T18:59:59.999Z",
+    "exit": 3.26,
+    "bars": 29,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.642,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 63,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 65.2,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.5x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 65 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 63%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.45,
+      "bodyPct": 1.24,
+      "takerRatio": 0.63,
+      "consolPct": 1.18,
+      "bias": "long"
+    }
   }
 ]
