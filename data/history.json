@@ -32329,5 +32329,66 @@
       "consolPct": 1.44,
       "bias": "short"
     }
+  },
+  {
+    "id": "AUDIOUSDT-1783484999999",
+    "pair": "AUDIOUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.01378,
+    "slInit": 0.013552,
+    "tp1": 0.01429,
+    "tp2": 0.01452,
+    "tp3": 0.0149,
+    "tpRR": [
+      2.23,
+      3.24,
+      4.9
+    ],
+    "openTime": "2026-07-08T04:29:59.999Z",
+    "exitTime": "2026-07-08T04:59:59.999Z",
+    "exit": 0.013552,
+    "bars": 2,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.655,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 49,
+      "validity": "WEAK",
+      "positionSize": "0.25-0.5% (Minimal)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 35.9,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 36 netral-naik",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker 56%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.92,
+      "bodyPct": 0.36,
+      "takerRatio": 0.57,
+      "consolPct": 4.6,
+      "bias": "long"
+    }
   }
 ]
