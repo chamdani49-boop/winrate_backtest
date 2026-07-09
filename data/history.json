@@ -33565,5 +33565,65 @@
       "consolPct": 4.2,
       "bias": "long"
     }
+  },
+  {
+    "id": "TSLABUSDT-1783614599999",
+    "pair": "TSLABUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 398.93,
+    "slInit": 402.76357,
+    "tp1": 391.65,
+    "tp2": 380.03,
+    "tp3": 373.81,
+    "tpRR": [
+      1.9,
+      4.93,
+      6.55
+    ],
+    "openTime": "2026-07-09T16:29:59.999Z",
+    "exitTime": "2026-07-09T17:14:59.999Z",
+    "exit": 402.76357,
+    "bars": 3,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -0.961,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 73,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "RANGE",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 61.7,
+      "macd": "fading_up",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.9x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 62 netral-turun",
+        "MACD fading_up",
+        "Taker sell 94%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.9,
+      "bodyPct": -0.59,
+      "takerRatio": 0.06,
+      "consolPct": 2.26,
+      "bias": "short"
+    }
   }
 ]
