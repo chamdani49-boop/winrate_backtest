@@ -34117,5 +34117,66 @@
       "consolPct": 1.62,
       "bias": "short"
     }
+  },
+  {
+    "id": "HBARUSDT-1783595699999",
+    "pair": "HBARUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.07031,
+    "slInit": 0.071382,
+    "tp1": 0.06884,
+    "tp2": 0.067768,
+    "tp3": 0.066696,
+    "tpRR": [
+      1.37,
+      2.37,
+      3.37
+    ],
+    "openTime": "2026-07-09T11:14:59.999Z",
+    "exitTime": "2026-07-10T12:14:59.999Z",
+    "exit": 0.071382,
+    "bars": 100,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.525,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 73,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 49.7,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 50 netral-turun",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 86%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.61,
+      "bodyPct": -0.34,
+      "takerRatio": 0.14,
+      "consolPct": 1.11,
+      "bias": "short"
+    }
   }
 ]
