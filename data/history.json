@@ -33686,5 +33686,66 @@
       "consolPct": 0.69,
       "bias": "short"
     }
+  },
+  {
+    "id": "YFIUSDT-1783633499999",
+    "pair": "YFIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 2144,
+    "slInit": 2097.446,
+    "tp1": 2329,
+    "tp2": 2482,
+    "tp3": 2848,
+    "tpRR": [
+      3.97,
+      7.26,
+      15.12
+    ],
+    "openTime": "2026-07-09T21:44:59.999Z",
+    "exitTime": "2026-07-10T00:14:59.999Z",
+    "exit": 2097.446,
+    "bars": 10,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.171,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 66,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 42.1,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.0x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 42 netral-naik",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker buy 75%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.05,
+      "bodyPct": 0.56,
+      "takerRatio": 0.75,
+      "consolPct": 1.88,
+      "bias": "long"
+    }
   }
 ]
