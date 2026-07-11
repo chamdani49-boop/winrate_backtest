@@ -34805,5 +34805,70 @@
       "consolPct": 1.4,
       "bias": "short"
     }
+  },
+  {
+    "id": "IOTAUSDT-1783717199999",
+    "pair": "IOTAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0392,
+    "slInit": 0.038461,
+    "tp1": 0.04,
+    "tp2": 0.0405,
+    "tp3": 0.0425,
+    "tpRR": [
+      1.08,
+      1.76,
+      4.46
+    ],
+    "openTime": "2026-07-10T20:59:59.999Z",
+    "exitTime": "2026-07-11T02:14:59.999Z",
+    "exit": 0.0425,
+    "bars": 21,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 4.592,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 63,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 34.4,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 34 oversold",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 59%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.78,
+      "bodyPct": 0.51,
+      "takerRatio": 0.59,
+      "consolPct": 1.8,
+      "bias": "long"
+    }
   }
 ]
