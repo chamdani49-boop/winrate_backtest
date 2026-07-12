@@ -36908,5 +36908,129 @@
       "consolPct": 4.17,
       "bias": "long"
     }
+  },
+  {
+    "id": "ETHFIUSDT-1783778399999",
+    "pair": "ETHFIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.425,
+    "slInit": 0.408482,
+    "tp1": 0.442,
+    "tp2": 0.455,
+    "tp3": 0.474554,
+    "tpRR": [
+      1.03,
+      1.82,
+      3
+    ],
+    "openTime": "2026-07-11T13:59:59.999Z",
+    "exitTime": "2026-07-12T15:59:59.999Z",
+    "exit": 0.425,
+    "bars": 104,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.333,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 69,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 83,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.0x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 83 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 75%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.02,
+      "bodyPct": 0.47,
+      "takerRatio": 0.75,
+      "consolPct": 2.67,
+      "bias": "long"
+    }
+  },
+  {
+    "id": "TRUMPUSDT-1783836899999",
+    "pair": "TRUMPUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 1.559,
+    "slInit": 1.59246,
+    "tp1": 1.52554,
+    "tp2": 1.49207,
+    "tp3": 1.45861,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-12T06:14:59.999Z",
+    "exitTime": "2026-07-12T15:44:59.999Z",
+    "exit": 1.59246,
+    "bars": 38,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.146,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 24.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 25 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 73%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.57,
+      "bodyPct": -0.89,
+      "takerRatio": 0.27,
+      "consolPct": 1.28,
+      "bias": "short"
+    }
   }
 ]
