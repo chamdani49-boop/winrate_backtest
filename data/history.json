@@ -36599,5 +36599,66 @@
       "consolPct": 0.7,
       "bias": "short"
     }
+  },
+  {
+    "id": "ATMUSDT-1783826099999",
+    "pair": "ATMUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 2.782,
+    "slInit": 2.69471,
+    "tp1": 3.105,
+    "tp2": 3.19229,
+    "tp3": 3.27957,
+    "tpRR": [
+      3.7,
+      4.7,
+      5.7
+    ],
+    "openTime": "2026-07-12T03:14:59.999Z",
+    "exitTime": "2026-07-12T09:14:59.999Z",
+    "exit": 2.69471,
+    "bars": 24,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.138,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 93,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 50.4,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.9x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 50 netral-naik",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 64%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.85,
+      "bodyPct": 0.58,
+      "takerRatio": 0.64,
+      "consolPct": 1.86,
+      "bias": "long"
+    }
   }
 ]
