@@ -38945,5 +38945,66 @@
       "consolPct": 2.6,
       "bias": "short"
     }
+  },
+  {
+    "id": "GALAUSDT-1783912499999",
+    "pair": "GALAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.002014,
+    "slInit": 0.00207929,
+    "tp1": 0.00194871,
+    "tp2": 0.00188343,
+    "tp3": 0.00181814,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-13T03:14:59.999Z",
+    "exitTime": "2026-07-14T09:59:59.999Z",
+    "exit": 0.00207929,
+    "bars": 123,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.242,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 27.5,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 7.7x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 27 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 7.73,
+      "bodyPct": -1.32,
+      "takerRatio": 0.39,
+      "consolPct": 2.17,
+      "bias": "short"
+    }
   }
 ]
