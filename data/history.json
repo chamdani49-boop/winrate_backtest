@@ -40362,5 +40362,66 @@
       "consolPct": 3.91,
       "bias": "short"
     }
+  },
+  {
+    "id": "LAZIOUSDT-1784094299999",
+    "pair": "LAZIOUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.394,
+    "slInit": 0.36825,
+    "tp1": 0.42,
+    "tp2": 0.437,
+    "tp3": 0.457,
+    "tpRR": [
+      1.01,
+      1.67,
+      2.45
+    ],
+    "openTime": "2026-07-15T05:44:59.999Z",
+    "exitTime": "2026-07-15T21:14:59.999Z",
+    "exit": 0.36825,
+    "bars": 62,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.536,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 51.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.8x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 52 netral-naik",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.79,
+      "bodyPct": 3.68,
+      "takerRatio": 0.61,
+      "consolPct": 3.49,
+      "bias": "long"
+    }
   }
 ]
