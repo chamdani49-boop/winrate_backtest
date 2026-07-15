@@ -39745,5 +39745,66 @@
       "consolPct": 3.26,
       "bias": "short"
     }
+  },
+  {
+    "id": "EPICUSDT-1784069999999",
+    "pair": "EPICUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.398,
+    "slInit": 0.387964,
+    "tp1": 0.424,
+    "tp2": 0.45,
+    "tp3": 0.46,
+    "tpRR": [
+      2.59,
+      5.18,
+      6.18
+    ],
+    "openTime": "2026-07-14T22:59:59.999Z",
+    "exitTime": "2026-07-15T01:44:59.999Z",
+    "exit": 0.387964,
+    "bars": 11,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.522,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 50,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.2x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 50 netral-naik",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker 58%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.19,
+      "bodyPct": 0.76,
+      "takerRatio": 0.58,
+      "consolPct": 1.78,
+      "bias": "long"
+    }
   }
 ]
