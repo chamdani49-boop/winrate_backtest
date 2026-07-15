@@ -40302,5 +40302,65 @@
       "consolPct": 2.7,
       "bias": "long"
     }
+  },
+  {
+    "id": "AIGENSYNUSDT-1784140199999",
+    "pair": "AIGENSYNUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.02429,
+    "slInit": 0.024609,
+    "tp1": 0.02294,
+    "tp2": 0.02258,
+    "tp3": 0.02147,
+    "tpRR": [
+      4.23,
+      5.35,
+      8.83
+    ],
+    "openTime": "2026-07-15T18:29:59.999Z",
+    "exitTime": "2026-07-15T18:44:59.999Z",
+    "exit": 0.024609,
+    "bars": 1,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.313,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 60,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 69.2,
+      "macd": "rising",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.6x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 69 overbought",
+        "MACD rising",
+        "Taker 42%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.59,
+      "bodyPct": -0.33,
+      "takerRatio": 0.42,
+      "consolPct": 3.91,
+      "bias": "short"
+    }
   }
 ]
