@@ -41231,5 +41231,68 @@
       "consolPct": 3.21,
       "bias": "long"
     }
+  },
+  {
+    "id": "DYDXUSDT-1783912499999",
+    "pair": "DYDXUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.12648,
+    "slInit": 0.131247,
+    "tp1": 0.121713,
+    "tp2": 0.116947,
+    "tp3": 0.11218,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-13T03:14:59.999Z",
+    "exitTime": "2026-07-16T20:44:59.999Z",
+    "exit": 0.12648,
+    "bars": 358,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.256,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 25.9,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 81%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.64,
+      "bodyPct": -1.25,
+      "takerRatio": 0.19,
+      "consolPct": 2.86,
+      "bias": "short"
+    }
   }
 ]
