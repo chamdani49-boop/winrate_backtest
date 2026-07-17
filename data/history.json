@@ -41730,5 +41730,256 @@
       "consolPct": 2.91,
       "bias": "long"
     }
+  },
+  {
+    "id": "BELUSDT-1784066399999",
+    "pair": "BELUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.1129,
+    "slInit": 0.107973,
+    "tp1": 0.1181,
+    "tp2": 0.1238,
+    "tp3": 0.149,
+    "tpRR": [
+      1.06,
+      2.21,
+      7.33
+    ],
+    "openTime": "2026-07-14T21:59:59.999Z",
+    "exitTime": "2026-07-17T05:14:59.999Z",
+    "exit": 0.107973,
+    "bars": 221,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.364,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 57,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 70.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 71 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 62%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.72,
+      "bodyPct": 0.62,
+      "takerRatio": 0.62,
+      "consolPct": 3.76,
+      "bias": "long"
+    }
+  },
+  {
+    "id": "GRAMUSDT-1784156399999",
+    "pair": "GRAMUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 1.577,
+    "slInit": 1.60418,
+    "tp1": 1.54982,
+    "tp2": 1.52264,
+    "tp3": 1.49546,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-15T22:59:59.999Z",
+    "exitTime": "2026-07-17T04:14:59.999Z",
+    "exit": 1.49546,
+    "bars": 117,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 3.447,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 73,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "RANGE",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 33.4,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.5x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 33 sudah rendah",
+        "MACD falling",
+        "Taker sell 74%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.48,
+      "bodyPct": -0.63,
+      "takerRatio": 0.26,
+      "consolPct": 0.76,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "ASTERUSDT-1784203199999",
+    "pair": "ASTERUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.624,
+    "slInit": 0.63,
+    "tp1": 0.618,
+    "tp2": 0.614,
+    "tp3": 0.61,
+    "tpRR": [
+      1,
+      1.67,
+      2.33
+    ],
+    "openTime": "2026-07-16T11:59:59.999Z",
+    "exitTime": "2026-07-17T05:59:59.999Z",
+    "exit": 0.61,
+    "bars": 72,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 1.603,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 82,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 35.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.3x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 36 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker 43%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.32,
+      "bodyPct": -0.32,
+      "takerRatio": 0.43,
+      "consolPct": 0.64,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "RUNEUSDT-1784226599999",
+    "pair": "RUNEUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.423,
+    "slInit": 0.416339,
+    "tp1": 0.43,
+    "tp2": 0.448,
+    "tp3": 0.454661,
+    "tpRR": [
+      1.05,
+      3.75,
+      4.75
+    ],
+    "openTime": "2026-07-16T18:29:59.999Z",
+    "exitTime": "2026-07-17T04:14:59.999Z",
+    "exit": 0.416339,
+    "bars": 39,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.575,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 64.1,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 7.9x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H range",
+        "RSI 64 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 73%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 7.87,
+      "bodyPct": 0.95,
+      "takerRatio": 0.73,
+      "consolPct": 1.2,
+      "bias": "long"
+    }
   }
 ]
