@@ -43719,5 +43719,66 @@
       "consolPct": 1.88,
       "bias": "long"
     }
+  },
+  {
+    "id": "PENGUUSDT-1784366099999",
+    "pair": "PENGUUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.00598,
+    "slInit": 0.00613879,
+    "tp1": 0.005787,
+    "tp2": 0.0057,
+    "tp3": 0.00550364,
+    "tpRR": [
+      1.22,
+      1.76,
+      3
+    ],
+    "openTime": "2026-07-18T09:14:59.999Z",
+    "exitTime": "2026-07-18T15:29:59.999Z",
+    "exit": 0.00613879,
+    "bars": 25,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.655,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 43,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 6.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 43 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 84%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 6.09,
+      "bodyPct": -0.88,
+      "takerRatio": 0.17,
+      "consolPct": 1.28,
+      "bias": "short"
+    }
   }
 ]
