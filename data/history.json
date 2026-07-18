@@ -43345,5 +43345,66 @@
       "consolPct": 0.42,
       "bias": "short"
     }
+  },
+  {
+    "id": "WLFIUSDT-1784267999999",
+    "pair": "WLFIUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0568,
+    "slInit": 0.057825,
+    "tp1": 0.0554,
+    "tp2": 0.054375,
+    "tp3": 0.05335,
+    "tpRR": [
+      1.37,
+      2.37,
+      3.37
+    ],
+    "openTime": "2026-07-17T05:59:59.999Z",
+    "exitTime": "2026-07-18T06:44:59.999Z",
+    "exit": 0.057825,
+    "bars": 99,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.805,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 80,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 35.1,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 35 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 76%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.15,
+      "bodyPct": -0.53,
+      "takerRatio": 0.24,
+      "consolPct": 1.41,
+      "bias": "short"
+    }
   }
 ]
