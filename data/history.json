@@ -43406,5 +43406,66 @@
       "consolPct": 1.41,
       "bias": "short"
     }
+  },
+  {
+    "id": "GALAUSDT-1784345399999",
+    "pair": "GALAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00214,
+    "slInit": 0.00207821,
+    "tp1": 0.002314,
+    "tp2": 0.00236,
+    "tp3": 0.002397,
+    "tpRR": [
+      2.82,
+      3.56,
+      4.16
+    ],
+    "openTime": "2026-07-18T03:29:59.999Z",
+    "exitTime": "2026-07-18T09:14:59.999Z",
+    "exit": 0.00207821,
+    "bars": 23,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.887,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 56,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 59.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 60 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.66,
+      "bodyPct": 1.04,
+      "takerRatio": 0.71,
+      "consolPct": 2.01,
+      "bias": "long"
+    }
   }
 ]
