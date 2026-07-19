@@ -44841,5 +44841,65 @@
       "consolPct": 3.33,
       "bias": "short"
     }
+  },
+  {
+    "id": "AEROUSDT-1784484899999",
+    "pair": "AEROUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.445,
+    "slInit": 0.451993,
+    "tp1": 0.438007,
+    "tp2": 0.431014,
+    "tp3": 0.424021,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-19T18:14:59.999Z",
+    "exitTime": "2026-07-19T22:44:59.999Z",
+    "exit": 0.451993,
+    "bars": 18,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.571,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 52,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "RANGE",
+        "W": "RANGE",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 37.4,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily range",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 37 sudah rendah",
+        "MACD falling",
+        "Taker 41%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.83,
+      "bodyPct": -0.85,
+      "takerRatio": 0.41,
+      "consolPct": 1.74,
+      "bias": "short"
+    }
   }
 ]
