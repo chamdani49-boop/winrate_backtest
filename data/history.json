@@ -44341,5 +44341,66 @@
       "consolPct": 3.67,
       "bias": "short"
     }
+  },
+  {
+    "id": "GASUSDT-1784429099999",
+    "pair": "GASUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 1.101,
+    "slInit": 1.0692,
+    "tp1": 1.134,
+    "tp2": 1.304,
+    "tp3": 1.3358,
+    "tpRR": [
+      1.04,
+      6.38,
+      7.38
+    ],
+    "openTime": "2026-07-19T02:44:59.999Z",
+    "exitTime": "2026-07-19T07:44:59.999Z",
+    "exit": 1.0692,
+    "bars": 20,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.888,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 68.6,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.9x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 69 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.94,
+      "bodyPct": 0.55,
+      "takerRatio": 0.61,
+      "consolPct": 2.42,
+      "bias": "long"
+    }
   }
 ]
