@@ -44462,5 +44462,70 @@
       "consolPct": 3.05,
       "bias": "long"
     }
+  },
+  {
+    "id": "JTOUSDT-1784181599999",
+    "pair": "JTOUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.6106,
+    "slInit": 0.632821,
+    "tp1": 0.5813,
+    "tp2": 0.559079,
+    "tp3": 0.536857,
+    "tpRR": [
+      1.32,
+      2.32,
+      3.32
+    ],
+    "openTime": "2026-07-16T05:59:59.999Z",
+    "exitTime": "2026-07-19T12:14:59.999Z",
+    "exit": 0.536857,
+    "bars": 313,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 8.438,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 36.8,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.8x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 37 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 70%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.83,
+      "bodyPct": -0.7,
+      "takerRatio": 0.3,
+      "consolPct": 2.64,
+      "bias": "short"
+    }
   }
 ]
