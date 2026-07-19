@@ -44588,5 +44588,66 @@
       "consolPct": 1.31,
       "bias": "long"
     }
+  },
+  {
+    "id": "EIGENUSDT-1784481299999",
+    "pair": "EIGENUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.2286,
+    "slInit": 0.233548,
+    "tp1": 0.2236,
+    "tp2": 0.221,
+    "tp3": 0.2136,
+    "tpRR": [
+      1.01,
+      1.54,
+      3.03
+    ],
+    "openTime": "2026-07-19T17:14:59.999Z",
+    "exitTime": "2026-07-19T19:44:59.999Z",
+    "exit": 0.233548,
+    "bars": 10,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.164,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 34.6,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.4x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 35 sudah rendah",
+        "MACD fading_up",
+        "ABOVE MA200",
+        "Taker sell 74%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.4,
+      "bodyPct": -0.61,
+      "takerRatio": 0.26,
+      "consolPct": 1.35,
+      "bias": "short"
+    }
   }
 ]
