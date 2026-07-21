@@ -46895,5 +46895,67 @@
       "consolPct": 1.65,
       "bias": "long"
     }
+  },
+  {
+    "id": "CFGUSDT-1784267999999",
+    "pair": "CFGUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.1771,
+    "slInit": 0.189871,
+    "tp1": 0.164329,
+    "tp2": 0.151557,
+    "tp3": 0.138786,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-17T05:59:59.999Z",
+    "exitTime": "2026-07-21T07:44:59.999Z",
+    "exit": 0.1771,
+    "bars": 391,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.404,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 26.2,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.8x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "Taker sell 76%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.83,
+      "bodyPct": -1.12,
+      "takerRatio": 0.24,
+      "consolPct": 5.32,
+      "bias": "short"
+    }
   }
 ]
