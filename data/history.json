@@ -48068,5 +48068,66 @@
       "consolPct": 2.19,
       "bias": "long"
     }
+  },
+  {
+    "id": "VETUSDT-1784700899999",
+    "pair": "VETUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.004888,
+    "slInit": 0.0048472,
+    "tp1": 0.005014,
+    "tp2": 0.005076,
+    "tp3": 0.0051168,
+    "tpRR": [
+      3.09,
+      4.61,
+      5.61
+    ],
+    "openTime": "2026-07-22T06:14:59.999Z",
+    "exitTime": "2026-07-22T07:44:59.999Z",
+    "exit": 0.0048472,
+    "bars": 6,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -0.835,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 59,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 40.9,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.3x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 41 netral-naik",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker 58%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.34,
+      "bodyPct": 0.41,
+      "takerRatio": 0.58,
+      "consolPct": 2.01,
+      "bias": "long"
+    }
   }
 ]
