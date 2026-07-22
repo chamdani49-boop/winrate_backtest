@@ -48621,5 +48621,69 @@
       "consolPct": 0.8,
       "bias": "short"
     }
+  },
+  {
+    "id": "ETHFIUSDT-1784700899999",
+    "pair": "ETHFIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.4573,
+    "slInit": 0.447464,
+    "tp1": 0.467136,
+    "tp2": 0.476971,
+    "tp3": 0.486807,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-22T06:14:59.999Z",
+    "exitTime": "2026-07-22T15:14:59.999Z",
+    "exit": 0.467136,
+    "bars": 36,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.868,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 54.3,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.3x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 54 netral-naik",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 65%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.25,
+      "bodyPct": 0.42,
+      "takerRatio": 0.65,
+      "consolPct": 2.36,
+      "bias": "long"
+    }
   }
 ]
