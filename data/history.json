@@ -49118,5 +49118,66 @@
       "consolPct": 1.71,
       "bias": "long"
     }
+  },
+  {
+    "id": "ORDIUSDT-1784790899999",
+    "pair": "ORDIUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 3.59,
+    "slInit": 3.63805,
+    "tp1": 3.515,
+    "tp2": 3.466,
+    "tp3": 3.434,
+    "tpRR": [
+      1.56,
+      2.58,
+      3.25
+    ],
+    "openTime": "2026-07-23T07:14:59.999Z",
+    "exitTime": "2026-07-23T08:59:59.999Z",
+    "exit": 3.63805,
+    "bars": 7,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.338,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 58,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 55.3,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.3x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 55 netral-turun",
+        "MACD fading_up",
+        "ABOVE MA200",
+        "Taker sell 68%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.27,
+      "bodyPct": -0.61,
+      "takerRatio": 0.32,
+      "consolPct": 1.51,
+      "bias": "short"
+    }
   }
 ]
