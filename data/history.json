@@ -49742,5 +49742,65 @@
       "consolPct": 1.07,
       "bias": "short"
     }
+  },
+  {
+    "id": "CFGUSDT-1784790899999",
+    "pair": "CFGUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.1847,
+    "slInit": 0.17963,
+    "tp1": 0.1916,
+    "tp2": 0.1944,
+    "tp3": 0.1971,
+    "tpRR": [
+      1.36,
+      1.91,
+      2.45
+    ],
+    "openTime": "2026-07-23T07:14:59.999Z",
+    "exitTime": "2026-07-23T17:44:59.999Z",
+    "exit": 0.17963,
+    "bars": 42,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.745,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 61.3,
+      "macd": "rising",
+      "ma200": null,
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.8x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 61 sudah tinggi",
+        "MACD rising",
+        "Taker 56%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.79,
+      "bodyPct": 0.44,
+      "takerRatio": 0.56,
+      "consolPct": 1.66,
+      "bias": "long"
+    }
   }
 ]
