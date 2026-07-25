@@ -52029,5 +52029,66 @@
       "consolPct": 2.73,
       "bias": "long"
     }
+  },
+  {
+    "id": "KAITOUSDT-1784960999999",
+    "pair": "KAITOUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.9711,
+    "slInit": 0.944104,
+    "tp1": 1.0182,
+    "tp2": 1.0514,
+    "tp3": 1.1145,
+    "tpRR": [
+      1.74,
+      2.97,
+      5.31
+    ],
+    "openTime": "2026-07-25T06:29:59.999Z",
+    "exitTime": "2026-07-25T11:29:59.999Z",
+    "exit": 0.944104,
+    "bars": 20,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.78,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 51.9,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.1x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 52 netral-naik",
+        "MACD fading_up",
+        "ABOVE MA200",
+        "Taker buy 69%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.1,
+      "bodyPct": 0.48,
+      "takerRatio": 0.69,
+      "consolPct": 3.73,
+      "bias": "long"
+    }
   }
 ]
