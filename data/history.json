@@ -51905,5 +51905,66 @@
       "consolPct": 1.12,
       "bias": "long"
     }
+  },
+  {
+    "id": "CVXUSDT-1784952899999",
+    "pair": "CVXUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 1.278,
+    "slInit": 1.25354,
+    "tp1": 1.307,
+    "tp2": 1.331,
+    "tp3": 1.352,
+    "tpRR": [
+      1.19,
+      2.17,
+      3.02
+    ],
+    "openTime": "2026-07-25T04:14:59.999Z",
+    "exitTime": "2026-07-25T07:59:59.999Z",
+    "exit": 1.25354,
+    "bars": 15,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.914,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 51.1,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 10.9x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 51 netral-naik",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker buy 63%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 10.94,
+      "bodyPct": 1.11,
+      "takerRatio": 0.63,
+      "consolPct": 1.43,
+      "bias": "long"
+    }
   }
 ]
