@@ -53559,5 +53559,66 @@
       "consolPct": 2.05,
       "bias": "long"
     }
+  },
+  {
+    "id": "AVAXUSDT-1785018599999",
+    "pair": "AVAXUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 6.816,
+    "slInit": 6.6467,
+    "tp1": 7.088,
+    "tp2": 7.2573,
+    "tp3": 7.42661,
+    "tpRR": [
+      1.61,
+      2.61,
+      3.61
+    ],
+    "openTime": "2026-07-25T22:29:59.999Z",
+    "exitTime": "2026-07-26T14:29:59.999Z",
+    "exit": 6.6467,
+    "bars": 64,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.484,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 58,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.4,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 72 sudah tinggi",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker buy 66%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.88,
+      "bodyPct": 0.62,
+      "takerRatio": 0.66,
+      "consolPct": 1.84,
+      "bias": "long"
+    }
   }
 ]
