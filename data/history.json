@@ -53377,5 +53377,66 @@
       "consolPct": 2.92,
       "bias": "long"
     }
+  },
+  {
+    "id": "STXUSDT-1784990699999",
+    "pair": "STXUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.136,
+    "slInit": 0.139143,
+    "tp1": 0.132857,
+    "tp2": 0.129714,
+    "tp3": 0.126571,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-25T14:44:59.999Z",
+    "exitTime": "2026-07-26T07:59:59.999Z",
+    "exit": 0.139143,
+    "bars": 69,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.311,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 41.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 13.8x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 42 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 77%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 13.81,
+      "bodyPct": -0.8,
+      "takerRatio": 0.23,
+      "consolPct": 1.17,
+      "bias": "short"
+    }
   }
 ]
