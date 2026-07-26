@@ -53499,5 +53499,65 @@
       "consolPct": 2.22,
       "bias": "long"
     }
+  },
+  {
+    "id": "GENIUSUSDT-1785041099999",
+    "pair": "GENIUSUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.3658,
+    "slInit": 0.358102,
+    "tp1": 0.3759,
+    "tp2": 0.3839,
+    "tp3": 0.3894,
+    "tpRR": [
+      1.31,
+      2.35,
+      3.07
+    ],
+    "openTime": "2026-07-26T04:44:59.999Z",
+    "exitTime": "2026-07-26T11:59:59.999Z",
+    "exit": 0.358102,
+    "bars": 29,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.104,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 58,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 50.2,
+      "macd": "fading_down",
+      "ma200": null,
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.3x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H range",
+        "RSI 50 netral-naik",
+        "MACD fading_down",
+        "Taker buy 68%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.26,
+      "bodyPct": 0.77,
+      "takerRatio": 0.68,
+      "consolPct": 2.05,
+      "bias": "long"
+    }
   }
 ]
