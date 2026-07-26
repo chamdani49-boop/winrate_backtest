@@ -53745,5 +53745,68 @@
       "consolPct": 0.85,
       "bias": "long"
     }
+  },
+  {
+    "id": "BCHUSDT-1784790899999",
+    "pair": "BCHUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 216.3,
+    "slInit": 218.9125,
+    "tp1": 209.8,
+    "tp2": 207.1875,
+    "tp3": 204.575,
+    "tpRR": [
+      2.49,
+      3.49,
+      4.49
+    ],
+    "openTime": "2026-07-23T07:14:59.999Z",
+    "exitTime": "2026-07-26T18:59:59.999Z",
+    "exit": 216.3,
+    "bars": 335,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.002,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 77,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 21.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 22 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 74%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.79,
+      "bodyPct": -0.41,
+      "takerRatio": 0.26,
+      "consolPct": 0.51,
+      "bias": "short"
+    }
   }
 ]
