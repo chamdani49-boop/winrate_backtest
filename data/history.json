@@ -53438,5 +53438,66 @@
       "consolPct": 1.17,
       "bias": "short"
     }
+  },
+  {
+    "id": "ALPINEUSDT-1785018599999",
+    "pair": "ALPINEUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.324,
+    "slInit": 0.314393,
+    "tp1": 0.334,
+    "tp2": 0.349,
+    "tp3": 0.39,
+    "tpRR": [
+      1.04,
+      2.6,
+      6.87
+    ],
+    "openTime": "2026-07-25T22:29:59.999Z",
+    "exitTime": "2026-07-26T11:14:59.999Z",
+    "exit": 0.314393,
+    "bars": 51,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.965,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.2x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 73 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.24,
+      "bodyPct": 0.62,
+      "takerRatio": 0.61,
+      "consolPct": 2.22,
+      "bias": "long"
+    }
   }
 ]
