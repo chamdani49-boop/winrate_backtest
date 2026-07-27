@@ -54739,5 +54739,68 @@
       "consolPct": 1.31,
       "bias": "short"
     }
+  },
+  {
+    "id": "PEPEUSDT-1785106799999",
+    "pair": "PEPEUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00000298,
+    "slInit": 0.000002878,
+    "tp1": 0.000003082,
+    "tp2": 0.0000031839,
+    "tp3": 0.0000032859,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-26T22:59:59.999Z",
+    "exitTime": "2026-07-27T08:44:59.999Z",
+    "exit": 0.00000298,
+    "bars": 39,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.141,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 55,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.8,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.3x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 73 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 59%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.3,
+      "bodyPct": 0.34,
+      "takerRatio": 0.59,
+      "consolPct": 2.76,
+      "bias": "long"
+    }
   }
 ]
