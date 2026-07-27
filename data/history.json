@@ -56158,5 +56158,66 @@
       "consolPct": 2.34,
       "bias": "long"
     }
+  },
+  {
+    "id": "EDENUSDT-1785185999999",
+    "pair": "EDENUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.04251,
+    "slInit": 0.041996,
+    "tp1": 0.04306,
+    "tp2": 0.04342,
+    "tp3": 0.04385,
+    "tpRR": [
+      1.07,
+      1.77,
+      2.61
+    ],
+    "openTime": "2026-07-27T20:59:59.999Z",
+    "exitTime": "2026-07-27T22:44:59.999Z",
+    "exit": 0.041996,
+    "bars": 7,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.209,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 56,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 34.8,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 35 oversold",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 57%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.15,
+      "bodyPct": 0.33,
+      "takerRatio": 0.58,
+      "consolPct": 1.7,
+      "bias": "long"
+    }
   }
 ]
