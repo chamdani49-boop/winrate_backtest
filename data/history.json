@@ -55842,5 +55842,67 @@
       "consolPct": 4.49,
       "bias": "short"
     }
+  },
+  {
+    "id": "SPCXBUSDT-1785159899999",
+    "pair": "SPCXBUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 112.98,
+    "slInit": 115.7275,
+    "tp1": 110.1,
+    "tp2": 107.3525,
+    "tp3": 104.605,
+    "tpRR": [
+      1.05,
+      2.05,
+      3.05
+    ],
+    "openTime": "2026-07-27T13:44:59.999Z",
+    "exitTime": "2026-07-27T19:44:59.999Z",
+    "exit": 112.98,
+    "bars": 24,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.85,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 36.1,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 5.4x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 36 sudah rendah",
+        "MACD falling",
+        "Taker 42%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.39,
+      "bodyPct": -0.4,
+      "takerRatio": 0.42,
+      "consolPct": 2.3,
+      "bias": "short"
+    }
   }
 ]
