@@ -57226,5 +57226,66 @@
       "consolPct": 0.7,
       "bias": "short"
     }
+  },
+  {
+    "id": "HFTUSDT-1785222899999",
+    "pair": "HFTUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.009818,
+    "slInit": 0.00942863,
+    "tp1": 0.010496,
+    "tp2": 0.0112,
+    "tp3": 0.011589,
+    "tpRR": [
+      1.74,
+      3.55,
+      4.55
+    ],
+    "openTime": "2026-07-28T07:14:59.999Z",
+    "exitTime": "2026-07-28T22:59:59.999Z",
+    "exit": 0.00942863,
+    "bars": 63,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.966,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 50,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 77.9,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 78 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 74%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.13,
+      "bodyPct": 2.01,
+      "takerRatio": 0.74,
+      "consolPct": 1.04,
+      "bias": "long"
+    }
   }
 ]
