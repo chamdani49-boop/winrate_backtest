@@ -56284,5 +56284,68 @@
       "consolPct": 1.15,
       "bias": "short"
     }
+  },
+  {
+    "id": "VANRYUSDT-1785111299999",
+    "pair": "VANRYUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.004218,
+    "slInit": 0.00440895,
+    "tp1": 0.00402705,
+    "tp2": 0.00383611,
+    "tp3": 0.00364516,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-27T00:14:59.999Z",
+    "exitTime": "2026-07-28T04:14:59.999Z",
+    "exit": 0.004218,
+    "bars": 112,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.509,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 81,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 39.1,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.2x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 39 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 60%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.22,
+      "bodyPct": -1.1,
+      "takerRatio": 0.4,
+      "consolPct": 2.96,
+      "bias": "short"
+    }
   }
 ]
