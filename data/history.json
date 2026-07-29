@@ -58340,5 +58340,69 @@
       "consolPct": 1.08,
       "bias": "short"
     }
+  },
+  {
+    "id": "SKLUSDT-1785279599999",
+    "pair": "SKLUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.00376,
+    "slInit": 0.00384554,
+    "tp1": 0.00367446,
+    "tp2": 0.00358893,
+    "tp3": 0.00350339,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-28T22:59:59.999Z",
+    "exitTime": "2026-07-29T23:29:59.999Z",
+    "exit": 0.00367446,
+    "bars": 98,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 3.033,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 25.7,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 85%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.59,
+      "bodyPct": -0.53,
+      "takerRatio": 0.15,
+      "consolPct": 0.79,
+      "bias": "short"
+    }
   }
 ]
