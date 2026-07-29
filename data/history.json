@@ -57782,5 +57782,68 @@
       "consolPct": 0.86,
       "bias": "short"
     }
+  },
+  {
+    "id": "ORDIUSDT-1785260699999",
+    "pair": "ORDIUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 3.39,
+    "slInit": 3.52296,
+    "tp1": 3.25704,
+    "tp2": 3.12407,
+    "tp3": 2.99111,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-28T17:44:59.999Z",
+    "exitTime": "2026-07-29T07:14:59.999Z",
+    "exit": 3.39,
+    "bars": 54,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.307,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 66,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 26.4,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 69%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.65,
+      "bodyPct": -0.73,
+      "takerRatio": 0.31,
+      "consolPct": 2.4,
+      "bias": "short"
+    }
   }
 ]
