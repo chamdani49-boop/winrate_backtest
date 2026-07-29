@@ -58275,5 +58275,70 @@
       "consolPct": 0.72,
       "bias": "short"
     }
+  },
+  {
+    "id": "ENAUSDT-1785279599999",
+    "pair": "ENAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0829,
+    "slInit": 0.084629,
+    "tp1": 0.0795,
+    "tp2": 0.0784,
+    "tp3": 0.0771,
+    "tpRR": [
+      1.97,
+      2.6,
+      3.36
+    ],
+    "openTime": "2026-07-28T22:59:59.999Z",
+    "exitTime": "2026-07-29T20:29:59.999Z",
+    "exit": 0.0771,
+    "bars": 86,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 5.509,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 26.4,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 74%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.57,
+      "bodyPct": -0.48,
+      "takerRatio": 0.26,
+      "consolPct": 1.08,
+      "bias": "short"
+    }
   }
 ]
