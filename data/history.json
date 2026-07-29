@@ -57906,5 +57906,65 @@
       "consolPct": 5.21,
       "bias": "long"
     }
+  },
+  {
+    "id": "REUSDT-1785295799999",
+    "pair": "REUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.4196,
+    "slInit": 0.457704,
+    "tp1": 0.3725,
+    "tp2": 0.334396,
+    "tp3": 0.296293,
+    "tpRR": [
+      1.24,
+      2.24,
+      3.24
+    ],
+    "openTime": "2026-07-29T03:29:59.999Z",
+    "exitTime": "2026-07-29T16:44:59.999Z",
+    "exit": 0.457704,
+    "bars": 53,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -9.081,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 25.9,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 14.0x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 26 sudah rendah",
+        "MACD falling",
+        "Taker sell 74%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 14.04,
+      "bodyPct": -6.05,
+      "takerRatio": 0.26,
+      "consolPct": 2.4,
+      "bias": "short"
+    }
   }
 ]
