@@ -58404,5 +58404,68 @@
       "consolPct": 0.79,
       "bias": "short"
     }
+  },
+  {
+    "id": "TIAUSDT-1785295799999",
+    "pair": "TIAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.3215,
+    "slInit": 0.332755,
+    "tp1": 0.310245,
+    "tp2": 0.298989,
+    "tp3": 0.287734,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-29T03:29:59.999Z",
+    "exitTime": "2026-07-29T23:59:59.999Z",
+    "exit": 0.3215,
+    "bars": 82,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.167,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 24,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 24 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 64%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.91,
+      "bodyPct": -0.56,
+      "takerRatio": 0.36,
+      "consolPct": 2.45,
+      "bias": "short"
+    }
   }
 ]
