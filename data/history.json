@@ -60217,5 +60217,129 @@
       "consolPct": 1.97,
       "bias": "long"
     }
+  },
+  {
+    "id": "GALAUSDT-1785295799999",
+    "pair": "GALAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.001795,
+    "slInit": 0.00184698,
+    "tp1": 0.00174302,
+    "tp2": 0.00169104,
+    "tp3": 0.00163905,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-29T03:29:59.999Z",
+    "exitTime": "2026-07-31T17:14:59.999Z",
+    "exit": 0.001795,
+    "bars": 247,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.965,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 79,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 31.7,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.0x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 32 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 87%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3,
+      "bodyPct": -0.72,
+      "takerRatio": 0.13,
+      "consolPct": 2.28,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "RIFUSDT-1785513599999",
+    "pair": "RIFUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0815,
+    "slInit": 0.087911,
+    "tp1": 0.0722,
+    "tp2": 0.06,
+    "tp3": 0.0453,
+    "tpRR": [
+      1.45,
+      3.35,
+      5.65
+    ],
+    "openTime": "2026-07-31T15:59:59.999Z",
+    "exitTime": "2026-07-31T17:14:59.999Z",
+    "exit": 0.087911,
+    "bars": 5,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -7.866,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 66,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 32,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 32 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.59,
+      "bodyPct": -0.97,
+      "takerRatio": 0.4,
+      "consolPct": 4.51,
+      "bias": "short"
+    }
   }
 ]
