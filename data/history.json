@@ -60341,5 +60341,66 @@
       "consolPct": 4.51,
       "bias": "short"
     }
+  },
+  {
+    "id": "ARBUSDT-1785490199999",
+    "pair": "ARBUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0763,
+    "slInit": 0.077543,
+    "tp1": 0.075057,
+    "tp2": 0.073814,
+    "tp3": 0.072571,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-07-31T09:29:59.999Z",
+    "exitTime": "2026-07-31T17:59:59.999Z",
+    "exit": 0.077543,
+    "bars": 34,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.629,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 85,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 31.4,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.8x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 31 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 85%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.76,
+      "bodyPct": -0.39,
+      "takerRatio": 0.15,
+      "consolPct": 0.92,
+      "bias": "short"
+    }
   }
 ]
