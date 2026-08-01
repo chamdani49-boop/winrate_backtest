@@ -60587,5 +60587,66 @@
       "consolPct": 1.53,
       "bias": "short"
     }
+  },
+  {
+    "id": "INJUSDT-1785513599999",
+    "pair": "INJUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 4.82,
+    "slInit": 4.92189,
+    "tp1": 4.691,
+    "tp2": 4.617,
+    "tp3": 4.533,
+    "tpRR": [
+      1.27,
+      1.99,
+      2.82
+    ],
+    "openTime": "2026-07-31T15:59:59.999Z",
+    "exitTime": "2026-08-01T10:14:59.999Z",
+    "exit": 4.92189,
+    "bars": 73,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.114,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 46,
+      "validity": "WEAK",
+      "positionSize": "0.25-0.5% (Minimal)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "RANGE",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 37.8,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 38 sudah rendah",
+        "MACD fading_up",
+        "ABOVE MA200",
+        "Taker sell 64%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.65,
+      "bodyPct": -0.78,
+      "takerRatio": 0.36,
+      "consolPct": 1.68,
+      "bias": "short"
+    }
   }
 ]
