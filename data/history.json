@@ -60770,5 +60770,66 @@
       "consolPct": 2.64,
       "bias": "short"
     }
+  },
+  {
+    "id": "ZENUSDT-1785590099999",
+    "pair": "ZENUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 4.076,
+    "slInit": 3.98625,
+    "tp1": 4.176,
+    "tp2": 4.23,
+    "tp3": 4.312,
+    "tpRR": [
+      1.11,
+      1.72,
+      2.63
+    ],
+    "openTime": "2026-08-01T13:14:59.999Z",
+    "exitTime": "2026-08-01T17:29:59.999Z",
+    "exit": 3.98625,
+    "bars": 17,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.202,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 56,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 70.8,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 71 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 72%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.59,
+      "bodyPct": 0.92,
+      "takerRatio": 0.72,
+      "consolPct": 1.2,
+      "bias": "long"
+    }
   }
 ]
