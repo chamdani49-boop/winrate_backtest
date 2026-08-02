@@ -61766,5 +61766,68 @@
       "consolPct": 1.2,
       "bias": "short"
     }
+  },
+  {
+    "id": "PYTHUSDT-1785469499999",
+    "pair": "PYTHUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.04019,
+    "slInit": 0.041518,
+    "tp1": 0.03877,
+    "tp2": 0.037442,
+    "tp3": 0.036114,
+    "tpRR": [
+      1.07,
+      2.07,
+      3.07
+    ],
+    "openTime": "2026-07-31T03:44:59.999Z",
+    "exitTime": "2026-08-02T05:14:59.999Z",
+    "exit": 0.04019,
+    "bars": 198,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.178,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 37.5,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.3x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 38 sudah rendah",
+        "MACD fading_down",
+        "BELOW MA200",
+        "Taker sell 97%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.32,
+      "bodyPct": -0.45,
+      "takerRatio": 0.03,
+      "consolPct": 3.33,
+      "bias": "short"
+    }
   }
 ]
