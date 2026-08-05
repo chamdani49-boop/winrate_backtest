@@ -65335,5 +65335,66 @@
       "consolPct": 2.54,
       "bias": "short"
     }
+  },
+  {
+    "id": "IMXUSDT-1785928499999",
+    "pair": "IMXUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.1094,
+    "slInit": 0.111088,
+    "tp1": 0.1073,
+    "tp2": 0.1057,
+    "tp3": 0.1043,
+    "tpRR": [
+      1.24,
+      2.19,
+      3.02
+    ],
+    "openTime": "2026-08-05T11:14:59.999Z",
+    "exitTime": "2026-08-05T18:44:59.999Z",
+    "exit": 0.111088,
+    "bars": 30,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.543,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 21.8,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 16.0x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 22 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 84%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 16.04,
+      "bodyPct": -0.36,
+      "takerRatio": 0.16,
+      "consolPct": 0.73,
+      "bias": "short"
+    }
   }
 ]
