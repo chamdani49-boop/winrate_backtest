@@ -66198,5 +66198,66 @@
       "consolPct": 2.01,
       "bias": "short"
     }
+  },
+  {
+    "id": "TAOUSDT-1785874499999",
+    "pair": "TAOUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 200.1,
+    "slInit": 192.57857,
+    "tp1": 207.62143,
+    "tp2": 215.14286,
+    "tp3": 222.66429,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-04T20:14:59.999Z",
+    "exitTime": "2026-08-06T12:59:59.999Z",
+    "exit": 192.57857,
+    "bars": 163,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.759,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 54,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 79.3,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.7x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 79 sudah tinggi",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker buy 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.66,
+      "bodyPct": 0.35,
+      "takerRatio": 0.71,
+      "consolPct": 3.47,
+      "bias": "long"
+    }
   }
 ]
