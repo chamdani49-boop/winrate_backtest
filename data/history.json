@@ -66756,5 +66756,66 @@
       "consolPct": 0.8,
       "bias": "short"
     }
+  },
+  {
+    "id": "CFXUSDT-1785805199999",
+    "pair": "CFXUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.03865,
+    "slInit": 0.041052,
+    "tp1": 0.036248,
+    "tp2": 0.033846,
+    "tp3": 0.031445,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-04T00:59:59.999Z",
+    "exitTime": "2026-08-07T05:29:59.999Z",
+    "exit": 0.041052,
+    "bars": 306,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.215,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 80,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 10.6,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 11 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 60%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.12,
+      "bodyPct": -1.13,
+      "takerRatio": 0.4,
+      "consolPct": 5.28,
+      "bias": "short"
+    }
   }
 ]
