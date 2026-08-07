@@ -67925,5 +67925,66 @@
       "consolPct": 2.7,
       "bias": "long"
     }
+  },
+  {
+    "id": "KITEUSDT-1786101299999",
+    "pair": "KITEUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.105,
+    "slInit": 0.102957,
+    "tp1": 0.1076,
+    "tp2": 0.1109,
+    "tp3": 0.113,
+    "tpRR": [
+      1.27,
+      2.89,
+      3.92
+    ],
+    "openTime": "2026-08-07T11:14:59.999Z",
+    "exitTime": "2026-08-07T21:44:59.999Z",
+    "exit": 0.102957,
+    "bars": 42,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.946,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 57,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 60.6,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.5x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 61 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 58%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.55,
+      "bodyPct": 0.38,
+      "takerRatio": 0.58,
+      "consolPct": 1.15,
+      "bias": "long"
+    }
   }
 ]
