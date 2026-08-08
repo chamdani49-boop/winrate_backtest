@@ -68047,5 +68047,66 @@
       "consolPct": 4.21,
       "bias": "long"
     }
+  },
+  {
+    "id": "DEXEUSDT-1786123799999",
+    "pair": "DEXEUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 2.181,
+    "slInit": 2.24616,
+    "tp1": 1.56,
+    "tp2": 1.49484,
+    "tp3": 1.42968,
+    "tpRR": [
+      9.53,
+      10.53,
+      11.53
+    ],
+    "openTime": "2026-08-07T17:29:59.999Z",
+    "exitTime": "2026-08-08T00:59:59.999Z",
+    "exit": 2.24616,
+    "bars": 30,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.988,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 36.2,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 36 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.66,
+      "bodyPct": -1.09,
+      "takerRatio": 0.29,
+      "consolPct": 1.55,
+      "bias": "short"
+    }
   }
 ]
