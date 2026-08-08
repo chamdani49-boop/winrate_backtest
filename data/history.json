@@ -67986,5 +67986,66 @@
       "consolPct": 1.15,
       "bias": "long"
     }
+  },
+  {
+    "id": "SAGAUSDT-1786089599999",
+    "pair": "SAGAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.01476,
+    "slInit": 0.013907,
+    "tp1": 0.015613,
+    "tp2": 0.016467,
+    "tp3": 0.01732,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-07T07:59:59.999Z",
+    "exitTime": "2026-08-07T23:44:59.999Z",
+    "exit": 0.013907,
+    "bars": 63,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -5.779,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67.4,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 16.6x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 67 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 16.59,
+      "bodyPct": 2.71,
+      "takerRatio": 0.61,
+      "consolPct": 4.21,
+      "bias": "long"
+    }
   }
 ]
