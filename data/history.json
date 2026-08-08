@@ -68171,5 +68171,66 @@
       "consolPct": 3.37,
       "bias": "long"
     }
+  },
+  {
+    "id": "JSTUSDT-1786094099999",
+    "pair": "JSTUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.10526,
+    "slInit": 0.104655,
+    "tp1": 0.10608,
+    "tp2": 0.10668,
+    "tp3": 0.107285,
+    "tpRR": [
+      1.36,
+      2.35,
+      3.35
+    ],
+    "openTime": "2026-08-07T09:14:59.999Z",
+    "exitTime": "2026-08-08T05:14:59.999Z",
+    "exit": 0.104655,
+    "bars": 80,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -0.575,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 79,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 48.7,
+      "macd": "fading_down",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.4x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 49 netral-naik",
+        "MACD fading_down",
+        "ABOVE MA200",
+        "Taker buy 73%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.38,
+      "bodyPct": 0.31,
+      "takerRatio": 0.73,
+      "consolPct": 0.56,
+      "bias": "long"
+    }
   }
 ]
