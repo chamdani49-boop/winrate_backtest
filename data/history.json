@@ -68722,5 +68722,69 @@
       "consolPct": 0.5,
       "bias": "short"
     }
+  },
+  {
+    "id": "BABYUSDT-1786116599999",
+    "pair": "BABYUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.01159,
+    "slInit": 0.011136,
+    "tp1": 0.01265,
+    "tp2": 0.01293,
+    "tp3": 0.01316,
+    "tpRR": [
+      2.34,
+      2.95,
+      3.46
+    ],
+    "openTime": "2026-08-07T15:29:59.999Z",
+    "exitTime": "2026-08-08T14:14:59.999Z",
+    "exit": 0.01265,
+    "bars": 91,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 9.951,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 49,
+      "validity": "WEAK",
+      "positionSize": "0.25-0.5% (Minimal)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "RANGE",
+        "1H": "UPTREND"
+      },
+      "rsi": 70.6,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.0x heavy",
+        "Daily downtrend",
+        "4H range",
+        "1H uptrend",
+        "RSI 71 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 66%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.04,
+      "bodyPct": 0.78,
+      "takerRatio": 0.66,
+      "consolPct": 2.58,
+      "bias": "long"
+    }
   }
 ]
