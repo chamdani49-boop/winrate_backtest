@@ -70468,5 +70468,66 @@
       "consolPct": 1,
       "bias": "long"
     }
+  },
+  {
+    "id": "FIDAUSDT-1786287599999",
+    "pair": "FIDAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.01867,
+    "slInit": 0.018176,
+    "tp1": 0.01982,
+    "tp2": 0.0201,
+    "tp3": 0.02046,
+    "tpRR": [
+      2.33,
+      2.89,
+      3.62
+    ],
+    "openTime": "2026-08-09T14:59:59.999Z",
+    "exitTime": "2026-08-09T19:44:59.999Z",
+    "exit": 0.018176,
+    "bars": 19,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.646,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 68.2,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.2x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 68 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.15,
+      "bodyPct": 0.54,
+      "takerRatio": 0.61,
+      "consolPct": 1.59,
+      "bias": "long"
+    }
   }
 ]
