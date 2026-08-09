@@ -70214,5 +70214,68 @@
       "consolPct": 3.12,
       "bias": "short"
     }
+  },
+  {
+    "id": "BONKUSDT-1786225499999",
+    "pair": "BONKUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0000025,
+    "slInit": 0.0000025329,
+    "tp1": 0.00000245,
+    "tp2": 0.0000024171,
+    "tp3": 0.0000023843,
+    "tpRR": [
+      1.52,
+      2.52,
+      3.52
+    ],
+    "openTime": "2026-08-08T21:44:59.999Z",
+    "exitTime": "2026-08-09T13:44:59.999Z",
+    "exit": 0.0000025,
+    "bars": 64,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.667,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 90,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 46.9,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.5x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 47 netral-turun",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 98%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.52,
+      "bodyPct": -0.4,
+      "takerRatio": 0.02,
+      "consolPct": 0.4,
+      "bias": "short"
+    }
   }
 ]
