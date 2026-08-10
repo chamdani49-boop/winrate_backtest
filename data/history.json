@@ -72522,5 +72522,67 @@
       "consolPct": 5.83,
       "bias": "long"
     }
+  },
+  {
+    "id": "KATUSDT-1786202999999",
+    "pair": "KATUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00464,
+    "slInit": 0.00456625,
+    "tp1": 0.00481,
+    "tp2": 0.00486,
+    "tp3": 0.00493,
+    "tpRR": [
+      2.31,
+      2.98,
+      3.93
+    ],
+    "openTime": "2026-08-08T15:29:59.999Z",
+    "exitTime": "2026-08-10T11:59:59.999Z",
+    "exit": 0.00464,
+    "bars": 178,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.221,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 66.5,
+      "macd": "rising",
+      "ma200": null,
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 16.7x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 66 sudah tinggi",
+        "MACD rising",
+        "Taker buy 91%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 16.67,
+      "bodyPct": 0.43,
+      "takerRatio": 0.91,
+      "consolPct": 0.65,
+      "bias": "long"
+    }
   }
 ]
