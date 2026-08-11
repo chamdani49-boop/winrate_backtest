@@ -74868,5 +74868,193 @@
       "consolPct": 3.33,
       "bias": "short"
     }
+  },
+  {
+    "id": "PYTHUSDT-1786390199999",
+    "pair": "PYTHUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.04342,
+    "slInit": 0.041886,
+    "tp1": 0.04592,
+    "tp2": 0.04699,
+    "tp3": 0.04873,
+    "tpRR": [
+      1.63,
+      2.33,
+      3.46
+    ],
+    "openTime": "2026-08-10T19:29:59.999Z",
+    "exitTime": "2026-08-11T12:14:59.999Z",
+    "exit": 0.041886,
+    "bars": 67,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.533,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 56,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "RANGE",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 65.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily range",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 66 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 68%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.65,
+      "bodyPct": 0.74,
+      "takerRatio": 0.68,
+      "consolPct": 2.47,
+      "bias": "long"
+    }
+  },
+  {
+    "id": "JSTUSDT-1786416299999",
+    "pair": "JSTUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.10022,
+    "slInit": 0.102338,
+    "tp1": 0.09763,
+    "tp2": 0.095513,
+    "tp3": 0.093395,
+    "tpRR": [
+      1.22,
+      2.22,
+      3.22
+    ],
+    "openTime": "2026-08-11T02:44:59.999Z",
+    "exitTime": "2026-08-11T11:59:59.999Z",
+    "exit": 0.10022,
+    "bars": 37,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.861,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 21.4,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 9.9x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 21 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker 42%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 9.91,
+      "bodyPct": -0.63,
+      "takerRatio": 0.42,
+      "consolPct": 1.19,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "DOTUSDT-1786442399999",
+    "pair": "DOTUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.808,
+    "slInit": 0.813571,
+    "tp1": 0.802,
+    "tp2": 0.799,
+    "tp3": 0.796,
+    "tpRR": [
+      1.08,
+      1.62,
+      2.15
+    ],
+    "openTime": "2026-08-11T09:59:59.999Z",
+    "exitTime": "2026-08-11T11:59:59.999Z",
+    "exit": 0.802,
+    "bars": 8,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.866,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 81,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 52.8,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.6x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 53 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 66%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.65,
+      "bodyPct": -0.37,
+      "takerRatio": 0.34,
+      "consolPct": 1,
+      "bias": "short"
+    }
   }
 ]
