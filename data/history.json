@@ -75056,5 +75056,66 @@
       "consolPct": 1,
       "bias": "short"
     }
+  },
+  {
+    "id": "GUNUSDT-1786434299999",
+    "pair": "GUNUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00356,
+    "slInit": 0.00332714,
+    "tp1": 0.00384,
+    "tp2": 0.00404,
+    "tp3": 0.00427286,
+    "tpRR": [
+      1.2,
+      2.06,
+      3.06
+    ],
+    "openTime": "2026-08-11T07:44:59.999Z",
+    "exitTime": "2026-08-11T14:14:59.999Z",
+    "exit": 0.00332714,
+    "bars": 26,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.541,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 65,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67.9,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.7x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 68 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 73%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.73,
+      "bodyPct": 1.42,
+      "takerRatio": 0.73,
+      "consolPct": 4.14,
+      "bias": "long"
+    }
   }
 ]
