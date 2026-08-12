@@ -75980,5 +75980,69 @@
       "consolPct": 2.51,
       "bias": "short"
     }
+  },
+  {
+    "id": "HOLOUSDT-1786462199999",
+    "pair": "HOLOUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0737,
+    "slInit": 0.069813,
+    "tp1": 0.0855,
+    "tp2": 0.089388,
+    "tp3": 0.093275,
+    "tpRR": [
+      3.04,
+      4.04,
+      5.04
+    ],
+    "openTime": "2026-08-11T15:29:59.999Z",
+    "exitTime": "2026-08-11T23:29:59.999Z",
+    "exit": 0.0855,
+    "bars": 32,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 17.769,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 82,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 74.6,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 20.3x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 75 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker 58%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 20.32,
+      "bodyPct": 1.94,
+      "takerRatio": 0.58,
+      "consolPct": 3.28,
+      "bias": "long"
+    }
   }
 ]
