@@ -77168,5 +77168,66 @@
       "consolPct": 1.89,
       "bias": "short"
     }
+  },
+  {
+    "id": "COTIUSDT-1786429799999",
+    "pair": "COTIUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.01085,
+    "slInit": 0.011678,
+    "tp1": 0.00738,
+    "tp2": 0.00655179,
+    "tp3": 0.00572357,
+    "tpRR": [
+      4.19,
+      5.19,
+      6.19
+    ],
+    "openTime": "2026-08-11T06:29:59.999Z",
+    "exitTime": "2026-08-12T17:14:59.999Z",
+    "exit": 0.011678,
+    "bars": 139,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -7.631,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 21.6,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 7.6x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 22 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 7.6,
+      "bodyPct": -2.6,
+      "takerRatio": 0.29,
+      "consolPct": 3.51,
+      "bias": "short"
+    }
   }
 ]
