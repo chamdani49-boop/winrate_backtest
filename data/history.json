@@ -76168,5 +76168,66 @@
       "consolPct": 3.28,
       "bias": "long"
     }
+  },
+  {
+    "id": "GLMRUSDT-1786508099999",
+    "pair": "GLMRUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.007551,
+    "slInit": 0.00779182,
+    "tp1": 0.00729,
+    "tp2": 0.00704918,
+    "tp3": 0.00680836,
+    "tpRR": [
+      1.08,
+      2.08,
+      3.08
+    ],
+    "openTime": "2026-08-12T04:14:59.999Z",
+    "exitTime": "2026-08-12T04:29:59.999Z",
+    "exit": 0.00779182,
+    "bars": 1,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.189,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 31.4,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 8.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 31 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 8.14,
+      "bodyPct": -1.42,
+      "takerRatio": 0.29,
+      "consolPct": 1.47,
+      "bias": "short"
+    }
   }
 ]
