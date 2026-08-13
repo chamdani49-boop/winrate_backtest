@@ -78770,5 +78770,192 @@
       "consolPct": 4.13,
       "bias": "long"
     }
+  },
+  {
+    "id": "PENDLEUSDT-1786545899999",
+    "pair": "PENDLEUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 1.325,
+    "slInit": 1.36221,
+    "tp1": 1.28779,
+    "tp2": 1.25057,
+    "tp3": 1.21336,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-12T14:44:59.999Z",
+    "exitTime": "2026-08-13T19:14:59.999Z",
+    "exit": 1.36221,
+    "bars": 114,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.808,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 69,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 33.6,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 34 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker 41%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.56,
+      "bodyPct": -0.3,
+      "takerRatio": 0.41,
+      "consolPct": 2.11,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "EIGENUSDT-1786636799999",
+    "pair": "EIGENUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.1683,
+    "slInit": 0.172839,
+    "tp1": 0.1637,
+    "tp2": 0.159161,
+    "tp3": 0.154621,
+    "tpRR": [
+      1.01,
+      2.01,
+      3.01
+    ],
+    "openTime": "2026-08-13T15:59:59.999Z",
+    "exitTime": "2026-08-13T18:59:59.999Z",
+    "exit": 0.172839,
+    "bars": 12,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.697,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 85,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 31.3,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.7x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 31 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 73%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.73,
+      "bodyPct": -0.82,
+      "takerRatio": 0.27,
+      "consolPct": 1.42,
+      "bias": "short"
+    }
+  },
+  {
+    "id": "EDENUSDT-1786636799999",
+    "pair": "EDENUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.04974,
+    "slInit": 0.046668,
+    "tp1": 0.052812,
+    "tp2": 0.055884,
+    "tp3": 0.058956,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-13T15:59:59.999Z",
+    "exitTime": "2026-08-13T18:59:59.999Z",
+    "exit": 0.058956,
+    "bars": 12,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 12.352,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "RANGE",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.1,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.2x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 72 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker 55%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.23,
+      "bodyPct": 2.43,
+      "takerRatio": 0.55,
+      "consolPct": 4.22,
+      "bias": "long"
+    }
   }
 ]
