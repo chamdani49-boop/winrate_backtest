@@ -79142,5 +79142,66 @@
       "consolPct": 5.18,
       "bias": "long"
     }
+  },
+  {
+    "id": "ORDIUSDT-1786658399999",
+    "pair": "ORDIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 3.541,
+    "slInit": 3.44373,
+    "tp1": 3.756,
+    "tp2": 3.816,
+    "tp3": 3.887,
+    "tpRR": [
+      2.21,
+      2.83,
+      3.56
+    ],
+    "openTime": "2026-08-13T21:59:59.999Z",
+    "exitTime": "2026-08-14T07:44:59.999Z",
+    "exit": 3.44373,
+    "bars": 39,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.747,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "RANGE",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 64.5,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily range",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 64 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 90%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.92,
+      "bodyPct": 0.63,
+      "takerRatio": 0.9,
+      "consolPct": 2.11,
+      "bias": "long"
+    }
   }
 ]
