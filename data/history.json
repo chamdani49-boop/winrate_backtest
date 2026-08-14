@@ -80129,5 +80129,69 @@
       "consolPct": 1.06,
       "bias": "short"
     }
+  },
+  {
+    "id": "NILUSDT-1786724999999",
+    "pair": "NILUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.04119,
+    "slInit": 0.040345,
+    "tp1": 0.04364,
+    "tp2": 0.04459,
+    "tp3": 0.0493,
+    "tpRR": [
+      2.9,
+      4.02,
+      9.6
+    ],
+    "openTime": "2026-08-14T16:29:59.999Z",
+    "exitTime": "2026-08-14T21:29:59.999Z",
+    "exit": 0.04364,
+    "bars": 20,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 6.717,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 70,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 34.9,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 35 oversold",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker buy 89%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.9,
+      "bodyPct": 0.34,
+      "takerRatio": 0.89,
+      "consolPct": 4.17,
+      "bias": "long"
+    }
   }
 ]
