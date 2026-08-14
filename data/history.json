@@ -79944,5 +79944,66 @@
       "consolPct": 1.34,
       "bias": "short"
     }
+  },
+  {
+    "id": "XPLUSDT-1786571999999",
+    "pair": "XPLUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.07339,
+    "slInit": 0.076554,
+    "tp1": 0.070226,
+    "tp2": 0.067062,
+    "tp3": 0.063898,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-12T21:59:59.999Z",
+    "exitTime": "2026-08-14T15:44:59.999Z",
+    "exit": 0.076554,
+    "bars": 167,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.311,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 87,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 29.1,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.9x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 29 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 76%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.94,
+      "bodyPct": -0.93,
+      "takerRatio": 0.25,
+      "consolPct": 3.36,
+      "bias": "short"
+    }
   }
 ]
