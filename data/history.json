@@ -81245,5 +81245,66 @@
       "consolPct": 4.08,
       "bias": "long"
     }
+  },
+  {
+    "id": "ATOMUSDT-1786745699999",
+    "pair": "ATOMUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 1.502,
+    "slInit": 1.46795,
+    "tp1": 1.573,
+    "tp2": 1.60705,
+    "tp3": 1.64111,
+    "tpRR": [
+      2.08,
+      3.08,
+      4.08
+    ],
+    "openTime": "2026-08-14T22:14:59.999Z",
+    "exitTime": "2026-08-15T12:59:59.999Z",
+    "exit": 1.46795,
+    "bars": 59,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.267,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 66,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 50.8,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.0x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 51 netral-naik",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 63%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.99,
+      "bodyPct": 1.14,
+      "takerRatio": 0.63,
+      "consolPct": 1.49,
+      "bias": "long"
+    }
   }
 ]
