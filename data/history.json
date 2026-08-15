@@ -81432,5 +81432,69 @@
       "consolPct": 3.36,
       "bias": "short"
     }
+  },
+  {
+    "id": "CHIPUSDT-1786769099999",
+    "pair": "CHIPUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.02409,
+    "slInit": 0.023138,
+    "tp1": 0.02511,
+    "tp2": 0.02579,
+    "tp3": 0.0263,
+    "tpRR": [
+      1.07,
+      1.79,
+      2.32
+    ],
+    "openTime": "2026-08-15T04:44:59.999Z",
+    "exitTime": "2026-08-15T14:59:59.999Z",
+    "exit": 0.0263,
+    "bars": 41,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 6.822,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 79.8,
+      "macd": "rising",
+      "ma200": null,
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.2x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 80 sudah tinggi",
+        "MACD rising",
+        "Taker buy 60%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.22,
+      "bodyPct": 1.01,
+      "takerRatio": 0.6,
+      "consolPct": 2.36,
+      "bias": "long"
+    }
   }
 ]
