@@ -81618,5 +81618,70 @@
       "consolPct": 1.35,
       "bias": "long"
     }
+  },
+  {
+    "id": "BOMEUSDT-1786799699999",
+    "pair": "BOMEUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0008069,
+    "slInit": 0.00077461,
+    "tp1": 0.0008423,
+    "tp2": 0.0009035,
+    "tp3": 0.00093579,
+    "tpRR": [
+      1.1,
+      2.99,
+      3.99
+    ],
+    "openTime": "2026-08-15T13:14:59.999Z",
+    "exitTime": "2026-08-15T17:14:59.999Z",
+    "exit": 0.00093579,
+    "bars": 16,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 10.777,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 5.0x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 67 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 79%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.05,
+      "bodyPct": 1.7,
+      "takerRatio": 0.79,
+      "consolPct": 1.53,
+      "bias": "long"
+    }
   }
 ]
