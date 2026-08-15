@@ -80877,5 +80877,66 @@
       "consolPct": 0.95,
       "bias": "short"
     }
+  },
+  {
+    "id": "BROCCOLI714USDT-1786760999999",
+    "pair": "BROCCOLI714USDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.01562,
+    "slInit": 0.016218,
+    "tp1": 0.0149,
+    "tp2": 0.0136,
+    "tp3": 0.01317,
+    "tpRR": [
+      1.21,
+      3.38,
+      4.1
+    ],
+    "openTime": "2026-08-15T02:29:59.999Z",
+    "exitTime": "2026-08-15T05:59:59.999Z",
+    "exit": 0.016218,
+    "bars": 14,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.828,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 59,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 35.2,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.0x",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 35 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.98,
+      "bodyPct": -1.14,
+      "takerRatio": 0.29,
+      "consolPct": 1.78,
+      "bias": "short"
+    }
   }
 ]
