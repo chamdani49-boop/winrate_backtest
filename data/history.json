@@ -81062,5 +81062,66 @@
       "consolPct": 5.1,
       "bias": "long"
     }
+  },
+  {
+    "id": "ONGUSDT-1786775399999",
+    "pair": "ONGUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.04702,
+    "slInit": 0.043898,
+    "tp1": 0.05131,
+    "tp2": 0.054432,
+    "tp3": 0.057554,
+    "tpRR": [
+      1.37,
+      2.37,
+      3.37
+    ],
+    "openTime": "2026-08-15T06:29:59.999Z",
+    "exitTime": "2026-08-15T09:44:59.999Z",
+    "exit": 0.043898,
+    "bars": 13,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.64,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 71.6,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 5.3x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 72 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 55%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.32,
+      "bodyPct": 2.02,
+      "takerRatio": 0.55,
+      "consolPct": 3.88,
+      "bias": "long"
+    }
   }
 ]
