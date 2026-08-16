@@ -82242,5 +82242,69 @@
       "consolPct": 2.72,
       "bias": "short"
     }
+  },
+  {
+    "id": "XAIUSDT-1786821299999",
+    "pair": "XAIUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00688,
+    "slInit": 0.00661179,
+    "tp1": 0.00727,
+    "tp2": 0.00774,
+    "tp3": 0.00926,
+    "tpRR": [
+      1.45,
+      3.21,
+      8.87
+    ],
+    "openTime": "2026-08-15T19:14:59.999Z",
+    "exitTime": "2026-08-16T06:14:59.999Z",
+    "exit": 0.00727,
+    "bars": 44,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 7.946,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 53,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 68.2,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.0x",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 68 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 58%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.97,
+      "bodyPct": 0.58,
+      "takerRatio": 0.58,
+      "consolPct": 2.69,
+      "bias": "long"
+    }
   }
 ]
