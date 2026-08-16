@@ -82865,5 +82865,68 @@
       "consolPct": 1.81,
       "bias": "short"
     }
+  },
+  {
+    "id": "TSTUSDT-1786810499999",
+    "pair": "TSTUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0145,
+    "slInit": 0.014969,
+    "tp1": 0.01376,
+    "tp2": 0.01348,
+    "tp3": 0.01203,
+    "tpRR": [
+      1.58,
+      2.17,
+      5.26
+    ],
+    "openTime": "2026-08-15T16:14:59.999Z",
+    "exitTime": "2026-08-16T11:44:59.999Z",
+    "exit": 0.0145,
+    "bars": 78,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.701,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 57,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 57.5,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 57 netral-turun",
+        "MACD fading_up",
+        "ABOVE MA200",
+        "Taker sell 64%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.1,
+      "bodyPct": -1.49,
+      "takerRatio": 0.36,
+      "consolPct": 5.44,
+      "bias": "short"
+    }
   }
 ]
