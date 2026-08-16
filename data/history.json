@@ -81807,5 +81807,66 @@
       "consolPct": 1.08,
       "bias": "long"
     }
+  },
+  {
+    "id": "ICPUSDT-1786806899999",
+    "pair": "ICPUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 2.27,
+    "slInit": 2.23123,
+    "tp1": 2.326,
+    "tp2": 2.397,
+    "tp3": 2.43577,
+    "tpRR": [
+      1.44,
+      3.28,
+      4.28
+    ],
+    "openTime": "2026-08-15T15:14:59.999Z",
+    "exitTime": "2026-08-15T23:44:59.999Z",
+    "exit": 2.23123,
+    "bars": 34,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.708,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 67,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 56.9,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.5x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 57 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 59%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.51,
+      "bodyPct": 0.4,
+      "takerRatio": 0.59,
+      "consolPct": 0.94,
+      "bias": "long"
+    }
   }
 ]
