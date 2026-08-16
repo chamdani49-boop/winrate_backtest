@@ -82119,5 +82119,65 @@
       "consolPct": 2.22,
       "bias": "short"
     }
+  },
+  {
+    "id": "ESPUSDT-1786772699999",
+    "pair": "ESPUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.07273,
+    "slInit": 0.070909,
+    "tp1": 0.07556,
+    "tp2": 0.07696,
+    "tp3": 0.07935,
+    "tpRR": [
+      1.55,
+      2.32,
+      3.64
+    ],
+    "openTime": "2026-08-15T05:44:59.999Z",
+    "exitTime": "2026-08-16T04:59:59.999Z",
+    "exit": 0.070909,
+    "bars": 93,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.504,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "RANGE",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 57.1,
+      "macd": "rising",
+      "ma200": null,
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.4x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 57 sudah tinggi",
+        "MACD rising",
+        "Taker 55%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.44,
+      "bodyPct": 0.82,
+      "takerRatio": 0.55,
+      "consolPct": 0.81,
+      "bias": "long"
+    }
   }
 ]
