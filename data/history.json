@@ -82434,5 +82434,66 @@
       "consolPct": 3.56,
       "bias": "long"
     }
+  },
+  {
+    "id": "ASTERUSDT-1786849199999",
+    "pair": "ASTERUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.599,
+    "slInit": 0.601875,
+    "tp1": 0.596,
+    "tp2": 0.587,
+    "tp3": 0.584125,
+    "tpRR": [
+      1.04,
+      4.17,
+      5.17
+    ],
+    "openTime": "2026-08-16T02:59:59.999Z",
+    "exitTime": "2026-08-16T08:29:59.999Z",
+    "exit": 0.601875,
+    "bars": 22,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -0.48,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 79,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 41.3,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.0x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 41 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 86%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.99,
+      "bodyPct": -0.33,
+      "takerRatio": 0.14,
+      "consolPct": 0.33,
+      "bias": "short"
+    }
   }
 ]
