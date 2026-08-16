@@ -83793,5 +83793,65 @@
       "consolPct": 1,
       "bias": "short"
     }
+  },
+  {
+    "id": "REUSDT-1786886099999",
+    "pair": "REUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.4496,
+    "slInit": 0.434216,
+    "tp1": 0.4656,
+    "tp2": 0.4756,
+    "tp3": 0.5317,
+    "tpRR": [
+      1.04,
+      1.69,
+      5.34
+    ],
+    "openTime": "2026-08-16T13:14:59.999Z",
+    "exitTime": "2026-08-16T19:29:59.999Z",
+    "exit": 0.434216,
+    "bars": 25,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.422,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 65,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 40.7,
+      "macd": "fading_down",
+      "ma200": null,
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 5.3x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 41 netral-naik",
+        "MACD fading_down",
+        "Taker buy 67%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.27,
+      "bodyPct": 2.37,
+      "takerRatio": 0.66,
+      "consolPct": 4.63,
+      "bias": "long"
+    }
   }
 ]
