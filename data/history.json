@@ -83608,5 +83608,66 @@
       "consolPct": 1.98,
       "bias": "short"
     }
+  },
+  {
+    "id": "SKYUSDT-1786742099999",
+    "pair": "SKYUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.0512,
+    "slInit": 0.052557,
+    "tp1": 0.049843,
+    "tp2": 0.048487,
+    "tp3": 0.04713,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-14T21:14:59.999Z",
+    "exitTime": "2026-08-16T16:44:59.999Z",
+    "exit": 0.052557,
+    "bars": 174,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.65,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 82,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 19.6,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 15.4x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 20 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker 41%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 15.38,
+      "bodyPct": -1.71,
+      "takerRatio": 0.41,
+      "consolPct": 1.08,
+      "bias": "short"
+    }
   }
 ]
