@@ -85168,5 +85168,66 @@
       "consolPct": 0.7,
       "bias": "short"
     }
+  },
+  {
+    "id": "SANDUSDT-1786756499999",
+    "pair": "SANDUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.03965,
+    "slInit": 0.040513,
+    "tp1": 0.03831,
+    "tp2": 0.037447,
+    "tp3": 0.036584,
+    "tpRR": [
+      1.55,
+      2.55,
+      3.55
+    ],
+    "openTime": "2026-08-15T01:14:59.999Z",
+    "exitTime": "2026-08-17T04:14:59.999Z",
+    "exit": 0.040513,
+    "bars": 204,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.177,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 43.4,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.9x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 43 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 62%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.92,
+      "bodyPct": -0.68,
+      "takerRatio": 0.38,
+      "consolPct": 2,
+      "bias": "short"
+    }
   }
 ]
