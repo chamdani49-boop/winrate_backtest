@@ -86716,5 +86716,66 @@
       "consolPct": 5.75,
       "bias": "long"
     }
+  },
+  {
+    "id": "CRVUSDT-1786984199999",
+    "pair": "CRVUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.2501,
+    "slInit": 0.241525,
+    "tp1": 0.2732,
+    "tp2": 0.2864,
+    "tp3": 0.294975,
+    "tpRR": [
+      2.69,
+      4.23,
+      5.23
+    ],
+    "openTime": "2026-08-17T16:29:59.999Z",
+    "exitTime": "2026-08-17T22:59:59.999Z",
+    "exit": 0.241525,
+    "bars": 26,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.429,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 67,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "RANGE",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 71.6,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 4.0x heavy",
+        "Daily uptrend",
+        "4H range",
+        "1H downtrend",
+        "RSI 72 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 69%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.04,
+      "bodyPct": 1.38,
+      "takerRatio": 0.69,
+      "consolPct": 1.61,
+      "bias": "long"
+    }
   }
 ]
