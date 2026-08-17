@@ -85666,5 +85666,66 @@
       "consolPct": 1.86,
       "bias": "short"
     }
+  },
+  {
+    "id": "BERAUSDT-1786916699999",
+    "pair": "BERAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.1437,
+    "slInit": 0.14833,
+    "tp1": 0.1386,
+    "tp2": 0.13397,
+    "tp3": 0.129339,
+    "tpRR": [
+      1.1,
+      2.1,
+      3.1
+    ],
+    "openTime": "2026-08-16T21:44:59.999Z",
+    "exitTime": "2026-08-17T13:14:59.999Z",
+    "exit": 0.14833,
+    "bars": 62,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.222,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 21.6,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 9.7x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 22 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 79%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 9.72,
+      "bodyPct": -0.83,
+      "takerRatio": 0.21,
+      "consolPct": 1.59,
+      "bias": "short"
+    }
   }
 ]
