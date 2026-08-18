@@ -88433,5 +88433,66 @@
       "consolPct": 1.22,
       "bias": "short"
     }
+  },
+  {
+    "id": "SAGAUSDT-1787028299999",
+    "pair": "SAGAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.01323,
+    "slInit": 0.013604,
+    "tp1": 0.01271,
+    "tp2": 0.0124,
+    "tp3": 0.01209,
+    "tpRR": [
+      1.39,
+      2.22,
+      3.05
+    ],
+    "openTime": "2026-08-18T04:44:59.999Z",
+    "exitTime": "2026-08-18T16:14:59.999Z",
+    "exit": 0.013604,
+    "bars": 46,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.827,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 70,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 36.2,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 36 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 78%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.1,
+      "bodyPct": -0.45,
+      "takerRatio": 0.22,
+      "consolPct": 2.19,
+      "bias": "short"
+    }
   }
 ]
