@@ -87823,5 +87823,68 @@
       "consolPct": 2.54,
       "bias": "long"
     }
+  },
+  {
+    "id": "PEPEUSDT-1786994999999",
+    "pair": "PEPEUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.00000258,
+    "slInit": 0.0000026204,
+    "tp1": 0.00000253,
+    "tp2": 0.0000024896,
+    "tp3": 0.0000024493,
+    "tpRR": [
+      1.24,
+      2.24,
+      3.24
+    ],
+    "openTime": "2026-08-17T19:29:59.999Z",
+    "exitTime": "2026-08-18T11:14:59.999Z",
+    "exit": 0.00000258,
+    "bars": 63,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.646,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 44.3,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 5.7x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 44 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 70%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.7,
+      "bodyPct": -0.39,
+      "takerRatio": 0.3,
+      "consolPct": 1.56,
+      "bias": "short"
+    }
   }
 ]
