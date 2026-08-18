@@ -87698,5 +87698,69 @@
       "consolPct": 1.64,
       "bias": "short"
     }
+  },
+  {
+    "id": "PROMUSDT-1787003999999",
+    "pair": "PROMUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 1.979,
+    "slInit": 2.05764,
+    "tp1": 1.894,
+    "tp2": 1.83,
+    "tp3": 1.643,
+    "tpRR": [
+      1.08,
+      1.89,
+      4.27
+    ],
+    "openTime": "2026-08-17T21:59:59.999Z",
+    "exitTime": "2026-08-18T07:29:59.999Z",
+    "exit": 1.894,
+    "bars": 38,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 5.373,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 64,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 36.6,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.6x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 37 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 77%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.59,
+      "bodyPct": -1.05,
+      "takerRatio": 0.23,
+      "consolPct": 1.7,
+      "bias": "short"
+    }
   }
 ]
