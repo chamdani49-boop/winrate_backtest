@@ -87638,5 +87638,65 @@
       "consolPct": 2.58,
       "bias": "short"
     }
+  },
+  {
+    "id": "ZAMAUSDT-1787007599999",
+    "pair": "ZAMAUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.04038,
+    "slInit": 0.041676,
+    "tp1": 0.039084,
+    "tp2": 0.037789,
+    "tp3": 0.036493,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-17T22:59:59.999Z",
+    "exitTime": "2026-08-18T06:44:59.999Z",
+    "exit": 0.041676,
+    "bars": 31,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.21,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 63,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 14.2,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.0x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 14 sudah rendah",
+        "MACD falling",
+        "Taker 43%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.96,
+      "bodyPct": -0.88,
+      "takerRatio": 0.43,
+      "consolPct": 1.64,
+      "bias": "short"
+    }
   }
 ]
