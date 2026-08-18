@@ -87762,5 +87762,66 @@
       "consolPct": 1.7,
       "bias": "short"
     }
+  },
+  {
+    "id": "BELUSDT-1786958099999",
+    "pair": "BELUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.1099,
+    "slInit": 0.105148,
+    "tp1": 0.1156,
+    "tp2": 0.129,
+    "tp3": 0.133752,
+    "tpRR": [
+      1.2,
+      4.02,
+      5.02
+    ],
+    "openTime": "2026-08-17T09:14:59.999Z",
+    "exitTime": "2026-08-18T10:44:59.999Z",
+    "exit": 0.105148,
+    "bars": 102,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.324,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 65,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 61.6,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 62 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.56,
+      "bodyPct": 1.57,
+      "takerRatio": 0.61,
+      "consolPct": 2.54,
+      "bias": "long"
+    }
   }
 ]
