@@ -89792,5 +89792,68 @@
       "consolPct": 0.65,
       "bias": "short"
     }
+  },
+  {
+    "id": "DASHUSDT-1787070599999",
+    "pair": "DASHUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 29.99,
+    "slInit": 30.31125,
+    "tp1": 29.62,
+    "tp2": 29.29875,
+    "tp3": 28.9775,
+    "tpRR": [
+      1.15,
+      2.15,
+      3.15
+    ],
+    "openTime": "2026-08-18T16:29:59.999Z",
+    "exitTime": "2026-08-19T09:14:59.999Z",
+    "exit": 29.99,
+    "bars": 67,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.411,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 85,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 45.6,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 5.2x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 46 netral-turun",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 78%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.23,
+      "bodyPct": -0.43,
+      "takerRatio": 0.22,
+      "consolPct": 1.14,
+      "bias": "short"
+    }
   }
 ]
