@@ -89609,5 +89609,67 @@
       "consolPct": 0.82,
       "bias": "short"
     }
+  },
+  {
+    "id": "SOXSBUSDT-1787103899999",
+    "pair": "SOXSBUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 44.32,
+    "slInit": 43.59143,
+    "tp1": 45.68,
+    "tp2": 47.19,
+    "tp3": 48.83,
+    "tpRR": [
+      1.87,
+      3.94,
+      6.19
+    ],
+    "openTime": "2026-08-19T01:44:59.999Z",
+    "exitTime": "2026-08-19T07:59:59.999Z",
+    "exit": 44.32,
+    "bars": 25,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.023,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 65,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "RANGE",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 42.3,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.7x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 42 netral-naik",
+        "MACD falling",
+        "Taker buy 94%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.74,
+      "bodyPct": 0.73,
+      "takerRatio": 0.94,
+      "consolPct": 4.96,
+      "bias": "long"
+    }
   }
 ]
