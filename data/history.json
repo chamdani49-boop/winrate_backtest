@@ -95235,5 +95235,70 @@
       "consolPct": 2.62,
       "bias": "short"
     }
+  },
+  {
+    "id": "ENAUSDT-1787222699999",
+    "pair": "ENAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0994,
+    "slInit": 0.09327,
+    "tp1": 0.10553,
+    "tp2": 0.111661,
+    "tp3": 0.117791,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-20T10:44:59.999Z",
+    "exitTime": "2026-08-20T23:29:59.999Z",
+    "exit": 0.117791,
+    "bars": 51,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 12.335,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 67,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 79.5,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 79 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 67%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.69,
+      "bodyPct": 1.53,
+      "takerRatio": 0.67,
+      "consolPct": 5.11,
+      "bias": "long"
+    }
   }
 ]
