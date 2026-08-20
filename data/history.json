@@ -94985,5 +94985,66 @@
       "consolPct": 1.96,
       "bias": "long"
     }
+  },
+  {
+    "id": "COMPUSDT-1787245199999",
+    "pair": "COMPUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 19.4,
+    "slInit": 18.82,
+    "tp1": 19.98,
+    "tp2": 20.56,
+    "tp3": 21.14,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-20T16:59:59.999Z",
+    "exitTime": "2026-08-20T21:29:59.999Z",
+    "exit": 18.82,
+    "bars": 18,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.99,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 62,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67.3,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 10.5x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 67 sudah tinggi",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker 58%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 10.51,
+      "bodyPct": 0.41,
+      "takerRatio": 0.58,
+      "consolPct": 2.37,
+      "bias": "long"
+    }
   }
 ]
