@@ -93729,5 +93729,66 @@
       "consolPct": 1.05,
       "bias": "long"
     }
+  },
+  {
+    "id": "PENDLEUSDT-1787192999999",
+    "pair": "PENDLEUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 1.516,
+    "slInit": 1.42937,
+    "tp1": 1.60263,
+    "tp2": 1.68925,
+    "tp3": 1.77588,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-20T02:29:59.999Z",
+    "exitTime": "2026-08-20T09:59:59.999Z",
+    "exit": 1.42937,
+    "bars": 30,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -5.714,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 82,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 81.2,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.7x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 81 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker 56%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.71,
+      "bodyPct": 0.86,
+      "takerRatio": 0.56,
+      "consolPct": 4.73,
+      "bias": "long"
+    }
   }
 ]
