@@ -95107,5 +95107,70 @@
       "consolPct": 5.34,
       "bias": "short"
     }
+  },
+  {
+    "id": "VETUSDT-1787226299999",
+    "pair": "VETUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.005,
+    "slInit": 0.0049077,
+    "tp1": 0.0050923,
+    "tp2": 0.00518461,
+    "tp3": 0.00527691,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-20T11:44:59.999Z",
+    "exitTime": "2026-08-20T22:29:59.999Z",
+    "exit": 0.00527691,
+    "bars": 43,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 3.692,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 77,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67.3,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.9x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 67 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 77%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.94,
+      "bodyPct": 0.75,
+      "takerRatio": 0.77,
+      "consolPct": 0.93,
+      "bias": "long"
+    }
   }
 ]
