@@ -100263,5 +100263,66 @@
       "consolPct": 2.72,
       "bias": "long"
     }
+  },
+  {
+    "id": "ACMUSDT-1787214599999",
+    "pair": "ACMUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.285,
+    "slInit": 0.274179,
+    "tp1": 0.314,
+    "tp2": 0.343,
+    "tp3": 0.35,
+    "tpRR": [
+      2.68,
+      5.36,
+      6.01
+    ],
+    "openTime": "2026-08-20T08:29:59.999Z",
+    "exitTime": "2026-08-21T21:44:59.999Z",
+    "exit": 0.274179,
+    "bars": 149,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.797,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 57.4,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 57 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 63%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.89,
+      "bodyPct": 1.06,
+      "takerRatio": 0.63,
+      "consolPct": 1.79,
+      "bias": "long"
+    }
   }
 ]
