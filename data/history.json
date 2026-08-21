@@ -100515,5 +100515,70 @@
       "consolPct": 2.01,
       "bias": "long"
     }
+  },
+  {
+    "id": "DASHUSDT-1787344199999",
+    "pair": "DASHUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 35.52,
+    "slInit": 34.16,
+    "tp1": 36.88,
+    "tp2": 38.24,
+    "tp3": 39.6,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-21T20:29:59.999Z",
+    "exitTime": "2026-08-21T23:29:59.999Z",
+    "exit": 39.6,
+    "bars": 12,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 7.658,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 60.7,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.6x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 61 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 75%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.57,
+      "bodyPct": 0.54,
+      "takerRatio": 0.75,
+      "consolPct": 2.99,
+      "bias": "long"
+    }
   }
 ]
