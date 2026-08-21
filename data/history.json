@@ -95685,5 +95685,69 @@
       "consolPct": 2.43,
       "bias": "long"
     }
+  },
+  {
+    "id": "ATUSDT-1787181299999",
+    "pair": "ATUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.1509,
+    "slInit": 0.153813,
+    "tp1": 0.1457,
+    "tp2": 0.1416,
+    "tp3": 0.1346,
+    "tpRR": [
+      1.79,
+      3.19,
+      5.6
+    ],
+    "openTime": "2026-08-19T23:14:59.999Z",
+    "exitTime": "2026-08-21T03:44:59.999Z",
+    "exit": 0.1457,
+    "bars": 114,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 4.352,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 64,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 47.7,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 2.7x",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H range",
+        "RSI 48 netral-turun",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 92%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.7,
+      "bodyPct": -0.33,
+      "takerRatio": 0.08,
+      "consolPct": 1.53,
+      "bias": "short"
+    }
   }
 ]
