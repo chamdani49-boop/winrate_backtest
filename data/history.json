@@ -104920,5 +104920,68 @@
       "consolPct": 1.81,
       "bias": "short"
     }
+  },
+  {
+    "id": "MINAUSDT-1787336999999",
+    "pair": "MINAUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0562,
+    "slInit": 0.051716,
+    "tp1": 0.060684,
+    "tp2": 0.065168,
+    "tp3": 0.069652,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-21T18:29:59.999Z",
+    "exitTime": "2026-08-22T08:29:59.999Z",
+    "exit": 0.0562,
+    "bars": 56,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.66,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 72,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 84,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 36.6x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 84 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker 59%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 36.64,
+      "bodyPct": 6.24,
+      "takerRatio": 0.59,
+      "consolPct": 1.73,
+      "bias": "long"
+    }
   }
 ]
