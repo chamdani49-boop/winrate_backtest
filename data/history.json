@@ -108782,5 +108782,69 @@
       "consolPct": 2.45,
       "bias": "short"
     }
+  },
+  {
+    "id": "YBUSDT-1787427899999",
+    "pair": "YBUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0899,
+    "slInit": 0.086163,
+    "tp1": 0.0945,
+    "tp2": 0.1027,
+    "tp3": 0.106437,
+    "tpRR": [
+      1.23,
+      3.42,
+      4.42
+    ],
+    "openTime": "2026-08-22T19:44:59.999Z",
+    "exitTime": "2026-08-23T10:29:59.999Z",
+    "exit": 0.0945,
+    "bars": 59,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 8.157,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 56,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 57.8,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.6x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H range",
+        "RSI 58 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 83%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.58,
+      "bodyPct": 2.16,
+      "takerRatio": 0.83,
+      "consolPct": 1.25,
+      "bias": "long"
+    }
   }
 ]
