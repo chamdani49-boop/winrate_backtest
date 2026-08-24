@@ -112359,5 +112359,68 @@
       "consolPct": 1.84,
       "bias": "long"
     }
+  },
+  {
+    "id": "ONEUSDT-1787409899999",
+    "pair": "ONEUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.000758,
+    "slInit": 0.00079489,
+    "tp1": 0.000711,
+    "tp2": 0.00056,
+    "tp3": 0.00052311,
+    "tpRR": [
+      1.27,
+      5.37,
+      6.37
+    ],
+    "openTime": "2026-08-22T14:44:59.999Z",
+    "exitTime": "2026-08-24T17:59:59.999Z",
+    "exit": 0.000758,
+    "bars": 205,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.067,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 31.8,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 5.5x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 32 sudah rendah",
+        "MACD fading_up",
+        "BELOW MA200",
+        "Taker sell 78%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.46,
+      "bodyPct": -2.19,
+      "takerRatio": 0.22,
+      "consolPct": 3.03,
+      "bias": "short"
+    }
   }
 ]
