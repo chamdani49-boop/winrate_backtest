@@ -112422,5 +112422,66 @@
       "consolPct": 3.03,
       "bias": "short"
     }
+  },
+  {
+    "id": "RADUSDT-1787593499999",
+    "pair": "RADUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.246,
+    "slInit": 0.235661,
+    "tp1": 0.258,
+    "tp2": 0.324,
+    "tp3": 0.334339,
+    "tpRR": [
+      1.16,
+      7.54,
+      8.54
+    ],
+    "openTime": "2026-08-24T17:44:59.999Z",
+    "exitTime": "2026-08-24T18:59:59.999Z",
+    "exit": 0.235661,
+    "bars": 5,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.203,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 66.5,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 28.7x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 66 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 28.7,
+      "bodyPct": 3.36,
+      "takerRatio": 0.61,
+      "consolPct": 2.53,
+      "bias": "long"
+    }
   }
 ]
