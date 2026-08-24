@@ -111065,5 +111065,66 @@
       "consolPct": 5.56,
       "bias": "long"
     }
+  },
+  {
+    "id": "HEIUSDT-1787483699999",
+    "pair": "HEIUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.1278,
+    "slInit": 0.131996,
+    "tp1": 0.1232,
+    "tp2": 0.1208,
+    "tp3": 0.115211,
+    "tpRR": [
+      1.1,
+      1.67,
+      3
+    ],
+    "openTime": "2026-08-23T11:14:59.999Z",
+    "exitTime": "2026-08-24T05:29:59.999Z",
+    "exit": 0.131996,
+    "bars": 73,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.283,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 57,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 43.2,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 2.8x",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 43 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 78%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.77,
+      "bodyPct": -0.47,
+      "takerRatio": 0.22,
+      "consolPct": 2.03,
+      "bias": "short"
+    }
   }
 ]
