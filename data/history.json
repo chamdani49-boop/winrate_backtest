@@ -112483,5 +112483,66 @@
       "consolPct": 2.53,
       "bias": "long"
     }
+  },
+  {
+    "id": "NILUSDT-1787543099999",
+    "pair": "NILUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.04219,
+    "slInit": 0.044303,
+    "tp1": 0.03994,
+    "tp2": 0.03767,
+    "tp3": 0.03462,
+    "tpRR": [
+      1.06,
+      2.14,
+      3.58
+    ],
+    "openTime": "2026-08-24T03:44:59.999Z",
+    "exitTime": "2026-08-24T19:44:59.999Z",
+    "exit": 0.044303,
+    "bars": 64,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -5.008,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 20.7,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 4.2x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 21 sudah rendah",
+        "MACD falling",
+        "ABOVE MA200",
+        "Taker sell 76%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.22,
+      "bodyPct": -0.71,
+      "takerRatio": 0.24,
+      "consolPct": 3.32,
+      "bias": "short"
+    }
   }
 ]
