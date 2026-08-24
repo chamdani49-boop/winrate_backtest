@@ -112668,5 +112668,66 @@
       "consolPct": 5.74,
       "bias": "long"
     }
+  },
+  {
+    "id": "ARBUSDT-1787571899999",
+    "pair": "ARBUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.0999,
+    "slInit": 0.096221,
+    "tp1": 0.1038,
+    "tp2": 0.1096,
+    "tp3": 0.113279,
+    "tpRR": [
+      1.06,
+      2.64,
+      3.64
+    ],
+    "openTime": "2026-08-24T11:44:59.999Z",
+    "exitTime": "2026-08-24T22:59:59.999Z",
+    "exit": 0.096221,
+    "bars": 45,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.683,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 69,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 54.7,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 2.9x",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 55 netral-naik",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker 57%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 2.88,
+      "bodyPct": 1.73,
+      "takerRatio": 0.57,
+      "consolPct": 2.26,
+      "bias": "long"
+    }
   }
 ]
