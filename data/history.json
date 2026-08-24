@@ -111740,5 +111740,65 @@
       "consolPct": 1.41,
       "bias": "long"
     }
+  },
+  {
+    "id": "DRAMBUSDT-1787126399999",
+    "pair": "DRAMBUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 56.7,
+    "slInit": 53.19804,
+    "tp1": 62,
+    "tp2": 65.50196,
+    "tp3": 69.00393,
+    "tpRR": [
+      1.51,
+      2.51,
+      3.51
+    ],
+    "openTime": "2026-08-19T07:59:59.999Z",
+    "exitTime": "2026-08-24T14:14:59.999Z",
+    "exit": 53.19804,
+    "bars": 505,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.176,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 58,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 70.4,
+      "macd": "rising",
+      "ma200": null,
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Vol 5.3x heavy",
+        "Daily downtrend",
+        "4H uptrend",
+        "1H range",
+        "RSI 70 sudah tinggi",
+        "MACD rising",
+        "Taker buy 90%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.34,
+      "bodyPct": 0.67,
+      "takerRatio": 0.9,
+      "consolPct": 5.58,
+      "bias": "long"
+    }
   }
 ]
