@@ -112854,5 +112854,67 @@
       "consolPct": 1.18,
       "bias": "short"
     }
+  },
+  {
+    "id": "SKHYBUSDT-1787614199999",
+    "pair": "SKHYBUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 154.38,
+    "slInit": 156.45446,
+    "tp1": 151.15,
+    "tp2": 150,
+    "tp3": 148.58,
+    "tpRR": [
+      1.56,
+      2.11,
+      2.8
+    ],
+    "openTime": "2026-08-24T23:29:59.999Z",
+    "exitTime": "2026-08-25T01:59:59.999Z",
+    "exit": 154.38,
+    "bars": 10,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.697,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 68,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 34.5,
+      "macd": "falling",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 16.4x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 35 sudah rendah",
+        "MACD falling",
+        "Taker sell 95%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 16.42,
+      "bodyPct": -0.48,
+      "takerRatio": 0.05,
+      "consolPct": 0.59,
+      "bias": "short"
+    }
   }
 ]
