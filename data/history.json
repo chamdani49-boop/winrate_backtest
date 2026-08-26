@@ -117833,5 +117833,66 @@
       "consolPct": 2.2,
       "bias": "short"
     }
+  },
+  {
+    "id": "BIOUSDT-1787708699999",
+    "pair": "BIOUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.02916,
+    "slInit": 0.028758,
+    "tp1": 0.02965,
+    "tp2": 0.03032,
+    "tp3": 0.0311,
+    "tpRR": [
+      1.22,
+      2.89,
+      4.83
+    ],
+    "openTime": "2026-08-26T01:44:59.999Z",
+    "exitTime": "2026-08-26T05:14:59.999Z",
+    "exit": 0.028758,
+    "bars": 14,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.379,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 77,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 41.7,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.1x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H downtrend",
+        "RSI 42 netral-naik",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 72%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.12,
+      "bodyPct": 0.52,
+      "takerRatio": 0.72,
+      "consolPct": 1.45,
+      "bias": "long"
+    }
   }
 ]
