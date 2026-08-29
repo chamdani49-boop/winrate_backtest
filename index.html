@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>TVBT Pro — Signal Backtest Suite</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Candlestick engine (TradingView lightweight-charts) untuk chart + trade plan di popup detail sinyal -->
+<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js" defer></script>
 <style>
 /* ============================================================
    ROOT & RESET
@@ -923,22 +925,57 @@ html{ scroll-behavior:smooth; }
 .ring{ width:42px; height:42px; border-radius:50%; padding:3px; display:flex; align-items:center; justify-content:center; }
 .ring-inner{ width:100%; height:100%; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:13px; font-weight:800; }
 
-/* Candlestick chart dlm popup detail strategi */
-.strat-chart-box{
-  position:relative; background:var(--bg); border:1px solid var(--border);
-  border-radius:8px; padding:8px; margin-top:6px;
+/* ============================================================
+   CANDLESTICK + TRADE PLAN dlm popup detail strategi
+   (gaya "position tool" TradingView — candle lightweight-charts +
+    overlay zona hijau TP / merah SL + watermark)
+============================================================ */
+.strat-chart-wrap{
+  position:relative; width:100%; height:300px;
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden; margin-top:6px;
 }
-.strat-chart-box canvas{ width:100%; height:260px; display:block; }
+.strat-chart{ position:absolute; inset:0; width:100%; height:100%; }
+/* overlay zona di atas canvas chart */
+.strat-chart-zones{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:5; }
+.strat-zone{ position:absolute; pointer-events:none; box-sizing:border-box; }
+.strat-zone.tp  { background:rgba(0,229,160,0.24); border-top:2px solid rgba(0,229,160,0.85); }
+.strat-zone.tp2 { background:rgba(0,229,160,0.15); border-top:1px dashed rgba(0,229,160,0.7); }
+.strat-zone.tp3 { background:rgba(0,229,160,0.09); border-top:1px dashed rgba(0,229,160,0.55); }
+.strat-zone.sl  { background:rgba(255,84,112,0.22); border-bottom:2px solid rgba(255,84,112,0.85); }
+.strat-zone-lbl{
+  position:absolute; top:6px; left:10px;
+  font-family:var(--mono); font-size:10px; font-weight:700;
+  padding:3px 8px; border-radius:5px; color:#04130d; letter-spacing:.3px;
+  pointer-events:none; white-space:nowrap; display:inline-flex; align-items:center; gap:4px;
+}
+.strat-zone-lbl b{ font-weight:800; letter-spacing:.5px; }
+.strat-zone-lbl .pct{ font-size:9.5px; opacity:.9; font-weight:600; }
+.strat-zone.tp  .strat-zone-lbl{ background:rgba(0,229,160,0.95); }
+.strat-zone.tp2 .strat-zone-lbl{ background:rgba(0,229,160,0.78); }
+.strat-zone.tp3 .strat-zone-lbl{ background:rgba(0,229,160,0.62); }
+.strat-zone.sl  .strat-zone-lbl{ top:auto; bottom:6px; background:rgba(255,84,112,0.95); color:#fff; }
+/* watermark brand samar di tengah-atas (meniru gambar referensi) */
+.strat-chart-watermark{
+  position:absolute; top:14px; left:0; right:0; z-index:10;
+  pointer-events:none; user-select:none; text-align:center;
+  font-family:var(--sans); font-weight:800; letter-spacing:1px; text-transform:uppercase;
+  font-size:clamp(14px,2.6vw,28px); color:rgba(255,255,255,0.10); white-space:nowrap;
+}
+/* state loading / kosong */
 .strat-chart-state{
-  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  position:absolute; inset:0; z-index:20; display:none;
+  align-items:center; justify-content:center; flex-direction:column; gap:6px;
   font-family:var(--mono); font-size:11px; color:var(--muted); text-align:center; padding:16px;
+  background:var(--bg);
 }
+.strat-chart-state.show{ display:flex; }
 .strat-chart-legend{
   display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:8px;
   font-family:var(--mono); font-size:9.5px; color:var(--muted2);
 }
 .strat-chart-legend .lg{ display:inline-flex; align-items:center; gap:5px; }
-.strat-chart-legend .lg i{ width:14px; height:0; border-top:2px solid; display:inline-block; }
+.strat-chart-legend .lg i{ width:14px; height:10px; border-radius:2px; display:inline-block; }
 
 /* ============================================================
    TOP / BOTTOM COINS RANK LIST
@@ -4466,7 +4503,10 @@ function openStratModalFromHistory(id) {
   const t = liveHistory.find(h => String(h.id) === String(id)); if (!t) return;
   showStratModal(t, true);
 }
-function closeStratModal() { document.getElementById('stratModal').classList.remove('show'); }
+function closeStratModal() {
+  document.getElementById('stratModal').classList.remove('show');
+  if (typeof cleanupStratChart === 'function') cleanupStratChart();
+}
 
 /* ---- Watchlist modal (popup daftar pair yang dipindai) ---- */
 function openWatchlistModal() { document.getElementById('watchModal').classList.add('show'); }
@@ -4622,18 +4662,18 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
     </div>
   `;
 
-  // === 0) CANDLESTICK CHART (diisi async oleh renderStratCandleChart) ===
+  // === 0) CANDLESTICK CHART + TRADE PLAN (diisi async oleh renderStratCandleChart) ===
   const chartHTML = `
-    <div class="vis-section-lbl">Candlestick ${p.smallTF || '15m'} · Entry / TP / SL</div>
-    <div class="strat-chart-box">
-      <canvas id="stratCandleCanvas"></canvas>
-      <div class="strat-chart-state" id="stratChartState">⏳ Memuat data candle ${p.pair}…</div>
+    <div class="vis-section-lbl">Chart & Trade Plan · Entry / TP / SL</div>
+    <div class="strat-chart-wrap" id="stratChartWrap">
+      <div class="strat-chart" id="stratChart"></div>
+      <div class="strat-chart-zones" id="stratChartZones"></div>
+      <div class="strat-chart-watermark">TVBT PRO</div>
+      <div class="strat-chart-state" id="stratChartState"></div>
     </div>
     <div class="strat-chart-legend">
-      <span class="lg"><i style="border-color:var(--blue)"></i>Entry</span>
-      <span class="lg"><i style="border-color:var(--accent)"></i>TP1/2/3</span>
-      <span class="lg"><i style="border-color:var(--red)"></i>SL</span>
-      <span class="lg"><i style="border-color:var(--yellow);border-top-style:dashed"></i>Harga kini</span>
+      <span class="lg"><i style="background:rgba(0,229,160,0.5)"></i>Zona profit (Entry→TP)</span>
+      <span class="lg"><i style="background:rgba(255,84,112,0.5)"></i>Zona risiko (Entry→SL)</span>
     </div>
   `;
 
@@ -4769,17 +4809,48 @@ function showStratModal(p, isHistory) {
 }
 
 /* ============================================================
-   CANDLESTICK CHART untuk popup detail strategi
-   - Ambil klines real dari Binance (pakai fetchKlines yang sudah ada)
-   - Pilih timeframe & jumlah candle otomatis agar entry ikut terlihat
-   - Overlay garis Entry / TP1-3 / SL / harga sekarang + marker candle entry
+   CANDLESTICK CHART + TRADE PLAN untuk popup detail strategi
+   Gaya "position tool" TradingView (di-port dari Economstock Terminal):
+   - Candle via lightweight-charts (fetch klines real dari Binance)
+   - Overlay HTML: zona hijau Entry→TP1/2/3, zona merah Entry→SL, tiap
+     zona punya chip label "TP1 <harga> (+x%)". Zona di-reposisi tiap
+     frame (RAF) supaya melekat ke candle saat pan/zoom/resize.
+   - Timeframe & jumlah candle dipilih otomatis agar entry ikut terlihat.
 ============================================================ */
 const STRAT_TF_MS = { '15m': 900e3, '30m': 1800e3, '1h': 3600e3, '2h': 7200e3, '4h': 14400e3, '1d': 86400e3 };
+let _stratChart = null, _stratSeries = null, _stratRaf = null, _stratRO = null;
+let _stratPlan = null, _stratEntryIdx = -1, _stratLastIdx = -1, _stratZoneEls = null;
+
+function cleanupStratChart() {
+  if (_stratRaf) { cancelAnimationFrame(_stratRaf); _stratRaf = null; }
+  if (_stratRO) { try { _stratRO.disconnect(); } catch (_) {} _stratRO = null; }
+  if (_stratChart) { try { _stratChart.remove(); } catch (_) {} _stratChart = null; _stratSeries = null; }
+  const z = document.getElementById('stratChartZones'); if (z) z.innerHTML = '';
+  const c = document.getElementById('stratChart'); if (c) c.innerHTML = '';
+  _stratPlan = null; _stratEntryIdx = -1; _stratLastIdx = -1; _stratZoneEls = null;
+}
+
+/* jumlah desimal presisi harga (samakan dgn roundPx backend) */
+function stratDecimals(x) {
+  const a = Math.abs(+x);
+  if (!isFinite(a) || a === 0) return 2;
+  if (a >= 1000) return 3; if (a >= 1) return 4; if (a >= 0.01) return 6;
+  if (a >= 0.0001) return 8; if (a >= 0.000001) return 10; return 12;
+}
 
 async function renderStratCandleChart(p, lastPrice) {
-  const canvas = document.getElementById('stratCandleCanvas');
+  const wrap = document.getElementById('stratChartWrap');
+  const chartEl = document.getElementById('stratChart');
   const stateEl = document.getElementById('stratChartState');
-  if (!canvas) return;
+  if (!chartEl) return;
+
+  cleanupStratChart();
+
+  if (typeof LightweightCharts === 'undefined') {
+    if (stateEl) { stateEl.textContent = '⚠ Library chart belum siap, coba buka ulang.'; stateEl.classList.add('show'); }
+    return;
+  }
+  if (stateEl) { stateEl.innerHTML = '<span style="font-size:20px">📡</span><span>Memuat candle ' + (p.pair || '') + '…</span>'; stateEl.classList.add('show'); }
 
   const symbol = (p.pair || '').toUpperCase();
   const openMs = p.openCandleCloseT || (p.openTime ? new Date(p.openTime).getTime() : Date.now());
@@ -4789,117 +4860,214 @@ async function renderStratCandleChart(p, lastPrice) {
   const tfOrder = ['15m', '1h', '4h', '1d'];
   let tf = '1d';
   for (const t of tfOrder) { if (span / STRAT_TF_MS[t] <= 260) { tf = t; break; } }
-  const barsSinceEntry = Math.ceil(span / STRAT_TF_MS[tf]);
-  const count = Math.min(400, barsSinceEntry + 12); // + beberapa candle sebelum entry sbg konteks
+  const count = Math.min(500, Math.ceil(span / STRAT_TF_MS[tf]) + 20); // + candle sebelum entry sbg konteks
 
+  let candles = [];
   try {
-    const candles = await fetchKlines(symbol, tf, count, 'spot');
-    if (!candles || !candles.length) { if (stateEl) stateEl.textContent = '⚠ Data candle tidak tersedia untuk ' + symbol; return; }
-    if (stateEl) stateEl.style.display = 'none';
-    drawStratCandles(canvas, candles, p, lastPrice, tf, openMs);
+    candles = await fetchKlines(symbol, tf, count, 'spot');
   } catch (e) {
-    if (stateEl) stateEl.textContent = '⚠ Gagal memuat chart: ' + (e.message || 'jaringan/CORS');
+    if (stateEl) { stateEl.textContent = '⚠ Gagal memuat chart: ' + (e.message || 'jaringan/CORS'); stateEl.classList.add('show'); }
+    return;
   }
-}
-
-function drawStratCandles(canvas, candles, p, lastPrice, tf, openMs) {
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.offsetWidth || 600, H = canvas.offsetHeight || 260;
-  canvas.width = W * dpr; canvas.height = H * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, W, H);
-
-  const dir = p.dir;
-  const levels = [
-    { price: +p.entry,        color: '#4aa3ff', dash: false, lbl: 'ENTRY' },
-    { price: +p.tp1,          color: 'rgba(0,229,160,0.6)',  dash: false, lbl: 'TP1' },
-    { price: +p.tp2,          color: 'rgba(0,229,160,0.8)',  dash: false, lbl: 'TP2' },
-    { price: +p.tp3,          color: '#00e5a0', dash: false, lbl: 'TP3' },
-    { price: +(p.slInit || p.sl), color: '#ff5470', dash: false, lbl: 'SL' }
-  ].filter(l => isFinite(l.price) && l.price > 0);
-
-  const cur = lastPrice != null ? +lastPrice : +p.entry;
-
-  const pad = { t: 10, r: 62, b: 22, l: 8 };
-  const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
-
-  // Rentang harga: high/low candle + semua level + harga kini
-  let hi = -Infinity, lo = Infinity;
-  candles.forEach(c => { if (c.h > hi) hi = c.h; if (c.l < lo) lo = c.l; });
-  levels.forEach(l => { if (l.price > hi) hi = l.price; if (l.price < lo) lo = l.price; });
-  if (cur > hi) hi = cur; if (cur < lo) lo = cur;
-  const padP = (hi - lo) * 0.06 || hi * 0.01 || 1;
-  hi += padP; lo -= padP;
-  const range = (hi - lo) || 1;
-  const toY = v => pad.t + (1 - (v - lo) / range) * cH;
-
-  const n = candles.length;
-  const slotW = cW / n;
-  const bodyW = Math.max(1, Math.min(slotW * 0.7, 9));
-  const toX = i => pad.l + i * slotW + slotW / 2;
-
-  // Grid + label harga
-  ctx.strokeStyle = 'rgba(33,44,64,0.7)'; ctx.lineWidth = 1;
-  ctx.font = '9px IBM Plex Mono'; ctx.textBaseline = 'middle';
-  for (let g = 0; g <= 4; g++) {
-    const y = pad.t + (g / 4) * cH;
-    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cW, y); ctx.stroke();
-    const val = hi - (g / 4) * range;
-    ctx.fillStyle = '#546080'; ctx.textAlign = 'left';
-    ctx.fillText(fmtN(val), pad.l + cW + 5, y);
+  if (!candles || !candles.length) {
+    if (stateEl) { stateEl.textContent = '⚠ Data candle tidak tersedia untuk ' + symbol; stateEl.classList.add('show'); }
+    return;
   }
+  if (stateEl) stateEl.classList.remove('show');
 
-  // Candlestick
-  candles.forEach((c, i) => {
-    const x = toX(i);
-    const up = c.c >= c.o;
-    const col = up ? '#00e5a0' : '#ff5470';
-    ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 1;
-    // wick
-    ctx.beginPath(); ctx.moveTo(x, toY(c.h)); ctx.lineTo(x, toY(c.l)); ctx.stroke();
-    // body
-    const yO = toY(c.o), yC = toY(c.c);
-    const top = Math.min(yO, yC); const hgt = Math.max(1, Math.abs(yC - yO));
-    ctx.fillRect(x - bodyW / 2, top, bodyW, hgt);
+  // Data lightweight-charts (intraday → UTCTimestamp detik). Dedupe + sort asc.
+  const seen = new Set();
+  const lwData = [];
+  candles.forEach(c => {
+    const t = Math.floor(c.t / 1000);
+    if (seen.has(t) || !isFinite(c.o) || !isFinite(c.c)) return;
+    seen.add(t);
+    lwData.push({ time: t, open: c.o, high: c.h, low: c.l, close: c.c });
+  });
+  lwData.sort((a, b) => a.time - b.time);
+  if (!lwData.length) return;
+
+  const up = '#00e5a0', down = '#ff5470';
+  const dec = Math.max(
+    stratDecimals(p.entry), stratDecimals(p.tp3 || p.entry), stratDecimals(p.slInit || p.sl || p.entry)
+  );
+  const minMove = 1 / Math.pow(10, dec);
+
+  _stratChart = LightweightCharts.createChart(chartEl, {
+    width: chartEl.clientWidth || 600,
+    height: chartEl.clientHeight || 300,
+    layout: { background: { color: '#0e1219' }, textColor: '#99a7c6', fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, attributionLogo: false },
+    grid: { vertLines: { color: 'rgba(44,58,86,0.35)' }, horzLines: { color: 'rgba(44,58,86,0.35)' } },
+    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+    rightPriceScale: { borderColor: '#2c3a56', scaleMargins: { top: 0.14, bottom: 0.12 } },
+    timeScale: {
+      borderColor: '#2c3a56', timeVisible: true, secondsVisible: false, rightOffset: 6,
+      tickMarkFormatter: (t) => {
+        const d = new Date(t * 1000);
+        const mo = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+        return d.getUTCDate() + ' ' + mo[d.getUTCMonth()];
+      }
+    },
+    handleScroll: true, handleScale: true
   });
 
-  // Marker candle entry (garis vertikal tipis di posisi waktu entry)
-  let entryIdx = -1;
-  for (let i = 0; i < n; i++) { if (candles[i].t <= openMs && (i + 1 >= n || candles[i + 1].t > openMs)) { entryIdx = i; break; } }
-  if (entryIdx >= 0) {
-    const x = toX(entryIdx);
-    ctx.strokeStyle = 'rgba(74,163,255,0.35)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
-    ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + cH); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#4aa3ff'; ctx.font = '8px IBM Plex Mono'; ctx.textAlign = 'center';
-    ctx.fillText('▲ entry', x, pad.t + cH + 12);
-  }
-
-  // Garis level (Entry / TP / SL)
-  ctx.font = '9px IBM Plex Mono'; ctx.textBaseline = 'middle';
-  levels.forEach(l => {
-    const y = toY(l.price);
-    if (y < pad.t - 1 || y > pad.t + cH + 1) return; // di luar area
-    ctx.strokeStyle = l.color; ctx.lineWidth = 1.4;
-    ctx.setLineDash(l.dash ? [4, 4] : []);
-    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cW, y); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = l.color; ctx.textAlign = 'left';
-    ctx.fillText(l.lbl, pad.l + 3, y - 6);
+  _stratSeries = _stratChart.addCandlestickSeries({
+    upColor: up, downColor: down, borderUpColor: up, borderDownColor: down, wickUpColor: up, wickDownColor: down,
+    priceFormat: { type: 'price', precision: dec, minMove: minMove },
+    // Sertakan entry/TP/SL di autoscale supaya semua zona selalu kelihatan
+    autoscaleInfoProvider: (orig) => {
+      const res = orig(); if (!res || !res.priceRange) return res;
+      let mn = res.priceRange.minValue, mx = res.priceRange.maxValue;
+      [p.entry, p.tp1, p.tp2, p.tp3, (p.slInit || p.sl)].forEach(v => {
+        if (isFinite(+v) && +v > 0) { mn = Math.min(mn, +v); mx = Math.max(mx, +v); }
+      });
+      return { priceRange: { minValue: mn, maxValue: mx } };
+    }
   });
+  _stratSeries.setData(lwData);
+  try { if (typeof window._attachCandleTooltip === 'function') window._attachCandleTooltip(_stratChart, _stratSeries, chartEl, lwData); } catch (_) {}
 
-  // Garis harga sekarang (kuning putus-putus)
-  const yCur = toY(cur);
-  if (yCur >= pad.t - 1 && yCur <= pad.t + cH + 1) {
-    ctx.strokeStyle = '#ffce5c'; ctx.lineWidth = 1.2; ctx.setLineDash([5, 4]);
-    ctx.beginPath(); ctx.moveTo(pad.l, yCur); ctx.lineTo(pad.l + cW, yCur); ctx.stroke();
-    ctx.setLineDash([]);
-    // label harga kini di sisi kanan
-    ctx.fillStyle = '#ffce5c'; ctx.textAlign = 'left';
-    ctx.fillText('◀ ' + fmtN(cur), pad.l + cW + 2, yCur);
-  }
+  // index candle entry & candle terakhir (utk posisi kiri zona + proyeksi)
+  _stratLastIdx = lwData.length - 1;
+  _stratEntryIdx = -1;
+  const entryOpenMs = openMs - STRAT_TF_MS[tf]; // openCandleCloseT → perkiraan open candle entry
+  for (let i = 0; i < lwData.length; i++) { if (lwData[i].time * 1000 >= entryOpenMs) { _stratEntryIdx = i; break; } }
+  if (_stratEntryIdx < 0) _stratEntryIdx = 0;
+
+  _stratPlan = {
+    dir: p.dir,
+    entry: +p.entry,
+    tp1: isFinite(+p.tp1) ? +p.tp1 : null,
+    tp2: isFinite(+p.tp2) ? +p.tp2 : null,
+    tp3: isFinite(+p.tp3) ? +p.tp3 : null,
+    sl: isFinite(+(p.slInit || p.sl)) ? +(p.slInit || p.sl) : null,
+    dec
+  };
+
+  // Tampilkan ~20 candle sebelum entry sampai 6 candle proyeksi di kanan
+  try {
+    _stratChart.timeScale().setVisibleLogicalRange({ from: Math.max(0, _stratEntryIdx - 20), to: _stratLastIdx + 6 });
+  } catch (_) { try { _stratChart.timeScale().fitContent(); } catch (__) {} }
+
+  buildStratZones(_stratPlan);
+  startStratRaf();
+
+  _stratRO = new ResizeObserver(() => { if (_stratChart) _stratChart.applyOptions({ width: chartEl.clientWidth, height: chartEl.clientHeight }); });
+  _stratRO.observe(chartEl);
 }
+
+/* Bangun elemen zona (statis per sinyal). Reposisi dilakukan layoutStratZones (RAF). */
+function buildStratZones(plan) {
+  const zonesEl = document.getElementById('stratChartZones'); if (!zonesEl) return;
+  zonesEl.innerHTML = '';
+  _stratZoneEls = {};
+  const isBuy = String(plan.dir || 'BUY').toUpperCase() !== 'SELL';
+  const pctFrom = (v) => (isFinite(+v) && plan.entry > 0) ? ((+v - plan.entry) / plan.entry) * 100 * (isBuy ? 1 : -1) : null;
+  const lblHtml = (prefix, price) => {
+    const pv = pctFrom(price);
+    const pct = pv != null ? ` <span class="pct">(${pv >= 0 ? '+' : ''}${pv.toFixed(1)}%)</span>` : '';
+    return `<b>${prefix}</b> ${fmtN(price)}${pct}`;
+  };
+  const mk = (cls, html) => {
+    const box = document.createElement('div');
+    box.className = 'strat-zone ' + cls; box.style.visibility = 'hidden';
+    const lbl = document.createElement('span');
+    lbl.className = 'strat-zone-lbl'; lbl.innerHTML = html;
+    box.appendChild(lbl); zonesEl.appendChild(box);
+    return { box, lbl };
+  };
+  if (plan.tp1 != null && plan.tp1 > 0) _stratZoneEls.tp = mk('tp', lblHtml('TP1', plan.tp1));
+  if (plan.tp2 != null && plan.tp2 > 0 && plan.tp2 !== plan.tp1) _stratZoneEls.tp2 = mk('tp2', lblHtml('TP2', plan.tp2));
+  if (plan.tp3 != null && plan.tp3 > 0 && plan.tp3 !== plan.tp2) _stratZoneEls.tp3 = mk('tp3', lblHtml('TP3', plan.tp3));
+  if (plan.sl != null && plan.sl > 0) _stratZoneEls.sl = mk('sl', lblHtml('SL', plan.sl));
+}
+
+/* Reposisi zona mengikuti koordinat harga/waktu chart. */
+function layoutStratZones() {
+  const plan = _stratPlan;
+  if (!plan || !_stratSeries || !_stratChart || !_stratZoneEls) return;
+  const yOf = (v) => (v != null && isFinite(+v) && +v > 0) ? _stratSeries.priceToCoordinate(+v) : null;
+  const yEntry = yOf(plan.entry);
+  const hideAll = () => ['tp', 'tp2', 'tp3', 'sl'].forEach(k => { if (_stratZoneEls[k]) _stratZoneEls[k].box.style.visibility = 'hidden'; });
+  if (yEntry == null) { hideAll(); return; }
+  const yTP1 = yOf(plan.tp1), yTP2 = yOf(plan.tp2), yTP3 = yOf(plan.tp3), ySL = yOf(plan.sl);
+
+  const ts = _stratChart.timeScale();
+  let xEntry = 0;
+  try { const xe = ts.logicalToCoordinate(_stratEntryIdx); if (xe != null && isFinite(xe)) xEntry = xe; } catch (_) {}
+  if (xEntry < 0) xEntry = 0;
+  let xRight = null;
+  try { xRight = ts.width(); } catch (_) {}
+  if (!xRight || xRight <= xEntry) { const w = document.getElementById('stratChartWrap'); xRight = w ? w.clientWidth : 600; }
+  const width = xRight - xEntry;
+  if (width <= 0) { hideAll(); return; }
+
+  // label ditaruh setelah candle terakhir (area proyeksi) supaya tak nutup candle
+  let labelLeft = 8;
+  try { const xLast = ts.logicalToCoordinate(_stratLastIdx); if (xLast != null && isFinite(xLast)) labelLeft = Math.max(8, (xLast - xEntry) + 10); } catch (_) {}
+
+  const place = (ref, yA, yB) => {
+    if (!ref) return;
+    if (yA == null || yB == null) { ref.box.style.visibility = 'hidden'; return; }
+    const top = Math.min(yA, yB), h = Math.abs(yA - yB);
+    if (h < 0.5) { ref.box.style.visibility = 'hidden'; return; }
+    ref.box.style.visibility = '';
+    ref.box.style.left = xEntry + 'px';
+    ref.box.style.top = top + 'px';
+    ref.box.style.width = width + 'px';
+    ref.box.style.height = h + 'px';
+    ref.lbl.style.left = labelLeft + 'px';
+  };
+  // Zona profit bertingkat (berlaku long & short karena pakai koordinat aktual)
+  place(_stratZoneEls.tp, yEntry, yTP1);
+  place(_stratZoneEls.tp2, yTP1, yTP2);
+  place(_stratZoneEls.tp3, yTP2, yTP3);
+  place(_stratZoneEls.sl, yEntry, ySL);
+}
+
+function startStratRaf() {
+  if (_stratRaf) cancelAnimationFrame(_stratRaf);
+  const tick = () => {
+    if (!_stratChart || !_stratPlan) { _stratRaf = null; return; }
+    layoutStratZones();
+    _stratRaf = requestAnimationFrame(tick);
+  };
+  _stratRaf = requestAnimationFrame(tick);
+}
+
+/* Tooltip OHLC saat hover/tap candle (di-port dari Economstock Terminal). */
+window._attachCandleTooltip = function (chart, series, container, candles) {
+  if (!chart || !series || !container || typeof chart.subscribeCrosshairMove !== 'function') return;
+  const _candles = Array.isArray(candles) ? candles : [];
+  try { if (getComputedStyle(container).position === 'static') container.style.position = 'relative'; } catch (_) {}
+  let tip = container.querySelector('.candle-tooltip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.className = 'candle-tooltip';
+    tip.style.cssText = 'position:absolute;pointer-events:none;padding:6px 10px;border-radius:6px;background:rgba(13,17,25,.94);color:#eaeff9;font:11px/1.4 "IBM Plex Mono",monospace;z-index:30;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);display:none;';
+    container.appendChild(tip);
+  }
+  const fN = v => (typeof fmtN === 'function' ? fmtN(v) : (v == null ? '—' : String(v)));
+  const fP = v => (!isFinite(v) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + '%');
+  chart.subscribeCrosshairMove(param => {
+    if (!param || !param.time || !param.point) { tip.style.display = 'none'; return; }
+    const c = param.seriesData ? param.seriesData.get(series) : null;
+    if (!c || !isFinite(c.open) || !isFinite(c.close)) { tip.style.display = 'none'; return; }
+    const intra = c.open ? ((c.close - c.open) / c.open) * 100 : null;
+    const clr = intra == null ? '#94a3b8' : intra >= 0 ? '#00e5a0' : '#ff5470';
+    const d = new Date((typeof param.time === 'number' ? param.time * 1000 : Date.now()));
+    tip.innerHTML = '<div style="font-weight:800;margin-bottom:4px;opacity:.9">' + d.toISOString().slice(0, 16).replace('T', ' ') + '</div>'
+      + '<div><span style="opacity:.6">O</span> ' + fN(c.open) + '  <span style="opacity:.6">H</span> ' + fN(c.high) + '</div>'
+      + '<div><span style="opacity:.6">L</span> ' + fN(c.low) + '  <span style="opacity:.6">C</span> ' + fN(c.close) + '</div>'
+      + '<div style="margin-top:3px;color:' + clr + ';font-weight:800">Δ ' + fP(intra) + '</div>';
+    tip.style.display = 'block';
+    const cw = container.clientWidth, ch = container.clientHeight, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let left = param.point.x + 14, top = param.point.y + 14;
+    if (left + tw > cw - 4) left = param.point.x - tw - 14;
+    if (top + th > ch - 4) top = param.point.y - th - 14;
+    tip.style.left = Math.max(4, left) + 'px'; tip.style.top = Math.max(4, top) + 'px';
+  });
+};
 
 /* ============================================================
    BELL NOTIFICATION
