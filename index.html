@@ -4996,6 +4996,7 @@ let _stratChart = null, _stratSeries = null, _stratSubStoch = null, _stratSubRsi
 let _stratRaf = null, _stratPlan = null, _stratEntryIdx = -1, _stratLastIdx = -1, _stratZoneEls = null;
 let _stratP = null, _stratLast = null, _stratTf = '4h', _stratSyncing = false, _stratInd = null, _stratTimeIdx = null;
 let _stratShowSmc = true, _stratFvgEls = [], _stratLiqLines = [], _stratDataCache = null;
+let _stratSubStochS = null, _stratSubRsiS = null, _stratSubMacdS = null, _stratXhairSync = false;
 
 /* ---------- Indikator (fungsi murni, aligned ke index candle) ---------- */
 function _stratSMA(vals, period) {
@@ -5226,6 +5227,44 @@ function cleanupStratChart() {
   ['stratChart', 'stratStoch', 'stratRsi', 'stratMacd', 'stratChartZones', 'stratChartSmc', 'stratLegendMain', 'stratLegendStoch', 'stratLegendRsi', 'stratLegendMacd'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
   _stratPlan = null; _stratEntryIdx = -1; _stratLastIdx = -1; _stratZoneEls = null; _stratInd = null; _stratTimeIdx = null;
   _stratFvgEls = []; _stratLiqLines = [];
+  _stratSubStochS = _stratSubRsiS = _stratSubMacdS = null;
+}
+
+/* Sinkronisasi crosshair antar-pane: saat menahan/hover satu pane, garis vertikal
+   muncul di SEMUA pane (main → StochRSI → RSI → MACD) di waktu yang sama. */
+function stratSyncCrosshair(param, src) {
+  if (_stratXhairSync) return;
+  _stratXhairSync = true;
+  try {
+    const list = [
+      [_stratChart, _stratSeries, 'close'],
+      [_stratSubStoch, _stratSubStochS, 'stochK'],
+      [_stratSubRsi, _stratSubRsiS, 'rsi'],
+      [_stratSubMacd, _stratSubMacdS, 'macdDif']
+    ];
+    const t = param && param.time;
+    if (t == null) {
+      list.forEach(pair => { if (pair[0] && pair[0] !== src) { try { pair[0].clearCrosshairPosition(); } catch (_) {} } });
+      _stratXhairSync = false; return;
+    }
+    const idx = _stratTimeIdx ? _stratTimeIdx.get(t) : null;
+    const valOf = (key) => {
+      if (idx == null || !_stratInd) return null;
+      if (key === 'close') return _stratInd.closes[idx];
+      if (key === 'stochK') return _stratInd.stoch.k[idx];
+      if (key === 'rsi') return _stratInd.rsi[idx];
+      if (key === 'macdDif') return _stratInd.macd.dif[idx];
+      return null;
+    };
+    list.forEach(pair => {
+      const ch = pair[0], series = pair[1], key = pair[2];
+      if (!ch || ch === src || !series) return;
+      let price = valOf(key);
+      if (price == null || !isFinite(price)) price = 0;
+      try { ch.setCrosshairPosition(price, t, series); } catch (_) {}
+    });
+  } catch (_) {}
+  _stratXhairSync = false;
 }
 
 /* jumlah desimal presisi harga (samakan dgn roundPx backend) */
@@ -5349,7 +5388,7 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
   const rsi = _stratRSI(closes, 14);
   const stoch = _stratStochRSI(rsi, 14, 3, 3);
   const macd = _stratMACD(closes, 12, 26, 9);
-  _stratInd = { times, dec, ma25, ma50, ma100, bb, sar, rsi, stoch, macd };
+  _stratInd = { times, dec, closes, ma25, ma50, ma100, bb, sar, rsi, stoch, macd };
   _stratTimeIdx = new Map(); times.forEach((t, i) => _stratTimeIdx.set(t, i));
 
   const C = STRAT_IND;
@@ -5436,6 +5475,7 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
     _stratSubStoch = mkSub(stochEl, false);
     const kS = _stratSubStoch.addLineSeries(lineOpts(C.stochK, 1.4));
     const dS = _stratSubStoch.addLineSeries(lineOpts(C.stochD, 1.4));
+    _stratSubStochS = kS;
     kS.setData(_stratLwLine(times, stoch.k)); dS.setData(_stratLwLine(times, stoch.d));
     [20, 80].forEach(v => kS.createPriceLine({ price: v, color: 'rgba(153,167,198,0.25)', lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
   }
@@ -5444,6 +5484,7 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
   if (rsiEl) {
     _stratSubRsi = mkSub(rsiEl, false);
     const rS = _stratSubRsi.addLineSeries(lineOpts(C.rsi, 1.4));
+    _stratSubRsiS = rS;
     rS.setData(_stratLwLine(times, rsi));
     [30, 50, 70].forEach(v => rS.createPriceLine({ price: v, color: 'rgba(153,167,198,0.25)', lineWidth: 1, lineStyle: 2, axisLabelVisible: v !== 50 }));
   }
@@ -5458,9 +5499,16 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
       else histData.push({ time: times[i] }); // whitespace → jaga index waktu tetap sejajar
     }
     hS.setData(histData);
-    _stratSubMacd.addLineSeries(lineOpts(C.macdDif, 1.4)).setData(_stratLwLine(times, macd.dif));
+    const difS = _stratSubMacd.addLineSeries(lineOpts(C.macdDif, 1.4)); difS.setData(_stratLwLine(times, macd.dif));
+    _stratSubMacdS = difS;
     _stratSubMacd.addLineSeries(lineOpts(C.macdDea, 1.4)).setData(_stratLwLine(times, macd.dea));
   }
+
+  // Sinkronisasi crosshair: saat menahan/hover salah satu pane, garis vertikal
+  // muncul di SEMUA pane (main + StochRSI + RSI + MACD) → seolah satu garis
+  // menembus ke bawah sampai MACD.
+  [[_stratChart, _stratSeries], [_stratSubStoch, _stratSubStochS], [_stratSubRsi, _stratSubRsiS], [_stratSubMacd, _stratSubMacdS]]
+    .forEach(pair => { if (pair[0]) { try { pair[0].subscribeCrosshairMove(p => stratSyncCrosshair(p, pair[0])); } catch (_) {} } });
 
   // index candle entry & candle terakhir (utk posisi kiri zona + proyeksi)
   _stratLastIdx = lwData.length - 1;
