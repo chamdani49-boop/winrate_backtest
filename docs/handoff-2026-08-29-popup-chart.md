@@ -317,3 +317,37 @@ Sesi lanjutan (2026-08-29 malam). Semua di branch `main`.
 - Layout diverifikasi via screenshot Playwright headless di 390/412px (chart popup butuh
   CDN + data Binance → tidak diuji render live karena sandbox INTEGRATIONS_ONLY; hanya
   halaman tab yang diverifikasi visual).
+
+
+
+---
+
+## 14. Fix layout HP kepotong + "fresh cross" StochRSI (anti entry saat kelelahan)
+
+- **Fix mobile kepotong** (commit `18da4c4`): konten tab **Performa/History/Akun** (mis. kartu
+  hero WIN RATE/SYSTEM SIGNALS ikut kepotong) karena `.main` adalah flex item tanpa
+  `min-width:0` → tabel lebar di pane non-Live memaksa `.main` melebihi viewport, dan
+  `overflow-x:clip` yang ada cuma menyembunyikan (memotong) kelebihannya. Solusi: tambah
+  `min-width:0` di `.main` dan `min-width:0;max-width:100%` di `#app`. Tabel lebar kini
+  scroll di dalam wrapper-nya sendiri; kartu hero tak kepotong lagi.
+
+- **Pertanyaan user (foto BONKUSDT SHORT, skor 89 STRONG)**: kenapa lolos? Analisa —
+  sinyal lolos harfiah tapi filter punya titik buta: cross StochRSI 15m dari **zona tengah**
+  (K=57.8, bukan dari overbought), MACD state `fading_up` (momentum turun sudah melemah)
+  malah dinilai +, dan acuan 4H StochRSI K=7.6 (oversold ekstrem → rawan mantul). Badge
+  STRONG di-freeze saat entry sedangkan chart popup menampilkan indikator LIVE → tampak
+  kontradiktif setelah harga mantul.
+
+- **Aturan entry baru — "fresh cross"** (commit `e34cbe4`) di `detectSignalIndicator`:
+  begitu 4H close & bias searah, JANGAN langsung entry. StochRSI 15m harus muncul dari zona
+  ekstrem lawan arah dulu:
+  - **LONG**: %K sempat **oversold** (≤`stochLower`) dalam `stochZoneLookback` (default 8)
+    candle terakhir, LALU cross↑ saat %K masih di **paruh bawah** (< `stochCrossZone`=50).
+  - **SHORT**: %K sempat **overbought** (≥`stochUpper`) lalu cross↓ saat %K > (100−`stochCrossZone`).
+  - Param config baru: `stochFreshCross` (true), `stochZoneLookback` (8), `stochCrossZone` (50).
+    Set `stochFreshCross:false` untuk kembali ke perilaku lama.
+  - `reasons.stochFrom` mencatat nilai %K ekstrem asal cross. Label strategi jadi
+    `StochRSI oversold→cross↑` / `overbought→cross↓`.
+  - Diuji: cross dari tengah / BONKUSDT-like (kMaxRecent 62, tak pernah ≥80) DITOLAK;
+    cross dari oversold/overbought DITERIMA.
+  - Catatan: 38 posisi lama tetap (dibuka sebelum aturan ini). Aturan berlaku untuk sinyal baru.
