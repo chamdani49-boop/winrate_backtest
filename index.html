@@ -3398,8 +3398,21 @@ function setLiveTab(name, silent) {
   if (name === 'perf' && lastStats) drawDayChart(lastStats.dailyEquity || []);
   // isi tabel histori bulanan saat buka tab History
   if (name === 'history') renderMonthlyTable(lastStats);
-  // scroll ke atas konten saat ganti tab
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Saat user klik tab (bukan restore diam-diam): bawa konten tab ke bawah bar
+  // tab yg sticky, biar isi tab langsung terlihat — tidak balik ke hero Live.
+  if (!silent) scrollToLiveTabs();
+}
+
+/* Scroll sehingga bar tab (#live-tabs) menempel di atas & konten tab terlihat.
+   Pakai offsetTop chain (stabil, tak terpengaruh posisi sticky saat ini). */
+function scrollToLiveTabs() {
+  const tabsEl = document.getElementById('live-tabs');
+  if (!tabsEl) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  let y = 0, el = tabsEl;
+  while (el) { y += el.offsetTop; el = el.offsetParent; }
+  const tb = document.querySelector('.topbar');
+  const off = (tb && getComputedStyle(tb).display !== 'none') ? (tb.offsetHeight + 6) : 8;
+  window.scrollTo({ top: Math.max(0, y - off), behavior: 'smooth' });
 }
 function stopLiveRefresh() {
   if (liveTimer)  { clearInterval(liveTimer);  liveTimer  = null; }
