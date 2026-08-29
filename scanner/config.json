@@ -52,7 +52,8 @@
     "_comment_slGuard": "slBufferAtr: buffer SL di luar level patah (kelipatan ATR). slMinPct: jarak SL minimum (% harga) biar tak terlalu sempit. slMaxAtrMult: jarak SL maksimum = ini x ATR(targetTF) biar tak terlalu lebar. Hanya berlaku saat slMode='structure'.",
     "targetAtrTF": "big",
     "_comment_targetAtrTF": "Sumber ATR untuk jarak SL/TP. 'big' = pakai volatilitas timeframe besar (bigTF, mis. 4h) -> target lebih lebar mengikuti swing; 'small' = pakai ATR timeframe entry (smallTF, mis. 15m) -> target lebih pendek (perilaku lama). Entry/keputusan masuk tetap dideteksi di smallTF apa pun nilainya.",
-    "trailing": true,
+    "trailing": false,
+    "_comment_trailing": "trailing=false: SL TETAP di harga stop-loss awal sepanjang posisi hidup — TIDAK dinaikkan ke breakeven/entry saat TP1 kena, maupun ke TP1 saat TP2 kena. Staged exit tetap jalan (tiap TP menutup 1/3 posisi), hanya SL-nya yang dikunci. Set true untuk mengaktifkan kembali trailing/breakeven.",
     "direction": "both",
     "_comment_noTimeout": "Tidak ada tutup paksa berbasis waktu. Posisi dibiarkan berjalan apa adanya sampai kena SL (full/trailing) atau TP3, sesuai logika staged-exit mesin.",
     "cooldownBars": 5

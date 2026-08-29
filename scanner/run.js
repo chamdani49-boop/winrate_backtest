@@ -8,9 +8,12 @@
    kumulatif ke data/*.json.
 
    Model exit: STAGED — tiap TP menutup 1/3 posisi.
-     TP1 kena -> SL pindah ke entry (breakeven)
-     TP2 kena -> SL pindah ke TP1
+     TP1 kena -> tutup 1/3 (SL TIDAK dipindah bila trailing=false)
+     TP2 kena -> tutup 1/3 (SL TIDAK dipindah bila trailing=false)
      TP3 kena -> posisi tutup penuh (full win)
+   Default trailing=false: SL DIKUNCI di harga stop-loss awal sepanjang posisi
+   hidup (tidak dinaikkan ke breakeven/entry maupun TP1). Set trailing=true di
+   config untuk mengaktifkan pemindahan SL (breakeven saat TP1, ke TP1 saat TP2).
    PnL akhir = jumlah kontribusi tiap bagian (1/3) yang terealisasi.
 
    Semua fungsi murni diekspor untuk pengujian (lihat akhir file).
@@ -583,7 +586,7 @@ function buildIntelIndicator(sig, ctx) {
   return {
     score, validity, positionSize,
     holdDuration: 'Sampai TP3 / SL (staged exit)',
-    management: 'TP1 hit: SL ke breakeven. TP2 hit: SL ke TP1. Biarkan TP3 berkembang.',
+    management: 'SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.',
     mtf: { D: tD, W: tw, '4H': t4, '1H': t1 },
     rsi: rsi15 != null ? +(+rsi15).toFixed(1) : null,
     macd: macd15 ? macd15.state : null,
