@@ -865,6 +865,19 @@ html{ scroll-behavior:smooth; }
   td{ padding:7px 7px; }
 }
 
+/* Cegah overflow horizontal di HP: konten pas layar & tidak "membesar"/terpotong
+   ke kanan saat pindah tab. overflow-x:clip TIDAK merusak posisi sticky (beda dgn
+   hidden/auto). min-width:0 membuat isi grid/kartu bisa menyusut, tak memaksa lebar. */
+@media (max-width: 900px){
+  html, body{ overflow-x:clip; }
+  .main{ overflow-x:clip; }
+  #live-content, .live-tab-pane{ max-width:100%; }
+  .g2 > *, .g3 > *, .g4 > *, .card{ min-width:0; }
+  #dayChart{ max-width:100%; }
+  /* tabel lebar tetap bisa digeser di dalam wrapper-nya, bukan memaksa halaman */
+  .card > div[style*="overflow-x"]{ max-width:100%; }
+}
+
 /* Stat card "Modal Sekarang" — varian compact dgn layout terstruktur */
 .stat-compact .stat-val{ font-size:clamp(16px, 2.4vw, 22px); display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
 .stat-compact .stat-val .pct{ font-size:.7em; opacity:.85; font-weight:600; }
