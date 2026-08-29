@@ -360,3 +360,33 @@ candle sudah CLOSE** (walau di zona tengah). → `stochFreshCross` di-set **fals
 dinonaktifkan; kode gate tetap ada untuk optionalitas). Label strategi otomatis kembali ke
 `StochRSI cross↑ / cross↓`. Deteksi cross tetap pada candle 15m yang sudah close (pakai
 `small.slice(0,-1)`). Bias 4H tetap jadi acuan arah.
+
+
+
+---
+
+## 15. Cek manual sinyal + 24/7 keep-alive + SL dikunci (tanpa trailing)
+
+- **Cek manual** (dispatch run 16:04Z, id 33261931533, sukses): provider binance-vision
+  (735 pair), watchlist 167 (vol≥$1jt), 151 dipindai. Run ini menutup 11 posisi — a.l.
+  **BONKUSDT SELL → SL −2.13%** (sinyal yg ditanya user; mantul naik → kena SL, sesuai dugaan),
+  TWTUSDT BUY → TP1,TP2 +4.09%. Totals: open=27 (6 FIB + 21 Spike lama), closed=1996,
+  winrate 41.9%, net +219.58%. Mesin sehat end-to-end (fetch→scan→advance→stats→commit/push).
+  Run ini 0 sinyal baru (normal — belum ada cross di candle 15m baru close + bias 4H searah).
+
+- **Masalah 24/7**: scheduled cron GitHub tidak andal (gap sampai 7 jam). Repo PUBLIC →
+  Actions gratis tanpa batas. Solusi: **workflow keep-alive self-perpetuating** (`scanner.yml`
+  ditulis ulang): satu run memindai tiap 5 menit selama ~5,25 jam (loop internal), lalu
+  **memicu dirinya sendiri** via `workflow_dispatch` (butuh secret **SCANNER_PAT**, fine-grained
+  PAT izin Actions read&write). Node dinaikkan ke 22. Schedule diubah `*/5`→`*/30` sbg jaring
+  pengaman restart. Tanpa PAT: tetap memindai ~5,25 jam per trigger (jauh lebih baik dari 1
+  scan/trigger), lalu andalkan schedule.
+  ⚠️ TODO USER: buat secret `SCANNER_PAT` (Settings → Secrets → Actions) agar benar-benar nonstop.
+  Langkah PAT sama dengan docs/cron-setup.md Langkah 1.
+
+- **SL dikunci — tidak dinaikkan** (permintaan user): `strategy.trailing` di-set **false**.
+  SL TETAP di harga stop-loss awal sepanjang posisi hidup — tidak pindah ke breakeven/entry
+  saat TP1, tidak ke TP1 saat TP2. Staged exit tetap (tiap TP tutup 1/3). Diuji via
+  advancePosition (SL tetap 95 walau TP1&TP2 kena). 7 posisi terbuka yang SL-nya sudah
+  terlanjur dinaikkan (ZBT, EUL, KAITO, GMX, FIL, AXS, TRUMP) di-reset ke `slInit`.
+  Komentar header & `management` string diperbarui.
