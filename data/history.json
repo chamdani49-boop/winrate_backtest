@@ -123773,5 +123773,72 @@
         "stochD": 12.6
       }
     }
+  },
+  {
+    "id": "FFUSDT-1788011999999",
+    "pair": "FFUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.0944,
+    "slInit": 0.092383,
+    "tp1": 0.096966,
+    "tp2": 0.097664,
+    "tp3": 0.099681,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-08-29T14:00:00.000Z",
+    "exitTime": "2026-08-29T16:29:59.999Z",
+    "exit": 0.092383,
+    "bars": 10,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.137,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 81,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "TP1 hit: SL ke breakeven. TP2 hit: SL ke TP1. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 62.2,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 62 > 50",
+        "StochRSI K 77 cross↑",
+        "MACD fading_up",
+        "Acuan 4H bullish (RSI 55)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 62.2,
+      "stochK": 76.5,
+      "stochD": 74.2,
+      "macdDif": 0.00044048,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 55.2,
+        "macdDif": 0.00082962,
+        "stochK": 45.1,
+        "stochD": 39.3
+      }
+    }
   }
 ]
