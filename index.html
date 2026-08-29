@@ -2997,8 +2997,11 @@ async function fetchKlines(symbol, interval, total, market) {
         if (endTime) url += `&endTime=${endTime}`;
         const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
         if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
-        chunk = await res.json();
-        break;
+        const data = await res.json();
+        // Hanya terima jika ada isinya. Jika 200 tapi kosong, JANGAN berhenti —
+        // coba base/mirror berikutnya (sebagian pair kosong di satu mirror saja).
+        if (Array.isArray(data) && data.length) { chunk = data; break; }
+        lastErr = 'empty';
       } catch (e) { lastErr = e.message || 'network error'; }
     }
     if (!chunk || !chunk.length) break;
@@ -5122,14 +5125,17 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
   if (_stratDataCache && _stratDataCache.key === cacheKey && _stratDataCache.candles && _stratDataCache.candles.length) {
     candles = _stratDataCache.candles; // pakai cache (mis. saat toggle SMC) → tak perlu fetch ulang
   } else {
-    try {
-      candles = await fetchKlines(symbol, tf, count, 'spot');
-    } catch (e) {
-      if (stateEl) { stateEl.textContent = '⚠ Gagal memuat chart: ' + (e.message || 'jaringan/CORS'); stateEl.classList.add('show'); }
-      return;
+    // Coba spot dulu; jika gagal/kosong → fallback ke futures (sebagian pair
+    // hanya tersedia/berdata di salah satu pasar).
+    let errMsg = '';
+    for (const market of ['spot', 'futures']) {
+      try {
+        const c = await fetchKlines(symbol, tf, count, market);
+        if (c && c.length) { candles = c; break; }
+      } catch (e) { errMsg = e.message || 'jaringan/CORS'; }
     }
     if (!candles || !candles.length) {
-      if (stateEl) { stateEl.textContent = '⚠ Data candle tidak tersedia untuk ' + symbol; stateEl.classList.add('show'); }
+      if (stateEl) { stateEl.textContent = '⚠ Data candle tidak tersedia untuk ' + symbol + (errMsg ? ' (' + errMsg + ')' : '') + '. Coba lagi.'; stateEl.classList.add('show'); }
       return;
     }
     _stratDataCache = { key: cacheKey, candles: candles };
