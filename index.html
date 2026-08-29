@@ -4978,9 +4978,12 @@ function _stratSMC(lw, w) {
   const fvgs = [];
   for (let k = fvgsAll.length - 1; k >= 0 && fvgs.length < 6; k--) {
     const f = fvgsAll[k]; let mitig = false;
+    // FVG dianggap TERISI begitu harga kembali MASUK/menyentuh gap (bukan harus
+    // menembus seluruhnya): bull → ada candle setelahnya dgn low <= top gap;
+    // bear → ada candle dgn high >= bottom gap. Hanya tampilkan yang belum terisi.
     for (let j = f.endIdx + 1; j < n; j++) {
-      if (f.type === 'bull') { if (lw[j].low <= f.bottom) { mitig = true; break; } }
-      else { if (lw[j].high >= f.top) { mitig = true; break; } }
+      if (f.type === 'bull') { if (lw[j].low <= f.top) { mitig = true; break; } }
+      else { if (lw[j].high >= f.bottom) { mitig = true; break; } }
     }
     if (!mitig) fvgs.push(f);
   }
