@@ -5010,6 +5010,16 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
   const dec = Math.max(stratDecimals(p.entry), stratDecimals(p.tp3 || p.entry), stratDecimals(p.slInit || p.sl || p.entry), stratDecimals(closes[closes.length - 1]));
   const minMove = 1 / Math.pow(10, dec);
 
+  // Lebar kolom harga (price scale) dibuat SAMA untuk semua chart supaya tepi
+  // kanan main-chart & subpane sejajar rapi dalam 1 kolom. Dihitung dari
+  // panjang label harga terpanjang (digit integer + desimal).
+  let _maxAbs = 0;
+  lwData.forEach(d => { if (d.high > _maxAbs) _maxAbs = d.high; });
+  [p.entry, p.tp3, (p.slInit || p.sl)].forEach(v => { if (isFinite(+v) && Math.abs(+v) > _maxAbs) _maxAbs = Math.abs(+v); });
+  const _intDigits = Math.max(1, String(Math.floor(_maxAbs || 1)).length);
+  const _labelChars = _intDigits + (dec > 0 ? dec + 1 : 0);
+  const stratScaleW = Math.min(130, Math.max(72, Math.round(_labelChars * 6.6) + 16));
+
   // Hitung indikator
   const ma25 = _stratSMA(closes, 25), ma50 = _stratSMA(closes, 50), ma100 = _stratSMA(closes, 100);
   const bb = _stratBoll(closes, 20, 2);
@@ -5030,7 +5040,7 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
     layout: Object.assign({}, baseLayout, { fontSize: 10 }),
     grid: { vertLines: { color: 'rgba(44,58,86,0.35)' }, horzLines: { color: 'rgba(44,58,86,0.35)' } },
     crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-    rightPriceScale: { borderColor: '#2c3a56', scaleMargins: { top: 0.14, bottom: 0.12 } },
+    rightPriceScale: { borderColor: '#2c3a56', minimumWidth: stratScaleW, scaleMargins: { top: 0.14, bottom: 0.12 } },
     timeScale: { borderColor: '#2c3a56', timeVisible: true, secondsVisible: false, rightOffset: 6, tickMarkFormatter: tickFmt },
     handleScroll: true, handleScale: true
   });
@@ -5070,7 +5080,7 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
       layout: Object.assign({}, baseLayout, { fontSize: 9 }),
       grid: { vertLines: { color: 'rgba(44,58,86,0.22)' }, horzLines: { color: 'rgba(44,58,86,0.22)' } },
       crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-      rightPriceScale: { borderColor: '#2c3a56', scaleMargins: { top: 0.18, bottom: 0.14 } },
+      rightPriceScale: { borderColor: '#2c3a56', minimumWidth: stratScaleW, scaleMargins: { top: 0.18, bottom: 0.14 } },
       timeScale: { borderColor: '#2c3a56', visible: !!showTime, timeVisible: true, secondsVisible: false, rightOffset: 6, tickMarkFormatter: tickFmt },
       handleScroll: true, handleScale: true
     });
