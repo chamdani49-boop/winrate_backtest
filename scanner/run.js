@@ -206,6 +206,135 @@ function macdState(closes, fast = 12, slow = 26, sig = 9) {
   return { state, hist: h, histPrev: hp };
 }
 
+/* RSI Wilder sebagai DERET (nilai per index close) */
+function rsiSeries(values, period) {
+  const out = new Array(values.length).fill(null);
+  if (values.length <= period) return out;
+  let avgG = 0, avgL = 0;
+  for (let i = 1; i <= period; i++) { const d = values[i] - values[i - 1]; avgG += Math.max(d, 0); avgL += Math.max(-d, 0); }
+  avgG /= period; avgL /= period;
+  out[period] = avgL === 0 ? 100 : 100 - 100 / (1 + avgG / avgL);
+  for (let i = period + 1; i < values.length; i++) {
+    const d = values[i] - values[i - 1];
+    avgG = (avgG * (period - 1) + Math.max(d, 0)) / period;
+    avgL = (avgL * (period - 1) + Math.max(-d, 0)) / period;
+    out[i] = avgL === 0 ? 100 : 100 - 100 / (1 + avgG / avgL);
+  }
+  return out;
+}
+
+/* StochRSI %K & %D (deret) */
+function stochRsiKD(closes, rsiPeriod, kSmooth, dSmooth) {
+  const r = rsiSeries(closes, rsiPeriod);
+  const stoch = new Array(closes.length).fill(null);
+  for (let i = 0; i < r.length; i++) {
+    if (r[i] == null) continue;
+    let lo = Infinity, hi = -Infinity, cnt = 0, ok = true;
+    for (let j = i; j > i - rsiPeriod; j--) { if (j < 0 || r[j] == null) { ok = false; break; } lo = Math.min(lo, r[j]); hi = Math.max(hi, r[j]); cnt++; }
+    if (!ok || cnt < rsiPeriod) continue;
+    stoch[i] = hi === lo ? 0 : (r[i] - lo) / (hi - lo) * 100;
+  }
+  const smaN = (arr, p) => {
+    const o = new Array(arr.length).fill(null);
+    for (let i = p - 1; i < arr.length; i++) { let s = 0, ok = true; for (let j = i - p + 1; j <= i; j++) { if (arr[j] == null) { ok = false; break; } s += arr[j]; } if (ok) o[i] = s / p; }
+    return o;
+  };
+  const k = smaN(stoch, kSmooth);
+  const d = smaN(k, dSmooth);
+  return { k, d };
+}
+
+/* MACD DIF/DEA/HIST (deret) — pakai emaSeries yang sudah ada */
+function macdDifHist(closes, fast, slow, sig) {
+  const empty = { dif: [], dea: [], hist: [] };
+  if (closes.length < slow + sig + 2) return empty;
+  const ef = emaSeries(closes, fast), es = emaSeries(closes, slow);
+  const dif = ef.map((v, i) => v - es[i]);
+  const dea = emaSeries(dif, sig);
+  const hist = dif.map((v, i) => v - dea[i]);
+  return { dif, dea, hist };
+}
+
+/* ============================================================
+   DETEKSI SINYAL BERBASIS INDIKATOR (4H closed candle) — fungsi murni
+   Aturan (contoh LONG; SHORT kebalikan):
+     - RSI(14) di atas 50
+     - StochRSI %K cross ke atas %D saat %K < 80
+     - MACD DIF di atas garis 0
+   Entry mulai candle berikutnya (open candle setelah sinyal).
+   SL di swing terdekat; TP1/2/3 = ekstensi Fibonacci × risiko.
+   ============================================================ */
+function detectSignalIndicator(big, strat) {
+  const closed = big.slice(0, -1);          // candle 4H yang sudah close
+  const forming = big.length ? big[big.length - 1] : null; // candle berikutnya (in-progress) utk entry
+  if (closed.length < 45) return null;
+  const closes = closed.map(c => c.c);
+  const i = closes.length - 1;
+
+  const rsiP = strat.rsiPeriod || 14;
+  const rsiArr = rsiSeries(closes, rsiP);
+  const { k, d } = stochRsiKD(closes, strat.stochRsiPeriod || 14, strat.stochK || 3, strat.stochD || 3);
+  const { dif } = macdDifHist(closes, strat.macdFast || 12, strat.macdSlow || 26, strat.macdSignal || 9);
+
+  const rsiNow = rsiArr[i];
+  const kNow = k[i], kPrev = k[i - 1], dNow = d[i], dPrev = d[i - 1];
+  const difNow = (dif && dif.length === closes.length) ? dif[i] : null;
+  if (rsiNow == null || kNow == null || kPrev == null || dNow == null || dPrev == null || difNow == null) return null;
+
+  const mid = strat.rsiMid != null ? strat.rsiMid : 50;
+  const upper = strat.stochUpper != null ? strat.stochUpper : 80;
+  const lower = strat.stochLower != null ? strat.stochLower : 20;
+  const crossUp = kPrev <= dPrev && kNow > dNow;
+  const crossDn = kPrev >= dPrev && kNow < dNow;
+
+  const longOk = rsiNow > mid && crossUp && kNow < upper && difNow > 0;
+  const shortOk = rsiNow < mid && crossDn && kNow > lower && difNow < 0;
+  const allow = strat.direction || 'both';
+  let dir = null;
+  if ((allow === 'both' || allow === 'long') && longOk) dir = 'BUY';
+  else if ((allow === 'both' || allow === 'short') && shortOk) dir = 'SELL';
+  if (!dir) return null;
+
+  // Entry = open candle berikutnya (forming). Fallback: close candle sinyal.
+  const entry = (forming && isFinite(forming.o)) ? forming.o : closed[i].c;
+
+  // Swing terdekat (fib leg) + ATR utk buffer/guard
+  const look = closed.slice(-(strat.fibLookback || 30));
+  let hi = -Infinity, lo = Infinity;
+  look.forEach(c => { if (c.h > hi) hi = c.h; if (c.l < lo) lo = c.l; });
+  const a = atrAt(closed, i, strat.atrPeriod || 14) || (hi - lo) * 0.1 || entry * 0.01;
+  const buf = a * (strat.slBufferAtr != null ? strat.slBufferAtr : 0.25);
+  const fib = (Array.isArray(strat.tpFib) && strat.tpFib.length === 3) ? strat.tpFib : [1.272, 1.618, 2.618];
+
+  let sl, R;
+  if (dir === 'BUY') { sl = lo - buf; R = entry - sl; }
+  else { sl = hi + buf; R = sl - entry; }
+  const minR = entry * ((strat.slMinPct != null ? strat.slMinPct : 0.5) / 100);
+  if (!(R > 0) || R < minR) { R = minR; sl = dir === 'BUY' ? entry - R : entry + R; }
+  const maxR = a * (strat.slMaxAtrMult != null ? strat.slMaxAtrMult : 5);
+  if (R > maxR) { R = maxR; sl = dir === 'BUY' ? entry - R : entry + R; }
+
+  const lvl = m => dir === 'BUY' ? entry + R * m : entry - R * m;
+  const tps = [lvl(fib[0]), lvl(fib[1]), lvl(fib[2])];
+  const lab = dir === 'BUY'
+    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI cross↑ + MACD>0 (4H) · TP Fibonacci', short: 'FIB-LONG' }
+    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI cross↓ + MACD<0 (4H) · TP Fibonacci', short: 'FIB-SHORT' };
+
+  return {
+    dir, entry: roundPx(entry), sl: roundPx(sl),
+    tp1: roundPx(tps[0]), tp2: roundPx(tps[1]), tp3: roundPx(tps[2]),
+    tpRR: fib.map(m => +(+m).toFixed(3)), tpMode: 'fibonacci', slMode: 'swing',
+    riskPct: +(R / entry * 100).toFixed(2),
+    atr: roundPx(a), atrPct: +(a / entry * 100).toFixed(2), atrTF: 'big',
+    strategy: lab.code, strategyName: lab.name, strategyShort: lab.short,
+    signalCandleCloseT: closed[i].closeT,
+    entryCandleT: forming ? forming.t : closed[i].closeT + 1,
+    candleCloseT: forming ? forming.closeT : closed[i].closeT,
+    reasons: { rsi: +rsiNow.toFixed(1), stochK: +kNow.toFixed(1), stochD: +dNow.toFixed(1), macdDif: +difNow.toFixed(8), cross: dir === 'BUY' ? 'up' : 'down' },
+    raw: { rsi: +rsiNow.toFixed(1), stochK: +kNow.toFixed(1), macdDif: +difNow.toFixed(8), volRatio: null, takerRatio: null }
+  };
+}
+
 /* trend dari rangkaian close vs EMA */
 function trendOf(candles, period) {
   const closed = candles.slice(0, -1);
@@ -886,24 +1015,23 @@ async function main() {
 
   // Pindai 1 simbol → kembalikan objek posisi bila ada sinyal, atau null.
   async function scanSymbol(sym) {
-    const big = await provider.klines(sym, cfg.bigTF, Math.max((cfg.biasEmaPeriod || 50) + 30, 120));
+    // Sinyal ditentukan dari indikator di timeframe besar (4H): RSI + StochRSI + MACD.
+    const big = await provider.klines(sym, cfg.bigTF, Math.max((cfg.biasEmaPeriod || 50) + 30, 160));
     await sleep(reqDelay);
-    const { bias } = computeBias(big, cfg.biasEmaPeriod || 50);
-    if (bias === 'neutral') return null;
-
-    const small = await provider.klines(sym, cfg.smallTF, 250);
-    await sleep(reqDelay);
-    const sig = detectSignal(small, big, strat, bias, provider.hasTaker);
+    const sig = detectSignalIndicator(big, strat);
     if (!sig) return null;
 
-    // ada kandidat → ambil 1h + 1d untuk MTF intel
+    // ada kandidat → ambil 1h + 1d untuk MTF intel (tampilan popup)
     let h1 = [], d1 = [];
     try { h1 = await provider.klines(sym, '1h', 220); await sleep(reqDelay); } catch (_) {}
     try { d1 = await provider.klines(sym, '1d', 220); await sleep(reqDelay); } catch (_) {}
 
-    const closes15 = small.slice(0, -1).map(c => c.c);
-    const rsi15 = rsi(closes15.slice(-30), 14);
-    const macd15 = macdState(closes15.slice(-80));
+    const closes4 = big.slice(0, -1).map(c => c.c);
+    const rsi4 = rsi(closes4.slice(-40), 14);
+    const macd4 = macdState(closes4.slice(-120));
+    const vols4 = big.slice(0, -1).map(c => c.v);
+    const volAvg4 = vols4.length > 21 ? sma(vols4, vols4.length - 1, 20) : null;
+    const volRatio = (volAvg4 && volAvg4 > 0) ? vols4[vols4.length - 1] / volAvg4 : null;
     let ma200State = null;
     if (d1.length > 50) {
       const dCloses = d1.slice(0, -1).map(c => c.c);
@@ -913,24 +1041,25 @@ async function main() {
       }
     }
     const intel = buildIntel({
-      dir: sig.dir, smallCandles: small, big4h: big, hourly1h: h1, daily1d: d1,
-      volRatio: sig.raw.volRatio, takerRatio: sig.raw.takerRatio,
-      rsi15, macd15, ma200State
+      dir: sig.dir, smallCandles: big, big4h: big, hourly1h: h1, daily1d: d1,
+      volRatio: volRatio || 1, takerRatio: null,
+      rsi15: rsi4, macd15: macd4, ma200State
     });
 
     return {
-      id: `${sym}-${sig.candleCloseT}`,
+      id: `${sym}-${sig.signalCandleCloseT}`,
       pair: sym, dir: sig.dir,
       strategy: sig.strategy, strategyName: sig.strategyName, strategyShort: sig.strategyShort,
       entry: sig.entry, slInit: sig.sl, sl: sig.sl,
       tp1: sig.tp1, tp2: sig.tp2, tp3: sig.tp3, tpRR: sig.tpRR,
       atr: sig.atr, atrPct: sig.atrPct,
-      openTime: new Date(sig.candleCloseT).toISOString(),
-      openCandleCloseT: sig.candleCloseT, checkFromCloseT: sig.candleCloseT,
-      bias, provider: provider.name, bigTF: cfg.bigTF, smallTF: cfg.smallTF,
+      openTime: new Date(sig.entryCandleT).toISOString(),
+      openCandleCloseT: sig.entryCandleT,        // entry = open candle berikutnya
+      checkFromCloseT: sig.entryCandleT - 1,      // monitor TP/SL 15m sejak entry candle
+      bias: sig.dir === 'BUY' ? 'long' : 'short', provider: provider.name, bigTF: cfg.bigTF, smallTF: cfg.smallTF,
       intel, reasons: sig.reasons,
       tpHits: [], realizedPct: 0, remaining: 1, bars: 0,
-      lastPrice: sig.entry, lastPriceTime: new Date(sig.candleCloseT).toISOString(),
+      lastPrice: sig.entry, lastPriceTime: new Date(sig.entryCandleT).toISOString(),
       status: 'OPEN'
     };
   }
@@ -979,6 +1108,7 @@ async function main() {
 module.exports = {
   TF_MS, sma, ema, atrAt, roundPx, pnlPctAt, strategyLabel, rsi, macdState, trendOf, buildIntel,
   swingPivots, structureTargets,
+  rsiSeries, stochRsiKD, macdDifHist, detectSignalIndicator,
   filterTopN, computeBias, detectSignal, advancePosition, computeStats, buildHistoryEntry,
   PROVIDERS
 };

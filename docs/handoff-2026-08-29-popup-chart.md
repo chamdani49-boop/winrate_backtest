@@ -139,3 +139,30 @@ f0feb08  candlestick lightweight-charts + zona trade plan
   - **Garis likuiditas**: swing high (BSL) & swing low (SSL) terkini yang belum
     ditembus, sbg price line putus-putus berlabel.
 - Cache candle per (pair|tf) supaya toggle SMC tidak fetch ulang.
+
+
+---
+
+## 9. Ganti mesin sinyal → berbasis indikator (RSI + StochRSI + MACD, TP Fibonacci)
+
+**Permintaan user:** sinyal LONG/SHORT (mulai sekarang) diambil dari indikator.
+
+**Aturan (di `scanner/run.js`, timeframe 4H, pada candle yang sudah close):**
+- **LONG:** RSI(14) > 50, StochRSI %K cross ke atas %D saat %K < 80, MACD DIF > 0.
+- **SHORT:** RSI < 50, %K cross ke bawah %D saat %K > 20, MACD DIF < 0.
+- **Entry:** open candle berikutnya.
+- **SL:** swing terdekat (`fibLookback`, default 30 candle) + buffer ATR.
+- **TP1/2/3:** ekstensi Fibonacci × risiko = **1.272 / 1.618 / 2.618** (configurable
+  `tpFib`).
+
+**Perubahan teknis:**
+- Fungsi baru: `rsiSeries`, `stochRsiKD`, `macdDifHist`, `detectSignalIndicator`.
+- `scanSymbol` kini pakai `detectSignalIndicator(big4h)` (bukan lagi volume-spike
+  15m + bias EMA). Strategi lama (`detectSignal`, `computeBias`) tetap ada tapi
+  tak dipakai.
+- Label strategi: `FIB-LONG` / `FIB-SHORT`.
+- Param baru di `scanner/config.json`: rsiMid, stochRsiPeriod/K/D, stochUpper/Lower,
+  macdFast/Slow/Signal, fibLookback, tpFib, slBufferAtr, slMinPct, slMaxAtrMult.
+
+**Catatan:** histori lama (strategi volume-spike) TIDAK direset, jadi statistik
+winrate akan bercampur strategi lama+baru sampai user minta reset.
