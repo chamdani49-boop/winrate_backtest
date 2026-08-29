@@ -408,3 +408,22 @@ dinonaktifkan; kode gate tetap ada untuk optionalitas). Label strategi otomatis 
   5jam/23jam/25jam/3hari/null.
 - Catatan: kolom baru terisi setelah run scanner berikutnya menulis `lastExit` ke stats.json
   (keep-alive loop akan pull kode baru & regen). Sebelum itu tampil "—".
+
+
+
+---
+
+## 17. Tabel per-coin scroll + verifikasi lastExit live + bereskan run macet
+
+- **Tabel "Performa per Coin" scroll internal** (permintaan user, steering): wrapper diberi
+  class `.tbl-scroll` (`max-height:360px; overflow:auto`, ≤640px 320px) + `thead th` sticky.
+  Tabel tidak lagi memanjang ke bawah; header nempel saat digeser. Commit `bafaa11`.
+- **Verifikasi lastExit LIVE**: sempat terlihat "belum terisi" karena run keep-alive 19:26
+  (mulai loop 21:29) MACET — tidak push commit sejak 21:24 (kemungkinan push gagal/network
+  transient di run itu; BUKAN karena kode — `computeStats` diuji dgn history asli 2001 trade
+  → 358 pair semua dapat lastExit, tanpa error). Solusi: cancel run 19:26 (33270868267) &
+  pending 23:03 (33280044049), dispatch run segar (33280487806). Run segar commit 23:14 dgn
+  lastExit utk 358 pair. Kolom TERAKHIR CLOSE tampil benar: PEPE/INJ "8 jam yang lalu",
+  ZAMA "28 Agu 2026".
+- **Catatan**: keep-alive tetap butuh secret `SCANNER_PAT` agar benar-benar 24/7 (tanpa PAT
+  loop berhenti ~5,25 jam & andalkan schedule yg tak andal). Sudah diingatkan ke user.
