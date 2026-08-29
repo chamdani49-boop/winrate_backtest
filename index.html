@@ -949,6 +949,10 @@ html{ scroll-behavior:smooth; }
 
 /* MACD visual badge */
 .macd-vis{ display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; font-weight:600; padding:0 8px; }
+/* Fix: baris MACD & Validity(ring) jangan terpotong (jangan dipaksa tinggi 18px) */
+.vis-bar.macd-vis{ height:auto; min-height:24px; overflow:visible; white-space:nowrap; justify-content:flex-start; font-size:10.5px; padding:3px 8px; line-height:1.2; }
+.vis-bar.vis-ring{ height:auto; min-height:46px; overflow:visible; background:transparent; border:none; padding:0; }
+.vis-bar.vis-ring .ring{ flex:0 0 auto; }
 
 /* MTF Matrix */
 .mtf-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
@@ -4815,7 +4819,7 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
   const ringHTML = `
     <div class="vis-row">
       <div class="vis-lbl">Validity</div>
-      <div class="vis-bar" style="display:flex;align-items:center;gap:10px">
+      <div class="vis-bar vis-ring" style="display:flex;align-items:center;gap:10px">
         <div class="ring" style="background:conic-gradient(${ringColor} ${ringDeg}deg, var(--border) 0)">
           <div class="ring-inner">${score}</div>
         </div>
