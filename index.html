@@ -4893,8 +4893,14 @@ function _stratPSAR(cs, af0, afStep, afMax) {
   return out;
 }
 function _stratLwLine(times, arr) {
+  // Emit titik untuk SEMUA waktu: {time,value} bila ada nilai, atau whitespace
+  // {time} saat null. Ini menyamakan index waktu antar-chart supaya sinkronisasi
+  // rentang (logical range) sejajar hingga candle terakhir.
   const out = [];
-  for (let i = 0; i < arr.length; i++) { if (arr[i] != null && isFinite(arr[i])) out.push({ time: times[i], value: arr[i] }); }
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] != null && isFinite(arr[i])) out.push({ time: times[i], value: arr[i] });
+    else out.push({ time: times[i] });
+  }
   return out;
 }
 
@@ -5099,7 +5105,10 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
     _stratSubMacd = mkSub(macdEl, true);
     const hS = _stratSubMacd.addHistogramSeries({ priceFormat: { type: 'price', precision: dec, minMove: minMove }, priceLineVisible: false, lastValueVisible: false });
     const histData = [];
-    for (let i = 0; i < macd.hist.length; i++) { if (macd.hist[i] != null && isFinite(macd.hist[i])) histData.push({ time: times[i], value: macd.hist[i], color: macd.hist[i] >= 0 ? C.histUp : C.histDn }); }
+    for (let i = 0; i < macd.hist.length; i++) {
+      if (macd.hist[i] != null && isFinite(macd.hist[i])) histData.push({ time: times[i], value: macd.hist[i], color: macd.hist[i] >= 0 ? C.histUp : C.histDn });
+      else histData.push({ time: times[i] }); // whitespace → jaga index waktu tetap sejajar
+    }
     hS.setData(histData);
     _stratSubMacd.addLineSeries(lineOpts(C.macdDif, 1.4)).setData(_stratLwLine(times, macd.dif));
     _stratSubMacd.addLineSeries(lineOpts(C.macdDea, 1.4)).setData(_stratLwLine(times, macd.dea));
