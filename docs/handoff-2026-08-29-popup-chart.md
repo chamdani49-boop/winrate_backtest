@@ -119,3 +119,23 @@ f0feb08  candlestick lightweight-charts + zona trade plan
 03ddbbf  fix lebar price scale sama (1 kolom sejajar)
 8dd607e  hapus Price Ladder, Multi-TF D/4H/15m/5m live, matikan toast otomatis
 ```
+
+
+---
+
+## 8. Smart Money Concept (SMC) + timeframe 5m
+
+**Aksi:**
+- Tambah timeframe **5m** ke toggle chart (jadi 5m / 15m / 4H). Catatan: Binance
+  tak punya interval "5h", jadi "5h" diartikan 5m (konsisten dgn sesi sebelumnya).
+- Tombol **SMC: ON/OFF** untuk tampil/sembunyi overlay Smart Money Concept.
+- SMC dihitung sendiri di browser (`_stratSMC`) dari candle:
+  - **Structure**: swing pivot (fractal) → marker **BOS** (lanjut tren) /
+    **CHoCH** (balik arah) saat close menembus swing high/low.
+  - **Liquidity sweep**: marker **SWEEP** saat wick menembus swing lalu close
+    balik (likuiditas disapu).
+  - **FVG (Fair Value Gap)**: imbalance 3-candle, hanya yang belum ter-mitigasi
+    (maks 6 terbaru), digambar sbg kotak overlay hijau/merah (RAF, melekat candle).
+  - **Garis likuiditas**: swing high (BSL) & swing low (SSL) terkini yang belum
+    ditembus, sbg price line putus-putus berlabel.
+- Cache candle per (pair|tf) supaya toggle SMC tidak fetch ulang.
