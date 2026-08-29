@@ -827,6 +827,11 @@ html{ scroll-behavior:smooth; }
 /* Stat card: pastikan angka panjang ('+$1,234.56 (+12.34%)') tidak lari ke kanan */
 .stat-val, .stat-sub{ overflow-wrap:break-word; word-break:break-word; }
 
+/* Tabel dgn scroll internal (biar tidak memanjang ke bawah) — header nempel saat digeser */
+.tbl-scroll{ max-height:360px; overflow:auto; }
+.tbl-scroll thead th{ position:sticky; top:0; background:var(--card); z-index:2; }
+@media (max-width:640px){ .tbl-scroll{ max-height:320px; } }
+
 /* ============================================================
    REDESIGN MOBILE v2 — Robot Live lebih ramah HP
 ============================================================ */
@@ -1834,7 +1839,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         <!-- ============ PER COIN ============ -->
         <div class="card mt12">
           <div class="card-hd">🏆 Performa per Coin</div>
-          <div style="overflow-x:auto">
+          <div class="tbl-scroll" style="overflow:auto">
             <table style="width:100%">
               <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th><th>TERAKHIR CLOSE</th></tr></thead>
               <tbody id="lv-pair-body"></tbody>
