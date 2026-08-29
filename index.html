@@ -3050,6 +3050,41 @@ async function fetchKlines(symbol, interval, total, market) {
   }));
 }
 
+/* ---------- FETCH KLINES via BYBIT (fallback bila Binance diblok/kosong) ---------- */
+const BYBIT_TF = { '1m':'1','3m':'3','5m':'5','15m':'15','30m':'30','1h':'60','2h':'120','4h':'240','6h':'360','12h':'720','1d':'D' };
+async function fetchKlinesBybit(symbol, interval, total) {
+  const iv = BYBIT_TF[interval] || '15';
+  const tfms = ({ '1m':60e3,'3m':180e3,'5m':300e3,'15m':900e3,'30m':1800e3,'1h':3600e3,'2h':7200e3,'4h':14400e3,'6h':21600e3,'12h':43200e3,'1d':86400e3 })[interval] || 900e3;
+  const url = `https://api.bybit.com/v5/market/kline?category=spot&symbol=${encodeURIComponent(symbol)}&interval=${iv}&limit=${Math.min(1000, Math.max(1, total))}`;
+  const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const j = await res.json();
+  const list = (j && j.result && j.result.list) || [];
+  if (!list.length) throw new Error('empty');
+  // Bybit: urutan DESC, tiap item [start,open,high,low,close,volume,turnover]
+  return list
+    .map(k => ({ t: +k[0], o: +k[1], h: +k[2], l: +k[3], c: +k[4], v: +k[5], closeT: +k[0] + tfms - 1, qv: +k[6], takerBase: 0 }))
+    .sort((a, b) => a.t - b.t);
+}
+
+/* Ambil klines dari beberapa sumber (Binance spot → futures → Bybit) + 1x retry */
+async function fetchKlinesResilient(symbol, interval, total) {
+  const sources = [
+    () => fetchKlines(symbol, interval, total, 'spot'),
+    () => fetchKlines(symbol, interval, total, 'futures'),
+    () => fetchKlinesBybit(symbol, interval, total)
+  ];
+  let lastErr = '';
+  for (let attempt = 0; attempt < 2; attempt++) {
+    for (const fn of sources) {
+      try { const c = await fn(); if (c && c.length) return c; }
+      catch (e) { lastErr = e.message || 'jaringan/CORS'; }
+    }
+    if (attempt === 0) await new Promise(r => setTimeout(r, 600)); // jeda sebelum retry
+  }
+  throw new Error(lastErr || 'Tidak ada data diterima');
+}
+
 /* ---------- INDIKATOR ---------- */
 function smaAt(arr, i, period) {
   if (i - period + 1 < 0) return null;
@@ -5204,15 +5239,13 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
   if (_stratDataCache && _stratDataCache.key === cacheKey && _stratDataCache.candles && _stratDataCache.candles.length) {
     candles = _stratDataCache.candles; // pakai cache (mis. saat toggle SMC) → tak perlu fetch ulang
   } else {
-    // Coba spot dulu; jika gagal/kosong → fallback ke futures (sebagian pair
-    // hanya tersedia/berdata di salah satu pasar).
+    // Ambil dari beberapa sumber (Binance spot → futures → Bybit) + retry,
+    // supaya 5m/pair yg kosong di satu mirror tetap dapat data.
     let errMsg = '';
-    for (const market of ['spot', 'futures']) {
-      try {
-        const c = await fetchKlines(symbol, tf, count, market);
-        if (c && c.length) { candles = c; break; }
-      } catch (e) { errMsg = e.message || 'jaringan/CORS'; }
-    }
+    try {
+      const c = await fetchKlinesResilient(symbol, tf, count);
+      if (c && c.length) candles = c;
+    } catch (e) { errMsg = e.message || 'jaringan/CORS'; }
     if (!candles || !candles.length) {
       if (stateEl) { stateEl.textContent = '⚠ Data candle tidak tersedia untuk ' + symbol + (errMsg ? ' (' + errMsg + ')' : '') + '. Coba lagi.'; stateEl.classList.add('show'); }
       return;
@@ -5504,7 +5537,7 @@ async function renderStratMtf(pair) {
   if (!grid || !pair) return;
   const tfs = [['1d', 'D'], ['4h', '4H'], ['15m', '15m'], ['5m', '5m']];
   const results = await Promise.all(tfs.map(async ([tf, lbl]) => {
-    try { const cs = await fetchKlines(pair.toUpperCase(), tf, 120, 'spot'); return [lbl, _stratTrend(cs)]; }
+    try { const cs = await fetchKlinesResilient(pair.toUpperCase(), tf, 120); return [lbl, _stratTrend(cs)]; }
     catch (_) { return [lbl, '—']; }
   }));
   // pastikan popup masih sama & grid belum diganti

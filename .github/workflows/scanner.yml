@@ -5,8 +5,9 @@ name: Scanner 24/7
 
 on:
   schedule:
-    # Tiap 15 menit (UTC). Catatan: GitHub bisa menunda saat beban tinggi.
-    - cron: "*/15 * * * *"
+    # Tiap 5 menit (UTC). Catatan: GitHub sering menunda scheduled cron saat
+    # beban tinggi, jadi interval nyata bisa lebih jarang dari 5 menit.
+    - cron: "*/5 * * * *"
   workflow_dispatch: {}   # tombol "Run workflow" manual di tab Actions
 
 permissions:
