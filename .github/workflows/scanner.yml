@@ -2,25 +2,33 @@ name: Scanner 24/7
 
 # Robot forward-test: pindai SEMUA coin USDT di atas ambang volume,
 # deteksi sinyal MTF (4h+15m), lacak TP/SL, commit hasil ke data/*.json.
+#
+# MODEL 24/7 (keep-alive): karena scheduled cron GitHub sering ditunda/dilewati,
+# SATU run memindai tiap 5 menit selama ~5,25 jam (loop internal), lalu memicu
+# dirinya sendiri lagi (workflow_dispatch pakai secret SCANNER_PAT). Efeknya
+# scanner berjalan praktis nonstop. Bila SCANNER_PAT belum di-set, run tetap
+# memindai ~5,25 jam lalu berhenti & mengandalkan schedule cron sebagai restart.
 
 on:
   schedule:
-    # Tiap 5 menit (UTC). Catatan: GitHub sering menunda scheduled cron saat
-    # beban tinggi, jadi interval nyata bisa lebih jarang dari 5 menit.
-    - cron: "*/5 * * * *"
-  workflow_dispatch: {}   # tombol "Run workflow" manual di tab Actions
+    # Backup restart (kalau loop mati / SCANNER_PAT belum di-set). GitHub sering
+    # menunda scheduled cron, jadi ini hanya jaring pengaman — keep-alive di bawah
+    # yang menjaga kontinuitas.
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}   # tombol "Run workflow" manual + dipakai self-relaunch
 
 permissions:
   contents: write
+  actions: write          # untuk self-relaunch via API (fallback GITHUB_TOKEN)
 
 concurrency:
   group: scanner
-  cancel-in-progress: false
+  cancel-in-progress: false   # run baru mengantre, tidak tumpang tindih
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 340        # ~5,66 jam (< batas 6 jam job GitHub)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,19 +36,49 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
-      - name: Jalankan scanner
-        run: node scanner/run.js
-
-      - name: Commit hasil bila ada perubahan
+      - name: Loop scanner tiap 5 menit (~5,25 jam)
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/
-          if git diff --staged --quiet; then
-            echo "Tidak ada perubahan data."
+          END=$(( SECONDS + 18900 ))   # 18900 dtk = 5,25 jam
+          i=0
+          while [ "$SECONDS" -lt "$END" ]; do
+            i=$((i+1))
+            echo "::group::Siklus $i ($(date -u +'%H:%M:%SZ'))"
+            node scanner/run.js || echo "::warning::scanner error pada siklus $i (lanjut)"
+            git add data/
+            if git diff --staged --quiet; then
+              echo "Tidak ada perubahan data."
+            else
+              git commit -m "chore(scanner): update data $(date -u +'%Y-%m-%dT%H:%MZ') [skip ci]"
+              git pull --rebase --autostash origin main || true
+              git push || echo "::warning::push gagal siklus $i (lanjut)"
+            fi
+            echo "::endgroup::"
+            # jangan tidur kalau waktu sudah mepet habis
+            if [ "$SECONDS" -lt "$END" ]; then sleep 300; fi
+          done
+          echo "Loop selesai setelah $i siklus."
+
+      - name: Relaunch diri sendiri (nonstop)
+        if: ${{ always() }}
+        env:
+          PAT: ${{ secrets.SCANNER_PAT }}
+        run: |
+          if [ -n "$PAT" ]; then
+            code=$(curl -sS -o /dev/null -w "%{http_code}" -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $PAT" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/workflows/scanner.yml/dispatches" \
+              -d '{"ref":"main"}')
+            if [ "$code" = "204" ]; then
+              echo "Relaunch terkirim (HTTP 204) — scanner lanjut nonstop."
+            else
+              echo "::warning::Relaunch gagal (HTTP $code). Cek secret SCANNER_PAT (butuh izin Actions: read & write)."
+            fi
           else
-            git commit -m "chore(scanner): update data $(date -u +'%Y-%m-%dT%H:%MZ') [skip ci]"
-            git push
+            echo "::notice::SCANNER_PAT belum di-set → tidak relaunch. Untuk 24/7 nonstop, tambahkan secret SCANNER_PAT (lihat docs/cron-setup.md). Sementara mengandalkan schedule cron."
           fi
