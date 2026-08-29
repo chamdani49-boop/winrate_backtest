@@ -192,3 +192,30 @@ Klarifikasi user: aturan RSI+StochRSI+MACD adalah **pemicu di 15m**, sedangkan
   bulan** (semua histori, urut terbaru dulu).
 - Frontend: label winrate → "Winrate 30 hari", sub "(30h)"; kartu baru **"Winrate &
   Return per Bulan"** (tabel) di halaman Live.
+
+
+---
+
+## 11. Sinyal dari indikator (ralat: 15m pemicu, 4H acuan) + fix data + 30h + histori bulanan
+
+- **Sinyal** (commit e7f8ce9, 2300d08): pemicu di **15m** (RSI>50 + StochRSI cross↑ K<80 + MACD DIF>0 untuk LONG; kebalikan SHORT), **4H sebagai acuan** (StochRSI K≥D + RSI>50 + MACD DIF>0 → fokus LONG). 4H dikonfirmasi pakai candle CLOSED. Entry candle 15m berikutnya; SL swing 15m; TP1/2/3 Fibonacci 1.272/1.618/2.618×R.
+- **FVG** (ca0ea11): hilang begitu harga MASUK gap (bukan harus tembus penuh); hanya tampilkan yang belum terisi.
+- **Fix chart gagal muat** (75b2977): `fetchKlines` lanjut ke mirror berikutnya bila mirror pertama balas 200-kosong; popup fallback spot→futures.
+- **Winrate rolling 30 hari** + **stats.monthly** (776ddbc): headline dihitung dari trade 30 hari terakhir; tambah `totalClosedAll`, `windowDays`, dan `monthly` (winrate/net/PF/W-L per bulan). `data/stats.json` di-regen (087cc3f).
+- **Histori bulanan → sub-tab di dalam Robot Live** (433d37c): dibuat tab (Ringkasan/Histori Bulanan) via .live-tabs + showLiveTab.
+
+### ⚠️ PENDING (belum selesai) — permintaan terakhir user: tab Live/Performa/History/Akun
+Halaman Live TERNYATA sudah punya sistem tab sendiri: `setLiveTab('live'/'perf'/'acc')`
+dengan pane `#live-pane-live/perf/acc` (tab: Live, Performa, Akun). Tab dash/monthly
+yang saya tambah (`#live-subtabs` + `showLiveTab` + `#lv-monthly-section`) jadi
+REDUNDAN (dobel bar tab). 
+
+TODO berikutnya:
+  1. Hapus `#live-subtabs`, `#lv-monthly-section`, fungsi `showLiveTab`, dan panggilan
+     `renderMonthlyTable(stats)` di renderLive yang redundan.
+  2. Tambah tab **History** ke `#live-tabs` (urutan: Live, Performa, History, Akun) +
+     tambahkan 'history' ke array valid di `setLiveTab`.
+  3. Buat pane `#live-pane-history` berisi tabel winrate & return per bulan
+     (pakai renderMonthlyTable + `monthly-body`, atau tabel `lv-month-body` yg sudah ada
+     di pane Akun — pindahkan ke History).
+  4. Isi History = "return & winrate setiap bulan".
