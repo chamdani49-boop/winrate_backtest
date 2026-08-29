@@ -826,6 +826,45 @@ html{ scroll-behavior:smooth; }
 /* Stat card: pastikan angka panjang ('+$1,234.56 (+12.34%)') tidak lari ke kanan */
 .stat-val, .stat-sub{ overflow-wrap:break-word; word-break:break-word; }
 
+/* ============================================================
+   REDESIGN MOBILE v2 — Robot Live lebih ramah HP
+============================================================ */
+@media (max-width: 640px){
+  /* Kartu berpasangan menumpuk vertikal (hero, top/bottom coins, dll) */
+  .g2{ grid-template-columns:1fr; gap:12px; }
+  /* Bar sub-tab Live "nempel" di atas saat scroll → gampang pindah tab */
+  #live-tabs{
+    position:sticky; top:calc(var(--topbar-h) + 6px); z-index:40;
+    box-shadow:0 8px 18px rgba(8,11,17,.55); margin-top:12px;
+  }
+  .live-tab-btn{ padding:10px 8px; font-size:12px; }
+  /* Tabel: header & sel lebih rapat, font mono kecil, tetap bisa digeser */
+  table{ font-size:11px; }
+  th{ padding:8px 9px; font-size:8.5px; letter-spacing:.6px; }
+  td{ padding:8px 9px; }
+  /* Jarak antar kartu & judul dikecilkan biar padat */
+  .mt12{ margin-top:10px; }
+  .card{ margin-bottom:10px; }
+  .page-title{ font-size:19px; }
+  .page-sub{ font-size:12px; line-height:1.5; margin-bottom:14px; }
+  /* Hero card penuh: angka & label proporsional */
+  .hero-val{ font-size:34px; }
+  .hero-lbl{ font-size:9.5px; }
+  /* Petunjuk geser tabel yang overflow */
+  .card > div[style*="overflow-x"]{ position:relative; -webkit-overflow-scrolling:touch; }
+}
+
+/* Layar sangat sempit (≤380px) */
+@media (max-width: 380px){
+  .hero-val{ font-size:28px; }
+  .terminal-val{ font-size:22px; }
+  .terminal-cell{ padding:12px 6px; }
+  .terminal-sub{ font-size:8px; letter-spacing:.5px; }
+  .live-tab-btn{ padding:9px 5px; font-size:11px; gap:3px; }
+  th{ padding:7px 7px; }
+  td{ padding:7px 7px; }
+}
+
 /* Stat card "Modal Sekarang" — varian compact dgn layout terstruktur */
 .stat-compact .stat-val{ font-size:clamp(16px, 2.4vw, 22px); display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
 .stat-compact .stat-val .pct{ font-size:.7em; opacity:.85; font-weight:600; }
@@ -1585,34 +1624,6 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
       <!-- konten live -->
       <div id="live-content" style="display:none">
 
-        <!-- Sub-menu di dalam Robot Live -->
-        <div class="live-tabs" id="live-subtabs">
-          <button class="live-tab-btn active" data-lt="dash" onclick="showLiveTab('dash')">📊 Ringkasan</button>
-          <button class="live-tab-btn" data-lt="monthly" onclick="showLiveTab('monthly')">📅 Histori Bulanan</button>
-        </div>
-
-        <!-- Pane: Histori Bulanan (winrate & return per bulan) -->
-        <div id="lv-monthly-section" style="display:none">
-          <div class="g4 mb16" style="margin-top:12px">
-            <div class="stat"><div class="stat-lbl">WINRATE 30 HARI</div><div class="stat-val c-green" id="mo-wr30">—</div><div class="stat-sub" id="mo-closed30">— trade</div></div>
-            <div class="stat"><div class="stat-lbl">NET 30 HARI</div><div class="stat-val" id="mo-net30">—</div><div class="stat-sub">return kumulatif</div></div>
-            <div class="stat"><div class="stat-lbl">PROFIT FACTOR 30H</div><div class="stat-val c-blue" id="mo-pf30">—</div><div class="stat-sub">gross P/L</div></div>
-            <div class="stat"><div class="stat-lbl">TOTAL TRADE</div><div class="stat-val" id="mo-total">—</div><div class="stat-sub">sepanjang waktu</div></div>
-          </div>
-          <div class="card">
-            <div class="card-hd">📅 Winrate &amp; Return per Bulan</div>
-            <div style="overflow-x:auto">
-              <table style="width:100%">
-                <thead><tr><th>BULAN</th><th>TRADE</th><th>W / L</th><th>WINRATE</th><th>NET %</th><th>PF</th></tr></thead>
-                <tbody id="monthly-body"></tbody>
-              </table>
-            </div>
-            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
-              ⓘ Headline rolling 30 hari terakhir. Tabel = agregat per bulan dari semua histori trade robot.
-            </div>
-          </div>
-        </div>
-
         <!-- ============ BTC LIVE TICKER ============ -->
         <div class="card btc-live">
           <div class="btc-live-l">
@@ -1669,6 +1680,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         <div class="live-tabs" id="live-tabs">
           <button class="live-tab-btn active" onclick="setLiveTab('live')" data-tab="live">🚀 Live</button>
           <button class="live-tab-btn" onclick="setLiveTab('perf')" data-tab="perf">📊 Performa</button>
+          <button class="live-tab-btn" onclick="setLiveTab('history')" data-tab="history">📅 History</button>
           <button class="live-tab-btn" onclick="setLiveTab('acc')"  data-tab="acc">💰 Akun</button>
         </div>
 
@@ -1853,6 +1865,28 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
         </div><!-- /tab Performa -->
 
+        <!-- ============ TAB: HISTORY (winrate & return per bulan) ============ -->
+        <div class="live-tab-pane" id="live-pane-history">
+          <div class="g4 mb16">
+            <div class="stat"><div class="stat-lbl">WINRATE 30 HARI</div><div class="stat-val c-green" id="mo-wr30">—</div><div class="stat-sub" id="mo-closed30">— trade</div></div>
+            <div class="stat"><div class="stat-lbl">NET 30 HARI</div><div class="stat-val" id="mo-net30">—</div><div class="stat-sub">return kumulatif</div></div>
+            <div class="stat"><div class="stat-lbl">PROFIT FACTOR 30H</div><div class="stat-val c-blue" id="mo-pf30">—</div><div class="stat-sub">gross P/L</div></div>
+            <div class="stat"><div class="stat-lbl">TOTAL TRADE</div><div class="stat-val" id="mo-total">—</div><div class="stat-sub">sepanjang waktu</div></div>
+          </div>
+          <div class="card">
+            <div class="card-hd">📅 Winrate &amp; Return per Bulan</div>
+            <div style="overflow-x:auto">
+              <table style="width:100%">
+                <thead><tr><th>BULAN</th><th>TRADE</th><th>W / L</th><th>WINRATE</th><th>NET %</th><th>PF</th></tr></thead>
+                <tbody id="monthly-body"></tbody>
+              </table>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
+              ⓘ Headline rolling 30 hari terakhir. Tabel = agregat per bulan dari semua histori trade robot.
+            </div>
+          </div>
+        </div><!-- /tab History -->
+
         <!-- ============ TAB: AKUN ============ -->
         <div class="live-tab-pane" id="live-pane-acc">
 
@@ -1911,9 +1945,9 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
-        <!-- ============ MONTHLY SUMMARY ============ -->
+        <!-- ============ MONTHLY BALANCE SUMMARY (simulasi akun) ============ -->
         <div class="card mt12">
-          <div class="card-hd">📅 Ringkasan Per Bulan</div>
+          <div class="card-hd">📅 Saldo Akun per Bulan</div>
           <div style="overflow-x:auto">
             <table style="width:100%">
               <thead><tr>
@@ -1921,6 +1955,9 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
               </tr></thead>
               <tbody id="lv-month-body"></tbody>
             </table>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
+            ⓘ Progres saldo simulasi akun per bulan. Untuk winrate/return murni strategi, lihat tab <b>History</b>.
           </div>
         </div>
 
@@ -3339,7 +3376,7 @@ function startLiveRefresh() {
    LIVE TAB SWITCHER (sub-menu di halaman Live)
 ============================================================ */
 function setLiveTab(name, silent) {
-  const valid = ['live', 'perf', 'acc'];
+  const valid = ['live', 'perf', 'history', 'acc'];
   if (!valid.includes(name)) name = 'live';   // mkt lama auto -> live
   document.querySelectorAll('#live-tabs .live-tab-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.tab === name);
@@ -3350,6 +3387,8 @@ function setLiveTab(name, silent) {
   if (!silent) localStorage.setItem('tvbt_live_tab', name);
   // re-draw chart bila pindah ke perf (canvas perlu re-render dgn ukuran benar)
   if (name === 'perf' && lastStats) drawDayChart(lastStats.dailyEquity || []);
+  // isi tabel histori bulanan saat buka tab History
+  if (name === 'history') renderMonthlyTable(lastStats);
   // scroll ke atas konten saat ganti tab
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -4138,19 +4177,6 @@ function renderMonthlyTable(stats) {
   }).join('') : `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📅</div><div class="empty-txt">Belum ada histori bulanan. Menunggu robot menutup trade.</div></div></td></tr>`;
 }
 
-/* Sub-tab di dalam Robot Live: 'dash' (ringkasan) / 'monthly' (histori bulanan) */
-function showLiveTab(tab) {
-  const cont = document.getElementById('live-content');
-  if (!cont) return;
-  document.querySelectorAll('#live-subtabs .live-tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-lt') === tab));
-  Array.from(cont.children).forEach(ch => {
-    if (ch.id === 'live-subtabs') return;                 // bar tab selalu tampil
-    if (ch.id === 'lv-monthly-section') ch.style.display = (tab === 'monthly') ? 'block' : 'none';
-    else ch.style.display = (tab === 'dash') ? '' : 'none';
-  });
-  if (tab === 'monthly') renderMonthlyTable(lastStats);
-}
-
 function renderLive(stats, state, history) {
   const dot = document.getElementById('live-dot');
   const hasRun = stats && stats.updatedAt;
@@ -4526,6 +4552,7 @@ function renderMonthly(history) {
   const sim = simulateCapital(initial, N, history, []);
   const months = Object.keys(sim.monthly).sort().reverse(); // terbaru duluan
   const tbody = document.getElementById('lv-month-body');
+  if (!tbody) return;
   if (!months.length) {
     tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><div class="empty-txt">Belum ada data bulanan.</div></div></td></tr>';
     return;
