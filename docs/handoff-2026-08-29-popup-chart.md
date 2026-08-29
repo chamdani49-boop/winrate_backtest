@@ -219,3 +219,32 @@ TODO berikutnya:
      (pakai renderMonthlyTable + `monthly-body`, atau tabel `lv-month-body` yg sudah ada
      di pane Akun — pindahkan ke History).
   4. Isi History = "return & winrate setiap bulan".
+
+
+---
+
+## 12. Cron 5m, fix chart 5m, mobile redesign, tab tunggal, landing Live
+
+- **Cron** (21e84ae): `scanner.yml` diubah `*/15` → `*/5`. CATATAN: GitHub Actions
+  sering menunda/melewati scheduled cron — nyatanya cuma jalan beberapa kali/hari
+  (run otomatis terakhir 10:19 UTC). Sinyal FIB sejauh ini SEMUA dari pemicuan
+  MANUAL (workflow_dispatch), belum ada yang otomatis. Solusi rencana: cron-job.org.
+- **Fix chart 5m** (21e84ae): `fetchKlinesResilient` = Binance spot → futures →
+  Bybit + 1× retry; dipakai popup chart & Multi-TF. Perbaiki "Tidak ada data diterima".
+- **Jumlah coin dipindai**: topN=0, minQuoteVolume=$1jt → **±184 pair USDT** (dinamis
+  ~150–250) di Binance spot; exclude leverage token + 10 stablecoin.
+- **Tab Live dirapikan jadi SATU bar** (db27404): Live / Performa / History / Akun.
+  - Hapus bar tab redundan (dash/monthly) + fungsi showLiveTab.
+  - History = winrate & return per bulan (renderMonthlyTable + monthly-body).
+  - Akun = simulasi modal + "Saldo Akun per Bulan" (lv-month-body, renderMonthly).
+- **Mobile redesign** (db27404): g2 → 1 kolom ≤640px, bar tab sticky, tabel rapat,
+  font/padding proporsional (≤640 & ≤380).
+- **Fix popup terpotong** (68ebdb6): baris Validity(ring) & MACD height auto +
+  overflow visible + nowrap → "MODERATE/100" & "NAIK MEMUDAR" tidak kepotong.
+- **Landing = Robot Live** (6b06fc2, 8ab7056): default active dipindah ke Live
+  (halaman+nav+bottomnav), onload `goPage('live')`, `history.scrollRestoration =
+  'manual'` → hard-refresh selalu mulai di Robot Live paling atas (HP).
+
+### TODO berikutnya
+- Setup **cron-job.org** memanggil workflow_dispatch tiap 5 menit (pakai PAT
+  fine-grained, izin Actions read&write) agar sinyal benar-benar otomatis.
