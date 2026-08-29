@@ -166,3 +166,16 @@ f0feb08  candlestick lightweight-charts + zona trade plan
 
 **Catatan:** histori lama (strategi volume-spike) TIDAK direset, jadi statistik
 winrate akan bercampur strategi lama+baru sampai user minta reset.
+
+
+### 9b. Ralat: pemicu 15m, acuan 4H
+
+Klarifikasi user: aturan RSI+StochRSI+MACD adalah **pemicu di 15m**, sedangkan
+**4H sebagai acuan/bias arah**.
+
+- **Acuan 4H** (fokus arah): StochRSI %K≥%D (bullish) + RSI(4H)>50 + MACD DIF(4H)>0
+  → hanya izinkan LONG; kebalikannya → hanya SHORT.
+- **Pemicu 15m** (entry presisi): RSI>50 + StochRSI %K cross↑ %D (K<80) + MACD DIF>0
+  (LONG); kebalikannya (SHORT).
+- Entry mulai candle 15m berikutnya; SL swing 15m; TP1/2/3 Fibonacci.
+- `detectSignalIndicator(small, big, strat)` — small=15m (pemicu+swing), big=4H (acuan).
