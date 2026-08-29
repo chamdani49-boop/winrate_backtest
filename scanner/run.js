@@ -504,6 +504,77 @@ function buildIntel(ctx) {
   };
 }
 
+/* ============================================================
+   INTEL & VALIDITY untuk STRATEGI INDIKATOR (FIB)
+   Skor menilai KUALITAS confluence dari rumus yang sama dgn sinyal:
+   pemicu 15m (RSI>50 + StochRSI cross + MACD>0) + acuan 4H + keselarasan MTF.
+   Base 45 (semua syarat inti sudah lolos) lalu +bonus confluence. 0-100:
+   STRONG >=75, MODERATE >=58, WEAK <58.
+   ============================================================ */
+function buildIntelIndicator(sig, ctx) {
+  const isLong = sig.dir === 'BUY';
+  const r = (sig && sig.reasons) || {};
+  const ref = r.ref4h || {};
+  const rsi15 = r.rsi, k15 = r.stochK, dif15 = r.macdDif;
+  const rsi4 = ref.rsi, dif4 = ref.macdDif, k4 = ref.stochK, d4 = ref.stochD;
+  const big = (ctx && ctx.big) || [], h1 = (ctx && ctx.h1) || [], d1 = (ctx && ctx.d1) || [], small = (ctx && ctx.small) || [];
+  const macd15 = (ctx && ctx.macd15) || null;      // {state,...} dari macdState(15m)
+  const ma200State = (ctx && ctx.ma200State) || null;
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+  const tD = d1.length ? trendOf(d1, 50) : 'RANGE';
+  const t4 = big.length ? trendOf(big, 50) : 'RANGE';
+  const t1 = h1.length ? trendOf(h1, 50) : 'RANGE';
+  const tw = (d1.length >= 7) ? (() => { const wk = []; for (let i = 0; i < d1.length; i += 7) { const seg = d1.slice(i, i + 7); if (seg.length) wk.push({ c: seg[seg.length - 1].c }); } return trendOf(wk, Math.min(20, wk.length)); })() : 'RANGE';
+  const aligned = t => isLong ? t === 'UPTREND' : t === 'DOWNTREND';
+
+  const reasons = [];
+  let score = 45; // setup inti valid (RSI+StochRSI+MACD 15m searah acuan 4H)
+  reasons.push(isLong ? 'Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)' : 'Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)');
+
+  // Momentum RSI 15m (0-15) — makin jauh dari 50 makin kuat
+  if (rsi15 != null) { score += clamp((isLong ? rsi15 - 50 : 50 - rsi15) / 20, 0, 1) * 15; reasons.push('RSI(15m) ' + (+rsi15).toFixed(0) + (isLong ? ' > 50' : ' < 50')); }
+  // StochRSI cross freshness (0-10) — cross dari zona awal (K rendah utk long) lebih baik
+  if (k15 != null) { score += clamp((isLong ? 70 - k15 : k15 - 30) / 50, 0, 1) * 10; reasons.push('StochRSI K ' + (+k15).toFixed(0) + (isLong ? ' cross↑' : ' cross↓')); }
+  // MACD 15m (0-10) — searah & sedang menguat
+  if (macd15 && macd15.state) { const good = isLong ? ['rising', 'fading_down'] : ['falling', 'fading_up']; score += good.includes(macd15.state) ? 10 : 5; reasons.push('MACD ' + macd15.state); }
+  else if (dif15 != null) { score += (isLong ? dif15 > 0 : dif15 < 0) ? 7 : 3; }
+
+  // Acuan 4H (0-15)
+  let s4 = 0;
+  if (rsi4 != null) s4 += clamp((isLong ? rsi4 - 50 : 50 - rsi4) / 20, 0, 1) * 8;
+  if (dif4 != null) s4 += (isLong ? dif4 > 0 : dif4 < 0) ? 4 : 0;
+  if (k4 != null && d4 != null) s4 += (isLong ? k4 >= d4 : k4 <= d4) ? 3 : 0;
+  score += s4;
+  reasons.push('Acuan 4H ' + (isLong ? 'bullish' : 'bearish') + (rsi4 != null ? ' (RSI ' + (+rsi4).toFixed(0) + ')' : ''));
+
+  // Keselarasan MTF (0-10): Daily & 1H searah arah sinyal
+  let mtf = 0; if (aligned(tD)) mtf += 5; if (aligned(t1)) mtf += 5; score += mtf;
+  reasons.push('Daily ' + tD.toLowerCase(), '1H ' + t1.toLowerCase());
+
+  // Bonus MA200 (0-3)
+  if (ma200State) {
+    if ((isLong && ma200State === 'ABOVE') || (!isLong && ma200State === 'BELOW')) { score += 3; reasons.push(ma200State + ' MA200'); }
+    else reasons.push(ma200State + ' MA200');
+  }
+
+  score = clamp(Math.round(score), 0, 100);
+  const validity = score >= 75 ? 'STRONG' : score >= 58 ? 'MODERATE' : 'WEAK';
+  const positionSize = validity === 'STRONG' ? '1-2% (Standard)' : validity === 'MODERATE' ? '0.5-1% (Conservative)' : '0.25-0.5% (Minimal)';
+  const structure = aligned(t4) ? (isLong ? 'BULLISH' : 'BEARISH') : 'NEUTRAL';
+  return {
+    score, validity, positionSize,
+    holdDuration: 'Sampai TP3 / SL (staged exit)',
+    management: 'TP1 hit: SL ke breakeven. TP2 hit: SL ke TP1. Biarkan TP3 berkembang.',
+    mtf: { D: tD, W: tw, '4H': t4, '1H': t1 },
+    rsi: rsi15 != null ? +(+rsi15).toFixed(1) : null,
+    macd: macd15 ? macd15.state : null,
+    ma200: ma200State || null,
+    structure,
+    reasons
+  };
+}
+
 /* Pivot swing (fractal sederhana): high/low lokal dgn window w di kiri-kanan */
 function swingPivots(candles, type, w) {
   const out = [];
@@ -1106,11 +1177,9 @@ async function main() {
         if (ma) ma200State = dCloses[dCloses.length - 1] > ma ? 'ABOVE' : 'BELOW';
       }
     }
-    const intel = buildIntel({
-      dir: sig.dir, smallCandles: small, big4h: big, hourly1h: h1, daily1d: d1,
-      volRatio: volRatio || 1, takerRatio: null,
-      rsi15, macd15, ma200State
-    });
+    // Skor/validity dari confluence strategi baru (bukan lagi buildIntel lama
+    // yang berbasis volume spike & RSI-oversold → tak sinkron dgn sinyal).
+    const intel = buildIntelIndicator(sig, { small, big, h1, d1, macd15, ma200State });
 
     return {
       id: `${sym}-${sig.signalCandleCloseT}`,
@@ -1174,7 +1243,7 @@ async function main() {
 module.exports = {
   TF_MS, sma, ema, atrAt, roundPx, pnlPctAt, strategyLabel, rsi, macdState, trendOf, buildIntel,
   swingPivots, structureTargets,
-  rsiSeries, stochRsiKD, macdDifHist, detectSignalIndicator,
+  rsiSeries, stochRsiKD, macdDifHist, detectSignalIndicator, buildIntelIndicator,
   filterTopN, computeBias, detectSignal, advancePosition, computeStats, buildHistoryEntry,
   PROVIDERS
 };
