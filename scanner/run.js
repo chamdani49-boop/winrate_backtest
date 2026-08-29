@@ -296,6 +296,8 @@ function detectSignalIndicator(small, big, strat) {
   if (!trigLong && !trigShort) return null;
 
   // --- Acuan 4H (bias arah): StochRSI bullish/bearish + RSI vs 50 + MACD vs 0 ---
+  // slice(0,-1) → buang candle 4H in-progress; pakai HANYA candle 4H yang sudah
+  // CLOSED. Jadi fokus long/short 4H baru dikonfirmasi setelah candle 4H tutup.
   const bigClosed = Array.isArray(big) ? big.slice(0, -1) : [];
   let bullRef = true, bearRef = true, rsi4 = null, dif4 = null, k4 = null, d4v = null;
   if (bigClosed.length >= slow + mSig + 2) {
