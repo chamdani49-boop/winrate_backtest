@@ -2242,6 +2242,10 @@ TP: 1.0790 | SL: 1.0880</div>
 </div>
 
 <script>
+/* Jangan pulihkan posisi scroll lama saat hard-refresh → selalu mulai dari atas
+   (Robot Live) supaya visual utama langsung terlihat, terutama di HP. */
+if ('scrollRestoration' in history) { try { history.scrollRestoration = 'manual'; } catch (e) {} }
+
 /* ============================================================
    STORAGE KEYS
 ============================================================ */
