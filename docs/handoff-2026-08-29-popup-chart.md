@@ -351,3 +351,12 @@ Sesi lanjutan (2026-08-29 malam). Semua di branch `main`.
   - Diuji: cross dari tengah / BONKUSDT-like (kMaxRecent 62, tak pernah ≥80) DITOLAK;
     cross dari oversold/overbought DITERIMA.
   - Catatan: 38 posisi lama tetap (dibuka sebelum aturan ini). Aturan berlaku untuk sinyal baru.
+
+
+### 14b. Ralat user: 15m tak perlu tunggu ekstrem
+
+User revisi: di 15m **tidak perlu** menunggu overbought/oversold. Cukup **cross bullish +
+candle sudah CLOSE** (walau di zona tengah). → `stochFreshCross` di-set **false** (gate
+dinonaktifkan; kode gate tetap ada untuk optionalitas). Label strategi otomatis kembali ke
+`StochRSI cross↑ / cross↓`. Deteksi cross tetap pada candle 15m yang sudah close (pakai
+`small.slice(0,-1)`). Bias 4H tetap jadi acuan arah.

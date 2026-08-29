@@ -359,9 +359,11 @@ function detectSignalIndicator(small, big, strat) {
 
   const lvl = m => dir === 'BUY' ? entry + R * m : entry - R * m;
   const tps = [lvl(fib[0]), lvl(fib[1]), lvl(fib[2])];
+  const xUp = freshOn ? 'oversold→cross↑' : 'cross↑';
+  const xDn = freshOn ? 'overbought→cross↓' : 'cross↓';
   const lab = dir === 'BUY'
-    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI oversold→cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-LONG' }
-    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI overbought→cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-SHORT' };
+    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI ' + xUp + ' + MACD>0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-LONG' }
+    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI ' + xDn + ' + MACD<0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-SHORT' };
 
   return {
     dir, entry: roundPx(entry), sl: roundPx(sl),
