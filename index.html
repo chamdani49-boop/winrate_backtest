@@ -977,6 +977,18 @@ html{ scroll-behavior:smooth; }
 .strat-chart-legend .lg{ display:inline-flex; align-items:center; gap:5px; }
 .strat-chart-legend .lg i{ width:14px; height:10px; border-radius:2px; display:inline-block; }
 
+/* Toggle timeframe 15m / 4H */
+.strat-tf-toggle{ display:inline-flex; gap:4px; background:var(--surf); border:1px solid var(--border); border-radius:8px; padding:3px; margin:6px 0; }
+.strat-tf-btn{ background:transparent; border:none; color:var(--muted2); font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.5px; padding:5px 16px; border-radius:6px; cursor:pointer; transition:all .16s ease; }
+.strat-tf-btn:hover{ color:var(--text); }
+.strat-tf-btn.active{ background:linear-gradient(135deg,var(--accent),#00c489); color:#04130d; }
+/* Subpane indikator (StochRSI / RSI / MACD) */
+.strat-sub-wrap{ position:relative; margin-top:4px; background:var(--bg); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+.strat-sub{ width:100%; height:96px; }
+/* Legend overlay indikator (di atas chart, tak ganggu crosshair) */
+.strat-legend{ position:absolute; top:5px; left:9px; z-index:15; pointer-events:none; font-family:var(--mono); font-size:9.5px; font-weight:700; line-height:1.55; letter-spacing:.2px; text-shadow:0 1px 3px rgba(0,0,0,.7); }
+.strat-legend span{ margin-right:8px; }
+
 /* ============================================================
    TOP / BOTTOM COINS RANK LIST
 ============================================================ */
@@ -4665,12 +4677,20 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
   // === 0) CANDLESTICK CHART + TRADE PLAN (diisi async oleh renderStratCandleChart) ===
   const chartHTML = `
     <div class="vis-section-lbl">Chart & Trade Plan · Entry / TP / SL</div>
+    <div class="strat-tf-toggle" id="stratTfToggle">
+      <button class="strat-tf-btn" data-tf="15m" onclick="setStratTf('15m')">15m</button>
+      <button class="strat-tf-btn active" data-tf="4h" onclick="setStratTf('4h')">4H</button>
+    </div>
     <div class="strat-chart-wrap" id="stratChartWrap">
+      <div class="strat-legend strat-legend-main" id="stratLegendMain"></div>
       <div class="strat-chart" id="stratChart"></div>
       <div class="strat-chart-zones" id="stratChartZones"></div>
       <div class="strat-chart-watermark">TVBT PRO</div>
       <div class="strat-chart-state" id="stratChartState"></div>
     </div>
+    <div class="strat-sub-wrap"><div class="strat-legend" id="stratLegendStoch"></div><div class="strat-sub" id="stratStoch"></div></div>
+    <div class="strat-sub-wrap"><div class="strat-legend" id="stratLegendRsi"></div><div class="strat-sub" id="stratRsi"></div></div>
+    <div class="strat-sub-wrap"><div class="strat-legend" id="stratLegendMacd"></div><div class="strat-sub" id="stratMacd"></div></div>
     <div class="strat-chart-legend">
       <span class="lg"><i style="background:rgba(0,229,160,0.5)"></i>Zona profit (Entry→TP)</span>
       <span class="lg"><i style="background:rgba(255,84,112,0.5)"></i>Zona risiko (Entry→SL)</span>
@@ -4772,16 +4792,119 @@ function showStratModal(p, isHistory) {
    - Timeframe & jumlah candle dipilih otomatis agar entry ikut terlihat.
 ============================================================ */
 const STRAT_TF_MS = { '15m': 900e3, '30m': 1800e3, '1h': 3600e3, '2h': 7200e3, '4h': 14400e3, '1d': 86400e3 };
-let _stratChart = null, _stratSeries = null, _stratRaf = null, _stratRO = null;
-let _stratPlan = null, _stratEntryIdx = -1, _stratLastIdx = -1, _stratZoneEls = null;
+// Warna indikator — disamakan dengan gambar referensi
+const STRAT_IND = {
+  up: '#00e5a0', down: '#ff5470',
+  ma25: '#3fd07a', ma50: '#e661c9', ma100: '#8b80f9',
+  sar: '#f5c518', bb: '#2fbf8a',
+  stochK: '#3fd07a', stochD: '#f5a623',
+  rsi: '#f5c518',
+  macdDif: '#3fd07a', macdDea: '#f5a623', macdHist: '#8b80f9', histUp: '#2fbf8a', histDn: '#ff5470'
+};
+let _stratCharts = [], _stratROs = [];
+let _stratChart = null, _stratSeries = null, _stratSubStoch = null, _stratSubRsi = null, _stratSubMacd = null;
+let _stratRaf = null, _stratPlan = null, _stratEntryIdx = -1, _stratLastIdx = -1, _stratZoneEls = null;
+let _stratP = null, _stratLast = null, _stratTf = '4h', _stratSyncing = false, _stratInd = null, _stratTimeIdx = null;
+
+/* ---------- Indikator (fungsi murni, aligned ke index candle) ---------- */
+function _stratSMA(vals, period) {
+  const out = new Array(vals.length).fill(null);
+  let sum = 0;
+  for (let i = 0; i < vals.length; i++) { sum += vals[i]; if (i >= period) sum -= vals[i - period]; if (i >= period - 1) out[i] = sum / period; }
+  return out;
+}
+function _stratEMA(vals, period) {
+  const out = new Array(vals.length).fill(null);
+  const k = 2 / (period + 1); let prev = null;
+  for (let i = 0; i < vals.length; i++) { const v = vals[i]; if (v == null) { out[i] = prev; continue; } prev = prev == null ? v : v * k + prev * (1 - k); out[i] = prev; }
+  return out;
+}
+function _stratSMAn(arr, period) { // SMA atas array nullable (butuh period nilai berurutan)
+  const out = new Array(arr.length).fill(null);
+  for (let i = period - 1; i < arr.length; i++) { let s = 0, ok = true; for (let j = i - period + 1; j <= i; j++) { if (arr[j] == null) { ok = false; break; } s += arr[j]; } if (ok) out[i] = s / period; }
+  return out;
+}
+function _stratRSI(closes, period) {
+  const out = new Array(closes.length).fill(null);
+  if (closes.length <= period) return out;
+  let avgG = 0, avgL = 0;
+  for (let i = 1; i <= period; i++) { const d = closes[i] - closes[i - 1]; avgG += Math.max(d, 0); avgL += Math.max(-d, 0); }
+  avgG /= period; avgL /= period;
+  out[period] = avgL === 0 ? 100 : 100 - 100 / (1 + avgG / avgL);
+  for (let i = period + 1; i < closes.length; i++) {
+    const d = closes[i] - closes[i - 1];
+    avgG = (avgG * (period - 1) + Math.max(d, 0)) / period;
+    avgL = (avgL * (period - 1) + Math.max(-d, 0)) / period;
+    out[i] = avgL === 0 ? 100 : 100 - 100 / (1 + avgG / avgL);
+  }
+  return out;
+}
+function _stratStochRSI(rsiArr, rsiPeriod, kSmooth, dSmooth) {
+  const stoch = new Array(rsiArr.length).fill(null);
+  for (let i = 0; i < rsiArr.length; i++) {
+    if (rsiArr[i] == null) continue;
+    let lo = Infinity, hi = -Infinity, cnt = 0, ok = true;
+    for (let j = i; j > i - rsiPeriod; j--) { if (j < 0 || rsiArr[j] == null) { ok = false; break; } lo = Math.min(lo, rsiArr[j]); hi = Math.max(hi, rsiArr[j]); cnt++; }
+    if (!ok || cnt < rsiPeriod) continue;
+    stoch[i] = hi === lo ? 0 : (rsiArr[i] - lo) / (hi - lo) * 100;
+  }
+  const k = _stratSMAn(stoch, kSmooth);
+  const d = _stratSMAn(k, dSmooth);
+  return { k, d };
+}
+function _stratMACD(closes, fast, slow, sig) {
+  const ef = _stratEMA(closes, fast), es = _stratEMA(closes, slow);
+  const dif = closes.map((_, i) => (ef[i] != null && es[i] != null) ? ef[i] - es[i] : null);
+  const dea = _stratEMA(dif, sig);
+  const hist = closes.map((_, i) => (dif[i] != null && dea[i] != null) ? dif[i] - dea[i] : null);
+  return { dif, dea, hist };
+}
+function _stratBoll(closes, period, mult) {
+  const mid = _stratSMA(closes, period);
+  const up = new Array(closes.length).fill(null), dn = new Array(closes.length).fill(null);
+  for (let i = period - 1; i < closes.length; i++) {
+    if (mid[i] == null) continue;
+    let s = 0; for (let j = i - period + 1; j <= i; j++) { const d = closes[j] - mid[i]; s += d * d; }
+    const sd = Math.sqrt(s / period); up[i] = mid[i] + mult * sd; dn[i] = mid[i] - mult * sd;
+  }
+  return { mid, up, dn };
+}
+function _stratPSAR(cs, af0, afStep, afMax) {
+  const out = new Array(cs.length).fill(null);
+  if (cs.length < 2) return out;
+  let up = cs[1].close >= cs[0].close;
+  let ep = up ? cs[0].high : cs[0].low;
+  let sar = up ? cs[0].low : cs[0].high;
+  let af = af0; out[0] = sar;
+  for (let i = 1; i < cs.length; i++) {
+    let ns = sar + af * (ep - sar);
+    const p1 = cs[i - 1], p2 = cs[i - 2 >= 0 ? i - 2 : i - 1];
+    if (up) {
+      ns = Math.min(ns, p1.low, p2.low);
+      if (cs[i].low < ns) { up = false; ns = ep; ep = cs[i].low; af = af0; }
+      else if (cs[i].high > ep) { ep = cs[i].high; af = Math.min(afMax, af + afStep); }
+    } else {
+      ns = Math.max(ns, p1.high, p2.high);
+      if (cs[i].high > ns) { up = true; ns = ep; ep = cs[i].high; af = af0; }
+      else if (cs[i].low < ep) { ep = cs[i].low; af = Math.min(afMax, af + afStep); }
+    }
+    sar = ns; out[i] = sar;
+  }
+  return out;
+}
+function _stratLwLine(times, arr) {
+  const out = [];
+  for (let i = 0; i < arr.length; i++) { if (arr[i] != null && isFinite(arr[i])) out.push({ time: times[i], value: arr[i] }); }
+  return out;
+}
 
 function cleanupStratChart() {
   if (_stratRaf) { cancelAnimationFrame(_stratRaf); _stratRaf = null; }
-  if (_stratRO) { try { _stratRO.disconnect(); } catch (_) {} _stratRO = null; }
-  if (_stratChart) { try { _stratChart.remove(); } catch (_) {} _stratChart = null; _stratSeries = null; }
-  const z = document.getElementById('stratChartZones'); if (z) z.innerHTML = '';
-  const c = document.getElementById('stratChart'); if (c) c.innerHTML = '';
-  _stratPlan = null; _stratEntryIdx = -1; _stratLastIdx = -1; _stratZoneEls = null;
+  _stratROs.forEach(ro => { try { ro.disconnect(); } catch (_) {} }); _stratROs = [];
+  _stratCharts.forEach(ch => { try { ch.remove(); } catch (_) {} }); _stratCharts = [];
+  _stratChart = _stratSeries = _stratSubStoch = _stratSubRsi = _stratSubMacd = null;
+  ['stratChart', 'stratStoch', 'stratRsi', 'stratMacd', 'stratChartZones', 'stratLegendMain', 'stratLegendStoch', 'stratLegendRsi', 'stratLegendMacd'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
+  _stratPlan = null; _stratEntryIdx = -1; _stratLastIdx = -1; _stratZoneEls = null; _stratInd = null; _stratTimeIdx = null;
 }
 
 /* jumlah desimal presisi harga (samakan dgn roundPx backend) */
@@ -4792,11 +4915,51 @@ function stratDecimals(x) {
   if (a >= 0.0001) return 8; if (a >= 0.000001) return 10; return 12;
 }
 
-async function renderStratCandleChart(p, lastPrice) {
-  const wrap = document.getElementById('stratChartWrap');
+/* Toggle timeframe 15m / 4H dari tombol di popup */
+function setStratTf(tf) {
+  if (!tf) return;
+  _stratTf = tf;
+  const tog = document.getElementById('stratTfToggle');
+  if (tog) tog.querySelectorAll('.strat-tf-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-tf') === tf));
+  if (_stratP) renderStratCandleChart(_stratP, _stratLast, tf);
+}
+
+/* Sinkronkan rentang logical antar-chart (main + 3 subpane) */
+function _stratSyncRange(range) {
+  if (_stratSyncing || !range) return;
+  _stratSyncing = true;
+  [_stratChart, _stratSubStoch, _stratSubRsi, _stratSubMacd].forEach(ch => { if (ch) { try { ch.timeScale().setVisibleLogicalRange(range); } catch (_) {} } });
+  _stratSyncing = false;
+}
+
+/* Update teks legend indikator (di crosshair atau nilai terakhir) */
+function _stratUpdateLegends(idx) {
+  const ind = _stratInd; if (!ind) return;
+  if (idx == null || idx < 0 || idx >= ind.times.length) idx = ind.times.length - 1;
+  const c = STRAT_IND, f = fmtN;
+  const S = (col, txt) => '<span style="color:' + col + '">' + txt + '</span>';
+  const lm = document.getElementById('stratLegendMain');
+  if (lm) lm.innerHTML =
+    S(c.ma25, 'MA(25): ' + f(ind.ma25[idx])) + S(c.ma50, 'MA(50): ' + f(ind.ma50[idx])) + S(c.ma100, 'MA(100): ' + f(ind.ma100[idx]))
+    + '<br>' + S(c.sar, 'SAR(0.02,0.2): ' + f(ind.sar[idx]))
+    + S(c.bb, 'BOLL(20,2): UP ' + f(ind.bb.up[idx]) + ' MB ' + f(ind.bb.mid[idx]) + ' DN ' + f(ind.bb.dn[idx]));
+  const ls = document.getElementById('stratLegendStoch');
+  if (ls) ls.innerHTML = S(c.stochK, 'STOCHRSI: ' + f(ind.stoch.k[idx])) + S(c.stochD, 'MASTOCHRSI: ' + f(ind.stoch.d[idx]));
+  const lr = document.getElementById('stratLegendRsi');
+  if (lr) lr.innerHTML = S(c.rsi, 'RSI(14): ' + f(ind.rsi[idx]));
+  const lmd = document.getElementById('stratLegendMacd');
+  if (lmd) lmd.innerHTML = S(c.macdDif, 'DIF: ' + f(ind.macd.dif[idx])) + S(c.macdDea, 'DEA: ' + f(ind.macd.dea[idx])) + S(c.macdHist, 'MACD: ' + f(ind.macd.hist[idx]));
+}
+
+async function renderStratCandleChart(p, lastPrice, tfArg) {
   const chartEl = document.getElementById('stratChart');
   const stateEl = document.getElementById('stratChartState');
   if (!chartEl) return;
+
+  _stratP = p; _stratLast = lastPrice;
+  const tf = tfArg || _stratTf || '4h'; _stratTf = tf;
+  const tog = document.getElementById('stratTfToggle');
+  if (tog) tog.querySelectorAll('.strat-tf-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-tf') === tf));
 
   cleanupStratChart();
 
@@ -4804,17 +4967,13 @@ async function renderStratCandleChart(p, lastPrice) {
     if (stateEl) { stateEl.textContent = '⚠ Library chart belum siap, coba buka ulang.'; stateEl.classList.add('show'); }
     return;
   }
-  if (stateEl) { stateEl.innerHTML = '<span style="font-size:20px">📡</span><span>Memuat candle ' + (p.pair || '') + '…</span>'; stateEl.classList.add('show'); }
+  if (stateEl) { stateEl.innerHTML = '<span style="font-size:20px">📡</span><span>Memuat candle ' + (p.pair || '') + ' (' + tf + ')…</span>'; stateEl.classList.add('show'); }
 
   const symbol = (p.pair || '').toUpperCase();
   const openMs = p.openCandleCloseT || (p.openTime ? new Date(p.openTime).getTime() : Date.now());
-  const span = Math.max(STRAT_TF_MS['15m'], Date.now() - openMs);
-
-  // Pilih timeframe agar jumlah candle sejak entry masuk akal (<= ~260) tapi entry tetap terlihat
-  const tfOrder = ['15m', '1h', '4h', '1d'];
-  let tf = '1d';
-  for (const t of tfOrder) { if (span / STRAT_TF_MS[t] <= 260) { tf = t; break; } }
-  const count = Math.min(500, Math.ceil(span / STRAT_TF_MS[tf]) + 20); // + candle sebelum entry sbg konteks
+  const span = Math.max(STRAT_TF_MS[tf], Date.now() - openMs);
+  const barsSince = Math.ceil(span / STRAT_TF_MS[tf]);
+  const count = Math.min(900, Math.max(260, barsSince + 140)); // + warmup indikator (MA100 dll) & konteks
 
   let candles = [];
   try {
@@ -4830,8 +4989,7 @@ async function renderStratCandleChart(p, lastPrice) {
   if (stateEl) stateEl.classList.remove('show');
 
   // Data lightweight-charts (intraday → UTCTimestamp detik). Dedupe + sort asc.
-  const seen = new Set();
-  const lwData = [];
+  const seen = new Set(); const lwData = [];
   candles.forEach(c => {
     const t = Math.floor(c.t / 1000);
     if (seen.has(t) || !isFinite(c.o) || !isFinite(c.c)) return;
@@ -4841,73 +4999,146 @@ async function renderStratCandleChart(p, lastPrice) {
   lwData.sort((a, b) => a.time - b.time);
   if (!lwData.length) return;
 
-  const up = '#00e5a0', down = '#ff5470';
-  const dec = Math.max(
-    stratDecimals(p.entry), stratDecimals(p.tp3 || p.entry), stratDecimals(p.slInit || p.sl || p.entry)
-  );
+  const times = lwData.map(d => d.time);
+  const closes = lwData.map(d => d.close);
+  const dec = Math.max(stratDecimals(p.entry), stratDecimals(p.tp3 || p.entry), stratDecimals(p.slInit || p.sl || p.entry), stratDecimals(closes[closes.length - 1]));
   const minMove = 1 / Math.pow(10, dec);
 
+  // Hitung indikator
+  const ma25 = _stratSMA(closes, 25), ma50 = _stratSMA(closes, 50), ma100 = _stratSMA(closes, 100);
+  const bb = _stratBoll(closes, 20, 2);
+  const sar = _stratPSAR(lwData, 0.02, 0.02, 0.2);
+  const rsi = _stratRSI(closes, 14);
+  const stoch = _stratStochRSI(rsi, 14, 3, 3);
+  const macd = _stratMACD(closes, 12, 26, 9);
+  _stratInd = { times, dec, ma25, ma50, ma100, bb, sar, rsi, stoch, macd };
+  _stratTimeIdx = new Map(); times.forEach((t, i) => _stratTimeIdx.set(t, i));
+
+  const C = STRAT_IND;
+  const tickFmt = (t) => { const d = new Date(t * 1000); const mo = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']; return d.getUTCDate() + ' ' + mo[d.getUTCMonth()]; };
+  const baseLayout = { background: { color: '#0e1219' }, textColor: '#99a7c6', fontFamily: "'IBM Plex Mono', monospace", attributionLogo: false };
+
+  // ---------- MAIN CHART (candle + MA + BB + SAR) ----------
   _stratChart = LightweightCharts.createChart(chartEl, {
-    width: chartEl.clientWidth || 600,
-    height: chartEl.clientHeight || 300,
-    layout: { background: { color: '#0e1219' }, textColor: '#99a7c6', fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, attributionLogo: false },
+    width: chartEl.clientWidth || 600, height: chartEl.clientHeight || 300,
+    layout: Object.assign({}, baseLayout, { fontSize: 10 }),
     grid: { vertLines: { color: 'rgba(44,58,86,0.35)' }, horzLines: { color: 'rgba(44,58,86,0.35)' } },
     crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
     rightPriceScale: { borderColor: '#2c3a56', scaleMargins: { top: 0.14, bottom: 0.12 } },
-    timeScale: {
-      borderColor: '#2c3a56', timeVisible: true, secondsVisible: false, rightOffset: 6,
-      tickMarkFormatter: (t) => {
-        const d = new Date(t * 1000);
-        const mo = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-        return d.getUTCDate() + ' ' + mo[d.getUTCMonth()];
-      }
-    },
+    timeScale: { borderColor: '#2c3a56', timeVisible: true, secondsVisible: false, rightOffset: 6, tickMarkFormatter: tickFmt },
     handleScroll: true, handleScale: true
   });
+  _stratCharts.push(_stratChart);
 
   _stratSeries = _stratChart.addCandlestickSeries({
-    upColor: up, downColor: down, borderUpColor: up, borderDownColor: down, wickUpColor: up, wickDownColor: down,
+    upColor: C.up, downColor: C.down, borderUpColor: C.up, borderDownColor: C.down, wickUpColor: C.up, wickDownColor: C.down,
     priceFormat: { type: 'price', precision: dec, minMove: minMove },
-    // Sertakan entry/TP/SL di autoscale supaya semua zona selalu kelihatan
+    // Sertakan entry/TP/SL di autoscale supaya semua zona trade plan selalu terlihat
     autoscaleInfoProvider: (orig) => {
       const res = orig(); if (!res || !res.priceRange) return res;
       let mn = res.priceRange.minValue, mx = res.priceRange.maxValue;
-      [p.entry, p.tp1, p.tp2, p.tp3, (p.slInit || p.sl)].forEach(v => {
-        if (isFinite(+v) && +v > 0) { mn = Math.min(mn, +v); mx = Math.max(mx, +v); }
-      });
+      [p.entry, p.tp1, p.tp2, p.tp3, (p.slInit || p.sl)].forEach(v => { if (isFinite(+v) && +v > 0) { mn = Math.min(mn, +v); mx = Math.max(mx, +v); } });
       return { priceRange: { minValue: mn, maxValue: mx } };
     }
   });
   _stratSeries.setData(lwData);
+
+  const addLine = (color, width, style, opts) => _stratChart.addLineSeries(Object.assign({ color: color, lineWidth: width, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: style || 0 }, opts || {}));
+  // Bollinger (hijau) — MB dashed
+  addLine(C.bb, 1, 0).setData(_stratLwLine(times, bb.up));
+  addLine(C.bb, 1, 2).setData(_stratLwLine(times, bb.mid));
+  addLine(C.bb, 1, 0).setData(_stratLwLine(times, bb.dn));
+  // MA 25 / 50 / 100
+  addLine(C.ma25, 1.5, 0).setData(_stratLwLine(times, ma25));
+  addLine(C.ma50, 1.5, 0).setData(_stratLwLine(times, ma50));
+  addLine(C.ma100, 1.5, 0).setData(_stratLwLine(times, ma100));
+  // Parabolic SAR — titik-titik kuning (garis disembunyikan)
+  addLine(C.sar, 1, 0, { lineVisible: false, pointMarkersVisible: true, pointMarkersRadius: 1.6 }).setData(_stratLwLine(times, sar));
+
   try { if (typeof window._attachCandleTooltip === 'function') window._attachCandleTooltip(_stratChart, _stratSeries, chartEl, lwData); } catch (_) {}
+
+  // ---------- SUB CHART factory ----------
+  const mkSub = (el, showTime) => {
+    const ch = LightweightCharts.createChart(el, {
+      width: el.clientWidth || 600, height: el.clientHeight || 96,
+      layout: Object.assign({}, baseLayout, { fontSize: 9 }),
+      grid: { vertLines: { color: 'rgba(44,58,86,0.22)' }, horzLines: { color: 'rgba(44,58,86,0.22)' } },
+      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+      rightPriceScale: { borderColor: '#2c3a56', scaleMargins: { top: 0.18, bottom: 0.14 } },
+      timeScale: { borderColor: '#2c3a56', visible: !!showTime, timeVisible: true, secondsVisible: false, rightOffset: 6, tickMarkFormatter: tickFmt },
+      handleScroll: true, handleScale: true
+    });
+    _stratCharts.push(ch);
+    ch.timeScale().subscribeVisibleLogicalRangeChange(_stratSyncRange);
+    const ro = new ResizeObserver(() => { try { ch.applyOptions({ width: el.clientWidth, height: el.clientHeight }); } catch (_) {} });
+    ro.observe(el); _stratROs.push(ro);
+    return ch;
+  };
+  const lineOpts = (color, width, style) => ({ color: color, lineWidth: width || 1.4, lineStyle: style || 0, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+
+  // StochRSI (K hijau, D oranye) 0-100
+  const stochEl = document.getElementById('stratStoch');
+  if (stochEl) {
+    _stratSubStoch = mkSub(stochEl, false);
+    const kS = _stratSubStoch.addLineSeries(lineOpts(C.stochK, 1.4));
+    const dS = _stratSubStoch.addLineSeries(lineOpts(C.stochD, 1.4));
+    kS.setData(_stratLwLine(times, stoch.k)); dS.setData(_stratLwLine(times, stoch.d));
+    [20, 80].forEach(v => kS.createPriceLine({ price: v, color: 'rgba(153,167,198,0.25)', lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
+  }
+  // RSI(14) kuning
+  const rsiEl = document.getElementById('stratRsi');
+  if (rsiEl) {
+    _stratSubRsi = mkSub(rsiEl, false);
+    const rS = _stratSubRsi.addLineSeries(lineOpts(C.rsi, 1.4));
+    rS.setData(_stratLwLine(times, rsi));
+    [30, 50, 70].forEach(v => rS.createPriceLine({ price: v, color: 'rgba(153,167,198,0.25)', lineWidth: 1, lineStyle: 2, axisLabelVisible: v !== 50 }));
+  }
+  // MACD (histogram hijau/merah, DIF hijau, DEA oranye) — subpane ini pegang axis waktu
+  const macdEl = document.getElementById('stratMacd');
+  if (macdEl) {
+    _stratSubMacd = mkSub(macdEl, true);
+    const hS = _stratSubMacd.addHistogramSeries({ priceFormat: { type: 'price', precision: dec, minMove: minMove }, priceLineVisible: false, lastValueVisible: false });
+    const histData = [];
+    for (let i = 0; i < macd.hist.length; i++) { if (macd.hist[i] != null && isFinite(macd.hist[i])) histData.push({ time: times[i], value: macd.hist[i], color: macd.hist[i] >= 0 ? C.histUp : C.histDn }); }
+    hS.setData(histData);
+    _stratSubMacd.addLineSeries(lineOpts(C.macdDif, 1.4)).setData(_stratLwLine(times, macd.dif));
+    _stratSubMacd.addLineSeries(lineOpts(C.macdDea, 1.4)).setData(_stratLwLine(times, macd.dea));
+  }
 
   // index candle entry & candle terakhir (utk posisi kiri zona + proyeksi)
   _stratLastIdx = lwData.length - 1;
   _stratEntryIdx = -1;
-  const entryOpenMs = openMs - STRAT_TF_MS[tf]; // openCandleCloseT → perkiraan open candle entry
+  const entryOpenMs = openMs - STRAT_TF_MS[tf];
   for (let i = 0; i < lwData.length; i++) { if (lwData[i].time * 1000 >= entryOpenMs) { _stratEntryIdx = i; break; } }
   if (_stratEntryIdx < 0) _stratEntryIdx = 0;
 
   _stratPlan = {
-    dir: p.dir,
-    entry: +p.entry,
-    tp1: isFinite(+p.tp1) ? +p.tp1 : null,
-    tp2: isFinite(+p.tp2) ? +p.tp2 : null,
-    tp3: isFinite(+p.tp3) ? +p.tp3 : null,
-    sl: isFinite(+(p.slInit || p.sl)) ? +(p.slInit || p.sl) : null,
-    dec
+    dir: p.dir, entry: +p.entry,
+    tp1: isFinite(+p.tp1) ? +p.tp1 : null, tp2: isFinite(+p.tp2) ? +p.tp2 : null, tp3: isFinite(+p.tp3) ? +p.tp3 : null,
+    sl: isFinite(+(p.slInit || p.sl)) ? +(p.slInit || p.sl) : null, dec: dec
   };
 
-  // Tampilkan ~20 candle sebelum entry sampai 6 candle proyeksi di kanan
-  try {
-    _stratChart.timeScale().setVisibleLogicalRange({ from: Math.max(0, _stratEntryIdx - 20), to: _stratLastIdx + 6 });
-  } catch (_) { try { _stratChart.timeScale().fitContent(); } catch (__) {} }
+  // Rentang tampil: ~100 candle terakhir, pastikan entry tetap terlihat, + 6 proyeksi kanan
+  let from = Math.max(0, _stratLastIdx - 100);
+  if (_stratEntryIdx >= 0 && _stratEntryIdx < from + 12) from = Math.max(0, _stratEntryIdx - 12);
+  const range = { from: from, to: _stratLastIdx + 6 };
+  try { _stratChart.timeScale().setVisibleLogicalRange(range); } catch (_) { try { _stratChart.timeScale().fitContent(); } catch (__) {} }
+  _stratSyncRange(range);
+
+  // Sinkronisasi & crosshair legend + resize main chart
+  _stratChart.timeScale().subscribeVisibleLogicalRangeChange(_stratSyncRange);
+  _stratChart.subscribeCrosshairMove(param => {
+    let idx = null;
+    if (param && param.time != null && _stratTimeIdx) { const gi = _stratTimeIdx.get(param.time); if (gi != null) idx = gi; }
+    _stratUpdateLegends(idx);
+  });
+  const roMain = new ResizeObserver(() => { if (_stratChart) _stratChart.applyOptions({ width: chartEl.clientWidth, height: chartEl.clientHeight }); });
+  roMain.observe(chartEl); _stratROs.push(roMain);
+
+  _stratUpdateLegends(null); // tampilkan nilai terakhir
 
   buildStratZones(_stratPlan);
   startStratRaf();
-
-  _stratRO = new ResizeObserver(() => { if (_stratChart) _stratChart.applyOptions({ width: chartEl.clientWidth, height: chartEl.clientHeight }); });
-  _stratRO.observe(chartEl);
 }
 
 /* Bangun elemen zona (statis per sinyal). Reposisi dilakukan layoutStratZones (RAF). */
