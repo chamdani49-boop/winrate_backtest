@@ -122835,5 +122835,71 @@
       "consolPct": 4.74,
       "bias": "long"
     }
+  },
+  {
+    "id": "ZKUSDT-1788004799999",
+    "pair": "ZKUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.00799,
+    "slInit": 0.00807571,
+    "tp1": 0.00788097,
+    "tp2": 0.00785131,
+    "tp3": 0.0077656,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-08-29T12:00:00.000Z",
+    "exitTime": "2026-08-29T12:29:59.999Z",
+    "exit": 0.00807571,
+    "bars": 2,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.073,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 53,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 32.3,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 0.4x",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 32 sudah rendah",
+        "MACD fading_up",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 32.6,
+      "stochK": 48.7,
+      "stochD": 61.1,
+      "macdDif": -0.00003426,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 29.6,
+        "macdDif": -0.00019073,
+        "stochK": 7.9,
+        "stochD": 11.8
+      }
+    }
   }
 ]
