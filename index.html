@@ -4644,15 +4644,14 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
     const arr = up ? '↑' : down ? '↓' : '↔';
     return `<div class="mtf-cell ${cls}"><div class="mtf-tf">${lbl}</div><div class="mtf-arr">${arr}</div><div class="mtf-val">${v.replace(/UPTREND|UP/,'UP').replace(/DOWNTREND|DOWN/,'DOWN').replace(/RANGE/,'RNG').slice(0,5)}</div></div>`;
   };
+  // Cell diisi live oleh renderStratMtf() setelah fetch klines tiap TF (D/4H/15m/5m)
+  const mtfPlaceholder = ['D', '4H', '15m', '5m'].map(lbl =>
+    `<div class="mtf-cell mtf-flat"><div class="mtf-tf">${lbl}</div><div class="mtf-arr">…</div><div class="mtf-val">—</div></div>`
+  ).join('');
   const mtfHTML = `
     <div class="vis-row mtf-row-wrap">
       <div class="vis-lbl">Multi-TF</div>
-      <div class="mtf-grid">
-        ${tfCell('D', mtf.D)}
-        ${tfCell('W', mtf.W)}
-        ${tfCell('4H', mtf['4H'])}
-        ${tfCell('1H', mtf['1H'])}
-      </div>
+      <div class="mtf-grid" id="stratMtfGrid">${mtfPlaceholder}</div>
     </div>
   `;
 
@@ -4701,18 +4700,12 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
     <div class="modal-section">
       <div class="modal-section-hd">📊 VISUAL ANALISA</div>
       ${chartHTML}
-      <div class="vis-grid" style="margin-top:14px">
-        <div class="vis-ladder-col">
-          <div class="vis-section-lbl">Price Ladder</div>
-          ${ladderHTML}
-        </div>
-        <div class="vis-bars-col">
-          ${ringHTML}
-          ${rsiHTML}
-          ${volHTML}
-          ${macdHTML}
-          ${mtfHTML}
-        </div>
+      <div class="vis-bars-col" style="margin-top:14px">
+        ${ringHTML}
+        ${rsiHTML}
+        ${volHTML}
+        ${macdHTML}
+        ${mtfHTML}
       </div>
     </div>
   `;
@@ -4778,8 +4771,9 @@ function showStratModal(p, isHistory) {
   document.getElementById('stratModalBody').innerHTML = html;
   document.getElementById('stratModal').classList.add('show');
 
-  // Gambar chart candlestick (async, tidak memblok tampilan modal)
+  // Gambar chart candlestick + isi matrix Multi-TF (async, tidak memblok tampilan modal)
   renderStratCandleChart(p, last);
+  renderStratMtf(p.pair);
 }
 
 /* ============================================================
@@ -5239,6 +5233,42 @@ function startStratRaf() {
   _stratRaf = requestAnimationFrame(tick);
 }
 
+/* Tren sederhana dari deret candle: close terakhir vs EMA (buang candle in-progress) */
+function _stratTrend(cs) {
+  if (!cs || cs.length < 6) return '—';
+  const closes = cs.slice(0, -1).map(c => c.c);
+  if (closes.length < 5) return '—';
+  const period = Math.min(50, closes.length);
+  const k = 2 / (period + 1);
+  let e = closes[0];
+  for (let i = 1; i < closes.length; i++) e = closes[i] * k + e * (1 - k);
+  const last = closes[closes.length - 1];
+  if (last > e * 1.002) return 'UP';
+  if (last < e * 0.998) return 'DOWN';
+  return 'RANGE';
+}
+
+/* Isi matrix Multi-TF (D / 4H / 15m / 5m) — dihitung live dari klines Binance */
+async function renderStratMtf(pair) {
+  const grid = document.getElementById('stratMtfGrid');
+  if (!grid || !pair) return;
+  const tfs = [['1d', 'D'], ['4h', '4H'], ['15m', '15m'], ['5m', '5m']];
+  const results = await Promise.all(tfs.map(async ([tf, lbl]) => {
+    try { const cs = await fetchKlines(pair.toUpperCase(), tf, 120, 'spot'); return [lbl, _stratTrend(cs)]; }
+    catch (_) { return [lbl, '—']; }
+  }));
+  // pastikan popup masih sama & grid belum diganti
+  const g = document.getElementById('stratMtfGrid');
+  if (!g) return;
+  g.innerHTML = results.map(([lbl, tr]) => {
+    const up = tr === 'UP', down = tr === 'DOWN';
+    const cls = up ? 'mtf-up' : down ? 'mtf-down' : 'mtf-flat';
+    const arr = up ? '↑' : down ? '↓' : '↔';
+    const val = up ? 'UP' : down ? 'DOWN' : (tr === '—' ? '—' : 'RNG');
+    return `<div class="mtf-cell ${cls}"><div class="mtf-tf">${lbl}</div><div class="mtf-arr">${arr}</div><div class="mtf-val">${val}</div></div>`;
+  }).join('');
+}
+
 /* Tooltip OHLC saat hover/tap candle (di-port dari Economstock Terminal). */
 window._attachCandleTooltip = function (chart, series, container, candles) {
   if (!chart || !series || !container || typeof chart.subscribeCrosshairMove !== 'function') return;
@@ -5330,6 +5360,9 @@ function formatEvent(e) {
 }
 
 function showToast(e) {
+  // Notifikasi popup otomatis DIMATIKAN (permintaan user). Event tetap tercatat
+  // di lonceng (bell) dan hanya tampil saat lonceng diklik.
+  return;
   const fmt = formatEvent(e);
   const cls = e.type === 'tp_hit' ? 'tp' : e.type === 'closed' ? (e.result==='WIN'?'tp':'sl') : 'signal';
   const div = document.createElement('div');
