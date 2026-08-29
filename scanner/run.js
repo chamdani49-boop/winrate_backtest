@@ -735,6 +735,40 @@ function computeStats(history, openPositions, watchlist, meta) {
   const wr = total ? wins.length / total * 100 : 0;
   const pf = grossL > 0 ? grossP / grossL : (grossP > 0 ? 999 : 0);
 
+  // === HEADLINE = rolling 30 HARI TERAKHIR (dihitung ulang tiap run) ===
+  const DAY = 86400e3;
+  const cut30 = Date.now() - 30 * DAY;
+  const recent = history.filter(t => { const tm = new Date(t.exitTime).getTime(); return isFinite(tm) && tm >= cut30; });
+  const rWins = recent.filter(t => (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN');
+  const rPnls = recent.map(t => t.pnl_pct || 0);
+  const rGrossP = rPnls.filter(x => x > 0).reduce((a, b) => a + b, 0);
+  const rGrossL = Math.abs(rPnls.filter(x => x < 0).reduce((a, b) => a + b, 0));
+  const rNet = rGrossP - rGrossL;
+  const rWr = recent.length ? rWins.length / recent.length * 100 : 0;
+  const rPf = rGrossL > 0 ? rGrossP / rGrossL : (rGrossP > 0 ? 999 : 0);
+
+  // === Winrate & return PER BULAN (semua histori, grouped by bulan exit) ===
+  const monthly = (() => {
+    const mm = {};
+    history.forEach(t => {
+      const mo = (t.exitTime || '').slice(0, 7); // YYYY-MM
+      if (!/^\d{4}-\d{2}$/.test(mo)) return;
+      const b = mm[mo] || (mm[mo] = { month: mo, trades: 0, wins: 0, losses: 0, net: 0, gp: 0, gl: 0 });
+      b.trades++;
+      const win = (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN';
+      if (win) b.wins++; else b.losses++;
+      const p = t.pnl_pct || 0; b.net += p; if (p > 0) b.gp += p; else b.gl += Math.abs(p);
+    });
+    return Object.values(mm)
+      .sort((a, b) => b.month.localeCompare(a.month))
+      .map(b => ({
+        month: b.month, trades: b.trades, wins: b.wins, losses: b.losses,
+        winrate: b.trades ? +(b.wins / b.trades * 100).toFixed(1) : 0,
+        net: +b.net.toFixed(2),
+        profitFactor: b.gl > 0 ? +(b.gp / b.gl).toFixed(2) : (b.gp > 0 ? 999 : 0)
+      }));
+  })();
+
   const tpCounts = { TP1: 0, TP2: 0, TP3: 0 };
   history.forEach(t => (t.tpHits || []).forEach(h => { if (tpCounts[h] != null) tpCounts[h]++; }));
   const closedByCounts = { TP3: 0, SL: 0, TIMEOUT: 0 };
@@ -863,18 +897,21 @@ function computeStats(history, openPositions, watchlist, meta) {
     bigTF: meta.bigTF,
     smallTF: meta.smallTF,
     since: total ? history[0].openTime : null,
-    totalClosed: total,
+    windowDays: 30,
+    totalClosed: recent.length,          // headline: jumlah trade tutup dalam 30 hari
+    totalClosedAll: total,               // total sepanjang waktu (referensi)
     open: openPositions.length,
-    wins: wins.length,
-    losses: losses.length,
-    winrate: +wr.toFixed(1),
-    grossProfit: +grossP.toFixed(2),
-    grossLoss: +grossL.toFixed(2),
-    netReturn: +net.toFixed(2),
-    profitFactor: pf > 999 ? 999 : +pf.toFixed(2),
-    avgReturn: total ? +(pnls.reduce((a, b) => a + b, 0) / total).toFixed(3) : 0,
-    bestPct: pnls.length ? +Math.max(...pnls).toFixed(2) : 0,
-    worstPct: pnls.length ? +Math.min(...pnls).toFixed(2) : 0,
+    wins: rWins.length,
+    losses: recent.length - rWins.length,
+    winrate: +rWr.toFixed(1),            // WINRATE = 30 hari terakhir
+    grossProfit: +rGrossP.toFixed(2),
+    grossLoss: +rGrossL.toFixed(2),
+    netReturn: +rNet.toFixed(2),         // NET = 30 hari terakhir
+    profitFactor: rPf > 999 ? 999 : +rPf.toFixed(2),
+    avgReturn: recent.length ? +(rPnls.reduce((a, b) => a + b, 0) / recent.length).toFixed(3) : 0,
+    bestPct: rPnls.length ? +Math.max(...rPnls).toFixed(2) : 0,
+    worstPct: rPnls.length ? +Math.min(...rPnls).toFixed(2) : 0,
+    monthly,
     tpCounts,
     closedByCounts,
     slCount,

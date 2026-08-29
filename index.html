@@ -1608,7 +1608,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
               <div class="hero-val c-green" id="lv-wr">—</div>
               <div class="c-muted" style="font-family:var(--mono);font-size:11px">
                 Net <span id="lv-net" class="c-green">—</span><br>
-                <span style="opacity:.7">Overall winrate</span>
+                <span style="opacity:.7">Winrate 30 hari</span>
               </div>
             </div>
             <div class="hero-bar"><div id="lv-wr-bar" style="background:linear-gradient(90deg,var(--blue),var(--accent))"></div></div>
@@ -1765,6 +1765,17 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <table style="width:100%">
               <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
               <tbody id="lv-pair-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ============ HISTORI WINRATE & RETURN PER BULAN ============ -->
+        <div class="card mt12">
+          <div class="card-hd">📅 Winrate &amp; Return per Bulan</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%">
+              <thead><tr><th>BULAN</th><th>TRADE</th><th>W / L</th><th>WINRATE</th><th>NET %</th><th>PF</th></tr></thead>
+              <tbody id="lv-monthly-body"></tbody>
             </table>
           </div>
         </div>
@@ -4063,8 +4074,8 @@ function renderLive(stats, state, history) {
 
   const tgt = (cfg && cfg.target_wr) || 55;
   setElC('lv-wr', (stats.winrate ?? 0).toFixed(1) + '%', stats.winrate >= tgt ? 'c-green' : stats.winrate >= 45 ? 'c-yellow' : 'c-red');
-  setTxt('lv-wr-sub', `${stats.totalClosed||0} closed · target ${tgt}%`);
-  setTxt('lv-total', stats.totalClosed || 0);
+  setTxt('lv-wr-sub', `${stats.totalClosed||0} closed (30h) · target ${tgt}%`);
+  setTxt('lv-total', stats.totalClosedAll ?? stats.totalClosed ?? 0);
   setTxt('lv-open-sub', `posisi terbuka ${stats.open || 0}`);
   setElC('lv-net', (stats.netReturn >= 0 ? '+' : '') + (stats.netReturn ?? 0).toFixed(2) + '%', stats.netReturn >= 0 ? 'c-green' : 'c-red');
   setElC('lv-pf', stats.profitFactor >= 999 ? '∞' : (stats.profitFactor ?? 0).toFixed(2), stats.profitFactor >= 1.5 ? 'c-green' : stats.profitFactor >= 1 ? 'c-yellow' : 'c-red');
@@ -4092,6 +4103,26 @@ function renderLive(stats, state, history) {
       <td class="${d.winrate>=55?'c-green':d.winrate>=45?'c-yellow':'c-red'}">${d.winrate}%</td>
       <td class="${d.net>=0?'c-green':'c-red'}">${d.net>=0?'+':''}${d.net}%</td></tr>`;
   }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
+
+  // Histori winrate & return per bulan
+  const monthlyBody = document.getElementById('lv-monthly-body');
+  if (monthlyBody) {
+    const mo = Array.isArray(stats.monthly) ? stats.monthly : [];
+    const moName = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    monthlyBody.innerHTML = mo.length ? mo.map(m => {
+      const p = String(m.month).split('-');
+      const label = (p.length === 2) ? `${moName[(+p[1]) - 1]} ${p[0]}` : m.month;
+      const pf = m.profitFactor >= 999 ? '∞' : (m.profitFactor ?? 0).toFixed(2);
+      return `<tr>
+        <td><b>${label}</b></td>
+        <td>${m.trades}</td>
+        <td><span class="c-green">${m.wins}</span> / <span class="c-red">${m.losses}</span></td>
+        <td class="${m.winrate>=55?'c-green':m.winrate>=45?'c-yellow':'c-red'}">${m.winrate}%</td>
+        <td class="${m.net>=0?'c-green':'c-red'}">${m.net>=0?'+':''}${m.net}%</td>
+        <td class="${m.profitFactor>=1.5?'c-green':m.profitFactor>=1?'c-yellow':'c-red'}">${pf}</td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="6"><div class="empty"><div class="empty-txt">Belum ada histori bulanan.</div></div></td></tr>`;
+  }
 
   const wlEl = document.getElementById('lv-watch');
   if (wlEl) {

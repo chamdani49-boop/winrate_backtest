@@ -179,3 +179,16 @@ Klarifikasi user: aturan RSI+StochRSI+MACD adalah **pemicu di 15m**, sedangkan
   (LONG); kebalikannya (SHORT).
 - Entry mulai candle 15m berikutnya; SL swing 15m; TP1/2/3 Fibonacci.
 - `detectSignalIndicator(small, big, strat)` — small=15m (pemicu+swing), big=4H (acuan).
+
+
+---
+
+## 10. Winrate rolling 30 hari + histori winrate/return per bulan
+
+- **Headline stats (winrate, net, PF, avg, best/worst, wins/losses, totalClosed)**
+  kini dihitung dari trade yang tutup dalam **30 hari terakhir** (rolling, dihitung
+  ulang tiap run). `totalClosedAll` = jumlah all-time (dipakai kartu "System Signals").
+- Ditambah `stats.monthly`: winrate, net%, profit factor, W/L, jumlah trade **per
+  bulan** (semua histori, urut terbaru dulu).
+- Frontend: label winrate → "Winrate 30 hari", sub "(30h)"; kartu baru **"Winrate &
+  Return per Bulan"** (tabel) di halaman Live.
