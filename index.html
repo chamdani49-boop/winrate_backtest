@@ -1150,7 +1150,7 @@ html{ scroll-behavior:smooth; }
     </div>
 
     <div class="nav-group">Utama</div>
-    <button class="nav-item active" onclick="goPage('home')" id="nav-home">
+    <button class="nav-item" onclick="goPage('home')" id="nav-home">
       <span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span>
     </button>
     <button class="nav-item" onclick="goPage('setup')" id="nav-setup">
@@ -1158,7 +1158,7 @@ html{ scroll-behavior:smooth; }
     </button>
 
     <div class="nav-group">Robot 24/7</div>
-    <button class="nav-item" onclick="goPage('live')" id="nav-live">
+    <button class="nav-item active" onclick="goPage('live')" id="nav-live">
       <span class="nav-icon">🤖</span><span class="nav-label">Live 24/7</span>
       <span class="nav-badge" id="nb-live" style="background:var(--red)">●</span>
     </button>
@@ -1209,7 +1209,7 @@ html{ scroll-behavior:smooth; }
   <main class="main">
 
     <!-- ======== HOME / DASHBOARD ======== -->
-    <div class="page active" id="page-home">
+    <div class="page" id="page-home">
       <div class="page-title">Dashboard</div>
       <div class="page-sub" id="dash-sub">Selamat datang — setup indikator & mulai backtest</div>
 
@@ -1599,7 +1599,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
     </div>
 
     <!-- ======== ROBOT LIVE 24/7 ======== -->
-    <div class="page" id="page-live">
+    <div class="page active" id="page-live">
       <div class="page-title">🤖 Robot Live 24/7</div>
       <div class="page-sub">Forward-test otomatis: robot tvbtpro memindai semua coin USDT (volume ≥ $1 jt) tiap 15 menit (4h bias + 15m entry), mencatat TP/SL, dan winrate-nya terus bertumbuh — walau browser kamu tertutup.</div>
 
@@ -2234,8 +2234,8 @@ TP: 1.0790 | SL: 1.0880</div>
 
 <!-- BOTTOM NAV (mobile) -->
 <div class="bottomnav">
-  <button class="bnav-item active" onclick="goPage('home')" id="bn-home"><div class="bnav-icon">🏠</div>Home</button>
-  <button class="bnav-item" onclick="goPage('live')" id="bn-live"><div class="bnav-icon">🤖</div>Live</button>
+  <button class="bnav-item" onclick="goPage('home')" id="bn-home"><div class="bnav-icon">🏠</div>Home</button>
+  <button class="bnav-item active" onclick="goPage('live')" id="bn-live"><div class="bnav-icon">🤖</div>Live</button>
   <button class="bnav-item" onclick="goPage('scanner')" id="bn-scanner"><div class="bnav-icon">🛰️</div>Scanner</button>
   <button class="bnav-item" onclick="goPage('result')" id="bn-result"><div class="bnav-icon">📈</div>Backtest</button>
   <button class="bnav-item" onclick="goPage('calc')" id="bn-calc"><div class="bnav-icon">💰</div>Kalkulator</button>
@@ -2268,6 +2268,7 @@ window.onload = () => {
   document.getElementById('c-src').addEventListener('change', toggleCalcSrc);
   toggleCalcSrc();
   initBellGlobal();
+  goPage('live');   // halaman awal saat URL dibuka = Robot Live
 };
 
 /* ============================================================
