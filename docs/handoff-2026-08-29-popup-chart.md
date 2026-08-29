@@ -248,3 +248,28 @@ TODO berikutnya:
 ### TODO berikutnya
 - Setup **cron-job.org** memanggil workflow_dispatch tiap 5 menit (pakai PAT
   fine-grained, izin Actions read&write) agar sinyal benar-benar otomatis.
+
+
+---
+
+## 13. Skor/validity sinkron + crosshair antar-pane + fix mobile overflow
+
+- **Fix mobile overflow** (12c2d69): tab Performa/History/Akun sempat terpotong &
+  "membesar" ke kanan di HP → `overflow-x:clip` (html/body/.main, tak merusak sticky)
+  + `min-width:0` grid/kartu + `#dayChart max-width:100%`.
+- **Landing = Robot Live** (6b06fc2, 8ab7056) + tab switch scroll ke bar tab (d1b1b89)
+  supaya konten tab langsung terlihat.
+- **Skor/validity SINKRON dgn strategi baru** (f0f62f7): masalah — sinyal FIB
+  mayoritas WEAK karena masih pakai `buildIntel` lama (skor dari volume spike +
+  RSI-oversold + taker → bertentangan dgn rumus baru). Solusi: `buildIntelIndicator`
+  menilai confluence yg SAMA dgn sinyal (momentum RSI 15m, freshness StochRSI, MACD,
+  kekuatan acuan 4H, keselarasan MTF, +bonus MA200). Base 45 + confluence;
+  STRONG≥75, MODERATE≥58, WEAK<58. scanSymbol memakainya. Posisi FIB terbuka
+  di-rescore (4a0e227) → distribusi jadi STRONG 14 / MODERATE 3 / WEAK 0.
+- **Crosshair antar-pane** (303b9d8): `stratSyncCrosshair` → saat menahan/hover chart,
+  garis vertikal muncul di SEMUA pane (main → StochRSI → RSI → MACD) via
+  setCrosshairPosition, seolah satu garis menembus ke bawah sampai MACD.
+
+### Cron otomatis: MASIH manual
+Run otomatis (schedule) GitHub terakhir 10:19 UTC; semua sinyal FIB dari manual
+(workflow_dispatch). Panduan setup di `docs/cron-setup.md` (cron-job.org).
