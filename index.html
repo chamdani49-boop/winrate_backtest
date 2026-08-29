@@ -870,10 +870,18 @@ html{ scroll-behavior:smooth; }
    hidden/auto). min-width:0 membuat isi grid/kartu bisa menyusut, tak memaksa lebar. */
 @media (max-width: 900px){
   html, body{ overflow-x:clip; }
-  .main{ overflow-x:clip; }
+  /* #app & .main adalah flex item (flex:1). Tanpa min-width:0, min-width otomatis
+     = min-content → kartu/tabel/canvas lebar MEMAKSA seluruh halaman melebar dari
+     viewport lalu terpotong overflow-x:clip. min-width:0 membuat .main menyusut
+     pas layar; konten lebar (tabel) digeser di dalam wrapper overflow-x:auto-nya. */
+  #app{ min-width:0; }
+  .main{ overflow-x:clip; min-width:0; }
   #live-content, .live-tab-pane{ max-width:100%; }
   .g2 > *, .g3 > *, .g4 > *, .card{ min-width:0; }
   #dayChart{ max-width:100%; }
+  /* canvas chart (dashboard/equity/day) tak boleh meluber dari kotaknya */
+  .chart-box{ overflow:hidden; }
+  .chart-box canvas{ max-width:100%; }
   /* tabel lebar tetap bisa digeser di dalam wrapper-nya, bukan memaksa halaman */
   .card > div[style*="overflow-x"]{ max-width:100%; }
 }

@@ -273,3 +273,47 @@ TODO berikutnya:
 ### Cron otomatis: MASIH manual
 Run otomatis (schedule) GitHub terakhir 10:19 UTC; semua sinyal FIB dari manual
 (workflow_dispatch). Panduan setup di `docs/cron-setup.md` (cron-job.org).
+
+
+
+---
+
+## 14. Crosshair satu garis tembus ke MACD + fix halaman kepotong di HP (sesi lanjutan)
+
+Sesi lanjutan (2026-08-29 malam). Semua di branch `main`.
+
+### 14a. Crosshair popup: satu garis vertikal menembus dari chart utama sampai MACD
+- **Masalah:** implementasi lama pakai `setCrosshairPosition(price, time, series)` per
+  pane — tidak andal menggambar garis vertikal di subpane (StochRSI/RSI/MACD); di HP
+  hanya garis di chart utama yang tampak.
+- **Solusi (`stratSyncCrosshair` ditulis ulang):** overlay `<div class="strat-xhair">`
+  (garis putus-putus, `pointer-events:none`, z-index 20) disuntik ke tiap kontainer pane
+  (`#stratChartWrap` + 3 `.strat-sub-wrap`). Saat `subscribeCrosshairMove`, koordinat-x
+  dihitung `chart.timeScale().timeToCoordinate(time)` (fallback `param.point.x`) lalu
+  SEMUA garis diposisikan di x yang sama → tampak seperti satu garis kontinu menembus ke
+  bawah sampai MACD. Sembunyi saat pointer keluar (`param.time == null`).
+- Garis vertikal native lightweight-charts dimatikan (`crosshair.vertLine.visible:false`)
+  di chart utama & subpane agar tidak dobel dengan overlay; garis horizontal tetap ada.
+- Elemen overlay dibersihkan di `cleanupStratChart` (`_stratXhairEls`).
+
+### 14b. Halaman "kepotong" di HP pada tab selain Live (Home/Backtest/Kalkulator/Scanner)
+- **Root cause (flexbox min-width:auto trap):** `#app{display:flex}` dan `.main{flex:1}`.
+  Tanpa `min-width:0`, min-width otomatis flex item = min-content-nya → kartu/tabel/canvas
+  lebar (mis. tabel 8 kolom "Rekap Semua Trade" saat ADA data, atau canvas chart 600px)
+  MEMAKSA `.main` melebar dari viewport, lalu ujung kanannya dipotong `overflow-x:clip`.
+  Terlihat hanya saat halaman terisi data (makanya render kosong tampak normal).
+- **Verifikasi:** render headless Chromium (Playwright) di lebar HP 390/412px + muat data
+  demo → terbukti seluruh `.main` melebar (Home ~652px, Backtest ~468px di viewport 412).
+- **Fix (di `@media (max-width:900px)`):**
+  - `#app{min-width:0}` + `.main{min-width:0}` → `.main` menyusut pas layar; tabel lebar
+    kini digeser di dalam `.tbl-wrap{overflow-x:auto}`-nya, bukan memaksa halaman.
+  - `.chart-box{overflow:hidden}` + `.chart-box canvas{max-width:100%}` → canvas chart
+    (dashboard/equity/day) tak meluber dari kotaknya.
+- **Hasil:** di 412px semua halaman `leaves=[]`/`scrollers=[]` (kecuali tabel yang memang
+  scroll dalam wrapper). Cutoff hilang.
+
+### Verifikasi
+- Sintaks JS inline `index.html` dicek OK (`new Function`).
+- Layout diverifikasi via screenshot Playwright headless di 390/412px (chart popup butuh
+  CDN + data Binance → tidak diuji render live karena sandbox INTEGRATIONS_ONLY; hanya
+  halaman tab yang diverifikasi visual).
