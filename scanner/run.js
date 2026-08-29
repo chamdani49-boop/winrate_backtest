@@ -965,10 +965,12 @@ function computeStats(history, openPositions, watchlist, meta) {
 
   const byPair = {};
   history.forEach(t => {
-    const p = byPair[t.pair] || (byPair[t.pair] = { trades: 0, wins: 0, net: 0 });
+    const p = byPair[t.pair] || (byPair[t.pair] = { trades: 0, wins: 0, net: 0, lastExit: null, _lastMs: -1 });
     p.trades++; if ((t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN') p.wins++; p.net += t.pnl_pct || 0;
+    const tm = new Date(t.exitTime).getTime();               // exitTime candle close terakhir (ISO)
+    if (isFinite(tm) && tm > p._lastMs) { p._lastMs = tm; p.lastExit = t.exitTime; }
   });
-  Object.values(byPair).forEach(p => { p.winrate = p.trades ? +(p.wins / p.trades * 100).toFixed(1) : 0; p.net = +p.net.toFixed(2); });
+  Object.values(byPair).forEach(p => { p.winrate = p.trades ? +(p.wins / p.trades * 100).toFixed(1) : 0; p.net = +p.net.toFixed(2); delete p._lastMs; });
 
   const side = d => {
     const arr = history.filter(t => t.dir === d);

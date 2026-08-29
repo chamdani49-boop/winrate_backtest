@@ -390,3 +390,21 @@ dinonaktifkan; kode gate tetap ada untuk optionalitas). Label strategi otomatis 
   advancePosition (SL tetap 95 walau TP1&TP2 kena). 7 posisi terbuka yang SL-nya sudah
   terlanjur dinaikkan (ZBT, EUL, KAITO, GMX, FIL, AXS, TRUMP) di-reset ke `slInit`.
   Komentar header & `management` string diperbarui.
+
+
+
+---
+
+## 16. Halaman Performa: tanggal "data per" + kolom tanggal close per coin
+
+- **Tanggal halaman Performa**: chip `📅 Data per <dd Mmm yyyy, HH:MM>` di atas tab Performa
+  (id `perf-asof`, diisi dari `stats.updatedAt` via `fmtDateTime`).
+- **Kolom TERAKHIR CLOSE** di tabel "Performa per Coin": tanggal/waktu close trade terakhir
+  per pair. Format via helper baru `closeLabel(iso)`: < 24 jam → relatif ("5 menit/jam yang
+  lalu"), ≥ 24 jam → tanggal ("28 Agu 2026"). Hover = datetime lengkap.
+- **Backend** (`computeStats`): tiap entri `byPair` kini punya `lastExit` = exitTime terbaru
+  (max) trade pair itu. Diisi saat agregasi history; `_lastMs` sementara dihapus dari output.
+- Diuji: computeStats mengambil exitTime terbaru per pair; closeLabel benar utk 30dtk/1mnt/
+  5jam/23jam/25jam/3hari/null.
+- Catatan: kolom baru terisi setelah run scanner berikutnya menulis `lastExit` ke stats.json
+  (keep-alive loop akan pull kode baru & regen). Sebelum itu tampil "—".

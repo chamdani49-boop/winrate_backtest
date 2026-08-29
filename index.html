@@ -1778,6 +1778,11 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         <!-- ============ TAB: PERFORMA ============ -->
         <div class="live-tab-pane" id="live-pane-perf">
 
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted);margin:10px 2px 0">
+          <span class="chip info" style="margin:0">📅 Data per <span id="perf-asof">—</span></span>
+          <span>• winrate & return = seluruh histori trade robot</span>
+        </div>
+
         <!-- ============ TP HIT DISTRIBUTION ============ -->
         <div class="card mt12">
           <div class="card-hd">🎯 TP Hit Distribution — kena target berapa kali, total</div>
@@ -1831,7 +1836,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <div class="card-hd">🏆 Performa per Coin</div>
           <div style="overflow-x:auto">
             <table style="width:100%">
-              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th></tr></thead>
+              <thead><tr><th>PAIR</th><th>TRADE</th><th>WINRATE</th><th>NET %</th><th>TERAKHIR CLOSE</th></tr></thead>
               <tbody id="lv-pair-body"></tbody>
             </table>
           </div>
@@ -4273,8 +4278,12 @@ function renderLive(stats, state, history) {
     const d = byPair[p];
     return `<tr><td><b>${p}</b></td><td>${d.trades}</td>
       <td class="${d.winrate>=55?'c-green':d.winrate>=45?'c-yellow':'c-red'}">${d.winrate}%</td>
-      <td class="${d.net>=0?'c-green':'c-red'}">${d.net>=0?'+':''}${d.net}%</td></tr>`;
-  }).join('') : `<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
+      <td class="${d.net>=0?'c-green':'c-red'}">${d.net>=0?'+':''}${d.net}%</td>
+      <td class="c-muted" style="white-space:nowrap;font-family:var(--mono);font-size:11px" title="${d.lastExit?fmtDateTime(d.lastExit):'—'}">${closeLabel(d.lastExit)}</td></tr>`;
+  }).join('') : `<tr><td colspan="5"><div class="empty"><div class="empty-txt">Belum ada data per coin.</div></div></td></tr>`;
+
+  // Tanggal "data per" di halaman Performa
+  setTxt('perf-asof', stats.updatedAt ? fmtDateTime(stats.updatedAt) : '—');
 
   // Sub-tab Histori Bulanan (di dalam Robot Live)
   renderMonthlyTable(stats);
@@ -5816,6 +5825,19 @@ function timeAgo(iso) {
   const m = Math.floor(s/60); if (m < 60) return m + ' mnt lalu';
   const h = Math.floor(m/60); if (h < 24) return h + ' jam lalu';
   const d = Math.floor(h/24); return d + ' hari lalu';
+}
+
+// Label tanggal close: < 24 jam → relatif ("5 menit/jam yang lalu"), >= 24 jam → tanggal.
+function closeLabel(iso){
+  if(!iso) return '—';
+  const t = new Date(iso).getTime();
+  if(!isFinite(t)) return '—';
+  const s = Math.floor((Date.now() - t)/1000);
+  if(s < 0) return 'baru saja';
+  if(s < 60) return 'baru saja';
+  if(s < 3600){ const m = Math.floor(s/60); return m + ' menit yang lalu'; }
+  if(s < 86400){ const h = Math.floor(s/3600); return h + ' jam yang lalu'; }
+  return new Date(t).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
 }
 
 </script>
