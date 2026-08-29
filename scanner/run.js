@@ -291,8 +291,24 @@ function detectSignalIndicator(small, big, strat) {
   if (rsiNow == null || kNow == null || kPrev == null || dNow == null || dPrev == null || difNow == null) return null;
   const crossUp = kPrev <= dPrev && kNow > dNow;
   const crossDn = kPrev >= dPrev && kNow < dNow;
-  const trigLong = rsiNow > mid && crossUp && kNow < upper && difNow > 0;
-  const trigShort = rsiNow < mid && crossDn && kNow > lower && difNow < 0;
+
+  // --- Syarat "fresh cross dari zona ekstrem" (anti entry saat StochRSI 15m kelelahan) ---
+  // Filosofi: begitu 4H close & bias searah, JANGAN langsung entry. StochRSI 15m biasanya
+  // masih di puncak/dasar (kelelahan). Tunggu ia bergerak ke zona ekstrem lawan arah dulu,
+  // baru cross → di situ entry.
+  //   LONG : %K harus SEMPAT oversold (<= stochLower) dalam stochZoneLookback candle terakhir
+  //          DAN cross↑ terjadi saat %K masih di paruh bawah (< stochCrossZone) → "turun dulu, baru cross".
+  //   SHORT: %K harus SEMPAT overbought (>= stochUpper) lalu cross↓ saat %K masih di paruh atas (> 100 - stochCrossZone).
+  const freshOn = strat.stochFreshCross !== false;                 // default AKTIF
+  const zoneLB = strat.stochZoneLookback || 8;
+  const crossZone = strat.stochCrossZone != null ? strat.stochCrossZone : 50;
+  let kMinRecent = Infinity, kMaxRecent = -Infinity;
+  for (let j = Math.max(0, i - zoneLB); j <= i; j++) { const v = k[j]; if (v == null) continue; if (v < kMinRecent) kMinRecent = v; if (v > kMaxRecent) kMaxRecent = v; }
+  const freshLong = !freshOn || (kMinRecent <= lower && kNow < crossZone);       // sempat oversold + cross di paruh bawah
+  const freshShort = !freshOn || (kMaxRecent >= upper && kNow > (100 - crossZone)); // sempat overbought + cross di paruh atas
+
+  const trigLong = rsiNow > mid && crossUp && kNow < upper && difNow > 0 && freshLong;
+  const trigShort = rsiNow < mid && crossDn && kNow > lower && difNow < 0 && freshShort;
   if (!trigLong && !trigShort) return null;
 
   // --- Acuan 4H (bias arah): StochRSI bullish/bearish + RSI vs 50 + MACD vs 0 ---
@@ -344,8 +360,8 @@ function detectSignalIndicator(small, big, strat) {
   const lvl = m => dir === 'BUY' ? entry + R * m : entry - R * m;
   const tps = [lvl(fib[0]), lvl(fib[1]), lvl(fib[2])];
   const lab = dir === 'BUY'
-    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-LONG' }
-    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-SHORT' };
+    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI oversold→cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-LONG' }
+    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI overbought→cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-SHORT' };
 
   return {
     dir, entry: roundPx(entry), sl: roundPx(sl),
@@ -357,7 +373,7 @@ function detectSignalIndicator(small, big, strat) {
     signalCandleCloseT: closed[i].closeT,
     entryCandleT: forming ? forming.t : closed[i].closeT + 1,
     candleCloseT: forming ? forming.closeT : closed[i].closeT,
-    reasons: { rsi: +rsiNow.toFixed(1), stochK: +kNow.toFixed(1), stochD: +dNow.toFixed(1), macdDif: +difNow.toFixed(8), cross: dir === 'BUY' ? 'up' : 'down', ref4h: (rsi4 != null && dif4 != null) ? { rsi: +rsi4.toFixed(1), macdDif: +dif4.toFixed(8), stochK: k4 != null ? +k4.toFixed(1) : null, stochD: d4v != null ? +d4v.toFixed(1) : null } : null },
+    reasons: { rsi: +rsiNow.toFixed(1), stochK: +kNow.toFixed(1), stochD: +dNow.toFixed(1), stochFrom: +((dir === 'BUY' ? kMinRecent : kMaxRecent)).toFixed(1), macdDif: +difNow.toFixed(8), cross: dir === 'BUY' ? 'up' : 'down', ref4h: (rsi4 != null && dif4 != null) ? { rsi: +rsi4.toFixed(1), macdDif: +dif4.toFixed(8), stochK: k4 != null ? +k4.toFixed(1) : null, stochD: d4v != null ? +d4v.toFixed(1) : null } : null },
     raw: { rsi: +rsiNow.toFixed(1), stochK: +kNow.toFixed(1), macdDif: +difNow.toFixed(8), volRatio: null, takerRatio: null }
   };
 }
