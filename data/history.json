@@ -126033,5 +126033,75 @@
         "stochD": 47.8
       }
     }
+  },
+  {
+    "id": "SPYBUSDT-1788007499999",
+    "pair": "SPYBUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 770.23,
+    "slInit": 769.65857,
+    "tp1": 770.95686,
+    "tp2": 771.15457,
+    "tp3": 771.726,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-08-29T12:45:00.000Z",
+    "exitTime": "2026-08-30T15:14:59.999Z",
+    "exit": 771.726,
+    "bars": 106,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 0.136,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 80,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 51.9,
+      "macd": "fading_down",
+      "ma200": null,
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 53 > 50",
+        "StochRSI K 32 cross↑",
+        "MACD fading_down",
+        "Acuan 4H bullish (RSI 58)",
+        "Daily uptrend",
+        "1H range"
+      ]
+    },
+    "reasons": {
+      "rsi": 53.1,
+      "stochK": 31.7,
+      "stochD": 16.7,
+      "macdDif": 0.05318282,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 58.4,
+        "macdDif": 0.97685281,
+        "stochK": 31.9,
+        "stochD": 27.1
+      }
+    }
   }
 ]
