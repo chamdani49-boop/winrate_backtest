@@ -850,6 +850,23 @@ html{ scroll-behavior:smooth; }
 @media(max-width:640px){ .cal-cell{ min-height:42px; padding:3px 1px; } .cal-cell .p{ font-size:8px; } .cal-cell .d{ font-size:10px; } .cal-grid{ gap:3px; } }
 @media(max-width:380px){ .cal-cell{ min-height:38px; } .cal-cell .p{ font-size:7.5px; } }
 
+/* Range selector grafik modal (7H/30H/90H/Semua) */
+.cap-range{ display:flex; gap:6px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
+.cap-range-btn{ padding:5px 14px; border:1px solid var(--border); border-radius:8px; background:transparent; color:var(--muted); font-family:var(--mono); font-size:11px; cursor:pointer; transition:all .12s; }
+.cap-range-btn:hover{ color:var(--text); border-color:var(--muted); }
+.cap-range-btn.active{ background:rgba(240,185,11,.14); border-color:rgba(240,185,11,.55); color:#f0b90b; font-weight:700; }
+/* Toggle unit $ / % */
+.cap-unit-tg{ display:inline-flex; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+.cap-unit-btn{ padding:4px 11px; background:transparent; border:0; color:var(--muted); font-family:var(--mono); font-size:12px; cursor:pointer; }
+.cap-unit-btn.active{ background:rgba(240,185,11,.16); color:#f0b90b; font-weight:700; }
+
+/* Donut winrate (pie) */
+.wr-donut{ width:132px; height:132px; border-radius:50%; position:relative; background:conic-gradient(var(--accent) 0deg, var(--red) 0deg); flex:0 0 auto; }
+.wr-donut-center{ position:absolute; inset:15px; border-radius:50%; background:var(--card); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.wr-donut-pct{ font-size:27px; font-weight:800; font-family:var(--mono); line-height:1; }
+.wr-donut-lbl{ font-size:8.5px; color:var(--muted); letter-spacing:1.5px; margin-top:3px; }
+.wr-dot{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+
 /* ============================================================
    REDESIGN MOBILE v2 — Robot Live lebih ramah HP
 ============================================================ */
@@ -2019,22 +2036,50 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           </div>
         </div>
 
-        <!-- ============ CHART MODAL 30 HARI ============ -->
+        <!-- ============ CHART MODAL ============ -->
         <div class="card mt12">
           <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <span>📈 Grafik Modal — 30 Hari Terakhir</span>
-            <span class="chip" id="cap-chart-chg" style="margin:0">—</span>
+            <span>📈 Estimasi Total Nilai Modal</span>
+            <span style="display:flex;align-items:center;gap:8px">
+              <span class="cap-unit-tg">
+                <button class="cap-unit-btn active" onclick="setCapUnit('usd',this)">$</button>
+                <button class="cap-unit-btn" onclick="setCapUnit('pct',this)">%</button>
+              </span>
+              <span class="chip" id="cap-chart-chg" style="margin:0">—</span>
+            </span>
           </div>
-          <div style="display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px">
-            <span>Modal 30h lalu: <b id="cap-chart-start" class="c-blue">—</b></span>
-            <span>Modal sekarang: <b id="cap-chart-end">—</b></span>
+          <div style="font-family:var(--mono);margin:2px 0 6px">
+            <div id="cap-chart-end" class="c-green" style="font-size:26px;font-weight:800;letter-spacing:-.5px">—</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">PNL periode: <b id="cap-chart-pnl">—</b> · modal awal <span id="cap-chart-start" class="c-blue">—</span></div>
           </div>
           <div id="cap-chart-audit" style="background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:11px;display:none;margin-bottom:8px">
             <span class="c-muted" id="cap-audit-date">—</span> · <span id="cap-audit-bal">—</span> · <span id="cap-audit-pct">—</span>
           </div>
-          <canvas id="capChart" style="width:100%;height:220px;display:block"></canvas>
+          <canvas id="capChart" style="width:100%;height:210px;display:block"></canvas>
+          <div id="cap-range-btns" class="cap-range">
+            <button class="cap-range-btn" onclick="setCapRange(7,this)">7H</button>
+            <button class="cap-range-btn active" onclick="setCapRange(30,this)">30H</button>
+            <button class="cap-range-btn" onclick="setCapRange(90,this)">90H</button>
+            <button class="cap-range-btn" onclick="setCapRange(0,this)">Semua</button>
+          </div>
           <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
-            ⓘ Kurva saldo simulasi (equal-weight, realized dari trade closed + TP partial berjalan) selama 30 hari terakhir. Persentase = perubahan modal sejak 30 hari lalu. Sentuh grafik untuk detail per titik.
+            ⓘ Kurva saldo simulasi equal-weight (realized dari trade closed + TP partial berjalan). <b>Sentuh/klik grafik</b> untuk lihat garis & nilai modal di titik itu. Ganti rentang lewat tombol di atas.
+          </div>
+        </div>
+
+        <!-- ============ WINRATE DONUT ============ -->
+        <div class="card mt12">
+          <div class="card-hd">🥧 Winrate</div>
+          <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;padding:6px 0">
+            <div class="wr-donut" id="wr-donut"><div class="wr-donut-center"><div class="wr-donut-pct" id="wr-donut-pct">—</div><div class="wr-donut-lbl">WINRATE</div></div></div>
+            <div style="font-family:var(--mono);font-size:12px;line-height:1.9">
+              <div><span class="wr-dot" style="background:var(--accent)"></span> Win: <b class="c-green" id="wr-win">—</b></div>
+              <div><span class="wr-dot" style="background:var(--red)"></span> Loss: <b class="c-red" id="wr-loss">—</b></div>
+              <div class="c-muted" id="wr-total" style="margin-top:4px">— trade</div>
+            </div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
+            ⓘ Winrate dari seluruh histori trade robot (WIN = P&L ≥ 0).
           </div>
         </div>
 
@@ -4696,75 +4741,156 @@ function drawDayChart(dailyEquity) {
 }
 
 /* Grafik MODAL ($) 30 hari terakhir (tab Akun) — kurva saldo simulasi + % perubahan */
+let capRangeDays = 30;   // 7 / 30 / 90 / 0(semua)
+let capUnit = 'usd';     // 'usd' | 'pct'
+let _capState = null;    // cache geometri utk crosshair
+function setCapRange(days, el) {
+  capRangeDays = days;
+  const w = document.getElementById('cap-range-btns');
+  if (w) w.querySelectorAll('.cap-range-btn').forEach(b => b.classList.toggle('active', b === el));
+  if (window.__lastSim) drawCapitalChart(window.__lastSim, window.__lastCapInit != null ? window.__lastCapInit : getInitialCapital());
+}
+function setCapUnit(u, el) {
+  capUnit = u;
+  const p = el && el.parentElement;
+  if (p) p.querySelectorAll('.cap-unit-btn').forEach(b => b.classList.toggle('active', b === el));
+  if (window.__lastSim) drawCapitalChart(window.__lastSim, window.__lastCapInit != null ? window.__lastCapInit : getInitialCapital());
+  renderPnlCalendar();   // kalender ikut unit
+}
+// format nilai sesuai unit aktif (v = saldo $, base = saldo awal periode)
+function _fmtCap(v, base) {
+  if (capUnit === 'pct') { const p = base > 0 ? (v / base - 1) * 100 : 0; return (p >= 0 ? '+' : '') + p.toFixed(2) + '%'; }
+  return fmtUsd(v);
+}
 function drawCapitalChart(sim, initial) {
-  const canvas = document.getElementById('capChart');
-  if (!canvas) return;
+  const canvas = document.getElementById('capChart'); if (!canvas) return;
+  window.__lastSim = sim; window.__lastCapInit = initial;
   const equity = (sim && sim.equity) || [];
-  const now = Date.now(), cutoff = now - 30 * 864e5;
+  const now = Date.now();
+  const all = !(capRangeDays > 0);
+  const cutoff = all ? -Infinity : now - capRangeDays * 864e5;
   let startBal = initial;
-  equity.forEach(e => { if (e.t <= cutoff) startBal = e.v; });   // saldo per 30 hari lalu
-  const pts = [{ t: cutoff, v: startBal }].concat(equity.filter(e => e.t > cutoff).map(e => ({ t: e.t, v: e.v })));
+  if (all) startBal = equity.length ? equity[0].v : initial;
+  else equity.forEach(e => { if (e.t <= cutoff) startBal = e.v; });
+  const inRange = equity.filter(e => e.t > cutoff);
+  const startT = all ? (equity.length ? equity[0].t : now) : cutoff;
+  const pts = [{ t: startT, v: startBal }].concat(inRange.map(e => ({ t: e.t, v: e.v })));
   const endBal = (sim && sim.modalNow != null) ? sim.modalNow : (pts.length ? pts[pts.length - 1].v : startBal);
   pts.push({ t: now, v: endBal });
 
-  const netPct = startBal > 0 ? (endBal / startBal - 1) * 100 : 0;
-  const up = endBal >= startBal;
+  const netUsd = endBal - startBal;
+  const netPct = startBal > 0 ? (netUsd / startBal * 100) : 0;
+  const up = netUsd >= 0;
   const chg = document.getElementById('cap-chart-chg');
-  if (chg) { chg.textContent = (netPct >= 0 ? '+' : '') + netPct.toFixed(2) + '% (30 hari)'; chg.className = 'chip ' + (up ? 'ok' : 'bad'); chg.style.margin = '0'; }
-  const sEl = document.getElementById('cap-chart-start'); if (sEl) sEl.textContent = fmtUsd(startBal);
-  const eEl = document.getElementById('cap-chart-end'); if (eEl) { eEl.textContent = fmtUsd(endBal); eEl.className = up ? 'c-green' : 'c-red'; }
+  if (chg) { chg.textContent = (netPct >= 0 ? '+' : '') + netPct.toFixed(2) + '%'; chg.className = 'chip ' + (up ? 'ok' : 'bad'); chg.style.margin = '0'; }
+  const eEl = document.getElementById('cap-chart-end');
+  if (eEl) { eEl.textContent = capUnit === 'pct' ? (netPct >= 0 ? '+' : '') + netPct.toFixed(2) + '%' : fmtUsd(endBal); eEl.className = up ? 'c-green' : 'c-red'; }
+  const sEl = document.getElementById('cap-chart-start'); if (sEl) sEl.textContent = capUnit === 'pct' ? '0%' : fmtUsd(startBal);
+  const pEl = document.getElementById('cap-chart-pnl'); if (pEl) pEl.innerHTML = '<span class="' + (up ? 'c-green' : 'c-red') + '">' + (netUsd >= 0 ? '+' : '') + fmtUsd(netUsd) + ' (' + (netPct >= 0 ? '+' : '') + netPct.toFixed(2) + '%)</span>';
 
+  const disp = v => capUnit === 'pct' ? (startBal > 0 ? (v / startBal - 1) * 100 : 0) : v;
+  const dvals = pts.map(p => disp(p.v));
+  let vMin = Math.min(...dvals), vMax = Math.max(...dvals);
+  if (vMin === vMax) { vMin -= 1; vMax += 1; }
+  const pd = (vMax - vMin) * 0.12; vMin -= pd; vMax += pd;
+  const t0 = pts[0].t, t1 = pts[pts.length - 1].t, tr = (t1 - t0) || 1;
+  let iMax = 0, iMin = 0; pts.forEach((p, i) => { if (p.v > pts[iMax].v) iMax = i; if (p.v < pts[iMin].v) iMin = i; });
+  _capState = { pts, vMin, vMax, t0, t1, tr, startBal, up, iMax, iMin, disp };
+  _capRender(null);
+
+  const toT = clientX => {
+    const r = canvas.getBoundingClientRect();
+    const mx = clientX - r.left;
+    return _capState.t0 + Math.max(0, Math.min(1, (mx - _capState._pad.l) / _capState._W)) * _capState.tr;
+  };
+  canvas.onmousemove = e => _capRender(toT(e.clientX));
+  canvas.onmouseleave = () => _capRender(null);
+  canvas.ontouchstart = canvas.ontouchmove = e => { if (e.touches && e.touches[0]) { _capRender(toT(e.touches[0].clientX)); e.preventDefault(); } };
+}
+function _capRender(hoverT) {
+  const st = _capState; if (!st) return;
+  const canvas = document.getElementById('capChart'); if (!canvas) return;
   const dpr = window.devicePixelRatio || 1;
-  const cssW = canvas.offsetWidth || 600, cssH = 220;
+  const cssW = canvas.offsetWidth || 600, cssH = 210;
   canvas.width = cssW * dpr; canvas.height = cssH * dpr; canvas.style.height = cssH + 'px';
   const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cssW, cssH);
-  const pad = { t: 14, r: 58, b: 24, l: 58 };
+  const pad = { t: 16, r: 14, b: 22, l: 14 };
   const W = cssW - pad.l - pad.r, H = cssH - pad.t - pad.b;
-  const t0 = pts[0].t, t1 = pts[pts.length - 1].t, tr = (t1 - t0) || 1;
-  const vals = pts.map(p => p.v);
-  let vMin = Math.min(...vals), vMax = Math.max(...vals);
-  if (vMin === vMax) { vMin -= 1; vMax += 1; }
-  const dv = (vMax - vMin) * 0.08; vMin -= dv; vMax += dv;
-  const X = t => pad.l + ((t - t0) / tr) * W;
-  const Y = v => pad.t + (1 - (v - vMin) / ((vMax - vMin) || 1)) * H;
+  st._pad = pad; st._W = W;
+  const X = t => pad.l + ((t - st.t0) / st.tr) * W;
+  const Y = v => pad.t + (1 - (st.disp(v) - st.vMin) / ((st.vMax - st.vMin) || 1)) * H;
+  const GOLD = '240,185,11';
 
-  ctx.font = '9px IBM Plex Mono, monospace'; ctx.textBaseline = 'middle';
-  for (let i = 0; i <= 4; i++) {
-    const y = pad.t + (i / 4) * H;
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + W, y); ctx.stroke();
-    ctx.fillStyle = 'rgba(154,167,198,0.6)'; ctx.fillText(fmtUsd(vMax - (i / 4) * (vMax - vMin)), pad.l + W + 4, y);
-  }
-  // baseline modal awal 30h
-  const baseY = Y(startBal);
-  ctx.strokeStyle = 'rgba(154,167,198,0.35)'; ctx.setLineDash([4, 4]);
+  const baseY = Y(st.startBal);
+  ctx.strokeStyle = 'rgba(154,167,198,0.25)'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(pad.l, baseY); ctx.lineTo(pad.l + W, baseY); ctx.stroke(); ctx.setLineDash([]);
 
-  const col = up ? '0,229,160' : '255,84,112';
   const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + H);
-  grad.addColorStop(0, `rgba(${col},0.28)`); grad.addColorStop(1, `rgba(${col},0)`);
-  ctx.beginPath(); pts.forEach((p, i) => { const x = X(p.t), y = Y(p.v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-  ctx.lineTo(X(t1), pad.t + H); ctx.lineTo(X(t0), pad.t + H); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-  ctx.beginPath(); pts.forEach((p, i) => { const x = X(p.t), y = Y(p.v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-  ctx.strokeStyle = `rgba(${col},1)`; ctx.lineWidth = 2; ctx.stroke();
+  grad.addColorStop(0, `rgba(${GOLD},0.35)`); grad.addColorStop(1, `rgba(${GOLD},0)`);
+  ctx.beginPath(); st.pts.forEach((p, i) => { const x = X(p.t), y = Y(p.v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+  ctx.lineTo(X(st.t1), pad.t + H); ctx.lineTo(X(st.t0), pad.t + H); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath(); st.pts.forEach((p, i) => { const x = X(p.t), y = Y(p.v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+  ctx.strokeStyle = `rgba(${GOLD},1)`; ctx.lineWidth = 2; ctx.stroke();
 
-  ctx.fillStyle = 'rgba(154,167,198,0.6)'; ctx.textBaseline = 'top';
+  ctx.font = '9px IBM Plex Mono, monospace'; ctx.fillStyle = 'rgba(154,167,198,0.9)';
+  const pMax = st.pts[st.iMax], pMin = st.pts[st.iMin];
+  ctx.textBaseline = 'bottom'; { const x = X(pMax.t); ctx.textAlign = x > pad.l + W - 60 ? 'right' : 'left'; ctx.fillText(_fmtCap(pMax.v, st.startBal), x, Y(pMax.v) - 4); }
+  ctx.textBaseline = 'top'; { const x = X(pMin.t); ctx.textAlign = x > pad.l + W - 60 ? 'right' : 'left'; ctx.fillText(_fmtCap(pMin.v, st.startBal), x, Y(pMin.v) + 4); }
+
+  ctx.fillStyle = 'rgba(154,167,198,0.55)'; ctx.textBaseline = 'top';
   const fmtD = ms => new Date(ms).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
-  ctx.textAlign = 'left'; ctx.fillText(fmtD(t0), pad.l, pad.t + H + 6);
-  ctx.textAlign = 'right'; ctx.fillText(fmtD(t1), pad.l + W, pad.t + H + 6);
+  ctx.textAlign = 'left'; ctx.fillText(fmtD(st.t0), pad.l, pad.t + H + 6);
+  ctx.textAlign = 'right'; ctx.fillText(fmtD(st.t1), pad.l + W, pad.t + H + 6);
   ctx.textAlign = 'left';
 
-  canvas.onmousemove = (e) => {
-    const r = canvas.getBoundingClientRect(); const mx = e.clientX - r.left;
-    const tt = t0 + Math.max(0, Math.min(1, (mx - pad.l) / W)) * tr;
-    let best = pts[0], bd = Infinity; pts.forEach(p => { const d = Math.abs(p.t - tt); if (d < bd) { bd = d; best = p; } });
-    const a = document.getElementById('cap-chart-audit'); if (!a) return; a.style.display = 'block';
-    document.getElementById('cap-audit-date').textContent = new Date(best.t).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-    document.getElementById('cap-audit-bal').innerHTML = 'Modal: <b>' + fmtUsd(best.v) + '</b>';
-    const pc = startBal > 0 ? (best.v / startBal - 1) * 100 : 0;
-    document.getElementById('cap-audit-pct').innerHTML = '<span class="' + (pc >= 0 ? 'c-green' : 'c-red') + '">' + (pc >= 0 ? '+' : '') + pc.toFixed(2) + '%</span>';
-  };
-  canvas.onmouseleave = () => { const a = document.getElementById('cap-chart-audit'); if (a) a.style.display = 'none'; };
+  const audit = document.getElementById('cap-chart-audit');
+  if (hoverT != null) {
+    let best = st.pts[0], bd = Infinity; st.pts.forEach(p => { const d = Math.abs(p.t - hoverT); if (d < bd) { bd = d; best = p; } });
+    const bx = X(best.t), by = Y(best.v);
+    ctx.strokeStyle = `rgba(${GOLD},0.55)`; ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(bx, pad.t); ctx.lineTo(bx, pad.t + H); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(bx, by, 4, 0, Math.PI * 2); ctx.fillStyle = `rgba(${GOLD},1)`; ctx.fill();
+    ctx.strokeStyle = '#0b0e14'; ctx.lineWidth = 2; ctx.stroke();
+    if (audit) {
+      audit.style.display = 'block';
+      document.getElementById('cap-audit-date').textContent = new Date(best.t).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+      document.getElementById('cap-audit-bal').innerHTML = 'Modal: <b>' + fmtUsd(best.v) + '</b>';
+      const pc = st.startBal > 0 ? (best.v / st.startBal - 1) * 100 : 0;
+      document.getElementById('cap-audit-pct').innerHTML = '<span class="' + (pc >= 0 ? 'c-green' : 'c-red') + '">' + (pc >= 0 ? '+' : '') + pc.toFixed(2) + '%</span>';
+    }
+  } else if (audit) { audit.style.display = 'none'; }
+}
+
+// Daily akun (equal-weight compounding) → per tanggal {startBal,endBal,usd,pct,trades}
+function _acctDailyMap() {
+  const initial = window.__lastCapInit != null ? window.__lastCapInit : getInitialCapital();
+  const N = MAX_SLOTS;
+  const sorted = (liveHistory || []).filter(t => /^\d{4}-\d{2}-\d{2}/.test(t.exitTime || '')).slice().sort((a, b) => new Date(a.exitTime) - new Date(b.exitTime));
+  let bal = initial;
+  const map = {};
+  sorted.forEach(t => {
+    const d = t.exitTime.slice(0, 10);
+    if (!map[d]) map[d] = { startBal: bal, endBal: bal, usd: 0, pct: 0, trades: 0 };
+    bal += (bal / N) * ((t.pnl_pct || 0) / 100);
+    map[d].endBal = bal; map[d].trades++;
+  });
+  Object.values(map).forEach(m => { m.usd = m.endBal - m.startBal; m.pct = m.startBal > 0 ? m.usd / m.startBal * 100 : 0; });
+  return map;
+}
+
+// Donut winrate (seluruh histori)
+function renderWinratePie() {
+  const donut = document.getElementById('wr-donut'); if (!donut) return;
+  const h = liveHistory || [];
+  const total = h.length;
+  const wins = h.filter(t => (t.pnl_pct || 0) >= 0).length;
+  const losses = total - wins;
+  const wr = total ? (wins / total * 100) : 0;
+  donut.style.background = 'conic-gradient(var(--accent) 0% ' + wr + '%, var(--red) ' + wr + '% 100%)';
+  const pct = document.getElementById('wr-donut-pct'); if (pct) { pct.textContent = wr.toFixed(1) + '%'; pct.className = 'wr-donut-pct ' + (wr >= 50 ? 'c-green' : 'c-red'); }
+  setTxt('wr-win', wins.toLocaleString('id-ID'));
+  setTxt('wr-loss', losses.toLocaleString('id-ID'));
+  setTxt('wr-total', total.toLocaleString('id-ID') + ' trade');
 }
 
 /* Kalender return harian (tab Akun) — tiap tanggal = total net % trade yg close hari itu */
@@ -4791,29 +4917,36 @@ function calNextMonth() { _calInit(); calMonth++; if (calMonth > 11) { calMonth 
 function renderPnlCalendar() {
   const grid = document.getElementById('cal-grid'); if (!grid) return;
   _calInit();
-  const map = _calDayMap();
+  const map = _acctDailyMap();   // per tanggal: {usd, pct, trades} berbasis akun equal-weight
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
   const label = document.getElementById('cal-month-label');
   if (label) label.textContent = monthNames[calMonth] + ' ' + calYear;
   const startDow = new Date(calYear, calMonth, 1).getDay();       // 0=Min
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  let cells = '', monthTotal = 0, monthTrades = 0;
+  const fmtVal = o => capUnit === 'usd'
+    ? (o.usd >= 0 ? '+' : '') + fmtUsd(o.usd)
+    : (o.pct >= 0 ? '+' : '') + o.pct.toFixed(1) + '%';
+  let cells = '', totUsd = 0, totPct = 0, monthTrades = 0;
   for (let i = 0; i < startDow; i++) cells += '<div class="cal-cell empty"></div>';
   for (let day = 1; day <= daysInMonth; day++) {
     const ds = calYear + '-' + String(calMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
     const o = map[ds];
     let cls = 'cal-cell', p = '';
     if (o) {
-      monthTotal += o.pnl; monthTrades += o.trades;
-      const win = o.pnl >= 0;
+      totUsd += o.usd; totPct += o.pct; monthTrades += o.trades;
+      const win = o.usd >= 0;
       cls += win ? ' win' : ' loss';
-      p = '<div class="p ' + (win ? 'c-green' : 'c-red') + '">' + (win ? '+' : '') + o.pnl.toFixed(1) + '%</div>';
+      p = '<div class="p ' + (win ? 'c-green' : 'c-red') + '">' + fmtVal(o) + '</div>';
     }
     cells += '<div class="' + cls + '" title="' + ds + (o ? ' · ' + o.trades + ' trade' : '') + '"><div class="d">' + day + '</div>' + p + '</div>';
   }
   grid.innerHTML = cells;
   const tot = document.getElementById('cal-total');
-  if (tot) { tot.textContent = (monthTotal >= 0 ? '+' : '') + monthTotal.toFixed(1) + '% · ' + monthTrades + ' trade'; tot.className = 'chip ' + (monthTotal >= 0 ? 'ok' : 'bad'); tot.style.margin = '0'; }
+  if (tot) {
+    const totStr = capUnit === 'usd' ? (totUsd >= 0 ? '+' : '') + fmtUsd(totUsd) : (totPct >= 0 ? '+' : '') + totPct.toFixed(1) + '%';
+    const ok = (capUnit === 'usd' ? totUsd : totPct) >= 0;
+    tot.textContent = totStr + ' · ' + monthTrades + ' trade'; tot.className = 'chip ' + (ok ? 'ok' : 'bad'); tot.style.margin = '0';
+  }
 }
 
 /* ============================================================
@@ -4934,9 +5067,10 @@ function renderCapitalSim(stats, history) {
     setTxt('lv-cap-proj-sub', 'butuh ≥3 trade selesai');
   }
 
-  // Grafik modal 30 hari terakhir + kalender return harian
+  // Grafik modal + kalender return harian + donut winrate
   drawCapitalChart(sim, initial);
   renderPnlCalendar();
+  renderWinratePie();
 
   return sim;
 }

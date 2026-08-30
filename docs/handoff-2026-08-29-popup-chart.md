@@ -527,3 +527,24 @@ Permintaan user: kalender di mana tiap tanggal ada return-nya (seperti gambar Bi
 - Dipanggil di akhir `renderCapitalSim` (jadi ikut load + buka tab Akun + ganti modal).
   Frontend-only. Diuji: Agu 2026 startDow=6 (Sabtu, cocok gambar), total +178.7%/1033 trade.
 - CSS `.cal-*` responsif (≤640 & ≤380). Navigasi bulan tak reset (state persist).
+
+
+
+### 18g. Chart modal gaya Binance + toggle $/% + donut winrate
+
+Permintaan user (+ steering): chart modal gaya Binance (garis emas + area), ada saldo, bisa
+diklik/sentuh untuk garis crosshair + posisi nilai, range waktu, winrate berupa pie chart,
+DAN switch unit persentase/USD yang juga berlaku di chart.
+- **Chart** (`drawCapitalChart` + `_capRender`, canvas `#capChart`): garis emas (#f0b90b) +
+  area gradient, saldo besar (`cap-chart-end`), PNL periode ($+%), label max/min di kurva,
+  tanggal awal/akhir. **Crosshair** garis putus + dot + audit (tanggal/modal/%) saat
+  mouse/touch. State geometri di-cache (`_capState`) → redraw base+overlay.
+- **Range**: tombol 7H/30H/90H/Semua (`setCapRange`, `capRangeDays`, default 30).
+- **Toggle unit $/%** (`setCapUnit`, `capUnit`, tombol di header): chart Y + label + saldo +
+  audit ikut unit; kalender juga ikut. USD→saldo $, PCT→% relatif thd saldo awal periode.
+- **Donut winrate** (`renderWinratePie`, CSS conic-gradient `#wr-donut`): winrate% di tengah,
+  hijau win / merah loss, legend Win/Loss/total. Dari seluruh histori (WIN=P&L≥0).
+- **Kalender** diubah ke basis AKUN (`_acctDailyMap`, equal-weight compounding) → tiap hari
+  {usd,pct,trades}; tampil $ atau % sesuai toggle; total bulan ikut unit.
+- Semua dipanggil di `renderCapitalSim`; setLiveTab('acc') redraw. Diuji: _acctDailyMap Agu
+  2026 per-hari $/% wajar, saldo akhir $81.74; inline JS syntax OK. Frontend-only.
