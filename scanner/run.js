@@ -1070,20 +1070,23 @@ function computeStats(history, openPositions, watchlist, meta) {
         const scoreSum = trades.reduce((a, t) => a + ((t.intel && t.intel.score) || 0), 0);
         const bp = {};
         trades.forEach(t => {
-          const p = bp[t.pair] || (bp[t.pair] = { pair: t.pair, trades: 0, wins: 0, net: 0, scoreSum: 0, tp1: 0, tp2: 0, tp3: 0, sl: 0 });
+          const p = bp[t.pair] || (bp[t.pair] = { pair: t.pair, trades: 0, wins: 0, net: 0, scoreSum: 0, tp1: 0, tp2: 0, tp3: 0, sl: 0, _lastMs: -1, lastExit: null, lastId: null });
           p.trades++; if (win(t)) p.wins++; p.net += t.pnl_pct || 0; p.scoreSum += (t.intel && t.intel.score) || 0;
           const hh = t.tpHits || [];
           if (hh.includes('TP1')) p.tp1++;
           if (hh.includes('TP2')) p.tp2++;
           if (hh.includes('TP3')) p.tp3++;
           if (t.closedBy === 'SL') p.sl++;
+          const tm = new Date(t.exitTime).getTime();      // trade terbaru pair ini (utk tanggal + popup)
+          if (isFinite(tm) && tm > p._lastMs) { p._lastMs = tm; p.lastExit = t.exitTime; p.lastId = t.id; }
         });
         const coins = Object.values(bp).map(p => ({
           pair: p.pair, trades: p.trades,
           winrate: +(p.wins / p.trades * 100).toFixed(1),
           net: +p.net.toFixed(2),
           avgScore: +(p.scoreSum / p.trades).toFixed(1),
-          tp1: p.tp1, tp2: p.tp2, tp3: p.tp3, sl: p.sl
+          tp1: p.tp1, tp2: p.tp2, tp3: p.tp3, sl: p.sl,
+          lastExit: p.lastExit, lastId: p.lastId
         })).sort((a, b) => b.trades - a.trades || b.net - a.net);
         const rate = x => trades.length ? +(x / trades.length * 100).toFixed(1) : 0;
         out[cat] = {

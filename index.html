@@ -831,6 +831,9 @@ html{ scroll-behavior:smooth; }
 .tbl-scroll{ max-height:360px; overflow:auto; }
 .tbl-scroll thead th{ position:sticky; top:0; background:var(--card); z-index:2; }
 @media (max-width:640px){ .tbl-scroll{ max-height:320px; } }
+/* Baris tabel yang bisa diklik (buka popup trading plan) */
+.clickable-row{ cursor:pointer; transition:background .12s; }
+.clickable-row:hover{ background:rgba(74,163,255,.08); }
 
 /* ============================================================
    REDESIGN MOBILE v2 — Robot Live lebih ramah HP
@@ -4030,9 +4033,9 @@ function renderValidity(stats) {
       const coins = d.coins || [];
       const inner = coins.length ? `<div class="tbl-scroll" style="overflow:auto;max-height:280px;margin-top:6px">
         <table style="width:100%">
-          <thead><tr><th>PAIR</th><th>SKOR</th><th>TRADE</th><th>TP1</th><th>TP2</th><th>TP3</th><th>SL</th><th>WR</th><th>NET %</th></tr></thead>
-          <tbody>${coins.map(p => `<tr>
-            <td><b>${p.pair}</b></td>
+          <thead><tr><th>PAIR / CLOSE</th><th>SKOR</th><th>TRADE</th><th>TP1</th><th>TP2</th><th>TP3</th><th>SL</th><th>WR</th><th>NET %</th></tr></thead>
+          <tbody>${coins.map(p => `<tr class="clickable-row" ${p.lastId ? `onclick="openStratModalFromHistory('${p.lastId}')"` : ''} title="Klik: lihat trading plan terakhir ${p.pair}">
+            <td><b>${p.pair}</b>${p.lastId ? ' <span style="opacity:.55">🔎</span>' : ''}<br><span class="c-muted" style="font-size:10px;font-weight:400;font-family:var(--mono)">${closeLabel(p.lastExit)}</span></td>
             <td class="c-muted" style="font-family:var(--mono)">${p.avgScore}</td>
             <td>${p.trades}</td>
             <td class="c-green">${p.tp1}</td>

@@ -465,3 +465,21 @@ Lanjutan #18 (permintaan user: akurasi TP1/TP2/TP3 & detail coin):
   TP3·SL%·AKURASI·RETURN. Tabel coin per kategori (Performa) tambah kolom TP1·TP2·TP3·SL.
 - Data live (all history): STRONG TP1 39.7%/TP2 20.1%/TP3 9.4%; MODERATE 39.6/22.6/11.4;
   WEAK 31.6/18.4/10.5. SL 88–91% semua. Commit di sesi ini.
+
+
+
+### 18c. Tanggal close per coin + klik coin → popup trading plan
+
+Permintaan user: tanggal (relatif <24j: "5 menit/3 jam yang lalu") di daftar coin, dan tiap
+coin history bisa diklik → popup trading plan.
+- **Backend** `byValidity.coins[]`: tambah `lastExit` (exitTime trade terbaru) + `lastId`
+  (id trade terbaru) per coin.
+- **Frontend** (daftar coin per kategori di Performa): nama coin diberi tanggal close di
+  bawahnya via `closeLabel()` (relatif <24j, else tanggal). Baris jadi `.clickable-row`
+  (hover biru) → `onclick=openStratModalFromHistory(lastId)` membuka popup trading plan
+  (reuse modal `stratModal` + `showStratModal(t,true)`, infra sudah ada dari Recent Signals
+  Log). Ikon 🔎 penanda bisa diklik.
+- history.json TIDAK di-cap → semua id selalu ketemu di `liveHistory`. Diuji: lastId coin
+  ada di history=true; syntax run.js & inline JS OK.
+- Popup membuka trade TERBARU coin itu (per kategori). Semua trade lama tetap bisa dilihat
+  via Recent Signals Log (tab Akun).
