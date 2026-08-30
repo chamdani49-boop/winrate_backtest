@@ -453,3 +453,15 @@ Performa.
   coin; MODERATE 1076t/39.6%/net −129%/SL 88.6%; WEAK 38t/31.6%/net −26%/SL 89.5%. Insight:
   akurasi antar-kategori mirip → skor tinggi belum tentu lebih akurat (bahan evaluasi strategi).
 - Kolom baru terisi setelah run scanner berikutnya menulis `byValidity` ke stats.json.
+
+
+
+### 18b. Detail TP1/TP2/TP3 per kategori + TP/SL per coin
+
+Lanjutan #18 (permintaan user: akurasi TP1/TP2/TP3 & detail coin):
+- **Backend** `byValidity`: tambah `tp1Rate/tp2Rate/tp3Rate` (% trade menyentuh target) per
+  kategori; tiap coin di `coins[]` kini punya `tp1/tp2/tp3/sl` (count).
+- **Frontend**: tabel kategori (History & Performa) kolom jadi KATEGORI·SKOR·TRADE·TP1·TP2·
+  TP3·SL%·AKURASI·RETURN. Tabel coin per kategori (Performa) tambah kolom TP1·TP2·TP3·SL.
+- Data live (all history): STRONG TP1 39.7%/TP2 20.1%/TP3 9.4%; MODERATE 39.6/22.6/11.4;
+  WEAK 31.6/18.4/10.5. SL 88–91% semua. Commit di sesi ini.

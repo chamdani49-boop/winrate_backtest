@@ -1885,12 +1885,12 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <div class="card-hd">🎯 Akurasi per Kategori Sinyal — STRONG / MODERATE / WEAK</div>
           <div class="tbl-scroll" style="overflow:auto">
             <table style="width:100%">
-              <thead><tr><th>KATEGORI</th><th>SKOR</th><th>TRADE</th><th>AKURASI</th><th>RETURN</th><th>AVG/TRADE</th><th>SL %</th></tr></thead>
+              <thead><tr><th>KATEGORI</th><th>SKOR</th><th>TRADE</th><th>TP1</th><th>TP2</th><th>TP3</th><th>SL %</th><th>AKURASI</th><th>RETURN</th></tr></thead>
               <tbody id="lv-validity-body"></tbody>
             </table>
           </div>
           <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin:8px 0;line-height:1.6">
-            ⓘ AKURASI = winrate. RETURN = total net %. AVG/TRADE = rata-rata return/trade. SL % = porsi kena stop loss. Klik tiap kategori di bawah untuk lihat coin-nya (lengkap skor rata-rata).
+            ⓘ TP1/TP2/TP3 = % trade yg menyentuh target itu. AKURASI = winrate. RETURN = total net %. SL % = porsi kena stop loss. Klik tiap kategori di bawah untuk lihat coin-nya (lengkap TP1/2/3, SL & skor).
           </div>
           <div id="lv-validity-coins"></div>
         </div>
@@ -1930,12 +1930,12 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <div class="card-hd">🎯 Akurasi per Kategori Sinyal (STRONG / MODERATE / WEAK)</div>
             <div class="tbl-scroll" style="overflow:auto">
               <table style="width:100%">
-                <thead><tr><th>KATEGORI</th><th>SKOR</th><th>TRADE</th><th>AKURASI</th><th>RETURN</th><th>AVG/TRADE</th><th>SL %</th></tr></thead>
+                <thead><tr><th>KATEGORI</th><th>SKOR</th><th>TRADE</th><th>TP1</th><th>TP2</th><th>TP3</th><th>SL %</th><th>AKURASI</th><th>RETURN</th></tr></thead>
                 <tbody id="mo-validity-body"></tbody>
               </table>
             </div>
             <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
-              ⓘ AKURASI = winrate. RETURN = total net %. AVG/TRADE = rata-rata return per trade. SL % = porsi trade yg kena stop loss. Daftar coin per kategori ada di tab <b>Performa</b>.
+              ⓘ TP1/TP2/TP3 = % trade yg menyentuh target itu. AKURASI = winrate. RETURN = total net %. SL % = porsi kena stop loss. Daftar coin per kategori (lengkap TP/SL) ada di tab <b>Performa</b>.
             </div>
           </div>
           <div class="card">
@@ -4003,20 +4003,21 @@ function renderValidity(stats) {
   const has = cats.some(c => (bv[c.k] && bv[c.k].trades));
 
   const rowsHtml = cats.map(c => {
-    const d = bv[c.k] || { trades: 0, winrate: 0, net: 0, avgReturn: 0, slRate: 0, avgScore: 0, coins: [] };
+    const d = bv[c.k] || { trades: 0, winrate: 0, net: 0, slRate: 0, tp1Rate: 0, tp2Rate: 0, tp3Rate: 0, coins: [] };
     const netCls = d.net >= 0 ? 'c-green' : d.net < 0 ? 'c-red' : 'c-muted';
-    const avgCls = d.avgReturn >= 0 ? 'c-green' : d.avgReturn < 0 ? 'c-red' : 'c-muted';
     return `<tr>
       <td><b class="${c.cls}">${c.k}</b></td>
       <td class="c-muted" style="font-family:var(--mono)">${c.range}</td>
       <td>${d.trades}</td>
+      <td class="c-green">${d.trades ? d.tp1Rate + '%' : '—'}</td>
+      <td class="c-green">${d.trades ? d.tp2Rate + '%' : '—'}</td>
+      <td class="c-green">${d.trades ? d.tp3Rate + '%' : '—'}</td>
+      <td class="c-red">${d.trades ? d.slRate + '%' : '—'}</td>
       <td class="${wrCls(d.winrate)}">${d.trades ? d.winrate + '%' : '—'}</td>
       <td class="${netCls}">${d.trades ? (d.net >= 0 ? '+' : '') + d.net + '%' : '—'}</td>
-      <td class="${avgCls}">${d.trades ? (d.avgReturn >= 0 ? '+' : '') + d.avgReturn + '%' : '—'}</td>
-      <td class="c-red">${d.trades ? d.slRate + '%' : '—'}</td>
     </tr>`;
   }).join('');
-  const emptyRow = '<tr><td colspan="7"><div class="empty"><div class="empty-txt">Belum ada data kategori.</div></div></td></tr>';
+  const emptyRow = '<tr><td colspan="9"><div class="empty"><div class="empty-txt">Belum ada data kategori.</div></div></td></tr>';
   ['lv-validity-body', 'mo-validity-body'].forEach(id => {
     const el = document.getElementById(id); if (el) el.innerHTML = has ? rowsHtml : emptyRow;
   });
@@ -4027,13 +4028,17 @@ function renderValidity(stats) {
     wrap.innerHTML = cats.map(c => {
       const d = bv[c.k] || { coins: [] };
       const coins = d.coins || [];
-      const inner = coins.length ? `<div class="tbl-scroll" style="overflow:auto;max-height:260px;margin-top:6px">
+      const inner = coins.length ? `<div class="tbl-scroll" style="overflow:auto;max-height:280px;margin-top:6px">
         <table style="width:100%">
-          <thead><tr><th>PAIR</th><th>SKOR</th><th>TRADE</th><th>WR</th><th>NET %</th></tr></thead>
+          <thead><tr><th>PAIR</th><th>SKOR</th><th>TRADE</th><th>TP1</th><th>TP2</th><th>TP3</th><th>SL</th><th>WR</th><th>NET %</th></tr></thead>
           <tbody>${coins.map(p => `<tr>
             <td><b>${p.pair}</b></td>
             <td class="c-muted" style="font-family:var(--mono)">${p.avgScore}</td>
             <td>${p.trades}</td>
+            <td class="c-green">${p.tp1}</td>
+            <td class="c-green">${p.tp2}</td>
+            <td class="c-green">${p.tp3}</td>
+            <td class="c-red">${p.sl}</td>
             <td class="${wrCls(p.winrate)}">${p.winrate}%</td>
             <td class="${p.net >= 0 ? 'c-green' : 'c-red'}">${p.net >= 0 ? '+' : ''}${p.net}%</td>
           </tr>`).join('')}</tbody>

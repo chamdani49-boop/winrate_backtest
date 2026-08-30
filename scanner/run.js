@@ -1070,22 +1070,30 @@ function computeStats(history, openPositions, watchlist, meta) {
         const scoreSum = trades.reduce((a, t) => a + ((t.intel && t.intel.score) || 0), 0);
         const bp = {};
         trades.forEach(t => {
-          const p = bp[t.pair] || (bp[t.pair] = { pair: t.pair, trades: 0, wins: 0, net: 0, scoreSum: 0 });
+          const p = bp[t.pair] || (bp[t.pair] = { pair: t.pair, trades: 0, wins: 0, net: 0, scoreSum: 0, tp1: 0, tp2: 0, tp3: 0, sl: 0 });
           p.trades++; if (win(t)) p.wins++; p.net += t.pnl_pct || 0; p.scoreSum += (t.intel && t.intel.score) || 0;
+          const hh = t.tpHits || [];
+          if (hh.includes('TP1')) p.tp1++;
+          if (hh.includes('TP2')) p.tp2++;
+          if (hh.includes('TP3')) p.tp3++;
+          if (t.closedBy === 'SL') p.sl++;
         });
         const coins = Object.values(bp).map(p => ({
           pair: p.pair, trades: p.trades,
           winrate: +(p.wins / p.trades * 100).toFixed(1),
           net: +p.net.toFixed(2),
-          avgScore: +(p.scoreSum / p.trades).toFixed(1)
+          avgScore: +(p.scoreSum / p.trades).toFixed(1),
+          tp1: p.tp1, tp2: p.tp2, tp3: p.tp3, sl: p.sl
         })).sort((a, b) => b.trades - a.trades || b.net - a.net);
+        const rate = x => trades.length ? +(x / trades.length * 100).toFixed(1) : 0;
         out[cat] = {
           trades: trades.length, wins,
           winrate: trades.length ? +(wins / trades.length * 100).toFixed(1) : 0,
           net: +net.toFixed(2),
           avgReturn: trades.length ? +(net / trades.length).toFixed(2) : 0,
-          sl, slRate: trades.length ? +(sl / trades.length * 100).toFixed(1) : 0,
+          sl, slRate: rate(sl),
           tp1, tp2, tp3,
+          tp1Rate: rate(tp1), tp2Rate: rate(tp2), tp3Rate: rate(tp3),
           avgScore: trades.length ? +(scoreSum / trades.length).toFixed(1) : 0,
           coins
         };
