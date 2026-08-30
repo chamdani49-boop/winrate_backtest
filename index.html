@@ -835,6 +835,21 @@ html{ scroll-behavior:smooth; }
 .clickable-row{ cursor:pointer; transition:background .12s; }
 .clickable-row:hover{ background:rgba(74,163,255,.08); }
 
+/* Kalender return harian (tab Akun) */
+.cal-head{ display:flex; align-items:center; justify-content:center; gap:18px; margin:4px 0 10px; font-family:var(--mono); font-size:14px; }
+.cal-nav{ cursor:pointer; padding:2px 12px; border:1px solid var(--border); border-radius:6px; background:var(--card2); color:var(--text); user-select:none; }
+.cal-nav:hover{ border-color:var(--accent); color:var(--accent); }
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.cal-dow{ text-align:center; font-size:9px; color:var(--muted); font-family:var(--mono); padding:3px 0; letter-spacing:.5px; }
+.cal-cell{ min-height:48px; border:1px solid var(--border); border-radius:8px; padding:4px 2px; display:flex; flex-direction:column; align-items:center; gap:2px; background:var(--card2); }
+.cal-cell.empty{ border:0; background:transparent; }
+.cal-cell .d{ font-size:11px; color:var(--muted2); font-family:var(--mono); }
+.cal-cell .p{ font-size:9px; font-family:var(--mono); font-weight:700; line-height:1.1; text-align:center; }
+.cal-cell.win{ background:rgba(0,229,160,.12); border-color:rgba(0,229,160,.35); }
+.cal-cell.loss{ background:rgba(255,84,112,.12); border-color:rgba(255,84,112,.35); }
+@media(max-width:640px){ .cal-cell{ min-height:42px; padding:3px 1px; } .cal-cell .p{ font-size:8px; } .cal-cell .d{ font-size:10px; } .cal-grid{ gap:3px; } }
+@media(max-width:380px){ .cal-cell{ min-height:38px; } .cal-cell .p{ font-size:7.5px; } }
+
 /* ============================================================
    REDESIGN MOBILE v2 — Robot Live lebih ramah HP
 ============================================================ */
@@ -2020,6 +2035,26 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <canvas id="capChart" style="width:100%;height:220px;display:block"></canvas>
           <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
             ⓘ Kurva saldo simulasi (equal-weight, realized dari trade closed + TP partial berjalan) selama 30 hari terakhir. Persentase = perubahan modal sejak 30 hari lalu. Sentuh grafik untuk detail per titik.
+          </div>
+        </div>
+
+        <!-- ============ KALENDER RETURN HARIAN ============ -->
+        <div class="card mt12">
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🗓️ Return Harian (Kalender)</span>
+            <span class="chip" id="cal-total" style="margin:0">—</span>
+          </div>
+          <div class="cal-head">
+            <span class="cal-nav" onclick="calPrevMonth()">‹</span>
+            <b id="cal-month-label">—</b>
+            <span class="cal-nav" onclick="calNextMonth()">›</span>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-dow">Min</div><div class="cal-dow">Sen</div><div class="cal-dow">Sel</div><div class="cal-dow">Rab</div><div class="cal-dow">Kam</div><div class="cal-dow">Jum</div><div class="cal-dow">Sab</div>
+          </div>
+          <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
+            ⓘ Angka di tiap tanggal = total net % semua trade yg CLOSE hari itu (hijau profit / merah loss). Chip atas = total net % bulan yg tampil. Pakai ‹ › untuk ganti bulan.
           </div>
         </div>
 
@@ -4732,6 +4767,55 @@ function drawCapitalChart(sim, initial) {
   canvas.onmouseleave = () => { const a = document.getElementById('cap-chart-audit'); if (a) a.style.display = 'none'; };
 }
 
+/* Kalender return harian (tab Akun) — tiap tanggal = total net % trade yg close hari itu */
+let calYear = null, calMonth = null;   // month: 0-11
+function _calDayMap() {
+  const map = {};
+  (liveHistory || []).forEach(t => {
+    const d = (t.exitTime || '').slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return;
+    const o = map[d] || (map[d] = { pnl: 0, trades: 0 });
+    o.pnl += t.pnl_pct || 0; o.trades++;
+  });
+  return map;
+}
+function _calInit() {
+  if (calYear != null) return;
+  let latest = null;
+  (liveHistory || []).forEach(t => { const ms = new Date(t.exitTime).getTime(); if (isFinite(ms) && (latest == null || ms > latest)) latest = ms; });
+  const d = latest != null ? new Date(latest) : new Date();
+  calYear = d.getFullYear(); calMonth = d.getMonth();
+}
+function calPrevMonth() { _calInit(); calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderPnlCalendar(); }
+function calNextMonth() { _calInit(); calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderPnlCalendar(); }
+function renderPnlCalendar() {
+  const grid = document.getElementById('cal-grid'); if (!grid) return;
+  _calInit();
+  const map = _calDayMap();
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  const label = document.getElementById('cal-month-label');
+  if (label) label.textContent = monthNames[calMonth] + ' ' + calYear;
+  const startDow = new Date(calYear, calMonth, 1).getDay();       // 0=Min
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  let cells = '', monthTotal = 0, monthTrades = 0;
+  for (let i = 0; i < startDow; i++) cells += '<div class="cal-cell empty"></div>';
+  for (let day = 1; day <= daysInMonth; day++) {
+    const ds = calYear + '-' + String(calMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    const o = map[ds];
+    let cls = 'cal-cell', p = '';
+    if (o) {
+      monthTotal += o.pnl; monthTrades += o.trades;
+      const win = o.pnl >= 0;
+      cls += win ? ' win' : ' loss';
+      p = '<div class="p ' + (win ? 'c-green' : 'c-red') + '">' + (win ? '+' : '') + o.pnl.toFixed(1) + '%</div>';
+    }
+    cells += '<div class="' + cls + '" title="' + ds + (o ? ' · ' + o.trades + ' trade' : '') + '"><div class="d">' + day + '</div>' + p + '</div>';
+  }
+  grid.innerHTML = cells;
+  const tot = document.getElementById('cal-total');
+  if (tot) { tot.textContent = (monthTotal >= 0 ? '+' : '') + monthTotal.toFixed(1) + '% · ' + monthTrades + ' trade'; tot.className = 'chip ' + (monthTotal >= 0 ? 'ok' : 'bad'); tot.style.margin = '0'; }
+}
+
 /* ============================================================
    SIMULATOR MODAL — equal weight per coin
 ============================================================ */
@@ -4850,8 +4934,9 @@ function renderCapitalSim(stats, history) {
     setTxt('lv-cap-proj-sub', 'butuh ≥3 trade selesai');
   }
 
-  // Grafik modal 30 hari terakhir
+  // Grafik modal 30 hari terakhir + kalender return harian
   drawCapitalChart(sim, initial);
+  renderPnlCalendar();
 
   return sim;
 }

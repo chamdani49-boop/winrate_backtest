@@ -512,3 +512,18 @@ Permintaan user: chart modal 30 hari terakhir di tab Akun, lengkap persentase.
 - Header: chip **% perubahan 30 hari** (ok/bad) + label "Modal 30h lalu" & "Modal sekarang".
 - Dipanggil di akhir `renderCapitalSim`; setLiveTab('acc') memanggil renderCapitalSim ulang
   agar canvas dpt lebar visible (fix width 0 saat pane hidden). Frontend-only, aktif langsung.
+
+
+
+### 18f. Tab Akun: kalender return harian per tanggal (gaya Binance Laporan Aset)
+
+Permintaan user: kalender di mana tiap tanggal ada return-nya (seperti gambar Binance).
+- Kartu **"🗓️ Return Harian (Kalender)"** di tab Akun (setelah grafik modal).
+- `renderPnlCalendar()` + nav bulan `calPrevMonth/calNextMonth` (state `calYear/calMonth`,
+  default = bulan trade terbaru). `_calDayMap()` group liveHistory per tanggal (YYYY-MM-DD)
+  → {pnl:Σnet%, trades}. Grid 7 kolom (Min–Sab), offset via getDay() tgl 1.
+- Tiap sel: nomor hari + total net% hari itu (hijau win / merah loss, sel berwarna). Chip
+  header = total net% + jumlah trade bulan tampil. Judul bulan "Agu 2026".
+- Dipanggil di akhir `renderCapitalSim` (jadi ikut load + buka tab Akun + ganti modal).
+  Frontend-only. Diuji: Agu 2026 startDow=6 (Sabtu, cocok gambar), total +178.7%/1033 trade.
+- CSS `.cal-*` responsif (≤640 & ≤380). Navigasi bulan tak reset (state persist).
