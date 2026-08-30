@@ -2069,7 +2069,10 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
 
         <!-- ============ WINRATE DONUT ============ -->
         <div class="card mt12">
-          <div class="card-hd">🥧 Winrate</div>
+          <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>🥧 Winrate</span>
+            <span class="chip" id="wr-month-label" style="margin:0">—</span>
+          </div>
           <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;padding:6px 0">
             <div class="wr-donut" id="wr-donut"><div class="wr-donut-center"><div class="wr-donut-pct" id="wr-donut-pct">—</div><div class="wr-donut-lbl">WINRATE</div></div></div>
             <div style="font-family:var(--mono);font-size:12px;line-height:1.9">
@@ -2079,7 +2082,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             </div>
           </div>
           <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
-            ⓘ Winrate dari seluruh histori trade robot (WIN = P&L ≥ 0).
+            ⓘ Winrate trade yang close pada bulan aktif kalender di atas (WIN = P&L ≥ 0). Ganti bulan lewat nav kalender.
           </div>
         </div>
 
@@ -4878,19 +4881,29 @@ function _acctDailyMap() {
   return map;
 }
 
-// Donut winrate (seluruh histori)
+// Donut winrate — mengikuti bulan aktif kalender return harian (calYear/calMonth).
+// Tiap bulan punya winrate sendiri: filter trade yang close pada bulan itu.
 function renderWinratePie() {
   const donut = document.getElementById('wr-donut'); if (!donut) return;
-  const h = liveHistory || [];
+  _calInit();  // pastikan calYear/calMonth terisi (default = bulan trade terbaru)
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  const prefix = calYear + '-' + String(calMonth + 1).padStart(2, '0');  // "YYYY-MM"
+  const h = (liveHistory || []).filter(t => (t.exitTime || '').slice(0, 7) === prefix);
   const total = h.length;
   const wins = h.filter(t => (t.pnl_pct || 0) >= 0).length;
   const losses = total - wins;
   const wr = total ? (wins / total * 100) : 0;
   donut.style.background = 'conic-gradient(var(--accent) 0% ' + wr + '%, var(--red) ' + wr + '% 100%)';
-  const pct = document.getElementById('wr-donut-pct'); if (pct) { pct.textContent = wr.toFixed(1) + '%'; pct.className = 'wr-donut-pct ' + (wr >= 50 ? 'c-green' : 'c-red'); }
+  const pct = document.getElementById('wr-donut-pct');
+  if (pct) {
+    pct.textContent = total ? wr.toFixed(1) + '%' : '—';
+    pct.className = 'wr-donut-pct ' + (!total ? 'c-muted' : (wr >= 50 ? 'c-green' : 'c-red'));
+  }
   setTxt('wr-win', wins.toLocaleString('id-ID'));
   setTxt('wr-loss', losses.toLocaleString('id-ID'));
   setTxt('wr-total', total.toLocaleString('id-ID') + ' trade');
+  const lbl = document.getElementById('wr-month-label');
+  if (lbl) lbl.textContent = monthNames[calMonth] + ' ' + calYear;
 }
 
 /* Kalender return harian (tab Akun) — tiap tanggal = total net % trade yg close hari itu */
@@ -4947,6 +4960,8 @@ function renderPnlCalendar() {
     const ok = (capUnit === 'usd' ? totUsd : totPct) >= 0;
     tot.textContent = totStr + ' · ' + monthTrades + ' trade'; tot.className = 'chip ' + (ok ? 'ok' : 'bad'); tot.style.margin = '0';
   }
+  // Donut winrate mengikuti bulan aktif kalender
+  renderWinratePie();
 }
 
 /* ============================================================
@@ -5067,10 +5082,9 @@ function renderCapitalSim(stats, history) {
     setTxt('lv-cap-proj-sub', 'butuh ≥3 trade selesai');
   }
 
-  // Grafik modal + kalender return harian + donut winrate
+  // Grafik modal + kalender return harian (kalender juga me-render donut winrate bulan aktif)
   drawCapitalChart(sim, initial);
   renderPnlCalendar();
-  renderWinratePie();
 
   return sim;
 }
