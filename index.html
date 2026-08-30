@@ -607,9 +607,14 @@ html{ scroll-behavior:smooth; }
   font-size:12px; line-height:1.5; display:flex; gap:10px; align-items:flex-start;
 }
 .bell-item:last-child{ border-bottom:0; }
+.bell-item.clickable{ cursor:pointer; transition:background .14s ease; }
+.bell-item.clickable:hover{ background:rgba(0,229,160,0.07); }
+.bell-item.clickable:active{ background:rgba(0,229,160,0.12); }
 .bell-item-ic{ font-size:16px; line-height:1; margin-top:1px; }
 .bell-item-body{ flex:1; min-width:0; }
 .bell-item-meta{ color:var(--muted); font-family:var(--mono); font-size:10px; margin-top:2px; }
+.bell-item-go{ font-size:12px; color:var(--muted2); margin-top:1px; flex-shrink:0; opacity:.7; }
+.bell-item.clickable:hover .bell-item-go{ opacity:1; color:var(--accent); }
 .bell-empty{ padding:40px 20px; text-align:center; color:var(--muted); font-size:13px; }
 @media (max-width:900px){ .bell-panel{ top:56px; right:12px; } }
 
@@ -5213,6 +5218,38 @@ function openStratModalFromHistory(id) {
   const t = liveHistory.find(h => String(h.id) === String(id)); if (!t) return;
   showStratModal(t, true);
 }
+/* Buka popup chart/trading plan dari item notifikasi (lonceng).
+   Event hanya punya pair/dir/ts (tanpa data TP/SL), jadi cocokkan ke trade lengkap:
+   1) posisi TERBUKA (liveOpen) dgn pair+dir → showStratModal(live)
+   2) fallback: trade di HISTORI (liveHistory) pair+dir yg waktunya paling dekat ke event */
+function openStratModalFromEvent(pair, dir, ts) {
+  if (!pair) return;
+  const P = String(pair).toUpperCase();
+  const D = dir || '';
+  const closePanel = () => { const bp = document.getElementById('bellPanel'); if (bp) bp.classList.remove('show'); };
+
+  // 1) Posisi terbuka (punya data plan lengkap: entry/tp/sl)
+  let trade = (liveOpen || []).find(p => (p.pair || '').toUpperCase() === P && (!D || p.dir === D))
+           || (liveOpen || []).find(p => (p.pair || '').toUpperCase() === P);
+  if (trade) { closePanel(); showStratModal(trade, false); return; }
+
+  // 2) Histori — pilih trade pair(+dir) dgn waktu (open/exit) paling dekat ke event ts
+  let cand = (liveHistory || []).filter(h => (h.pair || '').toUpperCase() === P && (!D || h.dir === D));
+  if (!cand.length) cand = (liveHistory || []).filter(h => (h.pair || '').toUpperCase() === P);
+  if (cand.length) {
+    const evMs = new Date(ts).getTime();
+    let best = cand[0], bestDiff = Infinity;
+    cand.forEach(h => {
+      const times = [h.exitTime, h.openTime].map(x => new Date(x).getTime()).filter(Number.isFinite);
+      const diff = (Number.isFinite(evMs) && times.length) ? Math.min(...times.map(t => Math.abs(t - evMs))) : Infinity;
+      if (diff < bestDiff) { bestDiff = diff; best = h; }
+    });
+    closePanel(); showStratModal(best, true); return;
+  }
+
+  // 3) Tidak ada data trade untuk pair ini (mis. sinyal lama sudah tergeser dari histori)
+  if (typeof notify === 'function') notify('ℹ️ Detail chart tidak tersedia untuk ' + P);
+}
 function closeStratModal() {
   document.getElementById('stratModal').classList.remove('show');
   if (typeof cleanupStratChart === 'function') cleanupStratChart();
@@ -6242,12 +6279,18 @@ function renderBell() {
   const sorted = [...liveEvents].sort((a,b)=> new Date(b.ts) - new Date(a.ts)).slice(0, 50);
   list.innerHTML = sorted.map(e => {
     const fmt = formatEvent(e);
-    return `<div class="bell-item">
+    // Tiap notif dapat diklik → buka popup chart/trading plan (cocokkan ke posisi terbuka / histori)
+    const clickable = !!e.pair;
+    const onClick = clickable
+      ? ` onclick="openStratModalFromEvent('${(e.pair||'').replace(/'/g,'')}','${(e.dir||'').replace(/'/g,'')}','${e.ts}')"`
+      : '';
+    return `<div class="bell-item${clickable ? ' clickable' : ''}"${onClick}>
       <div class="bell-item-ic">${fmt.icon}</div>
       <div class="bell-item-body">
         <div>${fmt.html}</div>
         <div class="bell-item-meta">${timeAgo(e.ts)}</div>
       </div>
+      ${clickable ? '<div class="bell-item-go">🔎</div>' : ''}
     </div>`;
   }).join('');
 }
