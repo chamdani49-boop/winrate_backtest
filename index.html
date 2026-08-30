@@ -1017,7 +1017,7 @@ html{ scroll-behavior:smooth; }
 .vis-bar.vis-ring .ring{ flex:0 0 auto; }
 
 /* MTF Matrix */
-.mtf-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.mtf-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
 .mtf-cell{ padding:6px 4px; border-radius:6px; text-align:center; background:var(--card2); border:1px solid var(--border); display:flex; flex-direction:column; gap:1px; }
 .mtf-cell.mtf-up{ background:rgba(0,229,160,0.12); border-color:rgba(0,229,160,0.35); color:var(--accent); }
 .mtf-cell.mtf-down{ background:rgba(255,84,112,0.12); border-color:rgba(255,84,112,0.35); color:var(--red); }
@@ -5342,8 +5342,8 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
     const arr = up ? '↑' : down ? '↓' : '↔';
     return `<div class="mtf-cell ${cls}"><div class="mtf-tf">${lbl}</div><div class="mtf-arr">${arr}</div><div class="mtf-val">${v.replace(/UPTREND|UP/,'UP').replace(/DOWNTREND|DOWN/,'DOWN').replace(/RANGE/,'RNG').slice(0,5)}</div></div>`;
   };
-  // Cell diisi live oleh renderStratMtf() setelah fetch klines tiap TF (D/4H/15m/5m)
-  const mtfPlaceholder = ['D', '4H', '15m', '5m'].map(lbl =>
+  // Cell diisi live oleh renderStratMtf() setelah fetch klines tiap TF (D/4H/15m)
+  const mtfPlaceholder = ['D', '4H', '15m'].map(lbl =>
     `<div class="mtf-cell mtf-flat"><div class="mtf-tf">${lbl}</div><div class="mtf-arr">…</div><div class="mtf-val">—</div></div>`
   ).join('');
   const mtfHTML = `
@@ -5376,9 +5376,9 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
     <div class="vis-section-lbl">Chart & Trade Plan · Entry / TP / SL</div>
     <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
       <div class="strat-tf-toggle" id="stratTfToggle">
-        <button class="strat-tf-btn" data-tf="5m" onclick="setStratTf('5m')">5m</button>
-        <button class="strat-tf-btn" data-tf="15m" onclick="setStratTf('15m')">15m</button>
+        <button class="strat-tf-btn" data-tf="1d" onclick="setStratTf('1d')">1D</button>
         <button class="strat-tf-btn active" data-tf="4h" onclick="setStratTf('4h')">4H</button>
+        <button class="strat-tf-btn" data-tf="15m" onclick="setStratTf('15m')">15m</button>
       </div>
       <div class="strat-tf-toggle">
         <button class="strat-tf-btn active" id="stratSmcBtn" onclick="setStratSmc()">SMC: ON</button>
@@ -6159,11 +6159,11 @@ function _stratTrend(cs) {
   return 'RANGE';
 }
 
-/* Isi matrix Multi-TF (D / 4H / 15m / 5m) — dihitung live dari klines Binance */
+/* Isi matrix Multi-TF (D / 4H / 15m) — dihitung live dari klines Binance */
 async function renderStratMtf(pair) {
   const grid = document.getElementById('stratMtfGrid');
   if (!grid || !pair) return;
-  const tfs = [['1d', 'D'], ['4h', '4H'], ['15m', '15m'], ['5m', '5m']];
+  const tfs = [['1d', 'D'], ['4h', '4H'], ['15m', '15m']];
   const results = await Promise.all(tfs.map(async ([tf, lbl]) => {
     try { const cs = await fetchKlinesResilient(pair.toUpperCase(), tf, 120); return [lbl, _stratTrend(cs)]; }
     catch (_) { return [lbl, '—']; }
