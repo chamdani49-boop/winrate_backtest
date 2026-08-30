@@ -498,3 +498,17 @@ hasil TP1/2/3 maupun SL, dan bisa diklik → popup chart/trading plan.
 - Baris `.clickable-row` + 🔎 → `openStratModalFromHistory(t.id)` buka popup trading plan/chart.
 - Dipanggil di `renderLive` setelah `renderMonthlyTable`. Aktif langsung (tak perlu tunggu
   scanner). Syntax inline JS OK.
+
+
+
+### 18e. Tab Akun: grafik modal 30 hari terakhir + %
+
+Permintaan user: chart modal 30 hari terakhir di tab Akun, lengkap persentase.
+- Kartu baru **"📈 Grafik Modal — 30 Hari Terakhir"** di tab Akun (setelah Account Simulation).
+- Fungsi `drawCapitalChart(sim, initial)`: pakai `sim.equity` (kurva saldo $ dari
+  `simulateCapital`), ambil 30 hari terakhir (startBal = saldo per cutoff, endBal = modalNow),
+  gambar line+area (hijau naik/merah turun) di canvas `#capChart`, baseline modal-awal dashed,
+  label $ di sumbu Y & tanggal di X, hover → audit (tanggal, modal, %).
+- Header: chip **% perubahan 30 hari** (ok/bad) + label "Modal 30h lalu" & "Modal sekarang".
+- Dipanggil di akhir `renderCapitalSim`; setLiveTab('acc') memanggil renderCapitalSim ulang
+  agar canvas dpt lebar visible (fix width 0 saat pane hidden). Frontend-only, aktif langsung.
