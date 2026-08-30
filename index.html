@@ -1948,7 +1948,7 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             </div>
             <div class="tbl-scroll" style="overflow:auto;max-height:460px">
               <table style="width:100%">
-                <thead><tr><th>PAIR / CLOSE</th><th>ARAH</th><th>HASIL (TP / SL)</th><th style="text-align:right">P&amp;L %</th></tr></thead>
+                <thead><tr><th>PAIR / CLOSE</th><th>ARAH</th><th>VALIDITY</th><th>HASIL (TP / SL)</th><th style="text-align:right">P&amp;L %</th></tr></thead>
                 <tbody id="hist-closed-body"></tbody>
               </table>
             </div>
@@ -4099,14 +4099,18 @@ function renderClosedHistory() {
     const dirCls = t.dir === 'BUY' ? 'c-green' : 'c-red';
     const dirLbl = t.dir === 'BUY' ? 'LONG' : 'SHORT';
     const pn = t.pnl_pct || 0;
+    const sc = (t.intel && t.intel.score != null) ? t.intel.score : null;
+    const val = (t.intel && t.intel.validity) || (sc == null ? '—' : sc >= 75 ? 'STRONG' : sc >= 58 ? 'MODERATE' : 'WEAK');
+    const vCls = val === 'STRONG' ? 'c-green' : val === 'MODERATE' ? 'c-yellow' : val === 'WEAK' ? 'c-red' : 'c-muted';
     const hasil = chip('TP1', hh.includes('TP1'), '#00e5a0') + chip('TP2', hh.includes('TP2'), '#00e5a0') + chip('TP3', hh.includes('TP3'), '#00e5a0') + chip('SL', slOn, '#ff5470');
     return `<tr class="clickable-row" onclick="openStratModalFromHistory('${t.id}')" title="Klik: trading plan ${t.pair}">
       <td><b>${t.pair.replace('USDT', '')}</b> <span style="opacity:.55">🔎</span><br><span class="c-muted" style="font-size:10px;font-family:var(--mono)">${closeLabel(t.exitTime)}</span></td>
       <td class="${dirCls}" style="font-family:var(--mono);font-size:11px">${dirLbl}</td>
+      <td style="font-family:var(--mono);font-size:10px"><b class="${vCls}">${val}</b>${sc != null ? '<br><span class="c-muted">skor ' + sc + '</span>' : ''}</td>
       <td>${hasil}</td>
       <td style="text-align:right" class="${pn >= 0 ? 'c-green' : 'c-red'}">${pn >= 0 ? '+' : ''}${pn.toFixed(1)}%</td>
     </tr>`;
-  }).join('') : '<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada trade closed.</div></div></td></tr>';
+  }).join('') : '<tr><td colspan="5"><div class="empty"><div class="empty-txt">Belum ada trade closed.</div></div></td></tr>';
   const info = document.getElementById('hist-closed-pageinfo');
   if (info) info.textContent = 'Page ' + chPage + ' / ' + totalPages;
 }
