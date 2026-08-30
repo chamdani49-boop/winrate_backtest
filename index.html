@@ -1880,6 +1880,21 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
         </div>
 
         <!-- ============ PERFORMANCE BY SCORE BRACKET ============ -->
+        <!-- ============ AKURASI PER KATEGORI (STRONG/MODERATE/WEAK) ============ -->
+        <div class="card mt12">
+          <div class="card-hd">🎯 Akurasi per Kategori Sinyal — STRONG / MODERATE / WEAK</div>
+          <div class="tbl-scroll" style="overflow:auto">
+            <table style="width:100%">
+              <thead><tr><th>KATEGORI</th><th>SKOR</th><th>TRADE</th><th>AKURASI</th><th>RETURN</th><th>AVG/TRADE</th><th>SL %</th></tr></thead>
+              <tbody id="lv-validity-body"></tbody>
+            </table>
+          </div>
+          <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin:8px 0;line-height:1.6">
+            ⓘ AKURASI = winrate. RETURN = total net %. AVG/TRADE = rata-rata return/trade. SL % = porsi kena stop loss. Klik tiap kategori di bawah untuk lihat coin-nya (lengkap skor rata-rata).
+          </div>
+          <div id="lv-validity-coins"></div>
+        </div>
+
         <div class="card mt12">
           <div class="card-hd">📊 Performance by Score Bracket</div>
           <div style="overflow-x:auto">
@@ -1910,6 +1925,18 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             <div class="stat"><div class="stat-lbl">NET 30 HARI</div><div class="stat-val" id="mo-net30">—</div><div class="stat-sub">return kumulatif</div></div>
             <div class="stat"><div class="stat-lbl">PROFIT FACTOR 30H</div><div class="stat-val c-blue" id="mo-pf30">—</div><div class="stat-sub">gross P/L</div></div>
             <div class="stat"><div class="stat-lbl">TOTAL TRADE</div><div class="stat-val" id="mo-total">—</div><div class="stat-sub">sepanjang waktu</div></div>
+          </div>
+          <div class="card">
+            <div class="card-hd">🎯 Akurasi per Kategori Sinyal (STRONG / MODERATE / WEAK)</div>
+            <div class="tbl-scroll" style="overflow:auto">
+              <table style="width:100%">
+                <thead><tr><th>KATEGORI</th><th>SKOR</th><th>TRADE</th><th>AKURASI</th><th>RETURN</th><th>AVG/TRADE</th><th>SL %</th></tr></thead>
+                <tbody id="mo-validity-body"></tbody>
+              </table>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
+              ⓘ AKURASI = winrate. RETURN = total net %. AVG/TRADE = rata-rata return per trade. SL % = porsi trade yg kena stop loss. Daftar coin per kategori ada di tab <b>Performa</b>.
+            </div>
           </div>
           <div class="card">
             <div class="card-hd">📅 Winrate &amp; Return per Bulan</div>
@@ -3962,6 +3989,63 @@ function renderScoreBracket(stats) {
   }).join('');
 }
 
+/* Akurasi per KATEGORI validity (STRONG/MODERATE/WEAK) + daftar coin per kategori.
+   Mengisi tabel ringkas (Performa: lv-validity-body, History: mo-validity-body) dan
+   daftar coin (Performa: lv-validity-coins). */
+function renderValidity(stats) {
+  const bv = stats.byValidity || {};
+  const cats = [
+    { k: 'STRONG',   range: '≥ 75',   cls: 'c-green'  },
+    { k: 'MODERATE', range: '58–74',  cls: 'c-yellow' },
+    { k: 'WEAK',     range: '< 58',   cls: 'c-red'    }
+  ];
+  const wrCls = w => w >= 55 ? 'c-green' : w >= 45 ? 'c-yellow' : w > 0 ? 'c-red' : 'c-muted';
+  const has = cats.some(c => (bv[c.k] && bv[c.k].trades));
+
+  const rowsHtml = cats.map(c => {
+    const d = bv[c.k] || { trades: 0, winrate: 0, net: 0, avgReturn: 0, slRate: 0, avgScore: 0, coins: [] };
+    const netCls = d.net >= 0 ? 'c-green' : d.net < 0 ? 'c-red' : 'c-muted';
+    const avgCls = d.avgReturn >= 0 ? 'c-green' : d.avgReturn < 0 ? 'c-red' : 'c-muted';
+    return `<tr>
+      <td><b class="${c.cls}">${c.k}</b></td>
+      <td class="c-muted" style="font-family:var(--mono)">${c.range}</td>
+      <td>${d.trades}</td>
+      <td class="${wrCls(d.winrate)}">${d.trades ? d.winrate + '%' : '—'}</td>
+      <td class="${netCls}">${d.trades ? (d.net >= 0 ? '+' : '') + d.net + '%' : '—'}</td>
+      <td class="${avgCls}">${d.trades ? (d.avgReturn >= 0 ? '+' : '') + d.avgReturn + '%' : '—'}</td>
+      <td class="c-red">${d.trades ? d.slRate + '%' : '—'}</td>
+    </tr>`;
+  }).join('');
+  const emptyRow = '<tr><td colspan="7"><div class="empty"><div class="empty-txt">Belum ada data kategori.</div></div></td></tr>';
+  ['lv-validity-body', 'mo-validity-body'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.innerHTML = has ? rowsHtml : emptyRow;
+  });
+
+  // Daftar coin per kategori (hanya di Performa)
+  const wrap = document.getElementById('lv-validity-coins');
+  if (wrap) {
+    wrap.innerHTML = cats.map(c => {
+      const d = bv[c.k] || { coins: [] };
+      const coins = d.coins || [];
+      const inner = coins.length ? `<div class="tbl-scroll" style="overflow:auto;max-height:260px;margin-top:6px">
+        <table style="width:100%">
+          <thead><tr><th>PAIR</th><th>SKOR</th><th>TRADE</th><th>WR</th><th>NET %</th></tr></thead>
+          <tbody>${coins.map(p => `<tr>
+            <td><b>${p.pair}</b></td>
+            <td class="c-muted" style="font-family:var(--mono)">${p.avgScore}</td>
+            <td>${p.trades}</td>
+            <td class="${wrCls(p.winrate)}">${p.winrate}%</td>
+            <td class="${p.net >= 0 ? 'c-green' : 'c-red'}">${p.net >= 0 ? '+' : ''}${p.net}%</td>
+          </tr>`).join('')}</tbody>
+        </table></div>` : '<div class="c-muted" style="padding:6px 2px;font-size:12px">Belum ada coin di kategori ini.</div>';
+      return `<details style="margin-top:8px;border-top:1px solid var(--border);padding-top:6px">
+        <summary style="cursor:pointer;font-family:var(--mono);font-size:12px"><b class="${c.cls}">${c.k}</b> — ${coins.length} coin</summary>
+        ${inner}
+      </details>`;
+    }).join('');
+  }
+}
+
 /* Score Anomaly card — peringatan ketika low-score lebih akurat dari high-score */
 function renderScoreAnomaly(stats) {
   const card = document.getElementById('lv-anomaly-card');
@@ -4366,6 +4450,7 @@ function renderLive(stats, state, history) {
   // Top 5 / Bottom 5 Coins + Score Bracket + Anomaly (tab Performa)
   renderTopCoins(stats);
   renderScoreBracket(stats);
+  renderValidity(stats);
   renderScoreAnomaly(stats);
 
   // simulator modal & ringkasan bulanan

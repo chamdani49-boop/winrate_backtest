@@ -1048,6 +1048,50 @@ function computeStats(history, openPositions, watchlist, meta) {
         };
       });
     })(),
+    // Breakdown per KATEGORI validity (STRONG/MODERATE/WEAK): akurasi, return, SL,
+    // + daftar coin per kategori (lengkap dgn skor rata2). Dipakai halaman Performa & History
+    // untuk melihat kelas sinyal mana yang paling akurat.
+    byValidity: (() => {
+      const win = t => (t.result || (t.pnl_pct >= 0 ? 'WIN' : 'LOSS')) === 'WIN';
+      const catOf = t => {
+        if (t.intel && t.intel.validity) return t.intel.validity;
+        const s = (t.intel && t.intel.score != null) ? t.intel.score : -1;
+        return s >= 75 ? 'STRONG' : s >= 58 ? 'MODERATE' : 'WEAK';
+      };
+      const out = {};
+      ['STRONG', 'MODERATE', 'WEAK'].forEach(cat => {
+        const trades = history.filter(t => catOf(t) === cat);
+        const wins = trades.filter(win).length;
+        const sl = trades.filter(t => t.closedBy === 'SL').length;
+        const tp1 = trades.filter(t => (t.tpHits || []).includes('TP1')).length;
+        const tp2 = trades.filter(t => (t.tpHits || []).includes('TP2')).length;
+        const tp3 = trades.filter(t => (t.tpHits || []).includes('TP3')).length;
+        const net = trades.reduce((a, t) => a + (t.pnl_pct || 0), 0);
+        const scoreSum = trades.reduce((a, t) => a + ((t.intel && t.intel.score) || 0), 0);
+        const bp = {};
+        trades.forEach(t => {
+          const p = bp[t.pair] || (bp[t.pair] = { pair: t.pair, trades: 0, wins: 0, net: 0, scoreSum: 0 });
+          p.trades++; if (win(t)) p.wins++; p.net += t.pnl_pct || 0; p.scoreSum += (t.intel && t.intel.score) || 0;
+        });
+        const coins = Object.values(bp).map(p => ({
+          pair: p.pair, trades: p.trades,
+          winrate: +(p.wins / p.trades * 100).toFixed(1),
+          net: +p.net.toFixed(2),
+          avgScore: +(p.scoreSum / p.trades).toFixed(1)
+        })).sort((a, b) => b.trades - a.trades || b.net - a.net);
+        out[cat] = {
+          trades: trades.length, wins,
+          winrate: trades.length ? +(wins / trades.length * 100).toFixed(1) : 0,
+          net: +net.toFixed(2),
+          avgReturn: trades.length ? +(net / trades.length).toFixed(2) : 0,
+          sl, slRate: trades.length ? +(sl / trades.length * 100).toFixed(1) : 0,
+          tp1, tp2, tp3,
+          avgScore: trades.length ? +(scoreSum / trades.length).toFixed(1) : 0,
+          coins
+        };
+      });
+      return out;
+    })(),
     scoreAnomaly: (() => {
       // Deteksi anomali: WR low-score (<70) > WR high-score (80+) dlm 24h terakhir
       // ATAU high score signifikan underperform.

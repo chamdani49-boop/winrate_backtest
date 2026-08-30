@@ -427,3 +427,29 @@ dinonaktifkan; kode gate tetap ada untuk optionalitas). Label strategi otomatis 
   ZAMA "28 Agu 2026".
 - **Catatan**: keep-alive tetap butuh secret `SCANNER_PAT` agar benar-benar 24/7 (tanpa PAT
   loop berhenti ~5,25 jam & andalkan schedule yg tak andal). Sudah diingatkan ke user.
+
+
+
+---
+
+## 18. Breakdown akurasi per kategori sinyal (STRONG/MODERATE/WEAK) + daftar coin
+
+Permintaan user: tiap coin punya kategori STRONG/MODERATE/WEAK — tampilkan akurasi %,
+return, SL per kategori, dan coin apa saja di tiap kategori (lengkap skor), di History &
+Performa.
+
+- **Backend** (`computeStats` → `stats.byValidity`): untuk tiap kategori (STRONG≥75,
+  MODERATE 58–74, WEAK<58, pakai `t.intel.validity`/score dari history) hitung: `trades`,
+  `wins`, `winrate` (akurasi), `net`, `avgReturn` (net/trade), `sl` + `slRate`, `tp1/2/3`,
+  `avgScore`, dan `coins[]` = daftar pair di kategori itu {pair, trades, winrate, net,
+  avgScore} urut trade terbanyak.
+- **Frontend**:
+  - Tab **History**: kartu "🎯 Akurasi per Kategori Sinyal" — tabel ringkas (KATEGORI, SKOR,
+    TRADE, AKURASI, RETURN, AVG/TRADE, SL%) via `mo-validity-body`.
+  - Tab **Performa**: kartu sama (`lv-validity-body`) + **daftar coin per kategori** dalam
+    `<details>` yang bisa diklik (`lv-validity-coins`) — tabel PAIR/SKOR/TRADE/WR/NET, scroll.
+  - Fungsi `renderValidity(stats)` mengisi ketiga elemen; dipanggil di `renderLive`.
+- Diuji dgn history asli (2007 trade): STRONG 893t/39.6% WR/net −238%/SL 90.7%/avgSc 81.9/276
+  coin; MODERATE 1076t/39.6%/net −129%/SL 88.6%; WEAK 38t/31.6%/net −26%/SL 89.5%. Insight:
+  akurasi antar-kategori mirip → skor tinggi belum tentu lebih akurat (bahan evaluasi strategi).
+- Kolom baru terisi setelah run scanner berikutnya menulis `byValidity` ke stats.json.
