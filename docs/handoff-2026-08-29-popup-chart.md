@@ -571,3 +571,28 @@ mantul naik. Aturan baru (untuk **timeframe 4H sebagai acuan arah**, memakai %K)
   dan selaraskan `buildIntelIndicator` (index.html) agar skoring tidak memberi nilai
   positif pada cross 4H yang melawan zona.
 - Catatan lengkap juga disimpan di `.kiro/steering/strategy-rules.md`.
+
+
+
+---
+
+## 20. Catatan rumus: konfirmasi MACD "bar hijau/merah pertama" di 4H
+
+Temuan user (gambar sinyal LONG bagus): saat MACD **4H** (candle close) memunculkan
+**bar histogram hijau PERTAMA** (momentum baru berbalik naik) → konfirmasi bagus
+untuk LONG. Didukung **RSI>50** dan **StochRSI masih bullish (%K≥%D) walau di atas 80**
+(pada kasus ini tetap OK karena momentum baru berbalik, bukan kelelahan). Setelah itu
+**tinggal cek pemicu 15m**.
+
+- **LONG (4H):** MACD histogram bar hijau pertama (histogram merah→hijau / tembus 0 ke atas)
+  + RSI>50 + StochRSI masih bullish (boleh >80) → lanjut cek 15m.
+- **SHORT (4H):** kebalikannya — bar merah pertama + RSI<50 + StochRSI masih bearish
+  (boleh <20) → lanjut cek 15m.
+- **Interaksi dgn aturan #19:** gate "long <80 / short >40" adalah default hati-hati;
+  **pengecualian** saat ada bar MACD hijau/merah pertama + RSI searah → StochRSI ekstrem
+  searah momentum (long >80 / short <20) TETAP boleh.
+
+**Status: baru CATATAN (belum diimplementasi).** Rencana: param `macdFirstBarConfirm`
++ deteksi transisi histogram (hijau pertama: bar[t]>0 && bar[t-1]<=0; merah kebalikannya)
+di `detectSignalIndicator` acuan 4H + selaraskan `buildIntelIndicator`. Detail lengkap di
+`.kiro/steering/strategy-rules.md`.

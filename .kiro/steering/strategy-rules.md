@@ -41,3 +41,40 @@ untuk long, masih punya "ruang naik" (di bawah 80). Jangan melawan zona ekstrem.
   mengizinkan arah LONG/SHORT.
 - Konsistenkan juga `buildIntelIndicator` di `index.html` agar skor tidak memberi
   nilai positif pada cross 4H yang melawan zona (short <40 / long >80).
+
+
+
+---
+
+## Aturan konfirmasi MACD "bar hijau/merah pertama" di 4H (acuan arah)
+
+> Ditambahkan atas temuan user (gambar sinyal LONG yang bagus): saat MACD **4H**
+> pada candle close menampilkan **bar histogram hijau PERTAMA** (momentum baru
+> berbalik naik), itu konfirmasi kuat untuk LONG — dan pada kondisi ini StochRSI
+> yang **masih bullish walau di atas 80** tetap OK (tidak dianggap "kelelahan").
+
+**Berlaku untuk timeframe 4H (acuan). Memakai MACD histogram (DIF − DEA), RSI, StochRSI %K/%D:**
+
+- **LONG (bagus) bila di 4H:**
+  1. MACD histogram menunjukkan **bar hijau pertama** — histogram baru berubah dari
+     negatif (merah) ke positif (hijau) / menembus garis 0 ke atas (momentum shift up).
+  2. **RSI(14) > 50** (didukung momentum).
+  3. **StochRSI masih bullish (%K ≥ %D)** — **boleh di atas 80** dalam kasus ini,
+     karena momentum MACD baru berbalik naik (bukan sinyal kelelahan).
+  4. Lalu **cek pemicu di 15m** (aturan pemicu 15m tetap seperti biasa).
+
+- **SHORT (kebalikannya) bila di 4H:**
+  1. MACD histogram **bar merah pertama** (baru berubah dari hijau → merah / menembus 0 ke bawah).
+  2. **RSI(14) < 50**.
+  3. **StochRSI masih bearish (%K ≤ %D)** — boleh di bawah 20.
+  4. Lalu cek pemicu 15m.
+
+**Catatan interaksi dengan aturan zona StochRSI (bagian sebelumnya):**
+gate "long <80 / short >40" adalah kehati-hatian umum; **pengecualiannya** adalah
+saat ada **bar MACD hijau/merah pertama + RSI searah** → StochRSI di zona ekstrem
+searah momentum (long >80 / short <20) TETAP boleh, karena momentum baru berbalik.
+
+### Status: baru CATATAN (belum diimplementasi).
+Rencana: tambah param `macdFirstBarConfirm` (bool) & logika deteksi transisi
+histogram (bar[t] > 0 && bar[t-1] <= 0 untuk hijau pertama; kebalikannya merah)
+di `detectSignalIndicator` bagian acuan 4H, plus penyesuaian `buildIntelIndicator`.
