@@ -548,3 +548,26 @@ DAN switch unit persentase/USD yang juga berlaku di chart.
   {usd,pct,trades}; tampil $ atau % sesuai toggle; total bulan ikut unit.
 - Semua dipanggil di `renderCapitalSim`; setLiveTab('acc') redraw. Diuji: _acctDailyMap Agu
   2026 per-hari $/% wajar, saldo akhir $81.74; inline JS syntax OK. Frontend-only.
+
+
+
+---
+
+## 19. Catatan rumus: zona cross StochRSI di 4H (acuan) — anti-entry lawan zona
+
+Temuan user (gambar sinyal SHORT): StochRSI **4H** cross bearish tapi cross-nya
+**di bawah level 40** (StochRSI ~6, sudah sangat oversold) → sinyal jelek, rawan
+mantul naik. Aturan baru (untuk **timeframe 4H sebagai acuan arah**, memakai %K):
+
+- **SHORT** (cross/kondisi bearish %K ≤ %D): valid **hanya jika di ATAS 40**.
+  Cross bearish di bawah 40 (oversold) → **JANGAN short**.
+- **LONG** (cross/kondisi bullish %K ≥ %D): valid **hanya jika di BAWAH 80**.
+  Cross bullish di atas 80 (overbought) → **JANGAN long**.
+- Intinya: short butuh "ruang turun" (%K 4H > 40); long butuh "ruang naik" (%K 4H < 80).
+
+**Status: baru CATATAN (belum diimplementasi di scanner).** Rencana implementasi:
+- Config `strategy`: `stoch4hZoneGate` (true), `stoch4hShortMin` (40), `stoch4hLongMax` (80).
+- Terapkan di `detectSignalIndicator` bagian acuan 4H (setelah StochRSI 4H dihitung),
+  dan selaraskan `buildIntelIndicator` (index.html) agar skoring tidak memberi nilai
+  positif pada cross 4H yang melawan zona.
+- Catatan lengkap juga disimpan di `.kiro/steering/strategy-rules.md`.
