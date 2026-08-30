@@ -483,3 +483,18 @@ coin history bisa diklik → popup trading plan.
   ada di history=true; syntax run.js & inline JS OK.
 - Popup membuka trade TERBARU coin itu (per kategori). Semua trade lama tetap bisa dilihat
   via Recent Signals Log (tab Akun).
+
+
+
+### 18d. Tab History: daftar semua trade closed (tgl + TP/SL + klik popup)
+
+Permintaan user: di sub-tab History, daftar coin yang sudah closed — ada tanggal close,
+hasil TP1/2/3 maupun SL, dan bisa diklik → popup chart/trading plan.
+- Kartu baru **"📋 Riwayat Trade Closed"** di tab History (sebelum tabel bulanan). Frontend-only.
+- Fungsi `renderClosedHistory()` (+ pager `chPagePrev/chPageNext`, `CH_PAGE_SIZE=50`): ambil
+  semua `liveHistory`, urut exitTime terbaru dulu, paginasi 50/hal.
+- Kolom: **PAIR/CLOSE** (nama + `closeLabel()` relatif <24j / tanggal), **ARAH** (LONG/SHORT),
+  **HASIL** (chip TP1/TP2/TP3 nyala kalau tercapai + chip SL kalau kena stop), **P&L %**.
+- Baris `.clickable-row` + 🔎 → `openStratModalFromHistory(t.id)` buka popup trading plan/chart.
+- Dipanggil di `renderLive` setelah `renderMonthlyTable`. Aktif langsung (tak perlu tunggu
+  scanner). Syntax inline JS OK.

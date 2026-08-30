@@ -1942,6 +1942,27 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
             </div>
           </div>
           <div class="card">
+            <div class="card-hd" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <span>📋 Riwayat Trade Closed — <span id="hist-closed-count">0</span></span>
+              <span class="chip info" style="margin:0">klik baris = trading plan</span>
+            </div>
+            <div class="tbl-scroll" style="overflow:auto;max-height:460px">
+              <table style="width:100%">
+                <thead><tr><th>PAIR / CLOSE</th><th>ARAH</th><th>HASIL (TP / SL)</th><th style="text-align:right">P&amp;L %</th></tr></thead>
+                <tbody id="hist-closed-body"></tbody>
+              </table>
+            </div>
+            <div class="rsl-pager" id="hist-closed-pager">
+              <button class="btn btn-ghost btn-xs" onclick="chPagePrev()">←</button>
+              <span class="rsl-pageinfo" id="hist-closed-pageinfo">Page 1 / 1</span>
+              <button class="btn btn-ghost btn-xs" onclick="chPageNext()">→</button>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
+              ⓘ Semua trade yg sudah closed (terbaru dulu). Kolom HASIL: chip TP1/TP2/TP3 menyala = target tercapai, SL = kena stop. CLOSE &lt; 24 jam tampil relatif. <b>Klik baris</b> → popup chart & trading plan.
+            </div>
+          </div>
+
+          <div class="card">
             <div class="card-hd">📅 Winrate &amp; Return per Bulan</div>
             <div style="overflow-x:auto">
               <table style="width:100%">
@@ -4054,6 +4075,42 @@ function renderValidity(stats) {
   }
 }
 
+/* Riwayat Trade Closed (tab History) — semua trade tutup, terbaru dulu, klik → popup */
+let chPage = 1;
+const CH_PAGE_SIZE = 50;
+function chPagePrev() { if (chPage > 1) { chPage--; renderClosedHistory(); } }
+function chPageNext() {
+  const tot = Math.max(1, Math.ceil((liveHistory ? liveHistory.length : 0) / CH_PAGE_SIZE));
+  if (chPage < tot) { chPage++; renderClosedHistory(); }
+}
+function renderClosedHistory() {
+  const tbody = document.getElementById('hist-closed-body');
+  if (!tbody) return;
+  const items = (liveHistory || []).slice().sort((a, b) => new Date(b.exitTime).getTime() - new Date(a.exitTime).getTime());
+  setTxt('hist-closed-count', items.length + ' trade');
+  const totalPages = Math.max(1, Math.ceil(items.length / CH_PAGE_SIZE));
+  if (chPage > totalPages) chPage = totalPages;
+  const start = (chPage - 1) * CH_PAGE_SIZE;
+  const slice = items.slice(start, start + CH_PAGE_SIZE);
+  const chip = (label, on, color) => `<span style="display:inline-block;padding:1px 5px;border-radius:4px;font-size:9px;font-family:var(--mono);margin:1px;${on ? `background:${color}22;color:${color};border:1px solid ${color}55` : 'color:var(--muted);border:1px solid var(--border);opacity:.4'}">${label}</span>`;
+  tbody.innerHTML = slice.length ? slice.map(t => {
+    const hh = t.tpHits || [];
+    const slOn = t.closedBy === 'SL';
+    const dirCls = t.dir === 'BUY' ? 'c-green' : 'c-red';
+    const dirLbl = t.dir === 'BUY' ? 'LONG' : 'SHORT';
+    const pn = t.pnl_pct || 0;
+    const hasil = chip('TP1', hh.includes('TP1'), '#00e5a0') + chip('TP2', hh.includes('TP2'), '#00e5a0') + chip('TP3', hh.includes('TP3'), '#00e5a0') + chip('SL', slOn, '#ff5470');
+    return `<tr class="clickable-row" onclick="openStratModalFromHistory('${t.id}')" title="Klik: trading plan ${t.pair}">
+      <td><b>${t.pair.replace('USDT', '')}</b> <span style="opacity:.55">🔎</span><br><span class="c-muted" style="font-size:10px;font-family:var(--mono)">${closeLabel(t.exitTime)}</span></td>
+      <td class="${dirCls}" style="font-family:var(--mono);font-size:11px">${dirLbl}</td>
+      <td>${hasil}</td>
+      <td style="text-align:right" class="${pn >= 0 ? 'c-green' : 'c-red'}">${pn >= 0 ? '+' : ''}${pn.toFixed(1)}%</td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="4"><div class="empty"><div class="empty-txt">Belum ada trade closed.</div></div></td></tr>';
+  const info = document.getElementById('hist-closed-pageinfo');
+  if (info) info.textContent = 'Page ' + chPage + ' / ' + totalPages;
+}
+
 /* Score Anomaly card — peringatan ketika low-score lebih akurat dari high-score */
 function renderScoreAnomaly(stats) {
   const card = document.getElementById('lv-anomaly-card');
@@ -4384,6 +4441,9 @@ function renderLive(stats, state, history) {
 
   // Sub-tab Histori Bulanan (di dalam Robot Live)
   renderMonthlyTable(stats);
+
+  // Riwayat trade closed (tab History)
+  renderClosedHistory();
 
   const wlEl = document.getElementById('lv-watch');
   if (wlEl) {
