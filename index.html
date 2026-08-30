@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>TVBT Pro — Signal Backtest Suite</title>
+
+<!-- ============ PWA (aplikasi tanpa kolom URL saat ditambahkan ke Home) ============ -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#080b11">
+<!-- Android/Chrome: buka standalone (tanpa address bar) setelah "Add to Home screen" -->
+<meta name="mobile-web-app-capable" content="yes">
+<!-- iOS Safari: mode aplikasi layar penuh -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="TVBT Pro">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- Candlestick engine (TradingView lightweight-charts) untuk chart + trade plan di popup detail sinyal -->
 <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js" defer></script>
