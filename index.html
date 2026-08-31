@@ -685,6 +685,24 @@ html{ scroll-behavior:smooth; }
 /* ============================================================
    POSITION CARD
 ============================================================ */
+/* Kolom pencarian koin (Real-time P&L Stream) */
+.pos-search-wrap{ position:relative; margin-bottom:10px; }
+.pos-search-input{
+  width:100%; box-sizing:border-box;
+  background:var(--surf); border:1px solid var(--border); border-radius:9px;
+  padding:10px 34px 10px 12px; color:var(--text);
+  font-family:var(--mono); font-size:13px; outline:none;
+  transition:border-color .14s ease, box-shadow .14s ease;
+}
+.pos-search-input::placeholder{ color:var(--muted); }
+.pos-search-input:focus{ border-color:var(--accent); box-shadow:0 0 0 2px rgba(0,229,160,.15); }
+.pos-search-input::-webkit-search-cancel-button{ -webkit-appearance:none; }
+.pos-search-clear{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  background:transparent; border:none; color:var(--muted2); cursor:pointer;
+  font-size:13px; padding:6px 8px; border-radius:6px; line-height:1;
+}
+.pos-search-clear:hover{ color:var(--text); background:var(--card2); }
 .pos-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
 .pos-card{
   background:var(--card); border:1px solid var(--border); border-radius:12px;
@@ -1797,6 +1815,12 @@ SELL EURUSD entry 1.0850 tp 1.0800 sl 1.0880"></textarea>
           <div style="font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-bottom:10px"><span id="lt-strip-txt">— posisi terbuka</span></div>
 
           <div class="card-hd" style="border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:10px">📡 Real-time P&L Stream — <span id="lv-open-count">0</span> · floating <span id="lv-floating" class="c-blue">—</span></div>
+          <div class="pos-search-wrap">
+            <input id="lv-open-search" type="search" inputmode="search" autocomplete="off" spellcheck="false"
+              placeholder="🔍 Cari koin di posisi terbuka… (mis. BTC, PEPE)"
+              oninput="onOpenSearch(this.value)" class="pos-search-input">
+            <button type="button" class="pos-search-clear" id="lv-open-search-clear" onclick="clearOpenSearch()" title="Hapus" style="display:none">✕</button>
+          </div>
           <div id="lv-open-cards" class="pos-grid">
             <div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>
           </div>
@@ -3559,6 +3583,7 @@ let wsFailCount = 0;        // berapa kali WS gagal (untuk berhenti mencoba bila
 let liveSrcLabel = '';      // sumber harga yang sedang dipakai (Binance/Bybit/OKX/CoinGecko)
 let renderThrottle = null;  // requestAnimationFrame ID untuk throttle render
 let lastWSMessageAt = null; // ts pesan WS terakhir
+let openSearchQuery = ''; // filter pencarian koin di Real-time P&L Stream (uppercase)
 let liveOpen = [];      // referensi posisi terbuka aktif (untuk popup)
 let liveHistory = [];   // referensi history (untuk popup)
 let liveEvents = [];
@@ -4387,21 +4412,45 @@ function openStratModalFromOpenById(id) {
 }
 
 /* ekstrak render-ulang card posisi terbuka & terminal sebagai fungsi terpisah */
+/* Pencarian koin di Real-time P&L Stream (filter kartu posisi terbuka).
+   Query disimpan di openSearchQuery agar filter tetap bertahan saat kartu
+   di-render ulang tiap detik oleh update harga realtime. */
+function onOpenSearch(v) {
+  openSearchQuery = (v || '').trim().toUpperCase();
+  const clr = document.getElementById('lv-open-search-clear');
+  if (clr) clr.style.display = openSearchQuery ? '' : 'none';
+  renderOpenCards();
+}
+function clearOpenSearch() {
+  openSearchQuery = '';
+  const inp = document.getElementById('lv-open-search');
+  if (inp) { inp.value = ''; inp.focus(); }
+  const clr = document.getElementById('lv-open-search-clear');
+  if (clr) clr.style.display = 'none';
+  renderOpenCards();
+}
+
 const _lastRenderPrice = {}; // pair -> price (snapshot terakhir untuk flash effect)
 function renderOpenCards() {
   const cards = document.getElementById('lv-open-cards');
   if (!cards) return;
-  setTxt('lv-open-count', liveOpen.length);
+  const q = openSearchQuery || '';
+  // URUTAN TAMPILAN: signal terbaru di atas (openTime desc). Index asli liveOpen
+  // tetap dipakai utk onclick/flash agar popup & efek konsisten.
+  let order = liveOpen.map((p, i) => i).sort((a, b) => {
+    const ta = new Date(liveOpen[a].openTime).getTime() || 0;
+    const tb = new Date(liveOpen[b].openTime).getTime() || 0;
+    return tb - ta;
+  });
+  if (q) order = order.filter(i => (liveOpen[i].pair || '').toUpperCase().includes(q));
+  // Hitungan: tampilkan "cocok/total" saat ada query, else total
+  setTxt('lv-open-count', q ? (order.length + '/' + liveOpen.length) : liveOpen.length);
+
   if (!liveOpen.length) {
     cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada posisi terbuka saat ini.</div></div>';
+  } else if (!order.length) {
+    cards.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-txt">Tidak ada koin cocok "' + q + '" di posisi terbuka.</div></div>';
   } else {
-    // URUTAN TAMPILAN: signal terbaru di atas (openTime desc). Index asli liveOpen
-    // tetap dipakai utk onclick/flash agar popup & efek konsisten.
-    const order = liveOpen.map((p, i) => i).sort((a, b) => {
-      const ta = new Date(liveOpen[a].openTime).getTime() || 0;
-      const tb = new Date(liveOpen[b].openTime).getTime() || 0;
-      return tb - ta;
-    });
     cards.innerHTML = order.map(idx => renderPosCard(liveOpen[idx], idx)).join('');
     // Flash effect: bandingkan harga sekarang dgn snapshot terakhir (ikut urutan tampilan)
     order.forEach((idx, pos) => {
