@@ -133084,5 +133084,73 @@
         "stochD": 45
       }
     }
+  },
+  {
+    "id": "NEARUSDT-1788141599999",
+    "pair": "NEARUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 1.837,
+    "slInit": 1.92729,
+    "tp1": 1.72216,
+    "tp2": 1.69092,
+    "tp3": 1.60063,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-08-31T02:00:00.000Z",
+    "exitTime": "2026-08-31T23:29:59.999Z",
+    "exit": 1.92729,
+    "bars": 86,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.915,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 84,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 41,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 41 < 50",
+        "StochRSI K 66 cross↓",
+        "MACD falling",
+        "Acuan 4H bearish (RSI 43)",
+        "Daily uptrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 41,
+      "stochK": 65.6,
+      "stochD": 66.5,
+      "stochFrom": 67.2,
+      "macdDif": -0.01056686,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 42.6,
+        "macdDif": -0.0040779,
+        "stochK": 70.2,
+        "stochD": 85.5
+      }
+    }
   }
 ]
