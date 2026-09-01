@@ -139010,5 +139010,69 @@
         "stochD": 46.5
       }
     }
+  },
+  {
+    "id": "FILUSDT-1787690699999",
+    "pair": "FILUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.7146,
+    "slInit": 0.742338,
+    "tp1": 0.6791,
+    "tp2": 0.6643,
+    "tp3": 0.6327,
+    "tpRR": [
+      1.28,
+      1.81,
+      2.95
+    ],
+    "openTime": "2026-08-25T20:44:59.999Z",
+    "exitTime": "2026-09-01T17:29:59.999Z",
+    "exit": 0.742338,
+    "bars": 659,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.708,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 30.2,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 7.2x heavy",
+        "Daily uptrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 30 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 68%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 7.19,
+      "bodyPct": -1.18,
+      "takerRatio": 0.32,
+      "consolPct": 2.16,
+      "bias": "short"
+    }
   }
 ]
