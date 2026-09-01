@@ -133152,5 +133152,73 @@
         "stochD": 85.5
       }
     }
+  },
+  {
+    "id": "ZKCUSDT-1788099299999",
+    "pair": "ZKCUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.0641,
+    "slInit": 0.051986,
+    "tp1": 0.079509,
+    "tp2": 0.083701,
+    "tp3": 0.095815,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-08-30T14:15:00.000Z",
+    "exitTime": "2026-08-31T23:59:59.999Z",
+    "exit": 0.051986,
+    "bars": 135,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -18.899,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 90,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 56.3,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 56 > 50",
+        "StochRSI K 5 cross↑",
+        "MACD fading_down",
+        "Acuan 4H bullish (RSI 90)",
+        "Daily downtrend",
+        "1H uptrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 56.3,
+      "stochK": 4.6,
+      "stochD": 1.7,
+      "stochFrom": 0,
+      "macdDif": 0.0023154,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 90.3,
+        "macdDif": 0.00340097,
+        "stochK": 100,
+        "stochD": 81.7
+      }
+    }
   }
 ]
