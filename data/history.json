@@ -141010,5 +141010,68 @@
         "stochD": 81.7
       }
     }
+  },
+  {
+    "id": "GMXUSDT-1787423399999",
+    "pair": "GMXUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 7.33,
+    "slInit": 7.07393,
+    "tp1": 8.14,
+    "tp2": 8.39607,
+    "tp3": 8.65214,
+    "tpRR": [
+      3.16,
+      4.16,
+      5.16
+    ],
+    "openTime": "2026-08-22T18:29:59.999Z",
+    "exitTime": "2026-09-02T09:29:59.999Z",
+    "exit": 7.07393,
+    "bars": 1020,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.355,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 68.2,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 4.1x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 68 sudah tinggi",
+        "MACD rising",
+        "ABOVE MA200",
+        "Taker buy 71%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 4.09,
+      "bodyPct": 0.83,
+      "takerRatio": 0.71,
+      "consolPct": 2.1,
+      "bias": "long"
+    }
   }
 ]
