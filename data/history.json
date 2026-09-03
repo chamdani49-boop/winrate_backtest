@@ -144808,5 +144808,70 @@
         "stochD": 78.1
       }
     }
+  },
+  {
+    "id": "ANKRUSDT-1787345999999",
+    "pair": "ANKRUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.00394,
+    "slInit": 0.00379464,
+    "tp1": 0.00443,
+    "tp2": 0.00457536,
+    "tp3": 0.00472071,
+    "tpRR": [
+      3.37,
+      4.37,
+      5.37
+    ],
+    "openTime": "2026-08-21T20:59:59.999Z",
+    "exitTime": "2026-09-03T00:29:59.999Z",
+    "exit": 0.00472071,
+    "bars": 1166,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 16.126,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 75.5,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 6.0x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 75 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 92%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 6,
+      "bodyPct": 1.03,
+      "takerRatio": 0.92,
+      "consolPct": 2.35,
+      "bias": "long"
+    }
   }
 ]
