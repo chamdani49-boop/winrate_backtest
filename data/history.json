@@ -160024,5 +160024,73 @@
         "stochD": 35.7
       }
     }
+  },
+  {
+    "id": "ESPUSDT-1788524999999",
+    "pair": "ESPUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.08678,
+    "slInit": 0.08448,
+    "tp1": 0.089706,
+    "tp2": 0.090501,
+    "tp3": 0.092801,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-04T12:30:00.000Z",
+    "exitTime": "2026-09-04T22:29:59.999Z",
+    "exit": 0.08448,
+    "bars": 40,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.65,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 86,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 56.3,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 56 > 50",
+        "StochRSI K 34 cross↑",
+        "MACD falling",
+        "Acuan 4H bullish (RSI 61)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 56.3,
+      "stochK": 34,
+      "stochD": 30.3,
+      "stochFrom": 27.6,
+      "macdDif": 0.00039271,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 60.5,
+        "macdDif": 0.00111693,
+        "stochK": 75.5,
+        "stochD": 73
+      }
+    }
   }
 ]
