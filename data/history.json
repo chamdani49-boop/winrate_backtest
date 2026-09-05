@@ -162223,5 +162223,70 @@
         "stochD": 98.4
       }
     }
+  },
+  {
+    "id": "ASTERUSDT-1787519699999",
+    "pair": "ASTERUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 0.696,
+    "slInit": 0.661054,
+    "tp1": 0.748,
+    "tp2": 0.777,
+    "tp3": 0.811946,
+    "tpRR": [
+      1.49,
+      2.32,
+      3.32
+    ],
+    "openTime": "2026-08-23T21:14:59.999Z",
+    "exitTime": "2026-09-05T12:14:59.999Z",
+    "exit": 0.811946,
+    "bars": 1212,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 11.923,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 71.9,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 5.3x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 72 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 61%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 5.33,
+      "bodyPct": 1.02,
+      "takerRatio": 0.61,
+      "consolPct": 3.43,
+      "bias": "long"
+    }
   }
 ]
