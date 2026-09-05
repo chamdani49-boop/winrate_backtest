@@ -160994,5 +160994,66 @@
         "stochD": 20.8
       }
     }
+  },
+  {
+    "id": "EPICUSDT-1787375699999",
+    "pair": "EPICUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.3462,
+    "slInit": 0.382807,
+    "tp1": 0.309593,
+    "tp2": 0.272986,
+    "tp3": 0.236379,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-22T05:14:59.999Z",
+    "exitTime": "2026-09-05T05:59:59.999Z",
+    "exit": 0.382807,
+    "bars": 1347,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -10.574,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 29.2,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 14.2x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H uptrend",
+        "RSI 29 sudah rendah",
+        "MACD falling",
+        "BELOW MA200",
+        "Taker sell 65%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 14.16,
+      "bodyPct": -7.28,
+      "takerRatio": 0.35,
+      "consolPct": 3.9,
+      "bias": "short"
+    }
   }
 ]
