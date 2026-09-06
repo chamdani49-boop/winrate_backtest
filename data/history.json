@@ -166068,5 +166068,73 @@
         "stochD": 68.4
       }
     }
+  },
+  {
+    "id": "币安人生USDT-1788633899999",
+    "pair": "币安人生USDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.5863,
+    "slInit": 0.525534,
+    "tp1": 0.663594,
+    "tp2": 0.68462,
+    "tp3": 0.745386,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-05T18:45:00.000Z",
+    "exitTime": "2026-09-06T05:14:59.999Z",
+    "exit": 0.525534,
+    "bars": 42,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -10.364,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 86,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 54,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 54 > 50",
+        "StochRSI K 1 cross↑",
+        "MACD falling",
+        "Acuan 4H bullish (RSI 81)",
+        "Daily downtrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 54,
+      "stochK": 1.1,
+      "stochD": 0.4,
+      "stochFrom": 0,
+      "macdDif": 0.01372688,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 81.4,
+        "macdDif": 0.01384294,
+        "stochK": 100,
+        "stochD": 94.3
+      }
+    }
   }
 ]
