@@ -166000,5 +166000,73 @@
         "stochD": 58.9
       }
     }
+  },
+  {
+    "id": "PROMUSDT-1788654599999",
+    "pair": "PROMUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 5.05,
+    "slInit": 5.16971,
+    "tp1": 4.89772,
+    "tp2": 4.8563,
+    "tp3": 4.73659,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-06T00:30:00.000Z",
+    "exitTime": "2026-09-06T04:59:59.999Z",
+    "exit": 5.16971,
+    "bars": 18,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.37,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 83,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 29.6,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 30 < 50",
+        "StochRSI K 31 cross↓",
+        "MACD falling",
+        "Acuan 4H bearish (RSI 49)",
+        "Daily uptrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 29.6,
+      "stochK": 31.1,
+      "stochD": 43.3,
+      "stochFrom": 51,
+      "macdDif": -0.04181309,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 48.7,
+        "macdDif": -0.00921766,
+        "stochK": 47.4,
+        "stochD": 68.4
+      }
+    }
   }
 ]
