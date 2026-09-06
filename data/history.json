@@ -167102,5 +167102,65 @@
         "stochD": 53.2
       }
     }
+  },
+  {
+    "id": "NIGHTUSDT-1784710799999",
+    "pair": "NIGHTUSDT",
+    "dir": "SELL",
+    "strategy": "PRE_DUMP",
+    "strategyName": "Spike Pre-Dump · trend 4H turun + volume spike 15M",
+    "strategyShort": "PRE-DUMP",
+    "entry": 0.02225,
+    "slInit": 0.023696,
+    "tp1": 0.01511,
+    "tp2": 0.013664,
+    "tp3": 0.012217,
+    "tpRR": [
+      4.94,
+      5.94,
+      6.94
+    ],
+    "openTime": "2026-07-22T08:59:59.999Z",
+    "exitTime": "2026-09-06T10:59:59.999Z",
+    "exit": 0.023696,
+    "bars": 4424,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.499,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 63,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 35.7,
+      "macd": "fading_down",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Vol 3.5x heavy",
+        "Daily downtrend",
+        "4H downtrend",
+        "1H downtrend",
+        "RSI 36 sudah rendah",
+        "MACD fading_down",
+        "Taker sell 69%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.5,
+      "bodyPct": -1.07,
+      "takerRatio": 0.31,
+      "consolPct": 4.71,
+      "bias": "short"
+    }
   }
 ]
