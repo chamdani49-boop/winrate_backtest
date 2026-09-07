@@ -170775,5 +170775,73 @@
         "stochD": 27.3
       }
     }
+  },
+  {
+    "id": "ENSUSDT-1788741899999",
+    "pair": "ENSUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 6.22,
+    "slInit": 6.06893,
+    "tp1": 6.41216,
+    "tp2": 6.46443,
+    "tp3": 6.6155,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-07T00:45:00.000Z",
+    "exitTime": "2026-09-07T02:14:59.999Z",
+    "exit": 6.06893,
+    "bars": 6,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.429,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 54.4,
+      "macd": "fading_down",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 54 > 50",
+        "StochRSI K 54 cross↑",
+        "MACD fading_down",
+        "Acuan 4H bullish (RSI 66)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 54.4,
+      "stochK": 53.7,
+      "stochD": 52.7,
+      "stochFrom": 9.5,
+      "macdDif": 0.01017005,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 66.2,
+        "macdDif": 0.12694612,
+        "stochK": 95.1,
+        "stochD": 88.5
+      }
+    }
   }
 ]
