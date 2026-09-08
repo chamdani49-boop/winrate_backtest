@@ -177400,5 +177400,77 @@
         "stochD": 86.3
       }
     }
+  },
+  {
+    "id": "SAHARAUSDT-1788798599999",
+    "pair": "SAHARAUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.0093,
+    "slInit": 0.00910607,
+    "tp1": 0.00954668,
+    "tp2": 0.00961378,
+    "tp3": 0.0098077,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-07T16:30:00.000Z",
+    "exitTime": "2026-09-08T12:59:59.999Z",
+    "exit": 0.0098077,
+    "bars": 82,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 3.829,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 85,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 62.1,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 62 > 50",
+        "StochRSI K 35 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 54)",
+        "Daily uptrend",
+        "1H downtrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 62.1,
+      "stochK": 34.6,
+      "stochD": 17,
+      "stochFrom": 7.6,
+      "macdDif": 0.00001666,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 53.6,
+        "macdDif": 0.00010579,
+        "stochK": 12,
+        "stochD": 7.8
+      }
+    }
   }
 ]
