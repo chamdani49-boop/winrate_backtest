@@ -176642,5 +176642,76 @@
         "stochD": 40.6
       }
     }
+  },
+  {
+    "id": "AAVEUSDT-1788630299999",
+    "pair": "AAVEUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 132.97,
+    "slInit": 130.06714,
+    "tp1": 136.66243,
+    "tp2": 137.66682,
+    "tp3": 140.56968,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-05T17:45:00.000Z",
+    "exitTime": "2026-09-08T11:14:59.999Z",
+    "exit": 130.06714,
+    "bars": 262,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 1.375,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 93,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 69.8,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 70 > 50",
+        "StochRSI K 76 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 58)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 69.8,
+      "stochK": 76.4,
+      "stochD": 69.9,
+      "stochFrom": 65.6,
+      "macdDif": 0.58205858,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 57.6,
+        "macdDif": 1.02845899,
+        "stochK": 14.6,
+        "stochD": 6.1
+      }
+    }
   }
 ]
