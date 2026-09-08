@@ -177472,5 +177472,66 @@
         "stochD": 7.8
       }
     }
+  },
+  {
+    "id": "OGUSDT-1787492699999",
+    "pair": "OGUSDT",
+    "dir": "BUY",
+    "strategy": "PRE_PUMP",
+    "strategyName": "Spike Pre-Pump · trend 4H naik + volume spike 15M",
+    "strategyShort": "PRE-PUMP",
+    "entry": 2.991,
+    "slInit": 2.68059,
+    "tp1": 3.30141,
+    "tp2": 3.61182,
+    "tp3": 3.92223,
+    "tpRR": [
+      1,
+      2,
+      3
+    ],
+    "openTime": "2026-08-23T13:44:59.999Z",
+    "exitTime": "2026-09-08T13:14:59.999Z",
+    "exit": 2.68059,
+    "bars": 1534,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -10.378,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 74,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (tanpa batas waktu)",
+      "management": "TP1 hit: SL pindah ke breakeven. TP2 hit: tutup 50%, trail sisanya. Biarkan TP3 berkembang.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 69.4,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Vol 3.6x heavy",
+        "Daily uptrend",
+        "4H uptrend",
+        "1H uptrend",
+        "RSI 69 sudah tinggi",
+        "MACD rising",
+        "BELOW MA200",
+        "Taker buy 68%"
+      ]
+    },
+    "reasons": {
+      "volRatio": 3.57,
+      "bodyPct": 5.99,
+      "takerRatio": 0.67,
+      "consolPct": 4.37,
+      "bias": "long"
+    }
   }
 ]
