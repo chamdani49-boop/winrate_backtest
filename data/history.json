@@ -203112,5 +203112,73 @@
         "stochD": 71.1
       }
     }
+  },
+  {
+    "id": "CAKEUSDT-1789208999999",
+    "pair": "CAKEUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 2.253,
+    "slInit": 2.217,
+    "tp1": 2.29879,
+    "tp2": 2.31125,
+    "tp3": 2.34725,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-12T10:30:00.000Z",
+    "exitTime": "2026-09-12T15:55:27.920Z",
+    "exit": 2.217,
+    "bars": 21,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.598,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 93,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67.7,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 68 > 50",
+        "StochRSI K 58 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 56)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 67.7,
+      "stochK": 58.2,
+      "stochD": 49.3,
+      "stochFrom": 38.3,
+      "macdDif": 0.00757842,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 56,
+        "macdDif": 0.00124641,
+        "stochK": 89.5,
+        "stochD": 76
+      }
+    }
   }
 ]
