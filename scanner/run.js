@@ -765,23 +765,27 @@ function advancePosition(pos, candles, nowMs, strat) {
   const portion = 1 / 3;
   const trailing = strat.trailing !== false;
 
-  const newC = candles
-    .filter(c => c.closeT > pos.checkFromCloseT && c.closeT <= nowMs)
-    .sort((a, b) => a.closeT - b.closeT);
-
   let closed = false, closedBy = null, exitPrice = null, exitTime = null;
 
-  for (const c of newC) {
-    pos.checkFromCloseT = c.closeT;
-    pos.bars++;
+  /* Evaluasi SATU candle.
+     Deteksi SELALU berbasis harga TERSENTUH (wick high/low) — bukan harga close.
+     `live=true` berarti candle masih BERJALAN (belum close): sentuhannya tetap
+     langsung dihitung, tapi candle itu TIDAK dianggap selesai diperiksa
+     (checkFromCloseT & bars tidak dimajukan) supaya sisa pergerakannya tetap
+     dievaluasi pada run berikutnya. Guard `tpHits.includes(...)` menjamin satu
+     level tidak pernah dihitung dua kali. */
+  function applyCandle(c, live) {
+    if (!live) { pos.checkFromCloseT = c.closeT; pos.bars++; }
+    const stamp = live ? nowMs : c.closeT;
 
-    // 1) SL dulu (konservatif)
+    // 1) SL dulu (konservatif) — tersentuh low (BUY) / high (SELL)
     const hitSL = pos.dir === 'BUY' ? c.l <= pos.sl : c.h >= pos.sl;
     if (hitSL) {
       pos.realizedPct += pnlPctAt(pos.dir, pos.entry, pos.sl) * pos.remaining;
-      pos.remaining = 0; closed = true; closedBy = 'SL'; exitPrice = pos.sl; exitTime = c.closeT; break;
+      pos.remaining = 0; closed = true; closedBy = 'SL'; exitPrice = pos.sl; exitTime = stamp;
+      return true;
     }
-    // 2) TP1
+    // 2) TP1 — tersentuh high (BUY) / low (SELL)
     if (!pos.tpHits.includes('TP1')) {
       const hit = pos.dir === 'BUY' ? c.h >= pos.tp1 : c.l <= pos.tp1;
       if (hit) {
@@ -804,12 +808,30 @@ function advancePosition(pos, candles, nowMs, strat) {
       const hit = pos.dir === 'BUY' ? c.h >= pos.tp3 : c.l <= pos.tp3;
       if (hit) {
         pos.realizedPct += pnlPctAt(pos.dir, pos.entry, pos.tp3) * portion;
-        pos.tpHits.push('TP3'); pos.remaining = 0; closed = true; closedBy = 'TP3'; exitPrice = pos.tp3; exitTime = c.closeT; break;
+        pos.tpHits.push('TP3'); pos.remaining = 0; closed = true; closedBy = 'TP3'; exitPrice = pos.tp3; exitTime = stamp;
+        return true;
       }
     }
     // Tidak ada tutup paksa: posisi dibiarkan berjalan apa adanya sampai
     // kena SL (full/trailing) atau TP3. Sesuai logika staged-exit mesin.
+    return false;
   }
+
+  // a) candle yang SUDAH close dan belum pernah diperiksa
+  const newC = candles
+    .filter(c => c.closeT > pos.checkFromCloseT && c.closeT <= nowMs)
+    .sort((a, b) => a.closeT - b.closeT);
+  for (const c of newC) { if (applyCandle(c, false)) break; }
+
+  // b) candle yang MASIH BERJALAN (belum close): sentuhan intrabar dihitung
+  //    SEKARANG, tidak menunggu candle close dulu.
+  if (!closed) {
+    const liveBar = candles
+      .filter(c => c.closeT > nowMs && c.t <= nowMs)
+      .sort((a, b) => b.t - a.t)[0];
+    if (liveBar) applyCandle(liveBar, true);
+  }
+
   return { closed, closedBy, exitPrice, exitTime };
 }
 

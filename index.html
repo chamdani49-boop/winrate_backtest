@@ -3753,7 +3753,11 @@ function setupLiveWS() {
         if (p.pair === sym) {
           p.lastPrice = price;
           p.lastPriceTime = now;
-          priceCache[p.pair] = { price, time: now };
+          // JANGAN ganti objeknya — jejak ekstrem hi/lo harus ikut hidup
+          const pc = priceCache[p.pair] || (priceCache[p.pair] = {});
+          pc.price = price; pc.time = now;
+          pc.hi = (pc.hi == null) ? price : Math.max(pc.hi, price);
+          pc.lo = (pc.lo == null) ? price : Math.min(pc.lo, price);
           touched = true;
           const hits = applyVirtualHits(p);
           if (hits.length) newHits.push({ pair: p.pair, dir: p.dir, hits });
@@ -3997,7 +4001,11 @@ async function pollLivePrices() {
     if (priceMap[p.pair] != null && Number.isFinite(priceMap[p.pair])) {
       p.lastPrice = priceMap[p.pair];
       p.lastPriceTime = now;
-      priceCache[p.pair] = { price: p.lastPrice, time: now };
+      // JANGAN ganti objeknya — jejak ekstrem hi/lo harus ikut hidup
+      const pc = priceCache[p.pair] || (priceCache[p.pair] = {});
+      pc.price = p.lastPrice; pc.time = now;
+      pc.hi = (pc.hi == null) ? p.lastPrice : Math.max(pc.hi, p.lastPrice);
+      pc.lo = (pc.lo == null) ? p.lastPrice : Math.min(pc.lo, p.lastPrice);
       updated++;
       const hits = applyVirtualHits(p);
       if (hits.length) newHits.push({ pair: p.pair, dir: p.dir, hits });
@@ -4030,7 +4038,11 @@ async function pollLivePrices() {
 
 /* ============================================================
    APPLY VIRTUAL TP/SL HITS (browser-side, in-memory)
-   - Saat lastPrice menyentuh TP/SL, set tpHits + realizedPct + trail SL
+   - Basis deteksi = harga TERSENTUH, bukan harga close/snapshot.
+     Setiap tick harga dicatat ke ekstrem berjalan (hi/lo) per pair, lalu
+     TP/SL dinilai terhadap ekstrem itu. Jadi sentuhan sesaat (wick) tetap
+     terhitung walau harga sudah berbalik sebelum render berikutnya.
+   - Ekstrem disimpan di priceCache agar tidak hilang saat loadLiveData (60s).
    - Konsisten dengan logika robot (staged exit 1/3 per TP)
    - Robot akan re-konfirmasi saat run berikutnya (15 menit)
 ============================================================ */
@@ -4041,12 +4053,22 @@ function applyVirtualHits(p) {
   if (p.realizedPct == null) p.realizedPct = 0;
   if (!p.slInit) p.slInit = p.sl;
 
+  // --- jejak ekstrem harga (pengganti wick high/low untuk candle berjalan) ---
+  const pc = priceCache[p.pair] || (priceCache[p.pair] = { price: p.lastPrice, time: p.lastPriceTime });
+  // Ekstrem hanya berlaku untuk SATU posisi. Kalau pair ini sudah ganti posisi
+  // (id beda), reset — supaya ekstrem posisi lama tidak memicu hit palsu.
+  if (pc.forId !== p.id) { pc.forId = p.id; pc.hi = p.lastPrice; pc.lo = p.lastPrice; }
+  pc.hi = (pc.hi == null) ? p.lastPrice : Math.max(pc.hi, p.lastPrice);
+  pc.lo = (pc.lo == null) ? p.lastPrice : Math.min(pc.lo, p.lastPrice);
+  const hi = Math.max(pc.hi, p.lastPrice);
+  const lo = Math.min(pc.lo, p.lastPrice);
+
   const newlyHit = [];
   const dirSign = p.dir === 'BUY' ? 1 : -1;
   const portion = 1 / 3;
   const pnlAt = (price) => (price - p.entry) / p.entry * 100 * dirSign;
-  const reaches = (target) => p.dir === 'BUY' ? p.lastPrice >= target : p.lastPrice <= target;
-  const reachesSL = () => p.dir === 'BUY' ? p.lastPrice <= p.sl : p.lastPrice >= p.sl;
+  const reaches = (target) => p.dir === 'BUY' ? hi >= target : lo <= target;
+  const reachesSL = () => p.dir === 'BUY' ? lo <= p.sl : hi >= p.sl;
 
   // SL kena → tutup penuh
   if (p.remaining > 0 && reachesSL() && !p.virtualClosed) {
