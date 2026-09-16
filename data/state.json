@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-16T07:48:29.404Z",
+  "updatedAt": "2026-09-16T07:54:36.600Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -6690,10 +6690,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.1352160890029976,
-      "remaining": 0.666667,
+      "realizedPct": 2.579161317928972,
+      "remaining": 0.333334,
       "bars": 72,
       "lastPrice": 1.494,
       "lastPriceTime": "2026-09-16T07:44:59.999Z",
@@ -16754,82 +16755,6 @@
       "status": "OPEN"
     },
     {
-      "id": "VANAUSDT-1789535699999",
-      "pair": "VANAUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.902,
-      "slInit": 0.918089,
-      "sl": 0.918089,
-      "tp1": 0.881534,
-      "tp2": 0.875968,
-      "tp3": 0.859878,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00435714,
-      "atrPct": 0.48,
-      "openTime": "2026-09-16T05:15:00.000Z",
-      "openCandleCloseT": 1789535700000,
-      "checkFromCloseT": 1789544699999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 93,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 44.7,
-        "macd": "fading_up",
-        "ma200": "BELOW",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 45 < 50",
-          "StochRSI K 88 cross↓",
-          "MACD fading_up",
-          "Acuan 4H bearish (RSI 39)",
-          "Daily downtrend",
-          "1H downtrend",
-          "BELOW MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 44.7,
-        "stochK": 87.8,
-        "stochD": 95.9,
-        "stochFrom": 100,
-        "macdDif": -0.00167489,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 39.3,
-          "macdDif": -0.00318669,
-          "stochK": 0,
-          "stochD": 0.1
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 10,
-      "lastPrice": 0.912,
-      "lastPriceTime": "2026-09-16T07:44:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "MTLUSDT-1789535699999",
       "pair": "MTLUSDT",
       "dir": "BUY",
@@ -17206,7 +17131,7 @@
       "remaining": 1,
       "bars": 0,
       "lastPrice": 1.075,
-      "lastPriceTime": "2026-09-16T07:45:00.000Z",
+      "lastPriceTime": "2026-09-16T07:44:59.999Z",
       "status": "OPEN"
     },
     {
@@ -17281,8 +17206,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.177,
-      "lastPriceTime": "2026-09-16T07:45:00.000Z",
+      "lastPrice": 0.1771,
+      "lastPriceTime": "2026-09-16T07:44:59.999Z",
       "status": "OPEN"
     }
   ]
