@@ -267775,5 +267775,72 @@
         "stochD": 29.2
       }
     }
+  },
+  {
+    "id": "KORUBUSDT-1789810199999",
+    "pair": "KORUBUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 19.67,
+    "slInit": 19.76661,
+    "tp1": 19.54712,
+    "tp2": 19.51369,
+    "tp3": 19.41708,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-19T09:30:00.000Z",
+    "exitTime": "2026-09-19T17:59:59.999Z",
+    "exit": 19.76661,
+    "bars": 34,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -0.491,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 83,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 42.1,
+      "macd": "fading_up",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 42 < 50",
+        "StochRSI K 51 cross↓",
+        "MACD fading_up",
+        "Acuan 4H bearish (RSI 47)",
+        "Daily downtrend",
+        "1H downtrend"
+      ]
+    },
+    "reasons": {
+      "rsi": 42.1,
+      "stochK": 51.1,
+      "stochD": 62.5,
+      "stochFrom": 69.1,
+      "macdDif": -0.01893848,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 47,
+        "macdDif": -0.15369289,
+        "stochK": 62,
+        "stochD": 67.9
+      }
+    }
   }
 ]
