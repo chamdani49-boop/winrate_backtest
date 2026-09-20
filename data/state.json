@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-20T07:37:32.949Z",
+  "updatedAt": "2026-09-20T07:43:48.318Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10473,82 +10473,6 @@
       "status": "OPEN"
     },
     {
-      "id": "ALICEUSDT-1789815599999",
-      "pair": "ALICEUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 0.1402,
-      "slInit": 0.136914,
-      "sl": 0.136914,
-      "tp1": 0.144379,
-      "tp2": 0.145516,
-      "tp3": 0.148802,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00082143,
-      "atrPct": 0.59,
-      "openTime": "2026-09-19T11:00:00.000Z",
-      "openCandleCloseT": 1789815600000,
-      "checkFromCloseT": 1789889399999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 100,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 61.4,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
-          "RSI(15m) 61 > 50",
-          "StochRSI K 30 cross↑",
-          "MACD rising",
-          "Acuan 4H bullish (RSI 74)",
-          "Daily uptrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 61.4,
-        "stochK": 29.8,
-        "stochD": 21.7,
-        "stochFrom": 17.6,
-        "macdDif": 0.00046414,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 73.6,
-          "macdDif": 0.00225421,
-          "stochK": 100,
-          "stochD": 100
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 82,
-      "lastPrice": 0.1375,
-      "lastPriceTime": "2026-09-20T07:29:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "CATIUSDT-1789820999999",
       "pair": "CATIUSDT",
       "dir": "BUY",
@@ -13374,9 +13298,11 @@
           "stochD": 71.4
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.2882830626450108,
+      "remaining": 0.666667,
       "bars": 8,
       "lastPrice": 5.002,
       "lastPriceTime": "2026-09-20T07:29:59.999Z",
