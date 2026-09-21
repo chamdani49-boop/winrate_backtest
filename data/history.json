@@ -290242,5 +290242,77 @@
         "stochD": 17.4
       }
     }
+  },
+  {
+    "id": "ONDOUSDT-1789932599999",
+    "pair": "ONDOUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.4203,
+    "slInit": 0.404271,
+    "tp1": 0.440688,
+    "tp2": 0.446234,
+    "tp3": 0.462263,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-20T19:30:00.000Z",
+    "exitTime": "2026-09-21T22:21:10.733Z",
+    "exit": 0.462263,
+    "bars": 107,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 7.002,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 53.7,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 54 > 50",
+        "StochRSI K 7 cross↑",
+        "MACD falling",
+        "Acuan 4H bullish (RSI 64)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 53.7,
+      "stochK": 7.3,
+      "stochD": 6.2,
+      "stochFrom": 3.2,
+      "macdDif": 0.00227182,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 63.8,
+        "macdDif": 0.01574741,
+        "stochK": 12.5,
+        "stochD": 8.4
+      }
+    }
   }
 ]
