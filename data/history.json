@@ -292712,5 +292712,73 @@
         "stochD": 63.4
       }
     }
+  },
+  {
+    "id": "AVAXUSDT-1789940699999",
+    "pair": "AVAXUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 11.224,
+    "slInit": 10.60086,
+    "tp1": 12.01664,
+    "tp2": 12.23225,
+    "tp3": 12.85539,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-20T21:45:00.000Z",
+    "exitTime": "2026-09-22T05:08:59.274Z",
+    "exit": 10.60086,
+    "bars": 125,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -5.552,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 98,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 57.1,
+      "macd": "fading_down",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 57 > 50",
+        "StochRSI K 19 cross↑",
+        "MACD fading_down",
+        "Acuan 4H bullish (RSI 80)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 57.1,
+      "stochK": 18.6,
+      "stochD": 14,
+      "stochFrom": 9.4,
+      "macdDif": 0.11325313,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 80.1,
+        "macdDif": 0.82985785,
+        "stochK": 48.6,
+        "stochD": 41.5
+      }
+    }
   }
 ]
