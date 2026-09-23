@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-23T03:46:46.987Z",
+  "updatedAt": "2026-09-23T03:53:28.789Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10809,9 +10809,11 @@
           "stochD": 57.3
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 2.491079812206574,
+      "remaining": 0.666667,
       "bars": 142,
       "lastPrice": 0.001137,
       "lastPriceTime": "2026-09-23T03:44:59.999Z",
@@ -18953,9 +18955,11 @@
           "stochD": 16.8
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.7826375082836307,
+      "remaining": 0.666667,
       "bars": 29,
       "lastPrice": 1.023,
       "lastPriceTime": "2026-09-23T03:44:59.999Z",
@@ -19420,85 +19424,6 @@
       "remaining": 0.333334,
       "bars": 28,
       "lastPrice": 0.0993,
-      "lastPriceTime": "2026-09-23T03:44:59.999Z",
-      "status": "OPEN"
-    },
-    {
-      "id": "AAVEUSDT-1790110799999",
-      "pair": "AAVEUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 144.67,
-      "slInit": 141.31286,
-      "sl": 141.31286,
-      "tp1": 148.94029,
-      "tp2": 150.10186,
-      "tp3": 153.459,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.839286,
-      "atrPct": 0.58,
-      "openTime": "2026-09-22T21:00:00.000Z",
-      "openCandleCloseT": 1790110800000,
-      "checkFromCloseT": 1790135099999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 90,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 56.3,
-        "macd": "fading_down",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
-          "RSI(15m) 56 > 50",
-          "StochRSI K 41 cross↑",
-          "MACD fading_down",
-          "Acuan 4H bullish (RSI 62)",
-          "Daily uptrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 56.3,
-        "stochK": 41,
-        "stochD": 30.1,
-        "stochFrom": 23.9,
-        "macdDif": 0.38548701,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 61.5,
-          "macdDif": 2.68762912,
-          "stochK": 25.5,
-          "stochD": 21.1
-        }
-      },
-      "tpHits": [
-        "TP1",
-        "TP2"
-      ],
-      "realizedPct": 2.2354669247252406,
-      "remaining": 0.333334,
-      "bars": 27,
-      "lastPrice": 153.12,
       "lastPriceTime": "2026-09-23T03:44:59.999Z",
       "status": "OPEN"
     },
