@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T14:18:34.895Z",
+  "updatedAt": "2026-09-24T14:24:36.174Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10697,9 +10697,11 @@
           "stochD": 11.4
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.2939393939393948,
+      "remaining": 0.666667,
       "bars": 37,
       "lastPrice": 0.02271,
       "lastPriceTime": "2026-09-24T14:14:59.999Z",
@@ -10927,9 +10929,11 @@
           "stochD": 28.5
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 2.8070108161258642,
+      "remaining": 0.666667,
       "bars": 30,
       "lastPrice": 72.04,
       "lastPriceTime": "2026-09-24T14:14:59.999Z",
@@ -11318,82 +11322,6 @@
       "status": "OPEN"
     },
     {
-      "id": "COTIUSDT-1790254799999",
-      "pair": "COTIUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.0156,
-      "slInit": 0.016117,
-      "sl": 0.016117,
-      "tp1": 0.014942,
-      "tp2": 0.014763,
-      "tp3": 0.014246,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00012929,
-      "atrPct": 0.83,
-      "openTime": "2026-09-24T13:00:00.000Z",
-      "openCandleCloseT": 1790254800000,
-      "checkFromCloseT": 1790259299999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 78,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 48.1,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 48 < 50",
-          "StochRSI K 91 cross↓",
-          "MACD rising",
-          "Acuan 4H bearish (RSI 40)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 48.1,
-        "stochK": 90.9,
-        "stochD": 93.9,
-        "stochFrom": 100,
-        "macdDif": -0.00014048,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 39.8,
-          "macdDif": -0.00054415,
-          "stochK": 72.5,
-          "stochD": 86.5
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 5,
-      "lastPrice": 0.01594,
-      "lastPriceTime": "2026-09-24T14:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "PLUMEUSDT-1790255699999",
       "pair": "PLUMEUSDT",
       "dir": "BUY",
@@ -11613,10 +11541,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.2697690350362105,
-      "remaining": 0.666667,
+      "realizedPct": 2.8849089841456257,
+      "remaining": 0.333334,
       "bars": 4,
       "lastPrice": 0.7082,
       "lastPriceTime": "2026-09-24T14:14:59.999Z",
@@ -11921,8 +11850,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.1272,
-      "lastPriceTime": "2026-09-24T14:15:00.000Z",
+      "lastPrice": 0.1271,
+      "lastPriceTime": "2026-09-24T14:14:59.999Z",
       "status": "OPEN"
     }
   ]
