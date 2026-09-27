@@ -342961,5 +342961,73 @@
         "stochD": 32.3
       }
     }
+  },
+  {
+    "id": "ALICEUSDT-1790525699999",
+    "pair": "ALICEUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.162,
+    "slInit": 0.157091,
+    "tp1": 0.168244,
+    "tp2": 0.169943,
+    "tp3": 0.174852,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-09-27T16:15:00.000Z",
+    "exitTime": "2026-09-27T22:14:33.918Z",
+    "exit": 0.157091,
+    "bars": 23,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.03,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 89,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 56.1,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 56 > 50",
+        "StochRSI K 42 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 60)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 56.1,
+      "stochK": 41.7,
+      "stochD": 39.8,
+      "stochFrom": 36.4,
+      "macdDif": 0.00056283,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 60,
+        "macdDif": 0.00420831,
+        "stochK": 17,
+        "stochD": 16.1
+      }
+    }
   }
 ]
