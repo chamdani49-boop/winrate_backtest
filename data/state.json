@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-29T07:08:52.891Z",
+  "updatedAt": "2026-09-29T07:15:08.111Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10507,82 +10507,6 @@
       "status": "OPEN"
     },
     {
-      "id": "ASTERUSDT-1790585999999",
-      "pair": "ASTERUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.7007,
-      "slInit": 0.717443,
-      "sl": 0.717443,
-      "tp1": 0.679403,
-      "tp2": 0.67361,
-      "tp3": 0.656867,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00418571,
-      "atrPct": 0.6,
-      "openTime": "2026-09-28T09:00:00.000Z",
-      "openCandleCloseT": 1790586000000,
-      "checkFromCloseT": 1790665199999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 88,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 34.5,
-        "macd": "falling",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 35 < 50",
-          "StochRSI K 48 cross↓",
-          "MACD falling",
-          "Acuan 4H bearish (RSI 36)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 34.5,
-        "stochK": 48.3,
-        "stochD": 52.5,
-        "stochFrom": 62.4,
-        "macdDif": -0.00425398,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 36.4,
-          "macdDif": -0.00198571,
-          "stochK": 0,
-          "stochD": 0
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 88,
-      "lastPrice": 0.7144,
-      "lastPriceTime": "2026-09-29T06:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "DEXEUSDT-1790586899999",
       "pair": "DEXEUSDT",
       "dir": "SELL",
@@ -17767,9 +17691,11 @@
           "stochD": 20.6
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.0476190476190474,
+      "remaining": 0.666667,
       "bars": 5,
       "lastPrice": 0.1586,
       "lastPriceTime": "2026-09-29T06:59:59.999Z",
