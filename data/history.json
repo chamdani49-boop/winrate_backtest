@@ -377304,5 +377304,73 @@
         "stochD": 67.8
       }
     }
+  },
+  {
+    "id": "NEXOUSDT-1790843399999",
+    "pair": "NEXOUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.828,
+    "slInit": 0.846286,
+    "tp1": 0.804741,
+    "tp2": 0.798414,
+    "tp3": 0.780128,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-01T08:30:00.000Z",
+    "exitTime": "2026-10-01T12:29:36.815Z",
+    "exit": 0.846286,
+    "bars": 15,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.208,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 86,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 30.5,
+      "macd": "falling",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 31 < 50",
+        "StochRSI K 22 cross↓",
+        "MACD falling",
+        "Acuan 4H bearish (RSI 40)",
+        "Daily uptrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 30.5,
+      "stochK": 21.7,
+      "stochD": 25.6,
+      "stochFrom": 30.9,
+      "macdDif": -0.00459328,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 39.5,
+        "macdDif": -0.00551006,
+        "stochK": 69.3,
+        "stochD": 84.3
+      }
+    }
   }
 ]
