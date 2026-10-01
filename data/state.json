@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-01T19:31:31.428Z",
+  "updatedAt": "2026-10-01T19:37:54.912Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -14817,85 +14817,6 @@
       "status": "OPEN"
     },
     {
-      "id": "GTCUSDT-1790849699999",
-      "pair": "GTCUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 0.10177,
-      "slInit": 0.095221,
-      "sl": 0.095221,
-      "tp1": 0.1101,
-      "tp2": 0.112366,
-      "tp3": 0.118914,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00163714,
-      "atrPct": 1.61,
-      "openTime": "2026-10-01T10:15:00.000Z",
-      "openCandleCloseT": 1790849700000,
-      "checkFromCloseT": 1790882999999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 95,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 74,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
-          "RSI(15m) 74 > 50",
-          "StochRSI K 57 cross↑",
-          "MACD rising",
-          "Acuan 4H bullish (RSI 56)",
-          "Daily uptrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 74,
-        "stochK": 56.6,
-        "stochD": 51.8,
-        "stochFrom": 42,
-        "macdDif": 0.00143581,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 55.9,
-          "macdDif": 0.00237759,
-          "stochK": 37.7,
-          "stochD": 37.3
-        }
-      },
-      "tpHits": [
-        "TP1",
-        "TP2"
-      ],
-      "realizedPct": 6.198945334250434,
-      "remaining": 0.333334,
-      "bars": 37,
-      "lastPrice": 0.11419,
-      "lastPriceTime": "2026-10-01T19:29:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "DASHUSDT-1790849699999",
       "pair": "DASHUSDT",
       "dir": "SELL",
@@ -16189,9 +16110,11 @@
           "stochD": 76.4
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.8242630385487502,
+      "remaining": 0.666667,
       "bars": 27,
       "lastPrice": 0.000864,
       "lastPriceTime": "2026-10-01T19:29:59.999Z",
