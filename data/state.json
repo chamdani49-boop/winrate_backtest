@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T10:18:55.980Z",
+  "updatedAt": "2026-10-03T10:25:20.415Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -17421,82 +17421,6 @@
       "status": "OPEN"
     },
     {
-      "id": "VIRTUALUSDT-1791008099999",
-      "pair": "VIRTUALUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.7636,
-      "slInit": 0.779439,
-      "sl": 0.779439,
-      "tp1": 0.743452,
-      "tp2": 0.737972,
-      "tp3": 0.722133,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00495714,
-      "atrPct": 0.65,
-      "openTime": "2026-10-03T06:15:00.000Z",
-      "openCandleCloseT": 1791008100000,
-      "checkFromCloseT": 1791022499999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 75,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 46.8,
-        "macd": "falling",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 47 < 50",
-          "StochRSI K 48 cross↓",
-          "MACD falling",
-          "Acuan 4H bearish (RSI 44)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 46.8,
-        "stochK": 48.2,
-        "stochD": 57.7,
-        "stochFrom": 62.5,
-        "macdDif": -0.00041187,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 44.3,
-          "macdDif": -0.00465472,
-          "stochK": 14.7,
-          "stochD": 26.6
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 16,
-      "lastPrice": 0.7763,
-      "lastPriceTime": "2026-10-03T10:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "XLMUSDT-1791008999999",
       "pair": "XLMUSDT",
       "dir": "SELL",
@@ -18323,9 +18247,11 @@
           "stochD": 51
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.8348987685243113,
+      "remaining": 0.666667,
       "bars": 7,
       "lastPrice": 0.03232,
       "lastPriceTime": "2026-10-03T10:14:59.999Z",
@@ -18783,7 +18709,7 @@
       "remaining": 1,
       "bars": 0,
       "lastPrice": 0.000652,
-      "lastPriceTime": "2026-10-03T10:15:00.000Z",
+      "lastPriceTime": "2026-10-03T10:14:59.999Z",
       "status": "OPEN"
     }
   ]
