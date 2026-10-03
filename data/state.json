@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T12:07:16.650Z",
+  "updatedAt": "2026-10-03T12:13:38.524Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -17038,82 +17038,6 @@
       "status": "OPEN"
     },
     {
-      "id": "HEMIUSDT-1791012599999",
-      "pair": "HEMIUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.00596,
-      "slInit": 0.00605143,
-      "sl": 0.00605143,
-      "tp1": 0.0058437,
-      "tp2": 0.00581207,
-      "tp3": 0.00572064,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.0000228571,
-      "atrPct": 0.38,
-      "openTime": "2026-10-03T07:30:00.000Z",
-      "openCandleCloseT": 1791012600000,
-      "checkFromCloseT": 1791028799999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 99,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 38.4,
-        "macd": "fading_up",
-        "ma200": "BELOW",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 38 < 50",
-          "StochRSI K 95 cross↓",
-          "MACD fading_up",
-          "Acuan 4H bearish (RSI 38)",
-          "Daily downtrend",
-          "1H downtrend",
-          "BELOW MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 38.4,
-        "stochK": 95.2,
-        "stochD": 98.4,
-        "stochFrom": 100,
-        "macdDif": -0.00002661,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 37.7,
-          "macdDif": -0.00002578,
-          "stochK": 2.7,
-          "stochD": 6.8
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 18,
-      "lastPrice": 0.00603,
-      "lastPriceTime": "2026-10-03T11:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "ONTUSDT-1791012599999",
       "pair": "ONTUSDT",
       "dir": "BUY",
@@ -17409,10 +17333,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 0.35595776772247373,
-      "remaining": 0.666667,
+      "realizedPct": 0.8086349924585237,
+      "remaining": 0.333334,
       "bars": 15,
       "lastPrice": 1.783,
       "lastPriceTime": "2026-10-03T11:59:59.999Z",
