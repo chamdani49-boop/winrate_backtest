@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T20:36:04.648Z",
+  "updatedAt": "2026-10-03T20:42:23.876Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -13981,82 +13981,6 @@
       "status": "OPEN"
     },
     {
-      "id": "PENDLEUSDT-1790982899999",
-      "pair": "PENDLEUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 2.341,
-      "slInit": 2.39443,
-      "sl": 2.39443,
-      "tp1": 2.27304,
-      "tp2": 2.25455,
-      "tp3": 2.20112,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.013357,
-      "atrPct": 0.57,
-      "openTime": "2026-10-02T23:15:00.000Z",
-      "openCandleCloseT": 1790982900000,
-      "checkFromCloseT": 1791059399999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 84,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 39,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 39 < 50",
-          "StochRSI K 97 cross↓",
-          "MACD rising",
-          "Acuan 4H bearish (RSI 42)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 39,
-        "stochK": 97,
-        "stochD": 97.9,
-        "stochFrom": 99.5,
-        "macdDif": -0.01814976,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 41.7,
-          "macdDif": -0.01035776,
-          "stochK": 56.5,
-          "stochD": 78.6
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 85,
-      "lastPrice": 2.384,
-      "lastPriceTime": "2026-10-03T20:29:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "CYPHBUSDT-1790985599999",
       "pair": "CYPHBUSDT",
       "dir": "SELL",
@@ -17032,9 +16956,11 @@
           "stochD": 22.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.0614300100704928,
+      "remaining": 0.666667,
       "bars": 18,
       "lastPrice": 0.0675,
       "lastPriceTime": "2026-10-03T20:29:59.999Z",
@@ -18631,8 +18557,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.03009,
-      "lastPriceTime": "2026-10-03T20:30:00.000Z",
+      "lastPrice": 0.03006,
+      "lastPriceTime": "2026-10-03T20:29:59.999Z",
       "status": "OPEN"
     }
   ]
