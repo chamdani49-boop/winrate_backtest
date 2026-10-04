@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-04T22:37:35.199Z",
+  "updatedAt": "2026-10-04T22:43:57.331Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -11475,82 +11475,6 @@
       "status": "OPEN"
     },
     {
-      "id": "ETCUSDT-1790975699999",
-      "pair": "ETCUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 8.69,
-      "slInit": 9.02143,
-      "sl": 9.02143,
-      "tp1": 8.26842,
-      "tp2": 8.15375,
-      "tp3": 7.82232,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.082857,
-      "atrPct": 0.95,
-      "openTime": "2026-10-02T21:15:00.000Z",
-      "openCandleCloseT": 1790975700000,
-      "checkFromCloseT": 1791152999999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 85,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 39,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 39 < 50",
-          "StochRSI K 95 cross↓",
-          "MACD rising",
-          "Acuan 4H bearish (RSI 37)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 39,
-        "stochK": 94.8,
-        "stochD": 95.5,
-        "stochFrom": 97.3,
-        "macdDif": -0.09906879,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 37,
-          "macdDif": -0.08342763,
-          "stochK": 49.6,
-          "stochD": 70.4
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 197,
-      "lastPrice": 8.97,
-      "lastPriceTime": "2026-10-04T22:29:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "ERAUSDT-1790976599999",
       "pair": "ERAUSDT",
       "dir": "SELL",
@@ -13693,9 +13617,11 @@
           "stochD": 25.7
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.570546737213408,
+      "remaining": 0.666667,
       "bars": 120,
       "lastPrice": 0.00000392,
       "lastPriceTime": "2026-10-04T22:29:59.999Z",
