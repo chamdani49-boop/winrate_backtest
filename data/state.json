@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-04T05:08:44.523Z",
+  "updatedAt": "2026-10-04T05:15:05.425Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -17190,9 +17190,11 @@
           "stochD": 57.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.7256009748532213,
+      "remaining": 0.666667,
       "bars": 34,
       "lastPrice": 0.03062,
       "lastPriceTime": "2026-10-04T04:59:59.999Z",
@@ -18796,6 +18798,82 @@
       "bars": 0,
       "lastPrice": 0.02491,
       "lastPriceTime": "2026-10-04T04:59:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "TLMUSDT-1791090899999",
+      "pair": "TLMUSDT",
+      "dir": "BUY",
+      "strategy": "FIB_LONG",
+      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-LONG",
+      "entry": 0.001582,
+      "slInit": 0.00155784,
+      "sl": 0.00155784,
+      "tp1": 0.00161273,
+      "tp2": 0.00162109,
+      "tp3": 0.00164525,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.0000086429,
+      "atrPct": 0.55,
+      "openTime": "2026-10-04T05:15:00.000Z",
+      "openCandleCloseT": 1791090900000,
+      "checkFromCloseT": 1791090899999,
+      "bias": "long",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 69,
+        "validity": "MODERATE",
+        "positionSize": "0.5-1% (Conservative)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "UPTREND",
+          "W": "UPTREND",
+          "4H": "UPTREND",
+          "1H": "RANGE"
+        },
+        "rsi": 57.7,
+        "macd": "fading_up",
+        "ma200": "BELOW",
+        "structure": "BULLISH",
+        "reasons": [
+          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+          "RSI(15m) 58 > 50",
+          "StochRSI K 68 cross↑",
+          "MACD fading_up",
+          "Acuan 4H bullish (RSI 51)",
+          "Daily uptrend",
+          "1H range",
+          "BELOW MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 57.7,
+        "stochK": 68.4,
+        "stochD": 63.7,
+        "stochFrom": 49,
+        "macdDif": 0.00000322,
+        "cross": "up",
+        "ref4h": {
+          "rsi": 51.4,
+          "macdDif": 0.00000338,
+          "stochK": 28.6,
+          "stochD": 24.8
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.001582,
+      "lastPriceTime": "2026-10-04T05:15:00.000Z",
       "status": "OPEN"
     }
   ]
