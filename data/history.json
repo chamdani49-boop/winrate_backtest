@@ -411940,5 +411940,73 @@
         "stochD": 68.2
       }
     }
+  },
+  {
+    "id": "ARKMUSDT-1791121499999",
+    "pair": "ARKMUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.132,
+    "slInit": 0.1338,
+    "tp1": 0.12971,
+    "tp2": 0.129088,
+    "tp3": 0.127288,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-04T13:45:00.000Z",
+    "exitTime": "2026-10-05T00:43:41.083Z",
+    "exit": 0.1338,
+    "bars": 43,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.364,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 75,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "RANGE",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 47.3,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 47 < 50",
+        "StochRSI K 93 cross↓",
+        "MACD rising",
+        "Acuan 4H bearish (RSI 48)",
+        "Daily uptrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 47.3,
+      "stochK": 92.5,
+      "stochD": 97.5,
+      "stochFrom": 100,
+      "macdDif": -0.00016137,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 48,
+        "macdDif": -0.0001779,
+        "stochK": 52.2,
+        "stochD": 57.9
+      }
+    }
   }
 ]
