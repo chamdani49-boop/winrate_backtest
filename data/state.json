@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-06T09:09:39.629Z",
+  "updatedAt": "2026-10-06T09:15:59.775Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -16782,6 +16782,158 @@
       "bars": 1,
       "lastPrice": 8.868,
       "lastPriceTime": "2026-10-06T08:59:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "FIDAUSDT-1791278099999",
+      "pair": "FIDAUSDT",
+      "dir": "BUY",
+      "strategy": "FIB_LONG",
+      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-LONG",
+      "entry": 0.0219,
+      "slInit": 0.021374,
+      "sl": 0.021374,
+      "tp1": 0.022569,
+      "tp2": 0.022751,
+      "tp3": 0.023276,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00013143,
+      "atrPct": 0.6,
+      "openTime": "2026-10-06T09:15:00.000Z",
+      "openCandleCloseT": 1791278100000,
+      "checkFromCloseT": 1791278099999,
+      "bias": "long",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 84,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "UPTREND",
+          "W": "UPTREND",
+          "4H": "UPTREND",
+          "1H": "UPTREND"
+        },
+        "rsi": 54.1,
+        "macd": "fading_up",
+        "ma200": "ABOVE",
+        "structure": "BULLISH",
+        "reasons": [
+          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+          "RSI(15m) 54 > 50",
+          "StochRSI K 28 cross↑",
+          "MACD fading_up",
+          "Acuan 4H bullish (RSI 56)",
+          "Daily uptrend",
+          "1H uptrend",
+          "ABOVE MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 54.1,
+        "stochK": 27.6,
+        "stochD": 26.8,
+        "stochFrom": 25.9,
+        "macdDif": 0.00007642,
+        "cross": "up",
+        "ref4h": {
+          "rsi": 56.2,
+          "macdDif": 0.00006399,
+          "stochK": 57.4,
+          "stochD": 46.1
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.0219,
+      "lastPriceTime": "2026-10-06T09:15:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "DODOUSDT-1791278099999",
+      "pair": "DODOUSDT",
+      "dir": "BUY",
+      "strategy": "FIB_LONG",
+      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-LONG",
+      "entry": 0.01878,
+      "slInit": 0.01854,
+      "sl": 0.01854,
+      "tp1": 0.019085,
+      "tp2": 0.019168,
+      "tp3": 0.019408,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00006,
+      "atrPct": 0.32,
+      "openTime": "2026-10-06T09:15:00.000Z",
+      "openCandleCloseT": 1791278100000,
+      "checkFromCloseT": 1791278099999,
+      "bias": "long",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 81,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "UPTREND",
+          "W": "UPTREND",
+          "4H": "UPTREND",
+          "1H": "RANGE"
+        },
+        "rsi": 55.9,
+        "macd": "rising",
+        "ma200": "ABOVE",
+        "structure": "BULLISH",
+        "reasons": [
+          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+          "RSI(15m) 56 > 50",
+          "StochRSI K 41 cross↑",
+          "MACD rising",
+          "Acuan 4H bullish (RSI 53)",
+          "Daily uptrend",
+          "1H range",
+          "ABOVE MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 55.9,
+        "stochK": 41.4,
+        "stochD": 33.2,
+        "stochFrom": 28.2,
+        "macdDif": 0.00001424,
+        "cross": "up",
+        "ref4h": {
+          "rsi": 52.6,
+          "macdDif": 0.00004999,
+          "stochK": 28.6,
+          "stochD": 22.5
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.01878,
+      "lastPriceTime": "2026-10-06T09:15:00.000Z",
       "status": "OPEN"
     }
   ]
