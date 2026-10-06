@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-06T06:18:47.887Z",
+  "updatedAt": "2026-10-06T06:25:07.558Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10822,82 +10822,6 @@
       "status": "OPEN"
     },
     {
-      "id": "ATMUSDT-1791135899999",
-      "pair": "ATMUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 1.041,
-      "slInit": 1.05643,
-      "sl": 1.05643,
-      "tp1": 1.02137,
-      "tp2": 1.01604,
-      "tp3": 1.00061,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00385714,
-      "atrPct": 0.37,
-      "openTime": "2026-10-04T17:45:00.000Z",
-      "openCandleCloseT": 1791135900000,
-      "checkFromCloseT": 1791267299999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 85,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 46.9,
-        "macd": "rising",
-        "ma200": "BELOW",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 47 < 50",
-          "StochRSI K 73 cross↓",
-          "MACD rising",
-          "Acuan 4H bearish (RSI 41)",
-          "Daily downtrend",
-          "1H downtrend",
-          "BELOW MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 46.9,
-        "stochK": 73,
-        "stochD": 78.7,
-        "stochFrom": 83.9,
-        "macdDif": -0.00191627,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 41,
-          "macdDif": -0.00585848,
-          "stochK": 38.4,
-          "stochD": 38.7
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 146,
-      "lastPrice": 1.039,
-      "lastPriceTime": "2026-10-06T06:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "FETUSDT-1791138599999",
       "pair": "FETUSDT",
       "dir": "BUY",
@@ -16943,8 +16867,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.1773,
-      "lastPriceTime": "2026-10-06T06:15:00.000Z",
+      "lastPrice": 0.1772,
+      "lastPriceTime": "2026-10-06T06:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -17020,7 +16944,7 @@
       "remaining": 1,
       "bars": 0,
       "lastPrice": 0.00463,
-      "lastPriceTime": "2026-10-06T06:15:00.000Z",
+      "lastPriceTime": "2026-10-06T06:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -17095,8 +17019,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.4851,
-      "lastPriceTime": "2026-10-06T06:15:00.000Z",
+      "lastPrice": 0.4849,
+      "lastPriceTime": "2026-10-06T06:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -17167,12 +17091,14 @@
           "stochD": 36.4
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.8367367367367372,
+      "remaining": 0.666667,
       "bars": 0,
       "lastPrice": 0.333,
-      "lastPriceTime": "2026-10-06T06:15:00.000Z",
+      "lastPriceTime": "2026-10-06T06:14:59.999Z",
       "status": "OPEN"
     }
   ]
