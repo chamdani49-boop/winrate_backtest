@@ -470847,5 +470847,73 @@
         "stochD": 41.8
       }
     }
+  },
+  {
+    "id": "ETHFIUSDT-1791584999999",
+    "pair": "ETHFIUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.6661,
+    "slInit": 0.682157,
+    "tp1": 0.645675,
+    "tp2": 0.64012,
+    "tp3": 0.624062,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-09T22:30:00.000Z",
+    "exitTime": "2026-10-10T01:04:46.286Z",
+    "exit": 0.682157,
+    "bars": 10,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.411,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 83,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 42.2,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 42 < 50",
+        "StochRSI K 95 cross↓",
+        "MACD rising",
+        "Acuan 4H bearish (RSI 37)",
+        "Daily uptrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 42.2,
+      "stochK": 95.3,
+      "stochD": 97,
+      "stochFrom": 99.5,
+      "macdDif": -0.00521602,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 36.8,
+        "macdDif": -0.01518019,
+        "stochK": 43.7,
+        "stochD": 51.7
+      }
+    }
   }
 ]
