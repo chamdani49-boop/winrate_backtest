@@ -507769,5 +507769,75 @@
         "stochD": 48.6
       }
     }
+  },
+  {
+    "id": "NVDABUSDT-1791836099999",
+    "pair": "NVDABUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 226.48,
+    "slInit": 227.85143,
+    "tp1": 224.73554,
+    "tp2": 224.26103,
+    "tp3": 222.8896,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-12T20:15:00.000Z",
+    "exitTime": "2026-10-13T18:29:00.637Z",
+    "exit": 227.85143,
+    "bars": 88,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 0.381,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 90,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 41,
+      "macd": "fading_up",
+      "ma200": null,
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 41 < 50",
+        "StochRSI K 69 cross↓",
+        "MACD fading_up",
+        "Acuan 4H bearish (RSI 26)",
+        "Daily uptrend",
+        "1H downtrend"
+      ]
+    },
+    "reasons": {
+      "rsi": 41,
+      "stochK": 69.3,
+      "stochD": 75.1,
+      "stochFrom": 100,
+      "macdDif": -0.25535293,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 26.2,
+        "macdDif": -1.50022529,
+        "stochK": 0,
+        "stochD": 6.5
+      }
+    }
   }
 ]
