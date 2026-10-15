@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-15T00:48:05.543Z",
+  "updatedAt": "2026-10-15T00:54:44.026Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -8076,9 +8076,11 @@
           "stochD": 11.9
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.4866956942428662,
+      "remaining": 0.666667,
       "bars": 184,
       "lastPrice": 0.00000661,
       "lastPriceTime": "2026-10-15T00:44:59.999Z",
@@ -9703,10 +9705,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.4085056574326933,
-      "remaining": 0.666667,
+      "realizedPct": 3.200156067108852,
+      "remaining": 0.333334,
       "bars": 177,
       "lastPrice": 0.2439,
       "lastPriceTime": "2026-10-15T00:44:59.999Z",
@@ -12053,85 +12056,6 @@
       "status": "OPEN"
     },
     {
-      "id": "JTOUSDT-1791967499999",
-      "pair": "JTOUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.5221,
-      "slInit": 0.536729,
-      "sl": 0.536729,
-      "tp1": 0.503492,
-      "tp2": 0.498431,
-      "tp3": 0.483802,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00365714,
-      "atrPct": 0.7,
-      "openTime": "2026-10-14T08:45:00.000Z",
-      "openCandleCloseT": 1791967500000,
-      "checkFromCloseT": 1792025099999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 84,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 31.2,
-        "macd": "falling",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 31 < 50",
-          "StochRSI K 35 cross↓",
-          "MACD falling",
-          "Acuan 4H bearish (RSI 46)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 31.2,
-        "stochK": 35.3,
-        "stochD": 35.6,
-        "stochFrom": 40.2,
-        "macdDif": -0.00337328,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 46.4,
-          "macdDif": -0.00234635,
-          "stochK": 37.9,
-          "stochD": 42.6
-        }
-      },
-      "tpHits": [
-        "TP1",
-        "TP2"
-      ],
-      "realizedPct": 2.6991636340420064,
-      "remaining": 0.333334,
-      "bars": 64,
-      "lastPrice": 0.4865,
-      "lastPriceTime": "2026-10-15T00:44:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "LDOUSDT-1791967499999",
       "pair": "LDOUSDT",
       "dir": "SELL",
@@ -14062,10 +13986,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 0.8890701468189219,
-      "remaining": 0.666667,
+      "realizedPct": 2.0201196302338205,
+      "remaining": 0.333334,
       "bars": 47,
       "lastPrice": 0.0606,
       "lastPriceTime": "2026-10-15T00:44:59.999Z",
@@ -16344,9 +16269,11 @@
           "stochD": 75.5
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.97159565580618,
+      "remaining": 0.666667,
       "bars": 20,
       "lastPrice": 0.00389,
       "lastPriceTime": "2026-10-15T00:44:59.999Z",
@@ -22192,7 +22119,7 @@
       "remaining": 1,
       "bars": 0,
       "lastPrice": 0.04597,
-      "lastPriceTime": "2026-10-15T00:45:00.000Z",
+      "lastPriceTime": "2026-10-15T00:44:59.999Z",
       "status": "OPEN"
     }
   ]
