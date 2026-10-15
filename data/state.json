@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-15T01:54:39.213Z",
+  "updatedAt": "2026-10-15T02:01:24.346Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -7468,9 +7468,11 @@
           "stochD": 8.4
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 2.0296884185773028,
+      "remaining": 0.666667,
       "bars": 188,
       "lastPrice": 1.072,
       "lastPriceTime": "2026-10-15T01:44:59.999Z",
@@ -9398,9 +9400,11 @@
           "stochD": 8.3
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.6906626506024127,
+      "remaining": 0.666667,
       "bars": 183,
       "lastPrice": 0.00952,
       "lastPriceTime": "2026-10-15T01:44:59.999Z",
@@ -9475,10 +9479,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.7888563049853343,
-      "remaining": 0.666667,
+      "realizedPct": 4.063212772890186,
+      "remaining": 0.333334,
       "bars": 182,
       "lastPrice": 0.01916,
       "lastPriceTime": "2026-10-15T01:44:59.999Z",
@@ -12518,10 +12523,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.0543209876543216,
-      "remaining": 0.666667,
+      "realizedPct": 2.3950617283950626,
+      "remaining": 0.333334,
       "bars": 52,
       "lastPrice": 0.02614,
       "lastPriceTime": "2026-10-15T01:44:59.999Z",
@@ -13377,84 +13383,6 @@
       "remaining": 1,
       "bars": 52,
       "lastPrice": 0.1272,
-      "lastPriceTime": "2026-10-15T01:44:59.999Z",
-      "status": "OPEN"
-    },
-    {
-      "id": "CHIPUSDT-1791981899999",
-      "pair": "CHIPUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.05553,
-      "slInit": 0.057956,
-      "sl": 0.057956,
-      "tp1": 0.052444,
-      "tp2": 0.051605,
-      "tp3": 0.049179,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00060643,
-      "atrPct": 1.09,
-      "openTime": "2026-10-14T12:45:00.000Z",
-      "openCandleCloseT": 1791981900000,
-      "checkFromCloseT": 1792028699999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 84,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 41,
-        "macd": "fading_up",
-        "ma200": null,
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 41 < 50",
-          "StochRSI K 68 cross↓",
-          "MACD fading_up",
-          "Acuan 4H bearish (RSI 44)",
-          "Daily uptrend",
-          "1H downtrend"
-        ]
-      },
-      "reasons": {
-        "rsi": 41,
-        "stochK": 68.1,
-        "stochD": 84.6,
-        "stochFrom": 93.1,
-        "macdDif": -0.00021349,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 43.8,
-          "macdDif": -0.00004281,
-          "stochK": 5.9,
-          "stochD": 6.4
-        }
-      },
-      "tpHits": [
-        "TP1",
-        "TP2"
-      ],
-      "realizedPct": 4.208535926526208,
-      "remaining": 0.333334,
-      "bars": 52,
-      "lastPrice": 0.04991,
       "lastPriceTime": "2026-10-15T01:44:59.999Z",
       "status": "OPEN"
     },
