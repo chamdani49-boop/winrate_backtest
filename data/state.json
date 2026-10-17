@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17T11:05:25.726Z",
+  "updatedAt": "2026-10-17T11:11:46.759Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10326,82 +10326,6 @@
       "status": "OPEN"
     },
     {
-      "id": "MANTAUSDT-1792142999999",
-      "pair": "MANTAUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 0.07324,
-      "slInit": 0.07046,
-      "sl": 0.07046,
-      "tp1": 0.076776,
-      "tp2": 0.077738,
-      "tp3": 0.080518,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.000695,
-      "atrPct": 0.95,
-      "openTime": "2026-10-16T09:30:00.000Z",
-      "openCandleCloseT": 1792143000000,
-      "checkFromCloseT": 1792234799999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 87,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 69.2,
-        "macd": "fading_up",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
-          "RSI(15m) 69 > 50",
-          "StochRSI K 70 cross↑",
-          "MACD fading_up",
-          "Acuan 4H bullish (RSI 56)",
-          "Daily uptrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 69.2,
-        "stochK": 70.4,
-        "stochD": 69.8,
-        "stochFrom": 67.3,
-        "macdDif": 0.00068272,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 56.4,
-          "macdDif": 0.00048987,
-          "stochK": 52.6,
-          "stochD": 50.3
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 102,
-      "lastPrice": 0.0707,
-      "lastPriceTime": "2026-10-17T10:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "SKHYBUSDT-1792142999999",
       "pair": "SKHYBUSDT",
       "dir": "SELL",
@@ -16700,9 +16624,11 @@
           "stochD": 86.3
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.8607198748043812,
+      "remaining": 0.666667,
       "bars": 58,
       "lastPrice": 0.03133,
       "lastPriceTime": "2026-10-17T10:59:59.999Z",
