@@ -563798,5 +563798,75 @@
         "stochD": 0
       }
     }
+  },
+  {
+    "id": "KATUSDT-1792339199999",
+    "pair": "KATUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.00382,
+    "slInit": 0.00393143,
+    "tp1": 0.00367826,
+    "tp2": 0.00363971,
+    "tp3": 0.00352828,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-18T16:00:00.000Z",
+    "exitTime": "2026-10-19T06:05:22.646Z",
+    "exit": 0.00393143,
+    "bars": 56,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": -0.708,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 92,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 33.5,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 34 < 50",
+        "StochRSI K 39 cross↓",
+        "MACD fading_down",
+        "Acuan 4H bearish (RSI 26)",
+        "Daily downtrend",
+        "1H downtrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 33.5,
+      "stochK": 38.7,
+      "stochD": 40.8,
+      "stochFrom": 42.8,
+      "macdDif": -0.00002811,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 25.5,
+        "macdDif": -0.00010323,
+        "stochK": 0,
+        "stochD": 6.1
+      }
+    }
   }
 ]
