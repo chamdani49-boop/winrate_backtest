@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-20T09:09:03.765Z",
+  "updatedAt": "2026-10-20T09:15:25.507Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -12084,82 +12084,6 @@
       "status": "OPEN"
     },
     {
-      "id": "BABYUSDT-1792425599999",
-      "pair": "BABYUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.01202,
-      "slInit": 0.012389,
-      "sl": 0.012389,
-      "tp1": 0.011551,
-      "tp2": 0.011424,
-      "tp3": 0.011055,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.0000921429,
-      "atrPct": 0.77,
-      "openTime": "2026-10-19T16:00:00.000Z",
-      "openCandleCloseT": 1792425600000,
-      "checkFromCloseT": 1792486799999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 84,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 38.7,
-        "macd": "falling",
-        "ma200": "BELOW",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 39 < 50",
-          "StochRSI K 21 cross↓",
-          "MACD falling",
-          "Acuan 4H bearish (RSI 48)",
-          "Daily downtrend",
-          "1H downtrend",
-          "BELOW MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 38.7,
-        "stochK": 21.1,
-        "stochD": 26.4,
-        "stochFrom": 31.9,
-        "macdDif": -0.00004024,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 48,
-          "macdDif": -0.00005986,
-          "stochK": 79.2,
-          "stochD": 86.8
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 68,
-      "lastPrice": 0.01223,
-      "lastPriceTime": "2026-10-20T08:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "TAOUSDT-1792425599999",
       "pair": "TAOUSDT",
       "dir": "SELL",
@@ -14809,10 +14733,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 0.9383802816901379,
-      "remaining": 0.666667,
+      "realizedPct": 2.132042253521119,
+      "remaining": 0.333334,
       "bars": 48,
       "lastPrice": 0.275,
       "lastPriceTime": "2026-10-20T08:59:59.999Z",
@@ -16874,6 +16799,382 @@
       "bars": 0,
       "lastPrice": 0.02986,
       "lastPriceTime": "2026-10-20T08:59:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "SNXXBUSDT-1792487699999",
+      "pair": "SNXXBUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 9.48,
+      "slInit": 9.81429,
+      "sl": 9.81429,
+      "tp1": 9.05479,
+      "tp2": 8.93913,
+      "tp3": 8.60484,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.083571,
+      "atrPct": 0.88,
+      "openTime": "2026-10-20T09:15:00.000Z",
+      "openCandleCloseT": 1792487700000,
+      "checkFromCloseT": 1792487699999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 93,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 29,
+        "macd": "falling",
+        "ma200": null,
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+          "RSI(15m) 29 < 50",
+          "StochRSI K 58 cross↓",
+          "MACD falling",
+          "Acuan 4H bearish (RSI 48)",
+          "Daily downtrend",
+          "1H downtrend"
+        ]
+      },
+      "reasons": {
+        "rsi": 29,
+        "stochK": 57.7,
+        "stochD": 71.2,
+        "stochFrom": 78.2,
+        "macdDif": -0.07895618,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 47.9,
+          "macdDif": -0.07706329,
+          "stochK": 71.6,
+          "stochD": 79.2
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 9.48,
+      "lastPriceTime": "2026-10-20T09:15:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "SNDKBUSDT-1792487699999",
+      "pair": "SNDKBUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 1330.26,
+      "slInit": 1355.711,
+      "sl": 1355.711,
+      "tp1": 1297.886,
+      "tp2": 1289.08,
+      "tp3": 1263.628,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 6.36286,
+      "atrPct": 0.48,
+      "openTime": "2026-10-20T09:15:00.000Z",
+      "openCandleCloseT": 1792487700000,
+      "checkFromCloseT": 1792487699999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 88,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "RANGE"
+        },
+        "rsi": 30.8,
+        "macd": "falling",
+        "ma200": null,
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+          "RSI(15m) 31 < 50",
+          "StochRSI K 59 cross↓",
+          "MACD falling",
+          "Acuan 4H bearish (RSI 49)",
+          "Daily downtrend",
+          "1H range"
+        ]
+      },
+      "reasons": {
+        "rsi": 30.8,
+        "stochK": 59.2,
+        "stochD": 73,
+        "stochFrom": 82.1,
+        "macdDif": -5.15275413,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 49.2,
+          "macdDif": -2.47671607,
+          "stochK": 72.7,
+          "stochD": 79.9
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 1330.26,
+      "lastPriceTime": "2026-10-20T09:15:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "AXTIBUSDT-1792487699999",
+      "pair": "AXTIBUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 54.24,
+      "slInit": 55.56857,
+      "sl": 55.56857,
+      "tp1": 52.55006,
+      "tp2": 52.09037,
+      "tp3": 50.7618,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.332143,
+      "atrPct": 0.61,
+      "openTime": "2026-10-20T09:15:00.000Z",
+      "openCandleCloseT": 1792487700000,
+      "checkFromCloseT": 1792487699999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 86,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "UPTREND"
+        },
+        "rsi": 38.3,
+        "macd": "fading_up",
+        "ma200": null,
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+          "RSI(15m) 38 < 50",
+          "StochRSI K 75 cross↓",
+          "MACD fading_up",
+          "Acuan 4H bearish (RSI 48)",
+          "Daily downtrend",
+          "1H uptrend"
+        ]
+      },
+      "reasons": {
+        "rsi": 38.3,
+        "stochK": 74.8,
+        "stochD": 81.7,
+        "stochFrom": 86.7,
+        "macdDif": -0.30950017,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 47.8,
+          "macdDif": -0.35778967,
+          "stochK": 71.9,
+          "stochD": 79.5
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 54.24,
+      "lastPriceTime": "2026-10-20T09:15:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "AXLUSDT-1792487699999",
+      "pair": "AXLUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 0.0542,
+      "slInit": 0.055802,
+      "sl": 0.055802,
+      "tp1": 0.052163,
+      "tp2": 0.051608,
+      "tp3": 0.050007,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00040714,
+      "atrPct": 0.75,
+      "openTime": "2026-10-20T09:15:00.000Z",
+      "openCandleCloseT": 1792487700000,
+      "checkFromCloseT": 1792487699999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 81,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "UPTREND",
+          "W": "UPTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 39.9,
+        "macd": "falling",
+        "ma200": "ABOVE",
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+          "RSI(15m) 40 < 50",
+          "StochRSI K 53 cross↓",
+          "MACD falling",
+          "Acuan 4H bearish (RSI 45)",
+          "Daily uptrend",
+          "1H downtrend",
+          "ABOVE MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 39.9,
+        "stochK": 53.1,
+        "stochD": 61.3,
+        "stochFrom": 67.5,
+        "macdDif": -0.00013849,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 44.5,
+          "macdDif": -0.00014117,
+          "stochK": 13.2,
+          "stochD": 23.2
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.0542,
+      "lastPriceTime": "2026-10-20T09:15:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "SPYBUSDT-1792487699999",
+      "pair": "SPYBUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 766.27,
+      "slInit": 768.40429,
+      "sl": 768.40429,
+      "tp1": 763.55519,
+      "tp2": 762.81673,
+      "tp3": 760.68244,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.533571,
+      "atrPct": 0.07,
+      "openTime": "2026-10-20T09:15:00.000Z",
+      "openCandleCloseT": 1792487700000,
+      "checkFromCloseT": 1792487699999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 74,
+        "validity": "MODERATE",
+        "positionSize": "0.5-1% (Conservative)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "RANGE",
+          "W": "UPTREND",
+          "4H": "DOWNTREND",
+          "1H": "RANGE"
+        },
+        "rsi": 35.4,
+        "macd": "falling",
+        "ma200": null,
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+          "RSI(15m) 35 < 50",
+          "StochRSI K 34 cross↓",
+          "MACD falling",
+          "Acuan 4H bearish (RSI 50)",
+          "Daily range",
+          "1H range"
+        ]
+      },
+      "reasons": {
+        "rsi": 35.4,
+        "stochK": 34.3,
+        "stochD": 48.9,
+        "stochFrom": 92.6,
+        "macdDif": -0.23741672,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 49.6,
+          "macdDif": -0.3013084,
+          "stochK": 79.2,
+          "stochD": 81.5
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 766.27,
+      "lastPriceTime": "2026-10-20T09:15:00.000Z",
       "status": "OPEN"
     }
   ]
