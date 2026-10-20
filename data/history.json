@@ -575418,5 +575418,75 @@
         "stochD": 97.6
       }
     }
+  },
+  {
+    "id": "DUSKUSDT-1792436399999",
+    "pair": "DUSKUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.1182,
+    "slInit": 0.112857,
+    "tp1": 0.124996,
+    "tp2": 0.126845,
+    "tp3": 0.132188,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-19T19:00:00.000Z",
+    "exitTime": "2026-10-20T17:12:27.566Z",
+    "exit": 0.112857,
+    "bars": 88,
+    "tpHits": [
+      "TP1"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": -1.097,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 90,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 59.4,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 59 > 50",
+        "StochRSI K 32 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 50)",
+        "Daily uptrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 59.4,
+      "stochK": 32.2,
+      "stochD": 23.9,
+      "stochFrom": 11.2,
+      "macdDif": 0.00066623,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 50.1,
+        "macdDif": 0.00231668,
+        "stochK": 9.1,
+        "stochD": 9
+      }
+    }
   }
 ]
