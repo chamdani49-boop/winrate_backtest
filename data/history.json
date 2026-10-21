@@ -583432,5 +583432,76 @@
         "stochD": 98.1
       }
     }
+  },
+  {
+    "id": "ZENUSDT-1791859499999",
+    "pair": "ZENUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 6.159,
+    "slInit": 6.43157,
+    "tp1": 5.81229,
+    "tp2": 5.71798,
+    "tp3": 5.44541,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-13T02:45:00.000Z",
+    "exitTime": "2026-10-21T17:40:56.091Z",
+    "exit": 6.43157,
+    "bars": 827,
+    "tpHits": [
+      "TP1",
+      "TP2"
+    ],
+    "closedBy": "SL",
+    "pnl_pct": 2.788,
+    "result": "WIN",
+    "bias": "short",
+    "intel": {
+      "score": 86,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 47.3,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 47 < 50",
+        "StochRSI K 99 cross↓",
+        "MACD rising",
+        "Acuan 4H bearish (RSI 34)",
+        "Daily downtrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 47.3,
+      "stochK": 99.1,
+      "stochD": 99.7,
+      "stochFrom": 100,
+      "macdDif": -0.04845261,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 33.8,
+        "macdDif": -0.06076676,
+        "stochK": 2.4,
+        "stochD": 17.2
+      }
+    }
   }
 ]
