@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-22T03:03:53.742Z",
+  "updatedAt": "2026-10-22T03:09:53.542Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -6680,82 +6680,6 @@
       "status": "OPEN"
     },
     {
-      "id": "SUSDT-1792442699999",
-      "pair": "SUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 0.05835,
-      "slInit": 0.054121,
-      "sl": 0.054121,
-      "tp1": 0.063729,
-      "tp2": 0.065192,
-      "tp3": 0.06942,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00105714,
-      "atrPct": 1.81,
-      "openTime": "2026-10-19T20:45:00.000Z",
-      "openCandleCloseT": 1792442700000,
-      "checkFromCloseT": 1792637999999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 97,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 61.9,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
-          "RSI(15m) 62 > 50",
-          "StochRSI K 23 cross↑",
-          "MACD rising",
-          "Acuan 4H bullish (RSI 59)",
-          "Daily uptrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 61.9,
-        "stochK": 23,
-        "stochD": 22.5,
-        "stochFrom": 18.1,
-        "macdDif": 0.00073621,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 59,
-          "macdDif": 0.00013194,
-          "stochK": 86.9,
-          "stochD": 73
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 217,
-      "lastPrice": 0.05442,
-      "lastPriceTime": "2026-10-22T02:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "RADUSDT-1792443599999",
       "pair": "RADUSDT",
       "dir": "SELL",
@@ -11438,9 +11362,11 @@
           "stochD": 41.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 1.3486991734620306,
+      "remaining": 0.666667,
       "bars": 4,
       "lastPrice": 0.5956,
       "lastPriceTime": "2026-10-22T02:59:59.999Z",
@@ -11670,8 +11596,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.12948,
-      "lastPriceTime": "2026-10-22T03:00:00.000Z",
+      "lastPrice": 0.12956,
+      "lastPriceTime": "2026-10-22T02:59:59.999Z",
       "status": "OPEN"
     }
   ]
