@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-23T21:16:06.035Z",
+  "updatedAt": "2026-10-23T21:22:10.658Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -9726,9 +9726,11 @@
           "stochD": 40.5
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 3.329046087888534,
+      "remaining": 0.666667,
       "bars": 123,
       "lastPrice": 0.4034,
       "lastPriceTime": "2026-10-23T21:14:59.999Z",
@@ -13169,82 +13171,6 @@
       "status": "OPEN"
     },
     {
-      "id": "PENGUUSDT-1792755899999",
-      "pair": "PENGUUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 0.008131,
-      "slInit": 0.00783757,
-      "sl": 0.00783757,
-      "tp1": 0.00850424,
-      "tp2": 0.00860577,
-      "tp3": 0.0088992,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.0000733571,
-      "atrPct": 0.9,
-      "openTime": "2026-10-23T11:45:00.000Z",
-      "openCandleCloseT": 1792755900000,
-      "checkFromCloseT": 1792790099999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 88,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 64.1,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
-          "RSI(15m) 64 > 50",
-          "StochRSI K 41 cross↑",
-          "MACD rising",
-          "Acuan 4H bullish (RSI 55)",
-          "Daily downtrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 64.1,
-        "stochK": 40.6,
-        "stochD": 23.5,
-        "stochFrom": 11.2,
-        "macdDif": 0.00004316,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 54.8,
-          "macdDif": 0.00005447,
-          "stochK": 25.5,
-          "stochD": 15.5
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 38,
-      "lastPrice": 0.007915,
-      "lastPriceTime": "2026-10-23T21:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "TIAUSDT-1792761299999",
       "pair": "TIAUSDT",
       "dir": "SELL",
@@ -14153,8 +14079,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.04127,
-      "lastPriceTime": "2026-10-23T21:15:00.000Z",
+      "lastPrice": 0.04126,
+      "lastPriceTime": "2026-10-23T21:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -14229,7 +14155,7 @@
       "remaining": 1,
       "bars": 0,
       "lastPrice": 52.46,
-      "lastPriceTime": "2026-10-23T21:15:00.000Z",
+      "lastPriceTime": "2026-10-23T21:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -14304,8 +14230,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.03629,
-      "lastPriceTime": "2026-10-23T21:15:00.000Z",
+      "lastPrice": 0.03633,
+      "lastPriceTime": "2026-10-23T21:14:59.999Z",
       "status": "OPEN"
     }
   ]
