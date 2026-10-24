@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T18:39:03.612Z",
+  "updatedAt": "2026-10-24T18:45:24.808Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -15814,9 +15814,11 @@
           "stochD": 96.5
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 4.917948717948722,
+      "remaining": 0.666667,
       "bars": 8,
       "lastPrice": 0.00351,
       "lastPriceTime": "2026-10-24T18:29:59.999Z",
@@ -18323,6 +18325,82 @@
       "bars": 0,
       "lastPrice": 0.3294,
       "lastPriceTime": "2026-10-24T18:29:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "CAKEUSDT-1792867499999",
+      "pair": "CAKEUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 2.053,
+      "slInit": 2.09814,
+      "sl": 2.09814,
+      "tp1": 1.99558,
+      "tp2": 1.97996,
+      "tp3": 1.93482,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.011286,
+      "atrPct": 0.55,
+      "openTime": "2026-10-24T18:45:00.000Z",
+      "openCandleCloseT": 1792867500000,
+      "checkFromCloseT": 1792867499999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 89,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "UPTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 44.6,
+        "macd": "rising",
+        "ma200": "ABOVE",
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+          "RSI(15m) 45 < 50",
+          "StochRSI K 98 cross↓",
+          "MACD rising",
+          "Acuan 4H bearish (RSI 27)",
+          "Daily downtrend",
+          "1H downtrend",
+          "ABOVE MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 44.6,
+        "stochK": 98.3,
+        "stochD": 98.7,
+        "stochFrom": 100,
+        "macdDif": -0.01007475,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 27.1,
+          "macdDif": -0.02909645,
+          "stochK": 0,
+          "stochD": 6.4
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 2.053,
+      "lastPriceTime": "2026-10-24T18:45:00.000Z",
       "status": "OPEN"
     }
   ]
