@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T15:19:12.201Z",
+  "updatedAt": "2026-10-24T15:25:24.271Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -6359,85 +6359,6 @@
       "status": "OPEN"
     },
     {
-      "id": "AAVEUSDT-1792687499999",
-      "pair": "AAVEUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 146.66,
-      "slInit": 151.46964,
-      "sl": 151.46964,
-      "tp1": 140.54213,
-      "tp2": 138.878,
-      "tp3": 134.06836,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 1.35857,
-      "atrPct": 0.93,
-      "openTime": "2026-10-22T16:45:00.000Z",
-      "openCandleCloseT": 1792687500000,
-      "checkFromCloseT": 1792854899999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 81,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "UPTREND",
-          "W": "UPTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 40.7,
-        "macd": "fading_up",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 41 < 50",
-          "StochRSI K 45 cross↓",
-          "MACD fading_up",
-          "Acuan 4H bearish (RSI 39)",
-          "Daily uptrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 40.7,
-        "stochK": 44.7,
-        "stochD": 51.1,
-        "stochFrom": 87.1,
-        "macdDif": -0.32978374,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 39.3,
-          "macdDif": -0.96583385,
-          "stochK": 0,
-          "stochD": 8.4
-        }
-      },
-      "tpHits": [
-        "TP1",
-        "TP2"
-      ],
-      "realizedPct": 3.1592049638619986,
-      "remaining": 0.333334,
-      "bars": 186,
-      "lastPrice": 135.25,
-      "lastPriceTime": "2026-10-24T15:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "HEIUSDT-1792688399999",
       "pair": "HEIUSDT",
       "dir": "SELL",
@@ -9446,9 +9367,11 @@
           "stochD": 11.9
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.10559898443241612,
+      "remaining": 0.666667,
       "bars": 59,
       "lastPrice": 3985.3,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
@@ -11300,10 +11223,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.004274611398964,
-      "remaining": 0.666667,
+      "realizedPct": 2.2817357512953342,
+      "remaining": 0.333334,
       "bars": 58,
       "lastPrice": 7.5,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
@@ -11378,10 +11302,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.5288161993769465,
-      "remaining": 0.666667,
+      "realizedPct": 3.472741433021805,
+      "remaining": 0.333334,
       "bars": 58,
       "lastPrice": 0.0411,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
@@ -12309,10 +12234,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.5562552476910119,
-      "remaining": 0.666667,
+      "realizedPct": 3.535810243492857,
+      "remaining": 0.333334,
       "bars": 58,
       "lastPrice": 0.00758,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
@@ -13010,10 +12936,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 1.0348062670044091,
-      "remaining": 0.666667,
+      "realizedPct": 2.351064827845015,
+      "remaining": 0.333334,
       "bars": 54,
       "lastPrice": 0.06886,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
@@ -14967,9 +14894,11 @@
           "stochD": 6.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.8037220211767848,
+      "remaining": 0.666667,
       "bars": 15,
       "lastPrice": 245.6,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
@@ -15507,9 +15436,11 @@
           "stochD": 5.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.9869657286152093,
+      "remaining": 0.666667,
       "bars": 7,
       "lastPrice": 176.1,
       "lastPriceTime": "2026-10-24T15:14:59.999Z",
