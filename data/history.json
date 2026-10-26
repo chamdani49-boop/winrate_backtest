@@ -623329,5 +623329,73 @@
         "stochD": 84.8
       }
     }
+  },
+  {
+    "id": "PEPEUSDT-1792970099999",
+    "pair": "PEPEUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.00000431,
+    "slInit": 0.0000044271,
+    "tp1": 0.000004161,
+    "tp2": 0.0000041205,
+    "tp3": 0.0000040033,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-25T23:15:00.000Z",
+    "exitTime": "2026-10-26T05:48:49.386Z",
+    "exit": 0.0000044271,
+    "bars": 26,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.717,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 78,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 33.7,
+      "macd": "fading_down",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 34 < 50",
+        "StochRSI K 42 cross↓",
+        "MACD fading_down",
+        "Acuan 4H bearish (RSI 46)",
+        "Daily uptrend",
+        "1H downtrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 33.7,
+      "stochK": 42.4,
+      "stochD": 47,
+      "stochFrom": 49.8,
+      "macdDif": -2e-8,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 45.7,
+        "macdDif": -1e-8,
+        "stochK": 15.5,
+        "stochD": 16.3
+      }
+    }
   }
 ]
