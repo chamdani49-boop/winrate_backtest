@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T13:23:55.894Z",
+  "updatedAt": "2026-10-26T13:30:14.433Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -18057,6 +18057,82 @@
       "bars": 1,
       "lastPrice": 148.1,
       "lastPriceTime": "2026-10-26T13:14:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "LAUSDT-1793021399999",
+      "pair": "LAUSDT",
+      "dir": "BUY",
+      "strategy": "FIB_LONG",
+      "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-LONG",
+      "entry": 0.0587,
+      "slInit": 0.056766,
+      "sl": 0.056766,
+      "tp1": 0.06116,
+      "tp2": 0.061829,
+      "tp3": 0.063763,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00053571,
+      "atrPct": 0.91,
+      "openTime": "2026-10-26T13:30:00.000Z",
+      "openCandleCloseT": 1793021400000,
+      "checkFromCloseT": 1793021399999,
+      "bias": "long",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 70,
+        "validity": "MODERATE",
+        "positionSize": "0.5-1% (Conservative)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "UPTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 58.4,
+        "macd": "fading_down",
+        "ma200": "BELOW",
+        "structure": "BULLISH",
+        "reasons": [
+          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+          "RSI(15m) 58 > 50",
+          "StochRSI K 63 cross↑",
+          "MACD fading_down",
+          "Acuan 4H bullish (RSI 51)",
+          "Daily downtrend",
+          "1H downtrend",
+          "BELOW MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 58.4,
+        "stochK": 62.9,
+        "stochD": 48.1,
+        "stochFrom": 15.1,
+        "macdDif": 0.00020005,
+        "cross": "up",
+        "ref4h": {
+          "rsi": 51.1,
+          "macdDif": 0.00008324,
+          "stochK": 17.5,
+          "stochD": 9
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.0587,
+      "lastPriceTime": "2026-10-26T13:30:00.000Z",
       "status": "OPEN"
     }
   ]
