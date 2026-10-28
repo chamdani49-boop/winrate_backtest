@@ -641824,5 +641824,73 @@
         "stochD": 91
       }
     }
+  },
+  {
+    "id": "PLUMEUSDT-1793205899999",
+    "pair": "PLUMEUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.01591,
+    "slInit": 0.016331,
+    "tp1": 0.015375,
+    "tp2": 0.01523,
+    "tp3": 0.014809,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-28T16:45:00.000Z",
+    "exitTime": "2026-10-28T18:06:38.199Z",
+    "exit": 0.016331,
+    "bars": 5,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.646,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 79,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 49.6,
+      "macd": "fading_up",
+      "ma200": "ABOVE",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 50 < 50",
+        "StochRSI K 85 cross↓",
+        "MACD fading_up",
+        "Acuan 4H bearish (RSI 47)",
+        "Daily downtrend",
+        "1H range",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 49.6,
+      "stochK": 84.5,
+      "stochD": 91.6,
+      "stochFrom": 98.1,
+      "macdDif": -0.00000175,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 46.8,
+        "macdDif": -0.00012616,
+        "stochK": 77,
+        "stochD": 82.3
+      }
+    }
   }
 ]
