@@ -647303,5 +647303,73 @@
         "stochD": 15
       }
     }
+  },
+  {
+    "id": "LTCUSDT-1793222099999",
+    "pair": "LTCUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD>0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 59.09,
+    "slInit": 57.25,
+    "tp1": 61.43048,
+    "tp2": 62.06712,
+    "tp3": 63.90712,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-28T21:15:00.000Z",
+    "exitTime": "2026-10-29T03:49:52.321Z",
+    "exit": 57.25,
+    "bars": 26,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.114,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 56.7,
+      "macd": "fading_down",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)",
+        "RSI(15m) 57 > 50",
+        "StochRSI K 45 cross↑",
+        "MACD fading_down",
+        "Acuan 4H bullish (RSI 69)",
+        "Daily downtrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 56.7,
+      "stochK": 44.6,
+      "stochD": 40.1,
+      "stochFrom": 35.5,
+      "macdDif": 0.24377906,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 69.4,
+        "macdDif": 0.17331436,
+        "stochK": 100,
+        "stochD": 100
+      }
+    }
   }
 ]
