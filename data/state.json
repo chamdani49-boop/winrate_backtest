@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T04:21:12.975Z",
+  "updatedAt": "2026-10-30T04:27:29.310Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10921,82 +10921,6 @@
       "status": "OPEN"
     },
     {
-      "id": "CHZUSDT-1793320199999",
-      "pair": "CHZUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.01149,
-      "slInit": 0.012179,
-      "sl": 0.012179,
-      "tp1": 0.010614,
-      "tp2": 0.010376,
-      "tp3": 0.00968732,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00017214,
-      "atrPct": 1.5,
-      "openTime": "2026-10-30T00:30:00.000Z",
-      "openCandleCloseT": 1793320200000,
-      "checkFromCloseT": 1793333699999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 100,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 15.4,
-        "macd": "falling",
-        "ma200": "BELOW",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
-          "RSI(15m) 15 < 50",
-          "StochRSI K 46 cross↓",
-          "MACD falling",
-          "Acuan 4H bearish (RSI 34)",
-          "Daily downtrend",
-          "1H downtrend",
-          "BELOW MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 15.4,
-        "stochK": 45.7,
-        "stochD": 56.8,
-        "stochFrom": 63.2,
-        "macdDif": -0.00023587,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 33.9,
-          "macdDif": -0.00011568,
-          "stochK": 53.9,
-          "stochD": 57
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 15,
-      "lastPrice": 0.01212,
-      "lastPriceTime": "2026-10-30T04:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "TSTUSDT-1793320199999",
       "pair": "TSTUSDT",
       "dir": "SELL",
@@ -13500,9 +13424,11 @@
           "stochD": 48.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 4.081956521739132,
+      "remaining": 0.666667,
       "bars": 15,
       "lastPrice": 0.4651,
       "lastPriceTime": "2026-10-30T04:14:59.999Z",
@@ -19205,8 +19131,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 1758,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 1761,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19281,8 +19207,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.04072,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 0.04067,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19357,8 +19283,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.0916,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 0.0915,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19433,8 +19359,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 5.373,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 5.367,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19509,8 +19435,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.06079,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 0.0608,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19585,8 +19511,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.10347,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 0.10341,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19661,8 +19587,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 47.85,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 47.74,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     },
     {
@@ -19737,8 +19663,8 @@
       "realizedPct": 0,
       "remaining": 1,
       "bars": 0,
-      "lastPrice": 0.001194,
-      "lastPriceTime": "2026-10-30T04:15:00.000Z",
+      "lastPrice": 0.001193,
+      "lastPriceTime": "2026-10-30T04:14:59.999Z",
       "status": "OPEN"
     }
   ]
