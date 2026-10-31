@@ -675713,5 +675713,73 @@
         "stochD": 60.2
       }
     }
+  },
+  {
+    "id": "ZKUSDT-1793325599999",
+    "pair": "ZKUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.01006,
+    "slInit": 0.010729,
+    "tp1": 0.00920958,
+    "tp2": 0.00897825,
+    "tp3": 0.00830968,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-30T02:00:00.000Z",
+    "exitTime": "2026-10-31T14:56:03.724Z",
+    "exit": 0.010729,
+    "bars": 147,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -6.65,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 98,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 21.7,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 22 < 50",
+        "StochRSI K 53 cross↓",
+        "MACD fading_down",
+        "Acuan 4H bearish (RSI 30)",
+        "Daily downtrend",
+        "1H downtrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 21.7,
+      "stochK": 53.2,
+      "stochD": 57.3,
+      "stochFrom": 61.8,
+      "macdDif": -0.00031216,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 30.1,
+        "macdDif": -0.00034403,
+        "stochK": 50.1,
+        "stochD": 54.4
+      }
+    }
   }
 ]
