@@ -678454,5 +678454,73 @@
         "stochD": 0
       }
     }
+  },
+  {
+    "id": "ALPINEUSDT-1793479499999",
+    "pair": "ALPINEUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD<0 (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.303,
+    "slInit": 0.309286,
+    "tp1": 0.295005,
+    "tp2": 0.29283,
+    "tp3": 0.286544,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-10-31T20:45:00.000Z",
+    "exitTime": "2026-10-31T21:29:59.999Z",
+    "exit": 0.309286,
+    "bars": 3,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.075,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 76,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "RANGE"
+      },
+      "rsi": 45.9,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)",
+        "RSI(15m) 46 < 50",
+        "StochRSI K 44 cross↓",
+        "MACD falling",
+        "Acuan 4H bearish (RSI 49)",
+        "Daily downtrend",
+        "1H range",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 45.9,
+      "stochK": 43.8,
+      "stochD": 52.3,
+      "stochFrom": 57.8,
+      "macdDif": -0.00029183,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 49.4,
+        "macdDif": -0.00003174,
+        "stochK": 47,
+        "stochD": 47.2
+      }
+    }
   }
 ]
