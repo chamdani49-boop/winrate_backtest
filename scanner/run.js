@@ -149,9 +149,6 @@ function atrAt(candles, end, period) {
   }
   return s / period;
 }
-// Pembulatan harga ADAPTIF: 6 desimal tetap (round6 lama) merusak harga micro
-// (mis. SHIB/NEIRO < 0.0001) -> SL/TP kolaps jadi sama dgn entry (persentase 0).
-// Sekarang jumlah desimal menyesuaikan besaran harga agar level tetap presisi.
 function roundPx(x) {
   if (!isFinite(x) || x === 0) return x;
   const a = Math.abs(x);
@@ -209,7 +206,7 @@ function macdState(closes, fast = 12, slow = 26, sig = 9) {
   return { state, hist: h, histPrev: hp };
 }
 
-/* RSI Wilder sebagai DERET (nilai per index close) */
+/* RSI Wilder sebagai DERET */
 function rsiSeries(values, period) {
   const out = new Array(values.length).fill(null);
   if (values.length <= period) return out;
@@ -226,7 +223,7 @@ function rsiSeries(values, period) {
   return out;
 }
 
-/* StochRSI %K & %D (deret) */
+/* StochRSI %K & %D */
 function stochRsiKD(closes, rsiPeriod, kSmooth, dSmooth) {
   const r = rsiSeries(closes, rsiPeriod);
   const stoch = new Array(closes.length).fill(null);
@@ -247,7 +244,7 @@ function stochRsiKD(closes, rsiPeriod, kSmooth, dSmooth) {
   return { k, d };
 }
 
-/* MACD DIF/DEA/HIST (deret) — pakai emaSeries yang sudah ada */
+/* MACD DIF/DEA/HIST */
 function macdDifHist(closes, fast, slow, sig) {
   const empty = { dif: [], dea: [], hist: [] };
   if (closes.length < slow + sig + 2) return empty;
@@ -264,10 +261,10 @@ function macdDifHist(closes, fast, slow, sig) {
      LONG (SHORT kebalikan):
        - RSI(14) di atas 50
        - StochRSI %K cross ke atas %D saat %K < 80
-       - MACD DIF di atas garis 0
+       - MACD DIF > DEA (Histogram Hijau) tanpa peduli <0 atau >0
    ACUAN di timeframe besar (bigTF = 4H): arah 15m harus searah bias 4H
-     - 4H bull → fokus LONG: StochRSI %K>=%D (bullish) DAN RSI(4H)>50 DAN MACD DIF(4H)>0
-     - 4H bear → fokus SHORT: StochRSI %K<=%D (bearish) DAN RSI(4H)<50 DAN MACD DIF(4H)<0
+     - 4H bull → fokus LONG: StochRSI %K>=%D (bullish) DAN RSI(4H)>50 DAN MACD DIF > DEA
+     - 4H bear → fokus SHORT: StochRSI %K<=%D (bearish) DAN RSI(4H)<50 DAN MACD DIF < DEA
    Entry mulai candle 15m berikutnya (open). SL di swing 15m terdekat;
    TP1/2/3 = ekstensi Fibonacci × risiko.
    ============================================================ */
@@ -287,51 +284,57 @@ function detectSignalIndicator(small, big, strat) {
   // --- Pemicu 15m ---
   const rsiArr = rsiSeries(closes, rsiP);
   const { k, d } = stochRsiKD(closes, strat.stochRsiPeriod || 14, strat.stochK || 3, strat.stochD || 3);
-  const { dif } = macdDifHist(closes, fast, slow, mSig);
+  
+  // PERUBAHAN: Mengambil 'dea' juga
+  const { dif, dea } = macdDifHist(closes, fast, slow, mSig);
+  
   const rsiNow = rsiArr[i];
   const kNow = k[i], kPrev = k[i - 1], dNow = d[i], dPrev = d[i - 1];
+  
   const difNow = (dif && dif.length === closes.length) ? dif[i] : null;
-  if (rsiNow == null || kNow == null || kPrev == null || dNow == null || dPrev == null || difNow == null) return null;
+  const deaNow = (dea && dea.length === closes.length) ? dea[i] : null;
+  
+  if (rsiNow == null || kNow == null || kPrev == null || dNow == null || dPrev == null || difNow == null || deaNow == null) return null;
+  
   const crossUp = kPrev <= dPrev && kNow > dNow;
   const crossDn = kPrev >= dPrev && kNow < dNow;
 
-  // --- Syarat "fresh cross dari zona ekstrem" (anti entry saat StochRSI 15m kelelahan) ---
-  // Filosofi: begitu 4H close & bias searah, JANGAN langsung entry. StochRSI 15m biasanya
-  // masih di puncak/dasar (kelelahan). Tunggu ia bergerak ke zona ekstrem lawan arah dulu,
-  // baru cross → di situ entry.
-  //   LONG : %K harus SEMPAT oversold (<= stochLower) dalam stochZoneLookback candle terakhir
-  //          DAN cross↑ terjadi saat %K masih di paruh bawah (< stochCrossZone) → "turun dulu, baru cross".
-  //   SHORT: %K harus SEMPAT overbought (>= stochUpper) lalu cross↓ saat %K masih di paruh atas (> 100 - stochCrossZone).
-  const freshOn = strat.stochFreshCross !== false;                 // default AKTIF
+  const freshOn = strat.stochFreshCross !== false;                 
   const zoneLB = strat.stochZoneLookback || 8;
   const crossZone = strat.stochCrossZone != null ? strat.stochCrossZone : 50;
   let kMinRecent = Infinity, kMaxRecent = -Infinity;
   for (let j = Math.max(0, i - zoneLB); j <= i; j++) { const v = k[j]; if (v == null) continue; if (v < kMinRecent) kMinRecent = v; if (v > kMaxRecent) kMaxRecent = v; }
-  const freshLong = !freshOn || (kMinRecent <= lower && kNow < crossZone);       // sempat oversold + cross di paruh bawah
-  const freshShort = !freshOn || (kMaxRecent >= upper && kNow > (100 - crossZone)); // sempat overbought + cross di paruh atas
+  const freshLong = !freshOn || (kMinRecent <= lower && kNow < crossZone);       
+  const freshShort = !freshOn || (kMaxRecent >= upper && kNow > (100 - crossZone)); 
 
-  const trigLong = rsiNow > mid && crossUp && kNow < upper && difNow > 0 && freshLong;
-  const trigShort = rsiNow < mid && crossDn && kNow > lower && difNow < 0 && freshShort;
+  // PERUBAHAN: difNow > deaNow (Histogram hijau, tak peduli posisi terhadap 0)
+  const trigLong = rsiNow > mid && crossUp && kNow < upper && difNow > deaNow && freshLong;
+  const trigShort = rsiNow < mid && crossDn && kNow > lower && difNow < deaNow && freshShort;
   if (!trigLong && !trigShort) return null;
 
-  // --- Acuan 4H (bias arah): StochRSI bullish/bearish + RSI vs 50 + MACD vs 0 ---
-  // slice(0,-1) → buang candle 4H in-progress; pakai HANYA candle 4H yang sudah
-  // CLOSED. Jadi fokus long/short 4H baru dikonfirmasi setelah candle 4H tutup.
+  // --- Acuan 4H (bias arah): StochRSI bullish/bearish + RSI vs 50 + MACD DIF vs DEA ---
   const bigClosed = Array.isArray(big) ? big.slice(0, -1) : [];
-  let bullRef = true, bearRef = true, rsi4 = null, dif4 = null, k4 = null, d4v = null;
+  
+  // PERUBAHAN: logika 4H menggunakan DIF dan DEA 
+  let bullRef = true, bearRef = true, rsi4 = null, dif4 = null, dea4 = null, k4 = null, d4v = null;
   if (bigClosed.length >= slow + mSig + 2) {
     const bC = bigClosed.map(c => c.c);
     const r4a = rsiSeries(bC, rsiP); rsi4 = r4a[r4a.length - 1];
-    const m4 = macdDifHist(bC, fast, slow, mSig); dif4 = (m4.dif && m4.dif.length) ? m4.dif[m4.dif.length - 1] : null;
+    
+    const m4 = macdDifHist(bC, fast, slow, mSig); 
+    dif4 = (m4.dif && m4.dif.length) ? m4.dif[m4.dif.length - 1] : null;
+    dea4 = (m4.dea && m4.dea.length) ? m4.dea[m4.dea.length - 1] : null;
+    
     const s4 = stochRsiKD(bC, strat.stochRsiPeriod || 14, strat.stochK || 3, strat.stochD || 3);
     k4 = s4.k[s4.k.length - 1]; d4v = s4.d[s4.d.length - 1];
-    if (rsi4 != null && dif4 != null && k4 != null && d4v != null) {
-      // 4H fokus LONG bila StochRSI bullish (K >= D) + RSI>50 + MACD DIF>0
-      bullRef = rsi4 > mid && dif4 > 0 && k4 >= d4v;
-      bearRef = rsi4 < mid && dif4 < 0 && k4 <= d4v;
-    } else if (rsi4 != null && dif4 != null) {
-      bullRef = rsi4 > mid && dif4 > 0;
-      bearRef = rsi4 < mid && dif4 < 0;
+    
+    if (rsi4 != null && dif4 != null && dea4 != null && k4 != null && d4v != null) {
+      // 4H fokus LONG bila StochRSI bullish (K >= D) + RSI>50 + MACD DIF > DEA
+      bullRef = rsi4 > mid && dif4 > dea4 && k4 >= d4v;
+      bearRef = rsi4 < mid && dif4 < dea4 && k4 <= d4v;
+    } else if (rsi4 != null && dif4 != null && dea4 != null) {
+      bullRef = rsi4 > mid && dif4 > dea4;
+      bearRef = rsi4 < mid && dif4 < dea4;
     }
   }
 
@@ -365,8 +368,8 @@ function detectSignalIndicator(small, big, strat) {
   const xUp = freshOn ? 'oversold→cross↑' : 'cross↑';
   const xDn = freshOn ? 'overbought→cross↓' : 'cross↓';
   const lab = dir === 'BUY'
-    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI ' + xUp + ' + MACD>0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-LONG' }
-    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI ' + xDn + ' + MACD<0 (15m) · acuan 4H · TP Fibonacci', short: 'FIB-SHORT' };
+    ? { code: 'FIB_LONG', name: 'RSI>50 + StochRSI ' + xUp + ' + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci', short: 'FIB-LONG' }
+    : { code: 'FIB_SHORT', name: 'RSI<50 + StochRSI ' + xDn + ' + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci', short: 'FIB-SHORT' };
 
   return {
     dir, entry: roundPx(entry), sl: roundPx(sl),
@@ -410,7 +413,6 @@ function filterTopN(tickers, cfg) {
     .filter(t => Number.isFinite(t.quoteVolume) && t.quoteVolume > 0)
     .filter(t => t.quoteVolume >= minVol)
     .sort((a, b) => b.quoteVolume - a.quoteVolume);
-  // topN<=0 (atau tidak diset) => tanpa batas (semua yang lolos minQuoteVolume)
   const capped = (cfg.topN && cfg.topN > 0) ? ranked.slice(0, cfg.topN) : ranked;
   return capped.map(t => t.symbol);
 }
@@ -551,7 +553,7 @@ function buildIntelIndicator(sig, ctx) {
 
   const reasons = [];
   let score = 45; // setup inti valid (RSI+StochRSI+MACD 15m searah acuan 4H)
-  reasons.push(isLong ? 'Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD>0 (15m)' : 'Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD<0 (15m)');
+  reasons.push(isLong ? 'Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)' : 'Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)');
 
   // Momentum RSI 15m (0-15) — makin jauh dari 50 makin kuat
   if (rsi15 != null) { score += clamp((isLong ? rsi15 - 50 : 50 - rsi15) / 20, 0, 1) * 15; reasons.push('RSI(15m) ' + (+rsi15).toFixed(0) + (isLong ? ' > 50' : ' < 50')); }
