@@ -722737,5 +722737,73 @@
         "stochD": 62.2
       }
     }
+  },
+  {
+    "id": "币安人生USDT-1793891699999",
+    "pair": "币安人生USDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.4849,
+    "slInit": 0.507671,
+    "tp1": 0.455935,
+    "tp2": 0.448056,
+    "tp3": 0.425284,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-05T15:15:00.000Z",
+    "exitTime": "2026-11-06T16:37:19.335Z",
+    "exit": 0.507671,
+    "bars": 101,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.696,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 88,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 17.9,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+        "RSI(15m) 18 < 50",
+        "StochRSI K 26 cross↓",
+        "MACD falling",
+        "Acuan 4H bearish (RSI 42)",
+        "Daily uptrend",
+        "1H downtrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 17.9,
+      "stochK": 26.2,
+      "stochD": 31.8,
+      "stochFrom": 39.5,
+      "macdDif": -0.00717897,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 41.9,
+        "macdDif": -0.00260503,
+        "stochK": 22.7,
+        "stochD": 25.7
+      }
+    }
   }
 ]
