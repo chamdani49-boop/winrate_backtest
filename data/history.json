@@ -724588,5 +724588,73 @@
         "stochD": 42.7
       }
     }
+  },
+  {
+    "id": "DASHUSDT-1793984399999",
+    "pair": "DASHUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 48.59,
+    "slInit": 45.89857,
+    "tp1": 52.0135,
+    "tp2": 52.94473,
+    "tp3": 55.63616,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-06T17:00:00.000Z",
+    "exitTime": "2026-11-07T15:50:17.005Z",
+    "exit": 45.89857,
+    "bars": 91,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -5.539,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 89,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 71.7,
+      "macd": "rising",
+      "ma200": "ABOVE",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 72 > 50",
+        "StochRSI K 38 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 54)",
+        "Daily downtrend",
+        "1H uptrend",
+        "ABOVE MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 71.7,
+      "stochK": 37.5,
+      "stochD": 28.5,
+      "stochFrom": 23.7,
+      "macdDif": 0.71025509,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 54.4,
+        "macdDif": -0.50333341,
+        "stochK": 51.5,
+        "stochD": 40.3
+      }
+    }
   }
 ]
