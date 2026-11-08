@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-08T02:16:10.484Z",
+  "updatedAt": "2026-11-08T02:22:13.980Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -10754,82 +10754,6 @@
       "status": "OPEN"
     },
     {
-      "id": "ZAMAUSDT-1793968199999",
-      "pair": "ZAMAUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 0.07132,
-      "slInit": 0.068,
-      "sl": 0.068,
-      "tp1": 0.075543,
-      "tp2": 0.076692,
-      "tp3": 0.080012,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.00083,
-      "atrPct": 1.16,
-      "openTime": "2026-11-06T12:30:00.000Z",
-      "openCandleCloseT": 1793968200000,
-      "checkFromCloseT": 1794104099999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 88,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "UPTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 62.6,
-        "macd": "rising",
-        "ma200": "ABOVE",
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
-          "RSI(15m) 63 > 50",
-          "StochRSI K 33 cross↑",
-          "MACD rising",
-          "Acuan 4H bullish (RSI 53)",
-          "Daily downtrend",
-          "1H uptrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 62.6,
-        "stochK": 33,
-        "stochD": 30.3,
-        "stochFrom": 28.9,
-        "macdDif": 0.00046743,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 53.3,
-          "macdDif": 0.00014715,
-          "stochK": 53.2,
-          "stochD": 48.7
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 151,
-      "lastPrice": 0.06811,
-      "lastPriceTime": "2026-11-08T02:14:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "KSTRBUSDT-1793969099999",
       "pair": "KSTRBUSDT",
       "dir": "BUY",
@@ -11203,10 +11127,11 @@
         }
       },
       "tpHits": [
-        "TP1"
+        "TP1",
+        "TP2"
       ],
-      "realizedPct": 0.6525134211810664,
-      "remaining": 0.666667,
+      "realizedPct": 1.4821864324060507,
+      "remaining": 0.333334,
       "bars": 134,
       "lastPrice": 0.06672,
       "lastPriceTime": "2026-11-08T02:14:59.999Z",
@@ -12436,9 +12361,12 @@
           "stochD": 78.3
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1",
+        "TP2"
+      ],
+      "realizedPct": 1.2041916167664635,
+      "remaining": 0.333334,
       "bars": 53,
       "lastPrice": 0.168,
       "lastPriceTime": "2026-11-08T02:14:59.999Z",
