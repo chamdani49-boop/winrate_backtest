@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-11T11:39:50.234Z",
+  "updatedAt": "2026-11-11T11:45:48.516Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -13311,6 +13311,158 @@
       "bars": 2,
       "lastPrice": 0.04645,
       "lastPriceTime": "2026-11-11T11:29:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "TIAUSDT-1794397499999",
+      "pair": "TIAUSDT",
+      "dir": "BUY",
+      "strategy": "FIB_LONG",
+      "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-LONG",
+      "entry": 0.4345,
+      "slInit": 0.424609,
+      "sl": 0.424609,
+      "tp1": 0.447081,
+      "tp2": 0.450504,
+      "tp3": 0.460395,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00316429,
+      "atrPct": 0.73,
+      "openTime": "2026-11-11T11:45:00.000Z",
+      "openCandleCloseT": 1794397500000,
+      "checkFromCloseT": 1794397499999,
+      "bias": "long",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 73,
+        "validity": "MODERATE",
+        "positionSize": "0.5-1% (Conservative)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "UPTREND"
+        },
+        "rsi": 57.4,
+        "macd": "rising",
+        "ma200": "ABOVE",
+        "structure": "NEUTRAL",
+        "reasons": [
+          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+          "RSI(15m) 57 > 50",
+          "StochRSI K 65 cross↑",
+          "MACD rising",
+          "Acuan 4H bullish (RSI 50)",
+          "Daily downtrend",
+          "1H uptrend",
+          "ABOVE MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 57.4,
+        "stochK": 65,
+        "stochD": 64.2,
+        "stochFrom": 13.8,
+        "macdDif": 0.00127601,
+        "cross": "up",
+        "ref4h": {
+          "rsi": 50.1,
+          "macdDif": -0.00224736,
+          "stochK": 76.4,
+          "stochD": 67.2
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.4345,
+      "lastPriceTime": "2026-11-11T11:45:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "ZROUSDT-1794397499999",
+      "pair": "ZROUSDT",
+      "dir": "BUY",
+      "strategy": "FIB_LONG",
+      "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-LONG",
+      "entry": 1.57,
+      "slInit": 1.53338,
+      "sl": 1.53338,
+      "tp1": 1.61659,
+      "tp2": 1.62926,
+      "tp3": 1.66588,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.0145,
+      "atrPct": 0.92,
+      "openTime": "2026-11-11T11:45:00.000Z",
+      "openCandleCloseT": 1794397500000,
+      "checkFromCloseT": 1794397499999,
+      "bias": "long",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 65,
+        "validity": "MODERATE",
+        "positionSize": "0.5-1% (Conservative)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "UPTREND",
+          "4H": "DOWNTREND",
+          "1H": "UPTREND"
+        },
+        "rsi": 54.6,
+        "macd": "fading_up",
+        "ma200": "ABOVE",
+        "structure": "NEUTRAL",
+        "reasons": [
+          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+          "RSI(15m) 55 > 50",
+          "StochRSI K 72 cross↑",
+          "MACD fading_up",
+          "Acuan 4H bullish (RSI 52)",
+          "Daily downtrend",
+          "1H uptrend",
+          "ABOVE MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 54.6,
+        "stochK": 71.6,
+        "stochD": 70.2,
+        "stochFrom": 20.8,
+        "macdDif": 0.00419906,
+        "cross": "up",
+        "ref4h": {
+          "rsi": 51.6,
+          "macdDif": -0.02942168,
+          "stochK": 99.5,
+          "stochD": 86.7
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 1.57,
+      "lastPriceTime": "2026-11-11T11:45:00.000Z",
       "status": "OPEN"
     }
   ]
