@@ -743606,5 +743606,73 @@
         "stochD": 20.1
       }
     }
+  },
+  {
+    "id": "CYBERUSDT-1794317399999",
+    "pair": "CYBERUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.312,
+    "slInit": 0.248571,
+    "tp1": 0.392681,
+    "tp2": 0.414627,
+    "tp3": 0.478056,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-10T13:30:00.000Z",
+    "exitTime": "2026-11-12T09:54:07.585Z",
+    "exit": 0.248571,
+    "bars": 177,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -20.33,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 81,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 61.8,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 62 > 50",
+        "StochRSI K 30 cross↑",
+        "MACD fading_up",
+        "Acuan 4H bullish (RSI 66)",
+        "Daily downtrend",
+        "1H uptrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 61.8,
+      "stochK": 30.2,
+      "stochD": 29.4,
+      "stochFrom": 27.1,
+      "macdDif": 0.01310647,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 65.7,
+        "macdDif": -0.00409433,
+        "stochK": 40.8,
+        "stochD": 21.4
+      }
+    }
   }
 ]
