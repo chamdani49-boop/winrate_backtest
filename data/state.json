@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-13T15:09:35.380Z",
+  "updatedAt": "2026-11-13T15:15:36.863Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -9389,81 +9389,6 @@
       "status": "OPEN"
     },
     {
-      "id": "GOOGLBUSDT-1794532499999",
-      "pair": "GOOGLBUSDT",
-      "dir": "BUY",
-      "strategy": "FIB_LONG",
-      "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-LONG",
-      "entry": 301.53,
-      "slInit": 298.74714,
-      "sl": 298.74714,
-      "tp1": 305.06979,
-      "tp2": 306.03266,
-      "tp3": 308.81552,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.695714,
-      "atrPct": 0.23,
-      "openTime": "2026-11-13T01:15:00.000Z",
-      "openCandleCloseT": 1794532500000,
-      "checkFromCloseT": 1794581999999,
-      "bias": "long",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 84,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "UPTREND",
-          "1H": "UPTREND"
-        },
-        "rsi": 61.4,
-        "macd": "rising",
-        "ma200": null,
-        "structure": "BULLISH",
-        "reasons": [
-          "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
-          "RSI(15m) 61 > 50",
-          "StochRSI K 66 cross↑",
-          "MACD rising",
-          "Acuan 4H bullish (RSI 68)",
-          "Daily downtrend",
-          "1H uptrend"
-        ]
-      },
-      "reasons": {
-        "rsi": 61.4,
-        "stochK": 65.7,
-        "stochD": 60.3,
-        "stochFrom": 54,
-        "macdDif": 0.54126866,
-        "cross": "up",
-        "ref4h": {
-          "rsi": 67.8,
-          "macdDif": 2.90658436,
-          "stochK": 100,
-          "stochD": 85.9
-        }
-      },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
-      "bars": 55,
-      "lastPrice": 301.5,
-      "lastPriceTime": "2026-11-13T14:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "BTCUSDT-1794536099999",
       "pair": "BTCUSDT",
       "dir": "SELL",
@@ -10379,9 +10304,11 @@
           "stochD": 67.7
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 0.9905335628227188,
+      "remaining": 0.666667,
       "bars": 6,
       "lastPrice": 0.1144,
       "lastPriceTime": "2026-11-13T14:59:59.999Z",
