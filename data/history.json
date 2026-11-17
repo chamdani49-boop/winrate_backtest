@@ -775492,5 +775492,73 @@
         "stochD": 11.1
       }
     }
+  },
+  {
+    "id": "FRAXUSDT-1794943799999",
+    "pair": "FRAXUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.1899,
+    "slInit": 0.195986,
+    "tp1": 0.182159,
+    "tp2": 0.180053,
+    "tp3": 0.173968,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-17T19:30:00.000Z",
+    "exitTime": "2026-11-17T22:44:59.999Z",
+    "exit": 0.195986,
+    "bars": 13,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -3.205,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 94,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 32.6,
+      "macd": "falling",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+        "RSI(15m) 33 < 50",
+        "StochRSI K 24 cross↓",
+        "MACD falling",
+        "Acuan 4H bearish (RSI 35)",
+        "Daily downtrend",
+        "1H downtrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 32.6,
+      "stochK": 23.8,
+      "stochD": 30.1,
+      "stochFrom": 34.9,
+      "macdDif": -0.0016102,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 34.9,
+        "macdDif": -0.00543739,
+        "stochK": 30.6,
+        "stochD": 39.8
+      }
+    }
   }
 ]
