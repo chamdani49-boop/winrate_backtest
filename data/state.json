@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-19T21:01:44.405Z",
+  "updatedAt": "2026-11-19T21:07:36.860Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -3961,85 +3961,6 @@
       "status": "OPEN"
     },
     {
-      "id": "MUBARAKUSDT-1794680099999",
-      "pair": "MUBARAKUSDT",
-      "dir": "SELL",
-      "strategy": "FIB_SHORT",
-      "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
-      "strategyShort": "FIB-SHORT",
-      "entry": 0.02919,
-      "slInit": 0.03113,
-      "sl": 0.03113,
-      "tp1": 0.026722,
-      "tp2": 0.026051,
-      "tp3": 0.024111,
-      "tpRR": [
-        1.272,
-        1.618,
-        2.618
-      ],
-      "atr": 0.000485,
-      "atrPct": 1.66,
-      "openTime": "2026-11-14T18:15:00.000Z",
-      "openCandleCloseT": 1794680100000,
-      "checkFromCloseT": 1795121999999,
-      "bias": "short",
-      "provider": "binance-vision",
-      "bigTF": "4h",
-      "smallTF": "15m",
-      "intel": {
-        "score": 100,
-        "validity": "STRONG",
-        "positionSize": "1-2% (Standard)",
-        "holdDuration": "Sampai TP3 / SL (staged exit)",
-        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
-        "mtf": {
-          "D": "DOWNTREND",
-          "W": "DOWNTREND",
-          "4H": "DOWNTREND",
-          "1H": "DOWNTREND"
-        },
-        "rsi": 22.6,
-        "macd": "fading_down",
-        "ma200": "ABOVE",
-        "structure": "BEARISH",
-        "reasons": [
-          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
-          "RSI(15m) 23 < 50",
-          "StochRSI K 78 cross↓",
-          "MACD fading_down",
-          "Acuan 4H bearish (RSI 21)",
-          "Daily downtrend",
-          "1H downtrend",
-          "ABOVE MA200"
-        ]
-      },
-      "reasons": {
-        "rsi": 22.6,
-        "stochK": 78,
-        "stochD": 79.7,
-        "stochFrom": 87.7,
-        "macdDif": -0.0007981,
-        "cross": "down",
-        "ref4h": {
-          "rsi": 20.9,
-          "macdDif": -0.00152582,
-          "stochK": 2,
-          "stochD": 5.9
-        }
-      },
-      "tpHits": [
-        "TP1",
-        "TP2"
-      ],
-      "realizedPct": 6.402877697841728,
-      "remaining": 0.333334,
-      "bars": 491,
-      "lastPrice": 0.0242,
-      "lastPriceTime": "2026-11-19T20:59:59.999Z",
-      "status": "OPEN"
-    },
-    {
       "id": "ORDIUSDT-1794680099999",
       "pair": "ORDIUSDT",
       "dir": "SELL",
@@ -6876,9 +6797,11 @@
           "stochD": 71.1
         }
       },
-      "tpHits": [],
-      "realizedPct": 0,
-      "remaining": 1,
+      "tpHits": [
+        "TP1"
+      ],
+      "realizedPct": 5.502745274527454,
+      "remaining": 0.666667,
       "bars": 203,
       "lastPrice": 25.56,
       "lastPriceTime": "2026-11-19T20:59:59.999Z",
