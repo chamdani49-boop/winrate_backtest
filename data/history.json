@@ -784789,5 +784789,73 @@
         "stochD": 9.6
       }
     }
+  },
+  {
+    "id": "KITEUSDT-1795135499999",
+    "pair": "KITEUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.136,
+    "slInit": 0.134432,
+    "tp1": 0.137994,
+    "tp2": 0.138537,
+    "tp3": 0.140105,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-20T00:45:00.000Z",
+    "exitTime": "2026-11-20T04:59:59.999Z",
+    "exit": 0.134432,
+    "bars": 17,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -1.153,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 80,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "UPTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 56.4,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 56 > 50",
+        "StochRSI K 69 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 56)",
+        "Daily uptrend",
+        "1H uptrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 56.4,
+      "stochK": 68.7,
+      "stochD": 51.8,
+      "stochFrom": 39,
+      "macdDif": 0.00011926,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 56.4,
+        "macdDif": 0.00130589,
+        "stochK": 89,
+        "stochD": 78.5
+      }
+    }
   }
 ]
