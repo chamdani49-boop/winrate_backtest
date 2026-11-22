@@ -799012,5 +799012,73 @@
         "stochD": 87
       }
     }
+  },
+  {
+    "id": "RAREUSDT-1795271399999",
+    "pair": "RAREUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.0158,
+    "slInit": 0.013221,
+    "tp1": 0.01908,
+    "tp2": 0.019973,
+    "tp3": 0.022552,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-21T14:30:00.000Z",
+    "exitTime": "2026-11-22T07:29:41.861Z",
+    "exit": 0.013221,
+    "bars": 67,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -16.323,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 93,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "UPTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 63.9,
+      "macd": "rising",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 64 > 50",
+        "StochRSI K 43 cross↑",
+        "MACD rising",
+        "Acuan 4H bullish (RSI 63)",
+        "Daily uptrend",
+        "1H uptrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 63.9,
+      "stochK": 43.2,
+      "stochD": 41.3,
+      "stochFrom": 33.2,
+      "macdDif": 0.0004363,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 62.8,
+        "macdDif": 0.00057984,
+        "stochK": 84.4,
+        "stochD": 78.6
+      }
+    }
   }
 ]
