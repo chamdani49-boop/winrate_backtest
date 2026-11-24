@@ -808825,5 +808825,73 @@
         "stochD": 96.7
       }
     }
+  },
+  {
+    "id": "KATUSDT-1795451399999",
+    "pair": "KATUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.00319,
+    "slInit": 0.00305857,
+    "tp1": 0.00335718,
+    "tp2": 0.00340265,
+    "tp3": 0.00353408,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-23T16:30:00.000Z",
+    "exitTime": "2026-11-24T12:44:55.439Z",
+    "exit": 0.00305857,
+    "bars": 80,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -4.12,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 83,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "UPTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 67.4,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "BULLISH",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 67 > 50",
+        "StochRSI K 57 cross↑",
+        "MACD fading_up",
+        "Acuan 4H bullish (RSI 63)",
+        "Daily downtrend",
+        "1H uptrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 67.4,
+      "stochK": 57.3,
+      "stochD": 55.4,
+      "stochFrom": 53.4,
+      "macdDif": 0.00003071,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 62.6,
+        "macdDif": 0.00000971,
+        "stochK": 100,
+        "stochD": 96.2
+      }
+    }
   }
 ]
