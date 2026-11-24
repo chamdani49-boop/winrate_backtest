@@ -808134,5 +808134,72 @@
         "stochD": 96.7
       }
     }
+  },
+  {
+    "id": "CRCLBUSDT-1795448699999",
+    "pair": "CRCLBUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 53,
+    "slInit": 50.11571,
+    "tp1": 56.66881,
+    "tp2": 57.66677,
+    "tp3": 60.55106,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-23T15:45:00.000Z",
+    "exitTime": "2026-11-24T03:15:21.635Z",
+    "exit": 50.11571,
+    "bars": 46,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -5.442,
+    "result": "LOSS",
+    "bias": "long",
+    "intel": {
+      "score": 73,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 59.3,
+      "macd": "fading_up",
+      "ma200": null,
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 59 > 50",
+        "StochRSI K 29 cross↑",
+        "MACD fading_up",
+        "Acuan 4H bullish (RSI 51)",
+        "Daily downtrend",
+        "1H uptrend"
+      ]
+    },
+    "reasons": {
+      "rsi": 59.3,
+      "stochK": 28.8,
+      "stochD": 24.8,
+      "stochFrom": 20,
+      "macdDif": 0.61997692,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 50.5,
+        "macdDif": -0.82541615,
+        "stochK": 97.8,
+        "stochD": 97.6
+      }
+    }
   }
 ]
