@@ -822740,5 +822740,77 @@
         "stochD": 46.7
       }
     }
+  },
+  {
+    "id": "WIFUSDT-1795642199999",
+    "pair": "WIFUSDT",
+    "dir": "BUY",
+    "strategy": "FIB_LONG",
+    "strategyName": "RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-LONG",
+    "entry": 0.1253,
+    "slInit": 0.121643,
+    "tp1": 0.129952,
+    "tp2": 0.131217,
+    "tp3": 0.134874,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-25T21:30:00.000Z",
+    "exitTime": "2026-11-26T14:19:38.639Z",
+    "exit": 0.134874,
+    "bars": 67,
+    "tpHits": [
+      "TP1",
+      "TP2",
+      "TP3"
+    ],
+    "closedBy": "TP3",
+    "pnl_pct": 5.359,
+    "result": "WIN",
+    "bias": "long",
+    "intel": {
+      "score": 74,
+      "validity": "MODERATE",
+      "positionSize": "0.5-1% (Conservative)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "UPTREND"
+      },
+      "rsi": 72.7,
+      "macd": "fading_up",
+      "ma200": "BELOW",
+      "structure": "NEUTRAL",
+      "reasons": [
+        "Setup LONG valid: RSI>50 + StochRSI cross↑ + MACD DIF>DEA (15m)",
+        "RSI(15m) 73 > 50",
+        "StochRSI K 77 cross↑",
+        "MACD fading_up",
+        "Acuan 4H bullish (RSI 53)",
+        "Daily downtrend",
+        "1H uptrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 72.7,
+      "stochK": 76.6,
+      "stochD": 69.7,
+      "stochFrom": 64.7,
+      "macdDif": 0.0015994,
+      "cross": "up",
+      "ref4h": {
+        "rsi": 52.5,
+        "macdDif": -0.00110584,
+        "stochK": 18.9,
+        "stochD": 11.5
+      }
+    }
   }
 ]
