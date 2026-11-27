@@ -75,7 +75,7 @@ const PROVIDERS = [
     hasTaker: true,
     async tickers(quote) {
       const arr = await httpJSON('https://data-api.binance.vision/api/v3/ticker/24hr');
-      return arr.filter(x => x.symbol.endsWith(quote)).map(x => ({ symbol: x.symbol, quoteVolume: +x.quoteVolume }));
+      return arr.filter(x => x.symbol.endsWith(quote)).map(x => ({ symbol: x.symbol, quoteVolume: +x.quoteVolume, lastPrice: +x.lastPrice }));
     },
     async klines(symbol, tf, limit) {
       const a = await httpJSON(`https://data-api.binance.vision/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=${limit}`);
@@ -87,7 +87,7 @@ const PROVIDERS = [
     hasTaker: true,
     async tickers(quote) {
       const arr = await httpJSON('https://api.binance.com/api/v3/ticker/24hr');
-      return arr.filter(x => x.symbol.endsWith(quote)).map(x => ({ symbol: x.symbol, quoteVolume: +x.quoteVolume }));
+      return arr.filter(x => x.symbol.endsWith(quote)).map(x => ({ symbol: x.symbol, quoteVolume: +x.quoteVolume, lastPrice: +x.lastPrice }));
     },
     async klines(symbol, tf, limit) {
       const a = await httpJSON(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=${limit}`);
@@ -101,7 +101,7 @@ const PROVIDERS = [
     async tickers(quote) {
       const r = await httpJSON('https://api.bybit.com/v5/market/tickers?category=spot');
       const list = (r && r.result && r.result.list) || [];
-      return list.filter(x => x.symbol.endsWith(quote)).map(x => ({ symbol: x.symbol, quoteVolume: +x.turnover24h }));
+      return list.filter(x => x.symbol.endsWith(quote)).map(x => ({ symbol: x.symbol, quoteVolume: +x.turnover24h, lastPrice: +x.lastPrice }));
     },
     async klines(symbol, tf, limit) {
       const iv = this.bybitTF(tf);
@@ -1335,6 +1335,13 @@ async function main() {
   writeJSON(path.join(DATA_DIR, 'history.json'), history);
   writeJSON(path.join(DATA_DIR, 'state.json'), { updatedAt: stats.updatedAt, provider: provider.name, open });
   writeJSON(path.join(DATA_DIR, 'stats.json'), stats);
+
+  // Harga live (snapshot ticker 24h yang sudah di-fetch scanner; tanpa API call baru).
+  // Kunci = simbol LENGKAP (mis. BTCUSDT) agar cocok langsung dgn p.pair di index.html.
+  const prices = {};
+  for (const t of tickers) { if (t.lastPrice != null && isFinite(t.lastPrice) && t.lastPrice > 0) prices[t.symbol] = t.lastPrice; }
+  writeJSON(path.join(DATA_DIR, 'live_prices.json'), { updatedAt: stats.updatedAt, provider: provider.name, prices });
+
   writeJSON(path.join(DATA_DIR, 'events.json'), events);
   console.log(`[done] open=${open.length} closed=${history.length} winrate=${stats.winrate}% net=${stats.netReturn}% floating=${stats.openFloatingPct}%`);
 }
