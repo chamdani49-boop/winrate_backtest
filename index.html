@@ -3579,7 +3579,6 @@ let liveWS = null;          // WebSocket Binance untuk harga sub-second
 let liveWSPairs = [];       // pair list yg sedang ter-subscribe via WS
 let liveWSReconnect = null; // timer reconnect
 let liveWSAlive = false;    // status WS aktif
-let wsFailCount = 0;        // berapa kali WS gagal (untuk berhenti mencoba bila diblok permanen)
 let liveSrcLabel = '';      // sumber harga yang sedang dipakai (Binance/Bybit/OKX/CoinGecko)
 let renderThrottle = null;  // requestAnimationFrame ID untuk throttle render
 let lastWSMessageAt = null; // ts pesan WS terakhir
@@ -3596,14 +3595,12 @@ const SEEN_KEY = 'tvbt_events_seen_ts';
 function startLiveRefresh() {
   loadLiveData();
   stopLiveRefresh();
-  liveTimer  = setInterval(() => loadLiveData(), 60000);   // muat ulang JSON tiap 60s
-  // WebSocket realtime — diaktifkan setelah loadLiveData pertama selesai (dgn delay)
-  setTimeout(() => setupLiveWS(), 1500);
-  // Polling REST sebagai fallback (kalau WS putus terus): tiap 30s
-  priceTimer = setInterval(() => {
-    if (!liveWSAlive) pollLivePrices();
-  }, 30000);
-  // BTC live ticker + floating % hari berjalan (independen dari posisi terbuka)
+  liveTimer  = setInterval(() => loadLiveData(), 30000);   // state/stats/events tiap 30s (history hanya bila berubah)
+  // WebSocket realtime multi-exchange — diaktifkan setelah loadLiveData pertama (dgn delay singkat)
+  setTimeout(() => setupLiveWS(), 800);
+  // Watchdog tiap 5 dtk: REST fallback bila WS mati / pair basi, ganti sumber WS bila senyap
+  priceTimer = setInterval(priceWatchdog, 5000);
+  // BTC: tick realtime dari WS; REST hanya utk harga pembuka hari ini (% floating) & cadangan
   updateBtcLive();
   btcTimer = setInterval(updateBtcLive, 20000);
   // restore tab terakhir
@@ -3682,7 +3679,10 @@ async function updateBtcLive() {
       }
     } catch (e) { /* skip */ }
   }
-  if (px != null && px > 0) renderBtcLive(px, open);
+  if (open && open > 0) _btcOpen = open;
+  // Jika WS baru saja memberi tick BTC (<10 dtk), jangan timpa dgn harga REST yg lebih lama
+  if (px != null && px > 0 && Date.now() - _btcTickAt > 10000) renderBtcLive(px, _btcOpen);
+  else if (_btcLastPx != null && _btcOpen) renderBtcLive(_btcLastPx, _btcOpen);
 }
 
 function renderBtcLive(price, open) {
@@ -3706,108 +3706,123 @@ function renderBtcLive(price, open) {
 }
 
 /* ============================================================
-   WEBSOCKET REALTIME (Binance miniTicker, sub-second)
-   - 1 koneksi untuk semua pair posisi terbuka
-   - Update lastPrice setiap pesan masuk (≈1 detik per pair)
-   - Throttle render via requestAnimationFrame supaya smooth
-   - Auto-reconnect saat putus, fallback ke REST polling jika gagal terus
+   WEBSOCKET REALTIME — multi-exchange, auto-failover
+   - Rantai sumber: Binance (9443) → Binance (443) → Binance data-stream
+     → Bybit → OKX. Bila satu diblok ISP/region / diam, otomatis lompat
+     ke berikutnya; sumber yang terakhir berhasil diingat (localStorage).
+   - 1 koneksi untuk semua pair posisi terbuka + BTCUSDT (ticker header).
+   - Tick → applyTick() langsung memperbarui harga, TP/SL virtual & kartu
+     (render digabung per animation-frame; bagian berat maks 1x/detik).
+   - Watchdog 5 dtk: WS senyap >15 dtk → pindah sumber; pair yg basi >30 dtk
+     (mis. tidak listing di Bybit/OKX) ditambal via REST.
 ============================================================ */
+const WS_SOURCES = [
+  { name: 'Binance',      url: ps => 'wss://stream.binance.com:9443/stream?streams=' + ps.map(p => p.toLowerCase() + '@miniTicker').join('/'),
+    parse: m => { const d = m.data || m; return (d && d.s && d.c != null) ? [[d.s, +d.c]] : null; } },
+  { name: 'Binance:443',  url: ps => 'wss://stream.binance.com:443/stream?streams=' + ps.map(p => p.toLowerCase() + '@miniTicker').join('/'),
+    parse: m => { const d = m.data || m; return (d && d.s && d.c != null) ? [[d.s, +d.c]] : null; } },
+  { name: 'Binance-Vision', url: ps => 'wss://data-stream.binance.vision/stream?streams=' + ps.map(p => p.toLowerCase() + '@miniTicker').join('/'),
+    parse: m => { const d = m.data || m; return (d && d.s && d.c != null) ? [[d.s, +d.c]] : null; } },
+  { name: 'Bybit',        url: () => 'wss://stream.bybit.com/v5/public/spot',
+    onopen: (ws, ps) => { for (let i = 0; i < ps.length; i += 10) ws.send(JSON.stringify({ op: 'subscribe', args: ps.slice(i, i + 10).map(p => 'tickers.' + p) })); },
+    ping: ws => ws.send(JSON.stringify({ op: 'ping' })), pingMs: 20000,
+    parse: m => (m && typeof m.topic === 'string' && m.topic.startsWith('tickers.') && m.data && m.data.lastPrice != null) ? [[m.data.symbol, +m.data.lastPrice]] : null },
+  { name: 'OKX',          url: () => 'wss://ws.okx.com:8443/ws/v5/public',
+    onopen: (ws, ps) => ws.send(JSON.stringify({ op: 'subscribe', args: ps.map(p => ({ channel: 'tickers', instId: p.replace(/USDT$/, '-USDT') })) })),
+    ping: ws => ws.send('ping'), pingMs: 25000,
+    parse: m => (m && Array.isArray(m.data) && m.data[0] && m.data[0].last != null && m.data[0].instId) ? [[m.data[0].instId.replace('-', ''), +m.data[0].last]] : null }
+];
+let wsSrcIdx = 0, wsOpenTimer = null, wsPingTimer = null, wsRetryMs = 1500, wsNextTimer = null;
+let lastTickMs = 0;       // waktu tick harga terakhir dari WS mana pun
+let liveWsName = '';
+let _histStamp = null, _btcOpen = null, _btcTickAt = 0, _pollBusy = false, _heavyAt = 0;
+try { const s = parseInt(localStorage.getItem('tvbt_ws_idx'), 10); if (s >= 0 && s < WS_SOURCES.length) wsSrcIdx = s; } catch (e) {}
+
+function wsPairs() { return [...new Set(liveOpen.map(p => p.pair).concat(['BTCUSDT']))]; }
+
+/* Terapkan 1 tick harga (dari WS maupun REST): update posisi, jejak hi/lo, hit TP/SL */
+function applyTick(sym, price) {
+  if (!Number.isFinite(price) || price <= 0) return false;
+  const now = new Date().toISOString();
+  lastTickMs = Date.now(); lastPriceFetchAt = now; lastWSMessageAt = now;
+  if (sym === 'BTCUSDT') { _btcTickAt = lastTickMs; renderBtcLive(price, _btcOpen); }
+  let touched = false;
+  liveOpen.forEach(p => {
+    if (p.pair !== sym) return;
+    p.lastPrice = price; p.lastPriceTime = now;
+    const pc = priceCache[p.pair] || (priceCache[p.pair] = {});
+    pc.price = price; pc.time = now;
+    pc.hi = (pc.hi == null) ? price : Math.max(pc.hi, price);
+    pc.lo = (pc.lo == null) ? price : Math.min(pc.lo, price);
+    touched = true;
+    const hits = applyVirtualHits(p);
+    hits.forEach(hit => showToast({ type: hit === 'SL' ? 'closed' : 'tp_hit', pair: p.pair, dir: p.dir, hit, result: hit === 'SL' ? 'LOSS' : 'WIN', price: 0, pnl_pct: 0, ts: now }));
+  });
+  return touched;
+}
+
 function setupLiveWS() {
   closeLiveWS();
-  if (!liveOpen.length) {
-    setLiveBadge('idle');
-    return;
-  }
-  const pairs = [...new Set(liveOpen.map(p => p.pair))];
+  const pairs = wsPairs();
   liveWSPairs = pairs;
-  // miniTicker stream: <symbol_lower>@miniTicker, gabung pakai combined stream endpoint
-  const streams = pairs.map(p => p.toLowerCase() + '@miniTicker').join('/');
-  // Coba dua endpoint (data-api.binance.vision tidak punya WS publik;
-  // pakai stream.binance.com utama, fallback ke fstream untuk futures bila ada nanti)
-  const url = `wss://stream.binance.com:9443/stream?streams=${streams}`;
-
+  const src = WS_SOURCES[wsSrcIdx % WS_SOURCES.length];
   if (!hasRecentPrice()) setLiveBadge('connecting');
-  let ws;
-  try { ws = new WebSocket(url); } catch (e) { liveWSAlive = false; scheduleReconnect(); pollLivePrices(); return; }
+  let ws, opened = false;
+  try { ws = new WebSocket(src.url(pairs)); } catch (e) { wsNext(); return; }
   liveWS = ws;
+  wsOpenTimer = setTimeout(() => { if (liveWS === ws && !opened) wsNext(); }, 6000);   // tak tersambung 6 dtk → sumber berikut
 
   ws.onopen = () => {
-    liveWSAlive = true;
-    wsFailCount = 0;
-    liveSrcLabel = '';
-    setLiveBadge('ws_ok', pairs.length);
+    if (liveWS !== ws) return;
+    opened = true; clearTimeout(wsOpenTimer);
+    try { if (src.onopen) src.onopen(ws, pairs); } catch (e) {}
+    if (src.ping) wsPingTimer = setInterval(() => { try { src.ping(ws); } catch (e) {} }, src.pingMs);
+    liveWSAlive = true; liveWsName = src.name; liveSrcLabel = '';
+    lastTickMs = Date.now();                       // beri waktu 15 dtk utk tick pertama
+    setLiveBadge('ws_ok', liveOpen.length);
   };
   ws.onmessage = (ev) => {
+    if (liveWS !== ws) return;
     try {
-      const msg = JSON.parse(ev.data);
-      const d = msg.data || msg;
-      if (!d || !d.s || d.c == null) return;
-      const sym = d.s;
-      const price = +d.c;
-      if (!Number.isFinite(price)) return;
-      const now = new Date().toISOString();
-      // Update semua posisi yg pakai pair ini
+      if (typeof ev.data === 'string' && ev.data === 'pong') return;   // balasan ping OKX
+      const ticks = src.parse(JSON.parse(ev.data));
+      if (!ticks) return;
       let touched = false;
-      let newHits = [];
-      liveOpen.forEach(p => {
-        if (p.pair === sym) {
-          p.lastPrice = price;
-          p.lastPriceTime = now;
-          // JANGAN ganti objeknya — jejak ekstrem hi/lo harus ikut hidup
-          const pc = priceCache[p.pair] || (priceCache[p.pair] = {});
-          pc.price = price; pc.time = now;
-          pc.hi = (pc.hi == null) ? price : Math.max(pc.hi, price);
-          pc.lo = (pc.lo == null) ? price : Math.min(pc.lo, price);
-          touched = true;
-          const hits = applyVirtualHits(p);
-          if (hits.length) newHits.push({ pair: p.pair, dir: p.dir, hits });
-        }
-      });
-      lastPriceFetchAt = now;
-      lastWSMessageAt = now;
-      // Toast untuk TP/SL baru
-      newHits.forEach(h => h.hits.forEach(hit => showToast({
-        type: hit === 'SL' ? 'closed' : 'tp_hit',
-        pair: h.pair, dir: h.dir, hit,
-        result: hit === 'SL' ? 'LOSS' : 'WIN',
-        price: 0, pnl_pct: 0,
-        ts: now
-      })));
+      ticks.forEach(t => { if (applyTick(t[0], t[1])) touched = true; });
+      if (wsRetryMs !== 1500) wsRetryMs = 1500;       // koneksi sehat → reset backoff
+      try { localStorage.setItem('tvbt_ws_idx', String(wsSrcIdx % WS_SOURCES.length)); } catch (e) {}
       if (touched) scheduleRender();
-    } catch (e) { /* abaikan pesan rusak */ }
+    } catch (e) { /* abaikan pesan non-JSON / rusak */ }
   };
-  ws.onerror = () => {
-    // WS Binance gagal/diblok BUKAN berarti harga mati — REST fallback (Bybit/OKX/CoinGecko)
-    // bisa tetap meng-cover. Jangan tampilkan "diblok" di sini; biarkan pollLivePrices yang
-    // menentukan status berdasarkan keberhasilan ambil harga sebenarnya.
-    liveWSAlive = false;
-    pollLivePrices();
-  };
-  ws.onclose = () => {
-    liveWSAlive = false;
-    if (liveOpen.length) { scheduleReconnect(); pollLivePrices(); }
-  };
+  ws.onerror = () => { /* onclose menyusul → wsNext */ };
+  ws.onclose = () => { if (liveWS === ws) { liveWSAlive = false; wsNext(); pollLivePrices(); } };
+}
+
+/* Pindah ke sumber WS berikutnya (cepat), backoff eksponensial setelah satu putaran penuh gagal */
+function wsNext() {
+  if (!liveTimer) return;                          // halaman Live tidak aktif
+  closeLiveWS();
+  wsSrcIdx = (wsSrcIdx + 1) % WS_SOURCES.length;
+  const wrapped = wsSrcIdx === 0;
+  const delay = wrapped ? wsRetryMs : 400;
+  if (wrapped) wsRetryMs = Math.min(15000, wsRetryMs * 2);
+  wsNextTimer = setTimeout(() => { wsNextTimer = null; setupLiveWS(); }, delay);
 }
 
 function closeLiveWS() {
-  if (liveWS) {
-    try { liveWS.onclose = null; liveWS.close(); } catch(e){}
-    liveWS = null;
-  }
-  if (liveWSReconnect) { clearTimeout(liveWSReconnect); liveWSReconnect = null; }
+  if (wsOpenTimer) { clearTimeout(wsOpenTimer); wsOpenTimer = null; }
+  if (wsPingTimer) { clearInterval(wsPingTimer); wsPingTimer = null; }
+  if (wsNextTimer) { clearTimeout(wsNextTimer); wsNextTimer = null; }
+  if (liveWS) { const w = liveWS; liveWS = null; try { w.onclose = null; w.onerror = null; w.onmessage = null; w.close(); } catch (e) {} }
   liveWSAlive = false;
 }
-function scheduleReconnect() {
-  if (liveWSReconnect) return;
-  wsFailCount++;
-  // Bila WS Binance gagal terus (mis. diblok permanen di region ini), berhenti mencoba WS
-  // dan andalkan REST polling tiap 30s (priceTimer). Ini mencegah badge "berkedip" dan
-  // menghemat percobaan sia-sia.
-  if (wsFailCount > 4) return;
-  liveWSReconnect = setTimeout(() => {
-    liveWSReconnect = null;
-    setupLiveWS();
-  }, 3000);
+
+/* Watchdog 5 dtk: WS senyap → ganti sumber; pair basi → tambal via REST */
+function priceWatchdog() {
+  const now = Date.now();
+  if (liveWSAlive && lastTickMs && now - lastTickMs > 15000) { wsNext(); return; }
+  const staleOpen = liveOpen.some(p => { const pc = priceCache[p.pair]; return !pc || !pc.time || now - new Date(pc.time).getTime() > 30000; });
+  if (!liveWSAlive || staleOpen) pollLivePrices();
 }
 
 /* Apakah kita baru saja menerima harga dari sumber mana pun (WS/REST)? */
@@ -3817,19 +3832,22 @@ function hasRecentPrice() {
 
 /* Re-subscribe WS jika daftar pair posisi terbuka berubah */
 function maybeResubscribe() {
-  const cur = [...new Set(liveOpen.map(p => p.pair))].sort().join(',');
+  const cur = wsPairs().sort().join(',');
   const sub = [...liveWSPairs].sort().join(',');
   if (cur !== sub) setupLiveWS();
 }
 
-/* Throttle render via rAF — pesan WS bisa datang sangat sering */
+/* Render digabung per frame; bagian berat (simulasi modal, kalender, TP dist) maks 1x/detik */
 function scheduleRender() {
   if (renderThrottle) return;
   renderThrottle = requestAnimationFrame(() => {
     renderThrottle = null;
-    if (lastStats) {
-      renderOpenCards();
-      renderLiveTerminal(lastStats);
+    if (!lastStats) return;
+    renderOpenCards();
+    renderLiveTerminal(lastStats);
+    const t = Date.now();
+    if (t - _heavyAt >= 1000) {
+      _heavyAt = t;
       renderCapitalSim(lastStats, liveHistory);
       renderTpDistribution(lastStats);
     }
@@ -3839,12 +3857,19 @@ function scheduleRender() {
 async function loadLiveData(manual) {
   const bust = '?t=' + Date.now();
   try {
-    const [stats, state, history, events] = await Promise.all([
-      fetch('data/stats.json'   + bust).then(r => r.ok ? r.json() : null).catch(() => null),
-      fetch('data/state.json'   + bust).then(r => r.ok ? r.json() : null).catch(() => null),
-      fetch('data/history.json' + bust).then(r => r.ok ? r.json() : []).catch(() => []),
-      fetch('data/events.json'  + bust).then(r => r.ok ? r.json() : []).catch(() => [])
+    const nc = { cache: 'no-store' };
+    const [stats, state, events] = await Promise.all([
+      fetch('data/stats.json'   + bust, nc).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data/state.json'   + bust, nc).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data/events.json'  + bust, nc).then(r => r.ok ? r.json() : []).catch(() => [])
     ]);
+    // history.json besar → hanya diunduh ulang bila scanner menulis data baru (stats.updatedAt berubah)
+    let history = liveHistory;
+    const stamp = stats && stats.updatedAt;
+    if (!_histStamp || !stamp || stamp !== _histStamp || !liveHistory.length) {
+      const h2 = await fetch('data/history.json' + bust, nc).then(r => r.ok ? r.json() : null).catch(() => null);
+      if (Array.isArray(h2)) { history = h2; _histStamp = stamp || _histStamp; }
+    }
     liveOpen = (state && state.open) || [];
     // RESTORE lastPrice dari priceCache supaya floating tidak reset tiap 60s
     liveOpen.forEach(p => {
@@ -3877,8 +3902,13 @@ async function loadLiveData(manual) {
    - Re-render hanya section yang dipengaruhi harga
 ============================================================ */
 async function pollLivePrices() {
+  if (_pollBusy) return;
+  _pollBusy = true;
+  try { await _pollLivePrices(); } finally { _pollBusy = false; }
+}
+async function _pollLivePrices() {
   if (!liveOpen.length) {
-    setLiveBadge('idle');
+    setLiveBadge(liveWSAlive ? 'ws_ok' : 'idle');
     return;
   }
   const symbols = [...new Set(liveOpen.map(p => p.pair))];
@@ -3888,7 +3918,7 @@ async function pollLivePrices() {
     `https://data-api.binance.vision/api/v3/ticker/price?symbols=${params}`,
     `https://api.binance.com/api/v3/ticker/price?symbols=${params}`
   ];
-  setLiveBadge('fetching');
+  if (!liveWSAlive) setLiveBadge('fetching');
 
   let priceMap = null;
 
@@ -3988,6 +4018,22 @@ async function pollLivePrices() {
     } catch (e) { /* skip */ }
   }
 
+  // 6) fallback terakhir: snapshot harga dari robot (data/live_prices.json, ditulis tiap run scanner).
+  //    Same-origin → tidak kena blokir ISP/region; umur data ≤ interval cron. Hanya dipakai
+  //    bila semua sumber eksternal di atas gagal.
+  if (!priceMap || !Object.keys(priceMap).length) {
+    try {
+      const r = await fetch('data/live_prices.json?t=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) {
+        const j = await r.json();
+        const src = (j && j.prices) || {};
+        const map = {};
+        symbols.forEach(s => { if (+src[s] > 0) map[s] = +src[s]; });
+        if (Object.keys(map).length) { priceMap = map; liveSrcLabel = 'Robot (snapshot ' + timeAgo(j.updatedAt) + ')'; }
+      }
+    } catch (e) { /* skip */ }
+  }
+
   if (!priceMap || !Object.keys(priceMap).length) {
     setLiveBadge('error');
     return;
@@ -4012,7 +4058,7 @@ async function pollLivePrices() {
     }
   });
   lastPriceFetchAt = now;
-  setLiveBadge('ok', updated);
+  setLiveBadge(liveWSAlive ? 'ws_ok' : 'ok', liveWSAlive ? liveOpen.length : updated);
 
   // Toast untuk TP/SL baru kena (deteksi browser-side, sambil tunggu robot konfirmasi)
   newHits.forEach(h => {
@@ -4111,7 +4157,7 @@ function setLiveBadge(state, count) {
   if (!el) return;
   if (state === 'fetching') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">harga…</span>';
   else if (state === 'ok')  el.innerHTML = 'AKTIF · <span style="color:var(--accent)">live ' + (lastPriceFetchAt ? new Date(lastPriceFetchAt).toLocaleTimeString('id-ID') : '') + '</span>' + (liveSrcLabel ? ' <span class="c-muted" style="font-size:10px">via ' + liveSrcLabel + (count ? ' · ' + count + ' pair' : '') + '</span>' : (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : ''));
-  else if (state === 'ws_ok') el.innerHTML = '<span class="ws-pulse"></span> WS LIVE · <span style="color:var(--accent)">realtime</span>' + (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : '');
+  else if (state === 'ws_ok') el.innerHTML = '<span class="ws-pulse"></span> WS LIVE · <span style="color:var(--accent)">realtime</span>' + (liveWsName ? ' <span class="c-muted" style="font-size:10px">via ' + liveWsName + '</span>' : '') + (count ? ' <span class="c-muted" style="font-size:10px">(' + count + ' pair)</span>' : '');
   else if (state === 'connecting') el.innerHTML = 'AKTIF · <span style="color:var(--blue)">menyambung WS…</span>';
   else if (state === 'idle') el.innerHTML = 'AKTIF · <span class="c-muted">tidak ada posisi</span>';
   else if (state === 'error') el.innerHTML = 'AKTIF · <span style="color:var(--yellow)">harga live diblok jaringan/region — robot tetap jalan, floating update tiap 15 mnt</span>';
@@ -6412,6 +6458,15 @@ function showToast(e) {
   document.getElementById('toastStack').appendChild(div);
   setTimeout(() => div.remove(), 6500);
 }
+
+/* Tab kembali terlihat (HP unlock / pindah tab): segarkan data & pastikan WS hidup */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden || !liveTimer) return;
+  loadLiveData();
+  if (!liveWSAlive || (lastTickMs && Date.now() - lastTickMs > 15000)) { closeLiveWS(); setupLiveWS(); }
+  updateBtcLive();
+});
+window.addEventListener('online', () => { if (liveTimer) { closeLiveWS(); setupLiveWS(); pollLivePrices(); } });
 
 /* close modal/panel via Escape */
 document.addEventListener('keydown', e => {
