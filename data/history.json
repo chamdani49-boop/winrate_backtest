@@ -826242,5 +826242,73 @@
         "stochD": 25.8
       }
     }
+  },
+  {
+    "id": "SAHARAUSDT-1795715999999",
+    "pair": "SAHARAUSDT",
+    "dir": "SELL",
+    "strategy": "FIB_SHORT",
+    "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+    "strategyShort": "FIB-SHORT",
+    "entry": 0.00511,
+    "slInit": 0.00522714,
+    "tp1": 0.00496099,
+    "tp2": 0.00492046,
+    "tp3": 0.00480332,
+    "tpRR": [
+      1.272,
+      1.618,
+      2.618
+    ],
+    "openTime": "2026-11-26T18:00:00.000Z",
+    "exitTime": "2026-11-27T02:13:54.418Z",
+    "exit": 0.00522714,
+    "bars": 32,
+    "tpHits": [],
+    "closedBy": "SL",
+    "pnl_pct": -2.292,
+    "result": "LOSS",
+    "bias": "short",
+    "intel": {
+      "score": 87,
+      "validity": "STRONG",
+      "positionSize": "1-2% (Standard)",
+      "holdDuration": "Sampai TP3 / SL (staged exit)",
+      "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+      "mtf": {
+        "D": "DOWNTREND",
+        "W": "DOWNTREND",
+        "4H": "DOWNTREND",
+        "1H": "DOWNTREND"
+      },
+      "rsi": 35.8,
+      "macd": "fading_down",
+      "ma200": "BELOW",
+      "structure": "BEARISH",
+      "reasons": [
+        "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+        "RSI(15m) 36 < 50",
+        "StochRSI K 56 cross↓",
+        "MACD fading_down",
+        "Acuan 4H bearish (RSI 47)",
+        "Daily downtrend",
+        "1H downtrend",
+        "BELOW MA200"
+      ]
+    },
+    "reasons": {
+      "rsi": 35.8,
+      "stochK": 55.9,
+      "stochD": 58.8,
+      "stochFrom": 100,
+      "macdDif": -0.00002764,
+      "cross": "down",
+      "ref4h": {
+        "rsi": 46.6,
+        "macdDif": -0.00001755,
+        "stochK": 29.3,
+        "stochD": 29.8
+      }
+    }
   }
 ]
