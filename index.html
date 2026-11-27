@@ -5546,6 +5546,9 @@ function buildVisualAnalysis(p, intel, isHistory, lastPrice) {
         <button class="strat-tf-btn" data-tf="1d" onclick="setStratTf('1d')">1D</button>
         <button class="strat-tf-btn active" data-tf="4h" onclick="setStratTf('4h')">4H</button>
         <button class="strat-tf-btn" data-tf="15m" onclick="setStratTf('15m')">15m</button>
+        <button class="strat-tf-btn" data-tf="5m" onclick="setStratTf('5m')">5m</button>
+        <button class="strat-tf-btn" data-tf="3m" onclick="setStratTf('3m')">3m</button>
+        <button class="strat-tf-btn" data-tf="1m" onclick="setStratTf('1m')">1m</button>
       </div>
       <div class="strat-tf-toggle">
         <button class="strat-tf-btn active" id="stratSmcBtn" onclick="setStratSmc()">SMC: ON</button>
@@ -5659,7 +5662,7 @@ function showStratModal(p, isHistory) {
      frame (RAF) supaya melekat ke candle saat pan/zoom/resize.
    - Timeframe & jumlah candle dipilih otomatis agar entry ikut terlihat.
 ============================================================ */
-const STRAT_TF_MS = { '15m': 900e3, '30m': 1800e3, '1h': 3600e3, '2h': 7200e3, '4h': 14400e3, '1d': 86400e3 };
+const STRAT_TF_MS = { '1m': 60e3, '3m': 180e3, '5m': 300e3, '15m': 900e3, '30m': 1800e3, '1h': 3600e3, '2h': 7200e3, '4h': 14400e3, '1d': 86400e3 };
 // Warna indikator — disamakan dengan gambar referensi
 const STRAT_IND = {
   up: '#00e5a0', down: '#ff5470',
@@ -6063,7 +6066,8 @@ async function renderStratCandleChart(p, lastPrice, tfArg) {
   _stratTimeIdx = new Map(); times.forEach((t, i) => _stratTimeIdx.set(t, i));
 
   const C = STRAT_IND;
-  const tickFmt = (t) => { const d = new Date(t * 1000); const mo = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']; return d.getUTCDate() + ' ' + mo[d.getUTCMonth()]; };
+  const _intra = (tf === '1m' || tf === '3m' || tf === '5m');
+  const tickFmt = (t, type) => { const d = new Date(t * 1000); if (_intra && type >= 3) return String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'); const mo = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']; return d.getUTCDate() + ' ' + mo[d.getUTCMonth()]; };
   const baseLayout = { background: { color: '#0e1219' }, textColor: '#99a7c6', fontFamily: "'IBM Plex Mono', monospace", attributionLogo: false };
 
   // ---------- MAIN CHART (candle + MA + BB + SAR) ----------
