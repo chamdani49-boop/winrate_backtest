@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-28T07:54:55.604Z",
+  "updatedAt": "2026-11-28T08:00:51.374Z",
   "provider": "binance-vision",
   "open": [
     {
@@ -7568,6 +7568,310 @@
       "bars": 1,
       "lastPrice": 0.617,
       "lastPriceTime": "2026-11-28T07:44:59.999Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "MEGAUSDT-1795852799999",
+      "pair": "MEGAUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 0.0376,
+      "slInit": 0.039174,
+      "sl": 0.039174,
+      "tp1": 0.035598,
+      "tp2": 0.035053,
+      "tp3": 0.033479,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00039357,
+      "atrPct": 1.05,
+      "openTime": "2026-11-28T08:00:00.000Z",
+      "openCandleCloseT": 1795852800000,
+      "checkFromCloseT": 1795852799999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 98,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 27.9,
+        "macd": "fading_down",
+        "ma200": "BELOW",
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+          "RSI(15m) 28 < 50",
+          "StochRSI K 56 cross↓",
+          "MACD fading_down",
+          "Acuan 4H bearish (RSI 30)",
+          "Daily downtrend",
+          "1H downtrend",
+          "BELOW MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 27.9,
+        "stochK": 56.2,
+        "stochD": 56.5,
+        "stochFrom": 58.2,
+        "macdDif": -0.00050269,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 30.4,
+          "macdDif": -0.00151334,
+          "stochK": 27.4,
+          "stochD": 43.9
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.0376,
+      "lastPriceTime": "2026-11-28T08:00:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "HMSTRUSDT-1795852799999",
+      "pair": "HMSTRUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 0.000121,
+      "slInit": 0.00012466,
+      "sl": 0.00012466,
+      "tp1": 0.00011635,
+      "tp2": 0.00011508,
+      "tp3": 0.00011143,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 9.14286e-7,
+      "atrPct": 0.76,
+      "openTime": "2026-11-28T08:00:00.000Z",
+      "openCandleCloseT": 1795852800000,
+      "checkFromCloseT": 1795852799999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 97,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 37.5,
+        "macd": "fading_down",
+        "ma200": "BELOW",
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+          "RSI(15m) 38 < 50",
+          "StochRSI K 83 cross↓",
+          "MACD fading_down",
+          "Acuan 4H bearish (RSI 32)",
+          "Daily downtrend",
+          "1H downtrend",
+          "BELOW MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 37.5,
+        "stochK": 82.8,
+        "stochD": 84.5,
+        "stochFrom": 85.8,
+        "macdDif": -7.6e-7,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 31.8,
+          "macdDif": -0.00000484,
+          "stochK": 41.5,
+          "stochD": 43.1
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 0.000121,
+      "lastPriceTime": "2026-11-28T08:00:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "ATOMUSDT-1795852799999",
+      "pair": "ATOMUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 1.2,
+      "slInit": 1.23314,
+      "sl": 1.23314,
+      "tp1": 1.15784,
+      "tp2": 1.14637,
+      "tp3": 1.11323,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.00828571,
+      "atrPct": 0.69,
+      "openTime": "2026-11-28T08:00:00.000Z",
+      "openCandleCloseT": 1795852800000,
+      "checkFromCloseT": 1795852799999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 89,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 33.3,
+        "macd": "fading_down",
+        "ma200": "BELOW",
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+          "RSI(15m) 33 < 50",
+          "StochRSI K 48 cross↓",
+          "MACD fading_down",
+          "Acuan 4H bearish (RSI 43)",
+          "Daily downtrend",
+          "1H downtrend",
+          "BELOW MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 33.3,
+        "stochK": 47.7,
+        "stochD": 49.5,
+        "stochFrom": 51,
+        "macdDif": -0.00668533,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 42.5,
+          "macdDif": -0.00514044,
+          "stochK": 43.8,
+          "stochD": 52.3
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 1.2,
+      "lastPriceTime": "2026-11-28T08:00:00.000Z",
+      "status": "OPEN"
+    },
+    {
+      "id": "ETCUSDT-1795852799999",
+      "pair": "ETCUSDT",
+      "dir": "SELL",
+      "strategy": "FIB_SHORT",
+      "strategyName": "RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m) · acuan 4H · TP Fibonacci",
+      "strategyShort": "FIB-SHORT",
+      "entry": 5.83,
+      "slInit": 5.93571,
+      "sl": 5.93571,
+      "tp1": 5.69553,
+      "tp2": 5.65895,
+      "tp3": 5.55324,
+      "tpRR": [
+        1.272,
+        1.618,
+        2.618
+      ],
+      "atr": 0.026429,
+      "atrPct": 0.45,
+      "openTime": "2026-11-28T08:00:00.000Z",
+      "openCandleCloseT": 1795852800000,
+      "checkFromCloseT": 1795852799999,
+      "bias": "short",
+      "provider": "binance-vision",
+      "bigTF": "4h",
+      "smallTF": "15m",
+      "intel": {
+        "score": 83,
+        "validity": "STRONG",
+        "positionSize": "1-2% (Standard)",
+        "holdDuration": "Sampai TP3 / SL (staged exit)",
+        "management": "SL dikunci di harga awal (tidak dinaikkan). Staged exit: tiap TP tutup 1/3 posisi; sisanya jalan sampai TP3 atau SL.",
+        "mtf": {
+          "D": "DOWNTREND",
+          "W": "DOWNTREND",
+          "4H": "DOWNTREND",
+          "1H": "DOWNTREND"
+        },
+        "rsi": 39,
+        "macd": "fading_down",
+        "ma200": "BELOW",
+        "structure": "BEARISH",
+        "reasons": [
+          "Setup SHORT valid: RSI<50 + StochRSI cross↓ + MACD DIF<DEA (15m)",
+          "RSI(15m) 39 < 50",
+          "StochRSI K 68 cross↓",
+          "MACD fading_down",
+          "Acuan 4H bearish (RSI 48)",
+          "Daily downtrend",
+          "1H downtrend",
+          "BELOW MA200"
+        ]
+      },
+      "reasons": {
+        "rsi": 39,
+        "stochK": 68.2,
+        "stochD": 70.3,
+        "stochFrom": 72.6,
+        "macdDif": -0.01790924,
+        "cross": "down",
+        "ref4h": {
+          "rsi": 48,
+          "macdDif": 0.03174872,
+          "stochK": 11.6,
+          "stochD": 26.4
+        }
+      },
+      "tpHits": [],
+      "realizedPct": 0,
+      "remaining": 1,
+      "bars": 0,
+      "lastPrice": 5.83,
+      "lastPriceTime": "2026-11-28T08:00:00.000Z",
       "status": "OPEN"
     }
   ]
